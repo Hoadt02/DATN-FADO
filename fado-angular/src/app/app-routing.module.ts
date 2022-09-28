@@ -4,7 +4,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {Routes, RouterModule} from "@angular/router";
 
 import {AdminLayoutComponent} from "./layouts/admin-layout/admin-layout.component";
-import {NotFoundComponent} from "./components/not-found/not-found.component";
+import {NotFoundComponent} from "./pages/not-found/not-found.component";
 
 const routes: Routes = [
   {
