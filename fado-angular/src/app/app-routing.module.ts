@@ -1,9 +1,10 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { BrowserModule } from "@angular/platform-browser";
-import { Routes, RouterModule } from "@angular/router";
+import {NgModule} from "@angular/core";
+import {CommonModule} from "@angular/common";
+import {BrowserModule} from "@angular/platform-browser";
+import {Routes, RouterModule} from "@angular/router";
 
-import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
+import {AdminLayoutComponent} from "./layouts/admin-layout/admin-layout.component";
+import {NotFoundComponent} from "./components/not-found/not-found.component";
 
 const routes: Routes = [
   {
@@ -23,7 +24,7 @@ const routes: Routes = [
   },
   {
     path: "**",
-    redirectTo: "dashboard"
+    component: NotFoundComponent,
   }
 ];
 
@@ -37,4 +38,5 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}
