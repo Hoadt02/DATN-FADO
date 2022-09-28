@@ -6,7 +6,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { FooterComponent } from "./footer/footer.component";
 import { NavbarComponent } from "./navbar/navbar.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
-import { NotFoundComponent } from './not-found/not-found.component';
+import { NotFoundComponent } from '../pages/not-found/not-found.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, NgbModule],
