@@ -5,7 +5,6 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 
 import { DashboardComponent } from "../../pages/dashboard/dashboard.component";
-import { IconsComponent } from "../../pages/icons/icons.component";
 import { MapComponent } from "../../pages/map/map.component";
 import { UserComponent } from "../../pages/user/user.component";
 import { TablesComponent } from "../../pages/tables/tables.component";
@@ -14,6 +13,7 @@ import { TypographyComponent } from "../../pages/typography/typography.component
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import {content} from "../../shared/routes/routes";
 import {NotificationsComponent} from "../../pages/notifications/notifications.component";
+import {IconsComponent} from "../../pages/icons/icons.component";
 
 @NgModule({
   imports: [
