@@ -29,7 +29,11 @@
               "src/assets/scss/paper-dashboard.scss",
               "node_modules/ngx-toastr/toastr.css",
               "src/assets/css/demo.css",
+<<<<<<< HEAD
               "node_modules/bootstrap/dist/css/bootstrap.css"
+=======
+              "src/styles.css"
+>>>>>>> 545657e25a9947d4370fcf8df6b6bc68ed1e1d0d
             ],
             "scripts": []
           },
@@ -155,7 +159,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "scss"
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "app"
