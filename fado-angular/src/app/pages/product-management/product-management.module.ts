@@ -8,6 +8,11 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
+import {MatSortModule} from "@angular/material/sort";
+import {MatButtonModule} from "@angular/material/button";
+import {MatDialogModule} from "@angular/material/dialog";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatRadioModule} from "@angular/material/radio";
 
 
 @NgModule({
@@ -19,10 +24,15 @@ import {MatInputModule} from "@angular/material/input";
   imports: [
     CommonModule,
     ProductManagementRoutingModule,
+    MatFormFieldModule,
     MatPaginatorModule,
     MatTableModule,
-    MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatSortModule,
+    MatButtonModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatRadioModule
   ],
   entryComponents:[ProductFormComponent]
 })
