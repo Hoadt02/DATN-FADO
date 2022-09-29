@@ -18,6 +18,12 @@ export const ROUTES: RouteInfo[] = [
     title: "Quản lý danh mục",
     icon: "icon-align-left-2",
     class: ""
+  },
+  {
+    path: "/product-management",
+    title: "Quản lý sản phẩm",
+    icon: "icon-bullet-list-67",
+    class: ""
   }
 ];
 
