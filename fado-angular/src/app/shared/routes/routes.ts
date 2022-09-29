@@ -18,5 +18,9 @@ export const content: Routes = [
   {
     path: "categories",
     loadChildren: () => import('../../pages/categories/categories.module').then(m => m.CategoriesModule)
+  },
+  {
+    path: "product-management",
+    loadChildren: () => import('../../pages/product-management/product-management.module').then(m => m.ProductManagementModule)
   }
 ]
