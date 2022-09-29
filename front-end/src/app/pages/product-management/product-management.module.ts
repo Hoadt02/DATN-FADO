@@ -13,7 +13,12 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatRadioModule} from "@angular/material/radio";
+<<<<<<< HEAD
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatSelectModule} from "@angular/material/select";
+=======
 import {NotFoundComponent} from "../not-found/not-found.component";
+>>>>>>> 545657e25a9947d4370fcf8df6b6bc68ed1e1d0d
 
 
 
@@ -37,6 +42,8 @@ import {NotFoundComponent} from "../not-found/not-found.component";
     MatDialogModule,
     ReactiveFormsModule,
     MatRadioModule,
+    MatDatepickerModule,
+    MatSelectModule,
   ],
   entryComponents:[ProductFormComponent]
 })

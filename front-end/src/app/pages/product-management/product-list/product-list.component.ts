@@ -6,6 +6,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatDialog} from "@angular/material/dialog";
+import {ProductFormComponent} from "../product-form/product-form.component";
 
 @Component({
   selector: 'app-product-list',
@@ -54,16 +55,15 @@ export class ProductListComponent implements OnInit {
   }
 
   openDiaLog(type: string, row?: any) {
-    // this.dialogService.open(NhaXuatBanFormComponent,
-    //   {
-    //     width: "800px",
-    //     data: {type, row}
-    //   }).afterClosed().subscribe(result => {
-    //   if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
-    //     this.getAll();
-    //   }
-    //   ;
-    // });
+    this.dialogService.open(ProductFormComponent,
+      {
+        width: "900px",
+        data: {type, row}
+      }).afterClosed().subscribe(result => {
+      if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
+        this.getAll();
+      };
+    });
   }
 
   openDelete(id: number) {
