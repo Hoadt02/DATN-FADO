@@ -1,49 +1,39 @@
-import { Component, OnInit } from "@angular/core";
+import {Component, OnInit} from '@angular/core';
 
-declare interface RouteInfo {
+
+export interface RouteInfo {
   path: string;
   title: string;
   icon: string;
   class: string;
 }
+
 export const ROUTES: RouteInfo[] = [
   {
-    path: "/dashboard",
-    title: "Dashboard",
-    icon: "icon-chart-pie-36",
-    class: ""
-  },
-  {
-    path: "/categories",
-    title: "Quản lý danh mục",
-    icon: "icon-align-left-2",
-    class: ""
+    path: '/dashboard',
+    title: 'Dashboard',
+    icon: 'nc-bank',
+    class: ''
   },
   {
     path: "/product-management",
     title: "Quản lý sản phẩm",
-    icon: "icon-bullet-list-67",
+    icon: "nc-watch-time",
     class: ""
   }
+
 ];
 
 @Component({
-  selector: "app-sidebar",
-  templateUrl: "./sidebar.component.html",
-  styleUrls: ["./sidebar.component.css"]
+  moduleId: module.id,
+  selector: 'sidebar-cmp',
+  templateUrl: 'sidebar.component.html',
 })
-export class SidebarComponent implements OnInit {
-  menuItems: any[];
 
-  constructor() {}
+export class SidebarComponent implements OnInit {
+  public menuItems: any[];
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
-  }
-  isMobileMenu() {
-    if (window.innerWidth > 991) {
-      return false;
-    }
-    return true;
   }
 }
