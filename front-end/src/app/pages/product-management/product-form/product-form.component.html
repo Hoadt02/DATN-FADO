@@ -1,1 +1,89 @@
-<p>product-form works!</p>
+<div class="row">
+  <h2 class="col-11">Title</h2>
+  <span class="col-1 fs-4" (click)="onDismiss()"><i class="fa-solid fa-xmark"></i></span>
+</div>
+
+<div class="row">
+  <mat-dialog-content>
+    <form class="example-form">
+
+      <div class="row">
+        <mat-form-field class="w-100" appearance="outline" class="col-6">
+          <mat-label>Tên sản phẩm</mat-label>
+          <input type="text" matInput placeholder="...">
+        </mat-form-field>
+
+        <mat-form-field class="w-100" appearance="outline" class="col-6">
+          <mat-label>Imei sản phẩm</mat-label>
+          <input type="text" matInput placeholder="...">
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field class="w-100" appearance="outline" class="col-6">
+          <mat-label>Giá sản phẩm</mat-label>
+          <input type="text" matInput placeholder="...">
+        </mat-form-field>
+
+        <mat-form-field class="w-100" appearance="outline" class="col-6">
+          <mat-label>Số lượng sản phẩm</mat-label>
+          <input type="text" matInput placeholder="...">
+        </mat-form-field>
+      </div>
+
+     <div class="row">
+       <mat-form-field appearance="outline" class="col-6">
+         <mat-label>Giới tính sản phẩm</mat-label>
+         <mat-select disableRipple>
+           <mat-option value="1">Nam</mat-option>
+           <mat-option value="0">Nữ</mat-option>
+         </mat-select>
+       </mat-form-field>
+
+       <mat-form-field appearance="outline" class="col-6">
+         <mat-label>Trạng thái sản phẩm</mat-label>
+         <mat-select disableRipple>
+           <mat-option value="1">Còn kinh doanh</mat-option>
+           <mat-option value="0">Ngừng kinh doanh</mat-option>
+         </mat-select>
+       </mat-form-field>
+     </div>
+
+      <div class="row">
+        <mat-form-field appearance="outline" class="col-5">
+          <mat-label>Danh mục</mat-label>
+          <mat-select disableRipple>
+            <mat-option value="1">Còn kinh doanh</mat-option>
+            <mat-option value="0">Ngừng kinh doanh</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button class="col-1 btn-add-more">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+
+
+        <mat-form-field appearance="outline" class="col-5">
+          <mat-label>Dòng sản phẩm</mat-label>
+          <mat-select disableRipple>
+            <mat-option value="1">Còn kinh doanh</mat-option>
+            <mat-option value="0">Ngừng kinh doanh</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-raised-button class="col-1 btn-add-more">
+          <i class="fa-solid fa-plus"></i>
+        </button>
+
+      </div>
+
+      <mat-dialog-actions>
+        <button mat-raised-button color="primary" (click)="onSubmit()">
+          <span>Lưu</span>
+        </button>
+        <button mat-raised-button color="warn" (click)="onDismiss()">
+          <span>Đóng</span>
+        </button>
+      </mat-dialog-actions>
+    </form>
+  </mat-dialog-content>
+
+</div>

@@ -3,8 +3,6 @@
 package com.fado.watch.entity;
 
 import java.io.Serializable;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
