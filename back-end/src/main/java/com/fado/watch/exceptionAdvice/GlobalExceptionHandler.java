@@ -2,6 +2,7 @@ package com.fado.watch.exceptionAdvice;
 
 
 import com.fado.watch.exception.ErrorMessage;
+import com.fado.watch.exception.ResourceNotFoundException;
 import com.fado.watch.exception.UniqueException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UniqueException.class)
     public ResponseEntity<?> UniqueExceptionHandler(UniqueException exception) {
         ErrorMessage errorMessage = new ErrorMessage("UNIQUE", exception.getMessage(), new Date());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<?> ResourceNotFoundExceptionHandler(ResourceNotFoundException exception){
+        ErrorMessage errorMessage = new ErrorMessage("NOT_FOUND", exception.getMessage(), new Date());
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 }
