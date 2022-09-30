@@ -23,7 +23,7 @@ export class StaffFormComponent implements OnInit {
     password: [''],
     email: [''],
     phoneNumber: [''],
-    gender: [''],
+    gender: [1],
     address: [''],
     status: [''],
     role: this.fb.group({
@@ -52,7 +52,11 @@ export class StaffFormComponent implements OnInit {
   }
 
   save() {
-
+    console.log(this.formGroup.getRawValue());
+    this.formGroup.markAllAsTouched();
+    if (this.formGroup.invalid){
+      return;
+    }
   }
 
   close() {

@@ -37,4 +37,17 @@ export class StaffService {
     })
   }
 
+  update(data: any) {
+    return this.apiStaff.update(data).subscribe({
+      next: (data: any) => {
+        console.log(data);
+        this.toastrService.success('Sửa nhân viên thành công!');
+        this.isCloseDialog.next(true);
+      }, error: err => {
+        console.log(err);
+        this.toastrService.error('Sửa nhân viên thất bại!');
+      }
+    })
+  }
+
 }
