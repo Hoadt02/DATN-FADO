@@ -3,7 +3,7 @@ package com.fado.watch.service.impl;
 import com.fado.watch.entity.ProductDetail;
 import com.fado.watch.exception.ResourceNotFoundException;
 import com.fado.watch.repository.ProductDetailRepository;
-import com.fado.watch.service.IProductDetailsService;
+import com.fado.watch.service.IProductDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 @Service
-public class ProductDetailsServiceImpl implements IProductDetailsService {
+public class ProductDetailServiceImpl implements IProductDetailService {
     @Autowired
     ProductDetailRepository repository;
 
@@ -44,12 +44,6 @@ public class ProductDetailsServiceImpl implements IProductDetailsService {
 
     @Override
     public ProductDetail update(ProductDetail productDetail) {
-        return repository.save(productDetail);
-    }
-
-    @Override
-    public ProductDetail delete(ProductDetail productDetail) {
-        productDetail.setStatus(0);
         return repository.save(productDetail);
     }
 }

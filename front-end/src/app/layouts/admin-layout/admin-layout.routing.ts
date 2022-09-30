@@ -23,6 +23,18 @@ export const AdminLayoutRoutes: Routes = [
     loadChildren: () => import('../../pages/staff-management/staff-management.module').then(m => m.StaffManagementModule)
   },
   {
+    path: 'customer-management',
+    loadChildren: () => import('../../pages/customer-management/customer-management.module').then(m => m.CustomerManagementModule)
+  },
+  {
+    path: 'material-management',
+    loadChildren: () => import('../../pages/material-management/material-management.module').then(m => m.MaterialManagementModule)
+  },
+  {
+    path: 'origin-management',
+    loadChildren: () => import('../../pages/origin-management/origin-management.module').then(m => m.OriginManagementModule)
+  },
+  {
     path: 'category-management',
     loadChildren: () => import('../../pages/category-management/category-management.module').then(m => m.CategoryManagementModule)
   },

@@ -4,7 +4,7 @@ import com.fado.watch.entity.ProductDetail;
 
 import java.util.List;
 
-public interface IProductDetailsService {
+public interface IProductDetailService {
     List<ProductDetail> getAll();
 
     ProductDetail findProductDetails(Integer id);
@@ -12,6 +12,4 @@ public interface IProductDetailsService {
     ProductDetail create(ProductDetail productDetail);
 
     ProductDetail update(ProductDetail productDetail);
-
-    ProductDetail delete(ProductDetail productDetail);
 }

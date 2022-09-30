@@ -1,0 +1,30 @@
+<div class="row">
+  <h2 class="col-11">Title</h2>
+  <span class="col-1 fs-4" (click)="onDismiss()"><i class="fa-solid fa-xmark"></i></span>
+</div>
+
+<div class="row">
+  <mat-dialog-content>
+    <form class="example-form">
+
+      <div class="row">
+        <mat-form-field class="w-100" appearance="outline" class="col-6">
+          <mat-label>Nơi xuất xứ</mat-label>
+          <input type="text" matInput placeholder="...">
+        </mat-form-field>
+
+      </div>
+
+
+      <mat-dialog-actions>
+        <button mat-raised-button color="primary" (click)="onSubmit()">
+          <span>Lưu</span>
+        </button>
+        <button mat-raised-button color="warn" (click)="onDismiss()">
+          <span>Đóng</span>
+        </button>
+      </mat-dialog-actions>
+    </form>
+  </mat-dialog-content>
+
+</div>

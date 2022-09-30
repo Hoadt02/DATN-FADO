@@ -1,14 +1,4 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-<<<<<<< HEAD
-import {FormBuilder} from '@angular/forms';
-import {ToastrService} from 'ngx-toastr';
-import {Constants} from '../../../shared/Constants';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatDialog} from '@angular/material/dialog';
-import {ProductFormComponent} from '../product-form/product-form.component';
-=======
 import {FormBuilder} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {Constants} from "../../../shared/Constants";
@@ -16,52 +6,43 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatDialog} from "@angular/material/dialog";
-import {ProductFormComponent} from "../product-form/product-form.component";
-import {ProductDetailsService} from "../../../shared/services/api-service-impl/product-details.service";
->>>>>>> b7d15c1771f917b358db8df956d76a8996552661
+import {MaterialFormComponent} from "../material-form/material-form.component";
 
 @Component({
-  selector: 'app-product-list',
-  templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss']
+  selector: 'app-customer-list',
+  templateUrl: './material-list.component.html',
+  styleUrls: ['./material-list.component.scss']
 })
-export class ProductListComponent implements OnInit {
+export class MaterialListComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
 
-<<<<<<< HEAD
-=======
   ngOnInit(): void {
     this.getAll();
   }
 
->>>>>>> b7d15c1771f917b358db8df956d76a8996552661
-  displayedColumns: string[] = ['index', 'avatar', 'name', 'gender', 'price', 'quantity', 'createDate', 'status', 'thaoTac'];
+  displayedColumns: string[] = ['index','name', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  ngOnInit(): void {
-    this.getAll();
-  }
-
   constructor(private fb: FormBuilder,
               private dialogService: MatDialog,
-              private service: ProductDetailsService) {
+              private toastService: ToastrService) {
   }
 
   getAll() {
-    this.service.getAllProductDetail().subscribe({
-      next: (data: any) => {
-        this.dataSource = new MatTableDataSource(data);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    });
+    // this.service.getAllNhaXuatBan().subscribe({
+    //   next: (data: any) => {
+    //     this.dataSource = new MatTableDataSource(data);
+    //     this.dataSource.paginator = this.paginator;
+    //     this.dataSource.sort = this.sort;
+    //   },
+    //   error: (error) => {
+    //     console.log(error);
+    //   }
+    // });
   }
 
   applyFilter(event: Event) {
@@ -74,15 +55,14 @@ export class ProductListComponent implements OnInit {
   }
 
   openDiaLog(type: string, row?: any) {
-    this.dialogService.open(ProductFormComponent,
+    this.dialogService.open(MaterialFormComponent,
       {
-        width: '900px',
+        width: "900px",
         data: {type, row}
       }).afterClosed().subscribe(result => {
       if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
         this.getAll();
-      }
-      ;
+      };
     });
   }
 

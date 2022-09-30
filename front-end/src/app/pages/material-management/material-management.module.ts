@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ProductManagementRoutingModule } from './product-management-routing.module';
-import { ProductListComponent } from './product-list/product-list.component';
-import { ProductFormComponent } from './product-form/product-form.component';
+import { MaterialManagementRoutingModule } from './material-management-routing.module';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
@@ -15,15 +13,18 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatSelectModule} from "@angular/material/select";
+import {MaterialListComponent} from "./material-list/material-list.component";
+import {MaterialFormComponent} from "./material-form/material-form.component";
+
 
 @NgModule({
   declarations: [
-    ProductListComponent,
-    ProductFormComponent,
+    MaterialListComponent,
+    MaterialFormComponent,
   ],
   imports: [
     CommonModule,
-    ProductManagementRoutingModule,
+    MaterialManagementRoutingModule,
     MatFormFieldModule,
     MatPaginatorModule,
     MatTableModule,
@@ -36,6 +37,6 @@ import {MatSelectModule} from "@angular/material/select";
     MatDatepickerModule,
     MatSelectModule,
   ],
-  entryComponents: [ProductFormComponent]
+  entryComponents:[MaterialFormComponent]
 })
-export class ProductManagementModule { }
+export class MaterialManagementModule { }
