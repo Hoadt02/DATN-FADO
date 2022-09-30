@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-product-form',
+<<<<<<< HEAD
+  selector: 'app-customer-form',
+=======
+  selector: 'app-brand-form',
+>>>>>>> b99197a9d362811f9dbcc7f860dfe92932478866
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.scss']
 })

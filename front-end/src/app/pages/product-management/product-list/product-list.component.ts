@@ -9,7 +9,11 @@ import {MatDialog} from "@angular/material/dialog";
 import {ProductFormComponent} from "../product-form/product-form.component";
 
 @Component({
-  selector: 'app-product-list',
+<<<<<<< HEAD
+  selector: 'app-customer-list',
+=======
+  selector: 'app-brand-list',
+>>>>>>> b99197a9d362811f9dbcc7f860dfe92932478866
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss']
 })

@@ -4,7 +4,7 @@ import com.fado.watch.entity.ProductDetail;
 
 import java.util.List;
 
-public interface IProductDetails {
+public interface IProductDetailsService {
     List<ProductDetail> getAll();
 
     ProductDetail findProductDetails(Integer id);
