@@ -15,12 +15,21 @@ export const AdminLayoutRoutes: Routes = [
   {path: 'icons', component: IconsComponent},
   {path: 'notifications', component: NotificationsComponent},
   {
-    path: "product-management",
+    path: 'product-management',
     loadChildren: () => import('../../pages/product-management/product-management.module').then(m => m.ProductManagementModule)
   },
   {
     path: 'staff-management',
     loadChildren: () => import('../../pages/staff-management/staff-management.module').then(m => m.StaffManagementModule)
   },
+  {
+    path: 'category-management',
+    loadChildren: () => import('../../pages/category-management/category-management.module').then(m => m.CategoryManagementModule)
+  },
+  {
+    path: 'brand-management',
+    loadChildren: () => import('../../pages/brand-management/brand-management.module').then(m => m.BrandManagementModule)
+  },
 
 ];
+

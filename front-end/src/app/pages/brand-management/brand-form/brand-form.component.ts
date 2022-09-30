@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-brand-form',
-  templateUrl: './product-form.component.html',
-  styleUrls: ['./product-form.component.scss']
+  templateUrl: './brand-form.component.html',
+  styleUrls: ['./brand-form.component.scss']
 })
-export class ProductFormComponent implements OnInit {
+export class BrandFormComponent implements OnInit {
 
   constructor() { }
 
