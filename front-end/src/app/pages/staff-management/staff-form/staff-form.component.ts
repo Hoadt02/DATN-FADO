@@ -1,43 +1,41 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {StaffService} from "../../../shared/services/api-service-impl/staff.service";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder} from "@angular/forms";
-import {Constants} from "../../../shared/Constants";
+import { Component, Inject, OnInit } from "@angular/core";
+import { StaffService } from "../../../shared/services/api-service-impl/staff.service";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { FormBuilder } from "@angular/forms";
+import { Constants } from "../../../shared/Constants";
 
 @Component({
-  selector: 'app-staff-form',
-  templateUrl: './staff-form.component.html',
-  styleUrls: ['./staff-form.component.scss']
+  selector: "app-staff-form",
+  templateUrl: "./staff-form.component.html",
+  styleUrls: ["./staff-form.component.scss"],
 })
 export class StaffFormComponent implements OnInit {
-
   title: String;
 
   formGroup = this.fb.group({
-    id: [''],
-    firstname: [''],
-    lastname: [''],
-    dateOfBirth: [''],
-    image: [''],
-    username: [''],
-    password: [''],
-    email: [''],
-    phoneNumber: [''],
+    id: [""],
+    firstname: [""],
+    lastname: [""],
+    dateOfBirth: [""],
+    image: [""],
+    username: [""],
+    password: [""],
+    email: [""],
+    phoneNumber: [""],
     gender: [1],
-    address: [''],
-    status: [''],
+    address: [""],
+    status: [""],
     role: this.fb.group({
-      id: [''],
-    })
-  })
+      id: [""],
+    }),
+  });
 
   constructor(
     private fb: FormBuilder,
     private staffService: StaffService,
     private matDialogRef: MatDialogRef<StaffFormComponent>,
-    @Inject(MAT_DIALOG_DATA) private dataDiaLog?: any,
-  ) {
-  }
+    @Inject(MAT_DIALOG_DATA) private dataDiaLog?: any
+  ) {}
 
   ngOnInit(): void {
     this.setTitleForm();
@@ -45,16 +43,16 @@ export class StaffFormComponent implements OnInit {
 
   setTitleForm() {
     if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
-      this.title = 'Thêm mới nhân viên';
+      this.title = "Thêm mới nhân viên";
     } else {
-      this.title = 'Chỉnh sửa nhân viên';
+      this.title = "Chỉnh sửa nhân viên";
     }
   }
 
   save() {
     console.log(this.formGroup.getRawValue());
     this.formGroup.markAllAsTouched();
-    if (this.formGroup.invalid){
+    if (this.formGroup.invalid) {
       console.log(123213);
       return;
     }
