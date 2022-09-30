@@ -23,7 +23,6 @@ export const AdminLayoutRoutes: Routes = [
     loadChildren: () => import('../../pages/staff-management/staff-management.module').then(m => m.StaffManagementModule)
   },
   {
-<<<<<<< HEAD
     path: 'customer-management',
     loadChildren: () => import('../../pages/customer-management/customer-management.module').then(m => m.CustomerManagementModule)
   },
@@ -35,7 +34,7 @@ export const AdminLayoutRoutes: Routes = [
     path: 'origin-management',
     loadChildren: () => import('../../pages/origin-management/origin-management.module').then(m => m.OriginManagementModule)
   },
-=======
+  {
     path: 'category-management',
     loadChildren: () => import('../../pages/category-management/category-management.module').then(m => m.CategoryManagementModule)
   },
@@ -44,6 +43,5 @@ export const AdminLayoutRoutes: Routes = [
     loadChildren: () => import('../../pages/brand-management/brand-management.module').then(m => m.BrandManagementModule)
   },
 
->>>>>>> b99197a9d362811f9dbcc7f860dfe92932478866
 ];
 

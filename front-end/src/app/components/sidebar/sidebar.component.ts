@@ -22,7 +22,6 @@ export const ROUTES: RouteInfo[] = [
     class: ''
   },
   {
-<<<<<<< HEAD
     path: "/staff-management",
     title: "Quản lý nhân viên",
     icon: "nc-single-02",
@@ -45,8 +44,8 @@ export const ROUTES: RouteInfo[] = [
     title: "Quản lý xuất xứ",
     icon: "nc-shop",
     class: ""
-  }
-=======
+  },
+  {
     path: '/staff-management',
     title: 'Quản lý nhân viên',
     icon: 'nc-single-02',
@@ -65,7 +64,6 @@ export const ROUTES: RouteInfo[] = [
     class: ''
   },
 
->>>>>>> b99197a9d362811f9dbcc7f860dfe92932478866
 ];
 
 @Component({

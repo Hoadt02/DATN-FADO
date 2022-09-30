@@ -9,11 +9,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ProductFormComponent} from "../product-form/product-form.component";
 
 @Component({
-<<<<<<< HEAD
-  selector: 'app-customer-list',
-=======
-  selector: 'app-brand-list',
->>>>>>> b99197a9d362811f9dbcc7f860dfe92932478866
+  selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss']
 })
@@ -25,7 +21,7 @@ export class ProductListComponent implements OnInit {
     this.getAll();
   }
 
-  displayedColumns: string[] = ['index','avatar','name','gender', 'price', 'quantity', 'createDate', 'status', 'thaoTac'];
+  displayedColumns: string[] = ['index', 'avatar', 'name', 'gender', 'price', 'quantity', 'createDate', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -66,7 +62,8 @@ export class ProductListComponent implements OnInit {
       }).afterClosed().subscribe(result => {
       if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
         this.getAll();
-      };
+      }
+      ;
     });
   }
 
