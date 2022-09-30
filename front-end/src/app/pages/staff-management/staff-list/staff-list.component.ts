@@ -1,8 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {StaffService} from "../../../shared/services/api-service-impl/staff.service";
+import {MatDialog} from "@angular/material/dialog";
+import {StaffFormComponent} from "../staff-form/staff-form.component";
+import {Constants} from "../../../shared/Constants";
+import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-staff-list',
@@ -11,14 +16,16 @@ import {StaffService} from "../../../shared/services/api-service-impl/staff.serv
 })
 export class StaffListComponent implements OnInit {
 
-  loading: boolean = true;
+  isLoading: boolean = true;
+  TYPE_DIALOG = Constants.TYPE_DIALOG;
+  loading = true;
 
   displayedColumns: string[] =
     [
       'id', 'firstname', 'lastname',
       'dateOfBirth', 'image', 'username',
       'email', 'phoneNumber', 'gender',
-      'address', 'status', 'role'
+      'address', 'status', 'role', 'action'
     ];
   dataSource!: MatTableDataSource<any>;
 
@@ -27,6 +34,7 @@ export class StaffListComponent implements OnInit {
 
   constructor(
     private apiStaff: StaffService,
+    private matDialog: MatDialog
   ) {
   }
 
@@ -40,7 +48,7 @@ export class StaffListComponent implements OnInit {
         this.dataSource = new MatTableDataSource<any>(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        this.loading = false;
+        this.isLoading = false;
       }, error: (err => {
         console.log(err);
       })
@@ -56,4 +64,36 @@ export class StaffListComponent implements OnInit {
     }
   }
 
+  openSave(type: any, row?: any) {
+    const diaLogRef = this.matDialog.open(StaffFormComponent, {
+      width: '1000px',
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        type, row
+      }
+    });
+    diaLogRef.afterClosed().subscribe(rs => {
+      if (rs == Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
+        this.getAll();
+      }
+    })
+  }
+
+  openDelete(id) {
+    const diaLogRef = this.matDialog.open(ConfirmDialogComponent, {
+      width: '500px',
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        title: 'Xoá nhân viên',
+        message: 'Bạn muốn xoá nhân viên này?'
+      }
+    });
+    diaLogRef.afterClosed().subscribe(rs => {
+      if (rs == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
+
+      }
+    })
+  }
 }

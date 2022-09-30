@@ -22,7 +22,7 @@ export class ProductListComponent implements OnInit {
     this.getAll();
   }
 
-  displayedColumns: string[] = ['index','avatar','name','gender', 'price', 'quantity', 'createDate', 'status', 'thaoTac'];
+  displayedColumns: string[] = ['index', 'avatar', 'name', 'gender', 'price', 'quantity', 'createDate', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -63,7 +63,8 @@ export class ProductListComponent implements OnInit {
       }).afterClosed().subscribe(result => {
       if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
         this.getAll();
-      };
+      }
+      ;
     });
   }
 

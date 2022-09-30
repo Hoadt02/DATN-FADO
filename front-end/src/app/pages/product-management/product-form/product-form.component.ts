@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Constants} from "../../../shared/Constants";
+=======
+import {Component, OnInit} from '@angular/core';
+>>>>>>> 6304d023d76156ca9c90f1072ed434295c791b43
 
 @Component({
   selector: 'app-product-form',
@@ -10,6 +14,7 @@ import {Constants} from "../../../shared/Constants";
 })
 export class ProductFormComponent implements OnInit {
 
+<<<<<<< HEAD
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
   title: string = '';
   formGroup: FormGroup= this.fb.group({
@@ -41,6 +46,9 @@ export class ProductFormComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data:any,
               private dialogRef: MatDialogRef<ProductFormComponent>,
               private fb: FormBuilder) {
+=======
+  constructor() {
+>>>>>>> 6304d023d76156ca9c90f1072ed434295c791b43
   }
 
   ngOnInit(): void {

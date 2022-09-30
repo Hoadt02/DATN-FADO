@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {ApiConstant} from "../../constants/api-constant";
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {ApiConstant} from '../../constants/api-constant';
 
-let httpOptions: any = {
+const httpOptions: any = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
@@ -22,4 +22,13 @@ export class ApiStaffService {
   getAll() {
     return this.http.get(ApiConstant.staff, httpOptions);
   }
+
+  create(data: any) {
+    return this.http.post(ApiConstant.staff, data, httpOptions);
+  }
+
+  update(data: any) {
+    return this.http.put(ApiConstant.staff, data, httpOptions);
+  }
+
 }

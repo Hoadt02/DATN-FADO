@@ -36,6 +36,6 @@ import {MatSelectModule} from "@angular/material/select";
     MatDatepickerModule,
     MatSelectModule,
   ],
-  entryComponents:[ProductFormComponent]
+  entryComponents: [ProductFormComponent]
 })
 export class ProductManagementModule { }
