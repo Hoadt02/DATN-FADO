@@ -1,16 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-<<<<<<< HEAD
-import {FormBuilder} from '@angular/forms';
-import {ToastrService} from 'ngx-toastr';
-import {Constants} from '../../../shared/Constants';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatDialog} from '@angular/material/dialog';
-import {ProductFormComponent} from '../product-form/product-form.component';
-=======
+
 import {FormBuilder} from "@angular/forms";
-import {ToastrService} from "ngx-toastr";
 import {Constants} from "../../../shared/Constants";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
@@ -18,7 +8,7 @@ import {MatSort} from "@angular/material/sort";
 import {MatDialog} from "@angular/material/dialog";
 import {ProductFormComponent} from "../product-form/product-form.component";
 import {ProductDetailsService} from "../../../shared/services/api-service-impl/product-details.service";
->>>>>>> b7d15c1771f917b358db8df956d76a8996552661
+
 
 @Component({
   selector: 'app-product-list',
@@ -29,13 +19,6 @@ export class ProductListComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
 
-<<<<<<< HEAD
-=======
-  ngOnInit(): void {
-    this.getAll();
-  }
-
->>>>>>> b7d15c1771f917b358db8df956d76a8996552661
   displayedColumns: string[] = ['index', 'avatar', 'name', 'gender', 'price', 'quantity', 'createDate', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
 

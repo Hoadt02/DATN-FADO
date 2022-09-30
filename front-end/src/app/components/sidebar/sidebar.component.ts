@@ -46,12 +46,6 @@ export const ROUTES: RouteInfo[] = [
     class: ""
   },
   {
-    path: '/staff-management',
-    title: 'Quản lý nhân viên',
-    icon: 'nc-single-02',
-    class: ''
-  },
-  {
     path: '/category-management',
     title: 'Quản lý danh mục',
     icon: 'nc-bullet-list-67',

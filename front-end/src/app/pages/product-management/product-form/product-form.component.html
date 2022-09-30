@@ -1,5 +1,5 @@
 <div class="row">
-  <h2 class="col-11">{{title}}}</h2>
+  <h2 class="col-11">{{title}}</h2>
   <span class="col-1 fs-4" (click)="onDismiss()"><i class="fa-solid fa-xmark"></i></span>
 </div>
 
@@ -14,10 +14,10 @@
               <span>Hình ảnh</span>
             </div>
             <mat-dialog-actions class="d-flex justify-content-center align-items-center">
-              <button mat-raised-button color="primary" (click)="onSubmit()">
+              <button type="button" mat-raised-button color="primary" (click)="onSubmit()">
                 <span><i class="fa-solid fa-check"></i> Lưu</span>
               </button>
-              <button mat-raised-button color="warn" (click)="onDismiss()">
+              <button type="button" mat-raised-button color="warn" (click)="onDismiss()">
                 <span><i class="fa-regular fa-circle-xmark"></i> Đóng</span>
               </button>
             </mat-dialog-actions>
