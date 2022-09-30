@@ -55,7 +55,6 @@ export class StaffFormComponent implements OnInit {
     console.log(this.formGroup.getRawValue());
     this.formGroup.markAllAsTouched();
     if (this.formGroup.invalid){
-      console.log(123213);
       return;
     }
   }
