@@ -15,8 +15,8 @@ import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dia
 })
 export class StaffListComponent implements OnInit {
 
-  loading: boolean = true;
-  type = Constants.TYPE_DIALOG;
+  isLoading: boolean = true;
+  TYPE_DIALOG = Constants.TYPE_DIALOG;
   displayedColumns: string[] =
     [
       'id', 'firstname', 'lastname',
@@ -45,7 +45,7 @@ export class StaffListComponent implements OnInit {
         this.dataSource = new MatTableDataSource<any>(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        this.loading = false;
+        this.isLoading = false;
       }, error: (err => {
         console.log(err);
       })
@@ -63,7 +63,7 @@ export class StaffListComponent implements OnInit {
 
   openSave(type: any, row?: any) {
     const diaLogRef = this.matDialog.open(StaffFormComponent, {
-      width: '700px',
+      width: '1000px',
       disableClose: true,
       hasBackdrop: true,
       data: {
@@ -88,7 +88,7 @@ export class StaffListComponent implements OnInit {
       }
     });
     diaLogRef.afterClosed().subscribe(rs => {
-      if (rs == Constants.RESULT_CLOSE_DIALOG.CONFIRM){
+      if (rs == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
 
       }
     })

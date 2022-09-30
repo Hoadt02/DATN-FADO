@@ -22,4 +22,13 @@ export class ApiStaffService {
   getAll() {
     return this.http.get(ApiConstant.staff, httpOptions);
   }
+
+  create(data: any) {
+    return this.http.post(ApiConstant.staff, data, httpOptions);
+  }
+
+  update(data: any) {
+    return this.http.put(ApiConstant.staff, data, httpOptions);
+  }
+
 }

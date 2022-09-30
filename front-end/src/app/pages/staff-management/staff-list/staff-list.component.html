@@ -1,4 +1,4 @@
-<!--<div *ngIf="loading" class="loading">-->
+<!--<div *ngIf="isLoading" class="loading">-->
 <!--  <div class="spinner-border text-info spinner-center" role="status">-->
 <!--  </div>-->
 <!--</div>-->
@@ -10,7 +10,8 @@
       <input matInput (keyup)="applyFilter($event)" placeholder="Tìm kiếm " #input>
     </mat-form-field>
     <div class="text-center">
-      <button mat-raised-button color="primary"><i class="fa-solid fa-plus" (click)="openSave(type.NEW)"></i> Thêm
+      <button mat-raised-button color="primary" (click)="openSave(TYPE_DIALOG.NEW)">
+        <i class="fa-solid fa-plus"></i> Thêm
       </button>
     </div>
   </div>
@@ -31,29 +32,31 @@
 
           <!-- Progress Column -->
           <ng-container matColumnDef="firstname">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Họ</th>
             <td mat-cell *matCellDef="let row"> {{row.firstname}} </td>
           </ng-container>
 
           <!-- Name Column -->
           <ng-container matColumnDef="lastname">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên</th>
             <td mat-cell *matCellDef="let row"> {{row.lastname}} </td>
           </ng-container>
 
           <!-- Fruit Column -->
           <ng-container matColumnDef="dateOfBirth">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date of birth</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Ngày sinh</th>
             <td mat-cell *matCellDef="let row"> {{row.dateOfBirth}} </td>
           </ng-container>
 
           <ng-container matColumnDef="image">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Image</th>
-            <td mat-cell *matCellDef="let row"> {{row.image}} </td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Ảnh</th>
+            <td mat-cell *matCellDef="let row"><img class="img-staff"
+                                                    src="https://st.quantrimang.com/photos/image/2020/06/19/Hinh-Nen-Meo-Ngao-38.jpg">
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="username">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Username</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Tài khoản</th>
             <td mat-cell *matCellDef="let row"> {{row.username}} </td>
           </ng-container>
 
@@ -63,40 +66,40 @@
           </ng-container>
 
           <ng-container matColumnDef="phoneNumber">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> PhoneNumber</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Sdt</th>
             <td mat-cell *matCellDef="let row"> {{row.phoneNumber}} </td>
           </ng-container>
 
           <ng-container matColumnDef="gender">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Gender</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Giới tính</th>
             <td mat-cell *matCellDef="let row"> {{row.gender == 1 ? 'Nam' : 'Nữ'}} </td>
           </ng-container>
 
           <ng-container matColumnDef="address">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Address</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Địa chỉ</th>
             <td mat-cell *matCellDef="let row"> {{row.address}} </td>
           </ng-container>
 
           <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Trạng thái</th>
             <td mat-cell *matCellDef="let row"> {{row.status == 1 ? 'Đang hoạt động' : 'Ngưng hoạt động'}} </td>
           </ng-container>
 
           <ng-container matColumnDef="role">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Role</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Vai trò</th>
             <td mat-cell *matCellDef="let row"> {{row.role.name}} </td>
           </ng-container>
 
           <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Action</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Hành động</th>
             <td mat-cell *matCellDef="let row">
               <button class="btn btn-sm btn-outline-primary" type="button"
-                      (click)="openSave(type.UPDATE, row)" title="Sửa">
-                <i class="fa-solid fa-pen"></i>
+                      (click)="openSave(TYPE_DIALOG.UPDATE, row)" title="Sửa">
+                <i class="fa-regular fa-pen-to-square"></i>
               </button>
               <button class="btn btn-sm btn-outline-danger" type="button"
                       (click)="openDelete(row.id)" title="Xóa">
-                <i class="fa-thin fa-trash-can"></i>
+                <i class="fa-sharp fa-solid fa-trash"></i>
               </button>
             </td>
           </ng-container>
