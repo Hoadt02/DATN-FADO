@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {StaffService} from "../../../shared/services/api-service-impl/staff.service";
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {StaffService} from '../../../shared/services/api-service-impl/staff.service';
 
 @Component({
   selector: 'app-staff-list',
@@ -11,7 +11,7 @@ import {StaffService} from "../../../shared/services/api-service-impl/staff.serv
 })
 export class StaffListComponent implements OnInit {
 
-  loading: boolean = true;
+  loading = true;
 
   displayedColumns: string[] =
     [

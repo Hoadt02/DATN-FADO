@@ -16,12 +16,13 @@ export const ROUTES: RouteInfo[] = [
     class: ''
   },
   {
-    path: "/product-management",
-    title: "Quản lý sản phẩm",
-    icon: "nc-watch-time",
-    class: ""
+    path: '/product-management',
+    title: 'Quản lý sản phẩm',
+    icon: 'nc-watch-time',
+    class: ''
   },
   {
+<<<<<<< HEAD
     path: "/staff-management",
     title: "Quản lý nhân viên",
     icon: "nc-single-02",
@@ -45,10 +46,31 @@ export const ROUTES: RouteInfo[] = [
     icon: "nc-shop",
     class: ""
   }
+=======
+    path: '/staff-management',
+    title: 'Quản lý nhân viên',
+    icon: 'nc-single-02',
+    class: ''
+  },
+  {
+    path: '/category-management',
+    title: 'Quản lý danh mục',
+    icon: 'nc-bullet-list-67',
+    class: ''
+  },
+  {
+    path: '/brand-management',
+    title: 'Quản lý thương hiệu',
+    icon: 'nc-bold',
+    class: ''
+  },
+
+>>>>>>> b99197a9d362811f9dbcc7f860dfe92932478866
 ];
 
 @Component({
   moduleId: module.id,
+  // tslint:disable-next-line:component-selector
   selector: 'sidebar-cmp',
   templateUrl: 'sidebar.component.html',
 })

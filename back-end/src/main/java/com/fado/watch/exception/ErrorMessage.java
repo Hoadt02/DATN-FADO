@@ -10,7 +10,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ErrorMessage {
-
     private String code;
     private String message;
     private Date timestamp;
