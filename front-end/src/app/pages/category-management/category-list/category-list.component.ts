@@ -10,7 +10,7 @@ import {CategoryFormComponent} from '../category-form/category-form.component';
 import {CategoryService} from '../../../shared/services/api-service-impl/category.service';
 
 @Component({
-  selector: 'app-brand-list',
+  selector: 'app-category-list',
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.scss']
 })
