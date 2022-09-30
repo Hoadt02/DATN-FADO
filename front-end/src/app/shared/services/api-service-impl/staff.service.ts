@@ -6,9 +6,7 @@ import {ApiStaffService} from "../api-services/api-staff.service";
 })
 export class StaffService {
 
-  constructor(
-    private readonly apiStaff: ApiStaffService,
-  ) {
+  constructor(private readonly apiStaff: ApiStaffService) {
   }
 
   getAll() {

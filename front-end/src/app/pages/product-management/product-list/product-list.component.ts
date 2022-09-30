@@ -7,6 +7,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatDialog} from "@angular/material/dialog";
 import {ProductFormComponent} from "../product-form/product-form.component";
+import {ProductDetailsService} from "../../../shared/services/api-service-impl/product-details.service";
 
 @Component({
   selector: 'app-product-list',
@@ -29,20 +30,20 @@ export class ProductListComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private dialogService: MatDialog,
-              private toastService: ToastrService) {
+              private service: ProductDetailsService) {
   }
 
   getAll() {
-    // this.service.getAllNhaXuatBan().subscribe({
-    //   next: (data: any) => {
-    //     this.dataSource = new MatTableDataSource(data);
-    //     this.dataSource.paginator = this.paginator;
-    //     this.dataSource.sort = this.sort;
-    //   },
-    //   error: (error) => {
-    //     console.log(error);
-    //   }
-    // });
+    this.service.getAllProductDetail().subscribe({
+      next: (data: any) => {
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
   applyFilter(event: Event) {
