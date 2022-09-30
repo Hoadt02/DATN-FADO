@@ -19,4 +19,20 @@ export class ProductFormComponent implements OnInit {
   onSubmit() {
 
   }
+
+  createCategory() {
+
+  }
+
+  createProduct() {
+
+  }
+
+  createBrand() {
+
+  }
+
+  createOrigin() {
+
+  }
 }

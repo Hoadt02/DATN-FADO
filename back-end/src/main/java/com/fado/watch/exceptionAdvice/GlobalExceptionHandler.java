@@ -12,7 +12,6 @@ import java.util.Date;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
     @ExceptionHandler(UniqueException.class)
     public ResponseEntity<?> UniqueExceptionHandler(UniqueException exception) {
         ErrorMessage errorMessage = new ErrorMessage("UNIQUE", exception.getMessage(), new Date());
