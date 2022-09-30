@@ -17,6 +17,6 @@ export class CategoryFormComponent implements OnInit {
   }
 
   onSubmit() {
-
+    console.log(123123123123)
   }
 }
