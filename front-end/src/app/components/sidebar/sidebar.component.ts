@@ -26,8 +26,25 @@ export const ROUTES: RouteInfo[] = [
     title: "Quản lý nhân viên",
     icon: "nc-single-02",
     class: ""
+  },
+  {
+    path: "/customer-management",
+    title: "Quản lý khách hàng",
+    icon: "nc-single-02",
+    class: ""
+  },
+  {
+    path: "/material-management",
+    title: "Quản lý chất liệu",
+    icon: "nc-atom",
+    class: ""
+  },
+  {
+    path: "/origin-management",
+    title: "Quản lý xuất xứ",
+    icon: "nc-shop",
+    class: ""
   }
-
 ];
 
 @Component({

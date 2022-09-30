@@ -6,14 +6,14 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatDialog} from "@angular/material/dialog";
-import {ProductFormComponent} from "../product-form/product-form.component";
+import {OriginFormComponent} from "../origin-form/origin-form.component";
 
 @Component({
   selector: 'app-customer-list',
-  templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss']
+  templateUrl: './origin-list.component.html',
+  styleUrls: ['./origin-list.component.scss']
 })
-export class ProductListComponent implements OnInit {
+export class OriginListComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
 
@@ -21,7 +21,7 @@ export class ProductListComponent implements OnInit {
     this.getAll();
   }
 
-  displayedColumns: string[] = ['index','avatar','name', 'price', 'quantity', 'status', 'thaoTac'];
+  displayedColumns: string[] = ['index','name', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -55,7 +55,7 @@ export class ProductListComponent implements OnInit {
   }
 
   openDiaLog(type: string, row?: any) {
-    this.dialogService.open(ProductFormComponent,
+    this.dialogService.open(OriginFormComponent,
       {
         width: "900px",
         data: {type, row}

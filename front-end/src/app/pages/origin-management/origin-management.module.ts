@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ProductManagementRoutingModule } from './product-management-routing.module';
-import { ProductListComponent } from './product-list/product-list.component';
-import { ProductFormComponent } from './product-form/product-form.component';
+import { OriginManagementRoutingModule } from './origin-management-routing.module';
+import { OriginListComponent } from './origin-list/origin-list.component';
+import { OriginFormComponent } from './origin-form/origin-form.component';
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
@@ -19,12 +19,12 @@ import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
-    ProductListComponent,
-    ProductFormComponent,
+    OriginListComponent,
+    OriginFormComponent,
   ],
   imports: [
     CommonModule,
-    ProductManagementRoutingModule,
+    OriginManagementRoutingModule,
     MatFormFieldModule,
     MatPaginatorModule,
     MatTableModule,
@@ -37,6 +37,6 @@ import {MatSelectModule} from "@angular/material/select";
     MatDatepickerModule,
     MatSelectModule,
   ],
-  entryComponents:[ProductFormComponent]
+  entryComponents:[OriginFormComponent]
 })
-export class ProductManagementModule { }
+export class OriginManagementModule { }
