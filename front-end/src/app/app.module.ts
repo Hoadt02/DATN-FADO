@@ -14,6 +14,7 @@ import { AppRoutes } from './app.routing';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import {NotFoundComponent} from "./pages/not-found/not-found.component";
 import {NguiMapModule} from "@ngui/map";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import {NguiMapModule} from "@ngui/map";
     ToastrModule.forRoot(),
     FooterModule,
     FixedPluginModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -20,6 +20,12 @@ export const ROUTES: RouteInfo[] = [
     title: "Quản lý sản phẩm",
     icon: "nc-watch-time",
     class: ""
+  },
+  {
+    path: "/staff-management",
+    title: "Quản lý nhân viên",
+    icon: "nc-single-02",
+    class: ""
   }
 
 ];

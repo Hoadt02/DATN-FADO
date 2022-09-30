@@ -15,6 +15,11 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatSelectModule} from "@angular/material/select";
+<<<<<<< HEAD
+=======
+import {NotFoundComponent} from "../not-found/not-found.component";
+
+>>>>>>> bac3d2e2ab54d314a204d6e16df3b420e3e8707a
 
 @NgModule({
   declarations: [
