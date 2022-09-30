@@ -9,14 +9,11 @@ import {ToastrService} from "ngx-toastr";
 export class StaffService {
   isCloseDialog: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-<<<<<<< HEAD
-  constructor(private readonly apiStaff: ApiStaffService) {
-=======
+
   constructor(
     private readonly apiStaff: ApiStaffService,
     private toastrService: ToastrService,
   ) {
->>>>>>> 6304d023d76156ca9c90f1072ed434295c791b43
   }
 
   getAll() {
