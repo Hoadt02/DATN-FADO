@@ -7,6 +7,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatDialog} from '@angular/material/dialog';
 import {CategoryFormComponent} from '../category-form/category-form.component';
+import {CategoryService} from '../../../shared/services/api-service-impl/category.service';
 
 @Component({
   selector: 'app-brand-list',
@@ -29,20 +30,21 @@ export class CategoryListComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private dialogService: MatDialog,
-              private toastService: ToastrService) {
+              private toastService: ToastrService,
+              private categoryService: CategoryService) {
   }
 
   getAll() {
-    // this.service.getAllNhaXuatBan().subscribe({
-    //   next: (data: any) => {
-    //     this.dataSource = new MatTableDataSource(data);
-    //     this.dataSource.paginator = this.paginator;
-    //     this.dataSource.sort = this.sort;
-    //   },
-    //   error: (error) => {
-    //     console.log(error);
-    //   }
-    // });
+    this.categoryService.getAll().subscribe({
+      next: (data: any) => {
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
   applyFilter(event: Event) {

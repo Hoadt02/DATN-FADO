@@ -15,11 +15,11 @@ const httpOptions: any = {
 @Injectable({
   providedIn: 'root'
 })
-export class ApiStaffService {
+export class ApiBrandService {
   constructor(private http: HttpClient) {
   }
 
   getAll() {
-    return this.http.get(ApiConstant.staff, httpOptions);
+    return this.http.get(ApiConstant.brand, httpOptions);
   }
 }

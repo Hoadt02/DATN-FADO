@@ -7,6 +7,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatDialog} from '@angular/material/dialog';
 import {BrandFormComponent} from '../brand-form/brand-form.component';
+import {BrandService} from '../../../shared/services/api-service-impl/brand.service';
 
 @Component({
   selector: 'app-brand-list',
@@ -29,20 +30,21 @@ export class BrandListComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private dialogService: MatDialog,
-              private toastService: ToastrService) {
+              private toastService: ToastrService,
+              private brandService: BrandService) {
   }
 
   getAll() {
-    // this.service.getAllNhaXuatBan().subscribe({
-    //   next: (data: any) => {
-    //     this.dataSource = new MatTableDataSource(data);
-    //     this.dataSource.paginator = this.paginator;
-    //     this.dataSource.sort = this.sort;
-    //   },
-    //   error: (error) => {
-    //     console.log(error);
-    //   }
-    // });
+    this.brandService.getAll().subscribe({
+      next: (data: any) => {
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
   applyFilter(event: Event) {
