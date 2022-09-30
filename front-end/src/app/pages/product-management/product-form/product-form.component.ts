@@ -33,8 +33,7 @@ export class ProductFormComponent implements OnInit {
     avatar: [''],
     createDate: [''],
     description: [''],
-    status: [0],
-
+    status: [0]
   })
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
@@ -43,7 +42,12 @@ export class ProductFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    if (this.data.type == Constants.TYPE_DIALOG.NEW){
+        this.title = 'THÊM MỚI SẢN PHẨM CHI TIẾT'
+    }else{
+        this.title = 'CẬP NHẬT SẢN PHẨM CHI TIẾT';
+        this.formGroup.patchValue(this.data.row);
+    }
   }
 
   onDismiss() {
