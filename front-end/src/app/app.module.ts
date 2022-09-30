@@ -15,6 +15,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import {NotFoundComponent} from "./pages/not-found/not-found.component";
 import {NguiMapModule} from "@ngui/map";
 import {HttpClientModule} from "@angular/common/http";
+import {SharedModule} from "./shared/shared.module";
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import {HttpClientModule} from "@angular/common/http";
     FooterModule,
     FixedPluginModule,
     HttpClientModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

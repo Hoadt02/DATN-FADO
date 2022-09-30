@@ -3,6 +3,10 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {StaffService} from "../../../shared/services/api-service-impl/staff.service";
+import {MatDialog} from "@angular/material/dialog";
+import {StaffFormComponent} from "../staff-form/staff-form.component";
+import {Constants} from "../../../shared/Constants";
+import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-staff-list',
@@ -12,13 +16,13 @@ import {StaffService} from "../../../shared/services/api-service-impl/staff.serv
 export class StaffListComponent implements OnInit {
 
   loading: boolean = true;
-
+  type = Constants.TYPE_DIALOG;
   displayedColumns: string[] =
     [
       'id', 'firstname', 'lastname',
       'dateOfBirth', 'image', 'username',
       'email', 'phoneNumber', 'gender',
-      'address', 'status', 'role'
+      'address', 'status', 'role', 'action'
     ];
   dataSource!: MatTableDataSource<any>;
 
@@ -27,6 +31,7 @@ export class StaffListComponent implements OnInit {
 
   constructor(
     private apiStaff: StaffService,
+    private matDialog: MatDialog
   ) {
   }
 
@@ -56,4 +61,36 @@ export class StaffListComponent implements OnInit {
     }
   }
 
+  openSave(type: any, row?: any) {
+    const diaLogRef = this.matDialog.open(StaffFormComponent, {
+      width: '700px',
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        type, row
+      }
+    });
+    diaLogRef.afterClosed().subscribe(rs => {
+      if (rs == Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
+        this.getAll();
+      }
+    })
+  }
+
+  openDelete(id) {
+    const diaLogRef = this.matDialog.open(ConfirmDialogComponent, {
+      width: '500px',
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        title: 'Xoá nhân viên',
+        message: 'Bạn muốn xoá nhân viên này?'
+      }
+    });
+    diaLogRef.afterClosed().subscribe(rs => {
+      if (rs == Constants.RESULT_CLOSE_DIALOG.CONFIRM){
+
+      }
+    })
+  }
 }

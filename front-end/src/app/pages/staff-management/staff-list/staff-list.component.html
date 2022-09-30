@@ -1,6 +1,5 @@
 <!--<div *ngIf="loading" class="loading">-->
-<!--  <div class="spinner-border text-primary" role="status">-->
-<!--    <span class="visually-hidden">Loading...</span>-->
+<!--  <div class="spinner-border text-info spinner-center" role="status">-->
 <!--  </div>-->
 <!--</div>-->
 
@@ -11,7 +10,8 @@
       <input matInput (keyup)="applyFilter($event)" placeholder="Tìm kiếm " #input>
     </mat-form-field>
     <div class="text-center">
-      <button mat-raised-button color="primary"><i class="fa-solid fa-plus"></i> Thêm</button>
+      <button mat-raised-button color="primary"><i class="fa-solid fa-plus" (click)="openSave(type.NEW)"></i> Thêm
+      </button>
     </div>
   </div>
 </div>
@@ -85,6 +85,20 @@
           <ng-container matColumnDef="role">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Role</th>
             <td mat-cell *matCellDef="let row"> {{row.role.name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Action</th>
+            <td mat-cell *matCellDef="let row">
+              <button class="btn btn-sm btn-outline-primary" type="button"
+                      (click)="openSave(type.UPDATE, row)" title="Sửa">
+                <i class="fa-solid fa-pen"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger" type="button"
+                      (click)="openDelete(row.id)" title="Xóa">
+                <i class="fa-thin fa-trash-can"></i>
+              </button>
+            </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

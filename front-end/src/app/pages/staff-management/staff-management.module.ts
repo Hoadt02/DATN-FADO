@@ -16,6 +16,7 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {HttpClientModule} from "@angular/common/http";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     StaffManagementRoutingModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatDialogModule,
     MatInputModule,
     MatTableModule,
     MatSortModule,
@@ -36,7 +38,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ]
 })
 export class StaffManagementModule {
