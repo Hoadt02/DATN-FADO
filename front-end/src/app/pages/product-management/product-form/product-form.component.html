@@ -1,87 +1,102 @@
 <div class="row">
-  <h2 class="col-11">Title</h2>
+  <h2 class="col-11">Thêm mới sản phẩm</h2>
   <span class="col-1 fs-4" (click)="onDismiss()"><i class="fa-solid fa-xmark"></i></span>
 </div>
 
 <div class="row">
   <mat-dialog-content>
     <form class="example-form">
+        <div class="row">
+          <div class="col-4">
+            <div style="border: 1px dashed black; height: 280px" class="d-flex justify-content-center align-items-center">
+                <span>Hình ảnh</span>
+            </div>
+            <div style="border: 1px dashed black; height: 100px" class="mt-3 d-flex justify-content-center align-items-center">
+              <span>Hình ảnh</span>
+            </div>
+            <mat-dialog-actions class="d-flex justify-content-center align-items-center">
+              <button mat-raised-button color="primary" (click)="onSubmit()">
+                <span><i class="fa-solid fa-check"></i> Lưu</span>
+              </button>
+              <button mat-raised-button color="warn" (click)="onDismiss()">
+                <span><i class="fa-regular fa-circle-xmark"></i> Đóng</span>
+              </button>
+            </mat-dialog-actions>
+          </div>
+          <div class="col-8">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Tên sản phẩm</mat-label>
+              <input type="text" matInput placeholder="...">
+            </mat-form-field>
 
-      <div class="row">
-        <mat-form-field class="w-100" appearance="outline" class="col-6">
-          <mat-label>Tên sản phẩm</mat-label>
-          <input type="text" matInput placeholder="...">
-        </mat-form-field>
+            <div class="row">
+              <mat-form-field class="w-100" appearance="outline" class="col-6">
+                <mat-label>Giá sản phẩm</mat-label>
+                <input type="text" matInput placeholder="...">
+              </mat-form-field>
 
-        <mat-form-field class="w-100" appearance="outline" class="col-6">
-          <mat-label>Imei sản phẩm</mat-label>
-          <input type="text" matInput placeholder="...">
-        </mat-form-field>
-      </div>
+              <mat-form-field class="w-100" appearance="outline" class="col-6">
+                <mat-label>Số lượng sản phẩm</mat-label>
+                <input type="text" matInput placeholder="...">
+              </mat-form-field>
+            </div>
 
-      <div class="row">
-        <mat-form-field class="w-100" appearance="outline" class="col-6">
-          <mat-label>Giá sản phẩm</mat-label>
-          <input type="text" matInput placeholder="...">
-        </mat-form-field>
+            <div class="row">
+              <mat-form-field appearance="outline" class="col-6">
+                <mat-label>Giới tính sản phẩm</mat-label>
+                <mat-select disableRipple>
+                  <mat-option value="1">Nam</mat-option>
+                  <mat-option value="0">Nữ</mat-option>
+                </mat-select>
+              </mat-form-field>
 
-        <mat-form-field class="w-100" appearance="outline" class="col-6">
-          <mat-label>Số lượng sản phẩm</mat-label>
-          <input type="text" matInput placeholder="...">
-        </mat-form-field>
-      </div>
+              <mat-form-field appearance="outline" class="col-6">
+                <mat-label>Trạng thái sản phẩm</mat-label>
+                <mat-select disableRipple>
+                  <mat-option value="1">Còn kinh doanh</mat-option>
+                  <mat-option value="0">Ngừng kinh doanh</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
 
-     <div class="row">
-       <mat-form-field appearance="outline" class="col-6">
-         <mat-label>Giới tính sản phẩm</mat-label>
-         <mat-select disableRipple>
-           <mat-option value="1">Nam</mat-option>
-           <mat-option value="0">Nữ</mat-option>
-         </mat-select>
-       </mat-form-field>
+            <div class="row">
+              <mat-form-field appearance="outline" class="col-6">
+                <mat-label>Danh mục</mat-label>
+                <mat-select disableRipple>
+                  <mat-option (click)="createCategory()"><b>-- Thêm danh mục mới --</b></mat-option>
+                </mat-select>
+              </mat-form-field>
 
-       <mat-form-field appearance="outline" class="col-6">
-         <mat-label>Trạng thái sản phẩm</mat-label>
-         <mat-select disableRipple>
-           <mat-option value="1">Còn kinh doanh</mat-option>
-           <mat-option value="0">Ngừng kinh doanh</mat-option>
-         </mat-select>
-       </mat-form-field>
-     </div>
+              <mat-form-field appearance="outline" class="col-6">
+                <mat-label>Dòng sản phẩm</mat-label>
+                <mat-select disableRipple>
+                  <mat-option (click)="createProduct()"><b>-- Thêm dòng sản phẩm mới --</b></mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
 
-      <div class="row">
-        <mat-form-field appearance="outline" class="col-5">
-          <mat-label>Danh mục</mat-label>
-          <mat-select disableRipple>
-            <mat-option value="1">Còn kinh doanh</mat-option>
-            <mat-option value="0">Ngừng kinh doanh</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <button mat-raised-button class="col-1 btn-add-more">
-          <i class="fa-solid fa-plus"></i>
-        </button>
+            <div class="row">
+              <mat-form-field appearance="outline" class="col-6">
+                <mat-label>Thương hiệu</mat-label>
+                <mat-select disableRipple>
+                  <mat-option (click)="createBrand()"><b>-- Thêm thương hiệu mới --</b></mat-option>
+                </mat-select>
+              </mat-form-field>
 
-        <mat-form-field appearance="outline" class="col-5">
-          <mat-label>Dòng sản phẩm</mat-label>
-          <mat-select disableRipple>
-            <mat-option value="1">Còn kinh doanh</mat-option>
-            <mat-option value="0">Ngừng kinh doanh</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <button mat-raised-button class="col-1 btn-add-more">
-          <i class="fa-solid fa-plus"></i>
-        </button>
+              <mat-form-field appearance="outline" class="col-6">
+                <mat-label>Xuất xứ</mat-label>
+                <mat-select disableRipple>
+                  <mat-option (click)="createOrigin()"><b>-- Thêm xuất xứ mới --</b></mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
 
-      </div>
-
-      <mat-dialog-actions>
-        <button mat-raised-button color="primary" (click)="onSubmit()">
-          <span>Lưu</span>
-        </button>
-        <button mat-raised-button color="warn" (click)="onDismiss()">
-          <span>Đóng</span>
-        </button>
-      </mat-dialog-actions>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Mô tả</mat-label>
+              <textarea matInput placeholder="..."></textarea>
+            </mat-form-field>
+          </div>
+        </div>
     </form>
   </mat-dialog-content>
 
