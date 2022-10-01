@@ -32,7 +32,7 @@ public class Brand implements Serializable {
     @Column(nullable=false, length=50)
     private String name;
     
-    @OneToMany(mappedBy="brands")
+    @OneToMany(mappedBy="brand")
     @JsonIgnore
     private List<ProductDetail> productDetailList;
 

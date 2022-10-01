@@ -81,7 +81,7 @@ public class ProductDetail implements Serializable {
     
 	@ManyToOne(optional=false)
     @JoinColumn(name="brand_id", nullable=false)
-    private Brand brands;
+    private Brand brand;
     
 	@ManyToOne(optional=false)
     @JoinColumn(name="material_id", nullable=false)
