@@ -19,6 +19,7 @@ import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dia
 export class CustomerListComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
+  RESULT_CLOSE_DIALOG = Constants.TYPE_DIALOG;
   displayedColumns: string[] = ['index', 'avatar', 'firstname', 'lastname', 'username', 'password', 'email', 'dateofbirth', 'phone', 'gender', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
 
@@ -69,26 +70,19 @@ export class CustomerListComponent implements OnInit {
     });
   }
 
-  openDelete(id: number) {
-    this.dialogService.open(ConfirmDialogComponent,
-      {
-        width: '25vw',
-        data: {
-          message: 'Bạn có muốn xóa bản ghi này?'
-        }
-      }).afterClosed().subscribe(result => {
-      if (result === Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
-        // this.service.deleteNhaXuatBan(id).subscribe({
-        //   next: () => {
-        //     this.getAll();
-        //     this.toastService.success('XÓA THÀNH CÔNG!');
-        //   },
-        //   error: (error) => {
-        //     console.log(error);
-        //     this.toastService.error('XÓA THẤT BẠI!');
-        //   }
-        // })
+  openSave(type: any, row?: any) {
+    const dialogRef = this.dialogService.open(CustomerFormComponent, {
+      width: '800px',
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        type, row
       }
     });
+    dialogRef.afterClosed().subscribe(rs => {
+      if (rs === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
+        this.getAll();
+      }
+    })
   }
 }
