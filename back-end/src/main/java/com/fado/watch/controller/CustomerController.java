@@ -4,10 +4,7 @@ import com.fado.watch.entity.Customer;
 import com.fado.watch.service.ICustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +23,20 @@ public class CustomerController {
     @GetMapping
     public ResponseEntity<List<Customer>> findAll(){
        return new ResponseEntity<>(this.iCustomerService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Customer> findById(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(this.iCustomerService.findbyId(id), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<Customer> create(@RequestBody Customer category) {
+        return new ResponseEntity<>(this.iCustomerService.create(category), HttpStatus.OK);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Customer> update(@RequestBody Customer category) {
+        return new ResponseEntity<>(this.iCustomerService.update(category), HttpStatus.OK);
     }
 }

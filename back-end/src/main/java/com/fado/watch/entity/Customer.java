@@ -48,13 +48,13 @@ public class Customer implements Serializable {
     @Column(nullable=false, length=255)
     private String image;
     
-    @Column(nullable=false, length=50)
+    @Column(nullable=false, length=50, unique = true)
     private String username;
     
     @Column(nullable=false, length=50)
     private String password;
     
-    @Column(nullable=false, length=50)
+    @Column(nullable=false, length=50, unique = true)
     private String email;
     
     @Column(name="phone_number", nullable=false, length=10)
