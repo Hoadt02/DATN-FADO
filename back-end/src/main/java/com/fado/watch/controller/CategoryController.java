@@ -1,15 +1,10 @@
 package com.fado.watch.controller;
 
-import com.fado.watch.entity.Brand;
 import com.fado.watch.entity.Category;
-import com.fado.watch.service.IBrandService;
 import com.fado.watch.service.ICategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +22,20 @@ public class CategoryController {
     @GetMapping
     public ResponseEntity<List<Category>> findAll() {
         return new ResponseEntity<>(this.iCategoryService.getAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Category> findById(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(this.iCategoryService.findById(id), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<Category> create(@RequestBody Category category) {
+        return new ResponseEntity<>(this.iCategoryService.create(category), HttpStatus.OK);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Category> update(@RequestBody Category category) {
+        return new ResponseEntity<>(this.iCategoryService.update(category), HttpStatus.OK);
     }
 }

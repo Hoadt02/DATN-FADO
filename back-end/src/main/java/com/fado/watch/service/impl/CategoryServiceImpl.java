@@ -1,6 +1,7 @@
 package com.fado.watch.service.impl;
 
 import com.fado.watch.entity.Category;
+
 import com.fado.watch.repository.CategoryRepository;
 import com.fado.watch.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,25 @@ import java.util.List;
 @Service
 public class CategoryServiceImpl implements ICategoryService {
     @Autowired
-    CategoryRepository repository;
+    CategoryRepository categoryRepository;
 
     @Override
     public List<Category> getAll() {
-        return repository.findAll();
+        return categoryRepository.findAll();
+    }
+
+    @Override
+    public Category findById(Integer id) {
+        return categoryRepository.findById(id).get();
+    }
+
+    @Override
+    public Category create(Category category) {
+        return categoryRepository.save(category);
+    }
+
+    @Override
+    public Category update(Category category) {
+        return categoryRepository.save(category);
     }
 }

@@ -6,4 +6,10 @@ import java.util.List;
 
 public interface ICategoryService {
     List<Category> getAll();
+
+    Category findById(Integer id);
+
+    Category create(Category category);
+
+    Category update(Category category);
 }
