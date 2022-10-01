@@ -1,7 +1,7 @@
-<!--<div *ngIf="isLoading" class="loading">-->
-<!--  <div class="spinner-border text-info spinner-center" role="status">-->
-<!--  </div>-->
-<!--</div>-->
+<div *ngIf="isLoading" class="loading">
+  <div class="spinner-border text-info spinner-center" role="status">
+  </div>
+</div>
 
 <div class="card">
   <div class="card-body">
@@ -31,16 +31,16 @@
           </ng-container>
 
           <!-- Progress Column -->
-          <ng-container matColumnDef="firstname">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Họ</th>
-            <td mat-cell *matCellDef="let row"> {{row.firstname}} </td>
+          <ng-container matColumnDef="fullName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Họ và Tên</th>
+            <td mat-cell *matCellDef="let row"> {{row.firstname}} {{row.lastname}}</td>
           </ng-container>
 
-          <!-- Name Column -->
-          <ng-container matColumnDef="lastname">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên</th>
-            <td mat-cell *matCellDef="let row"> {{row.lastname}} </td>
-          </ng-container>
+          <!--          &lt;!&ndash; Name Column &ndash;&gt;-->
+          <!--          <ng-container matColumnDef="lastname">-->
+          <!--            <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên</th>-->
+          <!--            <td mat-cell *matCellDef="let row"> {{row.lastname}} </td>-->
+          <!--          </ng-container>-->
 
           <!-- Fruit Column -->
           <ng-container matColumnDef="dateOfBirth">
@@ -50,8 +50,8 @@
 
           <ng-container matColumnDef="image">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Ảnh</th>
-            <td mat-cell *matCellDef="let row"><img class="img-staff"
-                                                    src="https://st.quantrimang.com/photos/image/2020/06/19/Hinh-Nen-Meo-Ngao-38.jpg">
+            <td mat-cell *matCellDef="let row">
+              <img class="img-staff" src="{{row.image}}">
             </td>
           </ng-container>
 

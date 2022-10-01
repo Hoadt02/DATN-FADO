@@ -27,8 +27,8 @@ export class ApiStaffService {
     return this.http.post(ApiConstant.staff, data, httpOptions);
   }
 
-  update(data: any) {
-    return this.http.put(ApiConstant.staff, data, httpOptions);
+  update(id: number, data: any) {
+    return this.http.put(`${ApiConstant.staff}/${id}`, data, httpOptions);
   }
 
 }

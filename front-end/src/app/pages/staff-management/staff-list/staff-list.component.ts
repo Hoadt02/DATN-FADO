@@ -22,7 +22,7 @@ export class StaffListComponent implements OnInit {
 
   displayedColumns: string[] =
     [
-      'id', 'firstname', 'lastname',
+      'id', 'fullName',
       'dateOfBirth', 'image', 'username',
       'email', 'phoneNumber', 'gender',
       'address', 'status', 'role', 'action'
