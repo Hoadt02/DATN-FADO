@@ -7,6 +7,9 @@ import {BrandFormComponent} from "../../brand-management/brand-form/brand-form.c
 import {OriginFormComponent} from "../../origin-management/origin-form/origin-form.component";
 import {BrandService} from "../../../shared/services/api-service-impl/brand.service";
 import {CategoryService} from "../../../shared/services/api-service-impl/category.service";
+import {ProductService} from "../../../shared/services/api-service-impl/product.service";
+import {OriginService} from "../../../shared/services/api-service-impl/origin.service";
+import {MaterialService} from "../../../shared/services/api-service-impl/material.service";
 
 @Component({
   selector: 'app-product-form',
@@ -20,6 +23,7 @@ export class ProductFormComponent implements OnInit {
   listProduct: any[] = [];
   listBrand: any[] = [];
   listOrigin: any[] = [];
+  listMaterial: any[] = [];
 
   formGroup: FormGroup = this.fb.group({
     id: [''],
@@ -51,7 +55,9 @@ export class ProductFormComponent implements OnInit {
               private fb: FormBuilder,
               private dialogService: MatDialog,
               private brandService: BrandService,
-              private categoryService: CategoryService) {
+              private productService: ProductService,
+              private originService: OriginService,
+              private materialService: MaterialService) {
   }
 
   ngOnInit(): void {
@@ -62,6 +68,9 @@ export class ProductFormComponent implements OnInit {
         this.formGroup.patchValue(this.data.row);
     }
     this.getBrandForCombobox();
+    this.getMaterialForCombobox();
+    this.getOriginForCombobox();
+    this.getProductForCombobox();
   }
 
   onDismiss() {
@@ -93,6 +102,27 @@ export class ProductFormComponent implements OnInit {
     this.brandService.getAll().subscribe((data:any) =>{
       if (data){
         this.listBrand = data;
+      }});
+  }
+
+  getProductForCombobox(){
+    this.productService.getAll().subscribe((data:any) =>{
+      if (data){
+        this.listProduct = data;
+      }});
+  }
+
+  getOriginForCombobox() {
+    this.originService.getAll().subscribe((data: any) => {
+      if (data){
+        this.listOrigin = data;
+      }});
+  }
+
+  getMaterialForCombobox(){
+    this.materialService.getAll().subscribe((data:any) =>{
+      if (data){
+        this.listMaterial = data;
       }});
   }
 }

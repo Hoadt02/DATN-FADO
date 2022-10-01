@@ -44,7 +44,7 @@
           <!-- gender Column -->
           <ng-container matColumnDef="gender">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Giới tính</th>
-            <td mat-cell *matCellDef="let row"> {{row.gender}} </td>
+            <td mat-cell *matCellDef="let row"> {{row.gender ? 'Nam':'Nữ'}} </td>
           </ng-container>
 
           <!-- price Column -->
