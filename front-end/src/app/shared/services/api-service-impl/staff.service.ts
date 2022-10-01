@@ -37,8 +37,8 @@ export class StaffService {
     })
   }
 
-  update(data: any) {
-    return this.apiStaff.update(data).subscribe({
+  update(id: number, data: any) {
+    return this.apiStaff.update(id, data).subscribe({
       next: (data: any) => {
         console.log(data);
         this.toastrService.success('Sửa nhân viên thành công!');
