@@ -33,7 +33,7 @@ public class StaffServiceImpl implements IStaffService {
             throw new UniqueException("Username đã tồn tại");
         }
         if (this.staffRepository.findByPhoneNumber(staff.getPhoneNumber()).isPresent()) {
-            throw new UniqueException("Số điện thoại  đã tồn tại");
+            throw new UniqueException("Số điện thoại đã tồn tại");
         }
         if (this.staffRepository.findByEmail(staff.getEmail()).isPresent()) {
             throw new UniqueException("Email đã tồn tại");

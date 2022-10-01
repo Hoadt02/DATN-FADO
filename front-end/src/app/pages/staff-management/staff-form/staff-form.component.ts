@@ -61,7 +61,6 @@ export class StaffFormComponent implements OnInit {
   }
 
   save() {
-    this.isLoading = true;
     console.log(this.formGroup.getRawValue());
     this.formGroup.markAllAsTouched();
     if (this.formGroup.invalid) {
@@ -74,7 +73,6 @@ export class StaffFormComponent implements OnInit {
     }
     this.staffService.isCloseDialog.subscribe(data => {
       if (data) {
-        this.isLoading = false;
         this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
         this.staffService.isCloseDialog.next(false);
       }
