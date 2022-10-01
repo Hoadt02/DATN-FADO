@@ -9,3 +9,4 @@ export const ApiConstant = {
   origin: `${environment.service.localhost}/api/v1/origin`,
   material: `${environment.service.localhost}/api/v1/material`
 }
+//Vinh là một con lợn, xấu trai, xấu hơn hòa, hòa đẹp trai hơn vinh
