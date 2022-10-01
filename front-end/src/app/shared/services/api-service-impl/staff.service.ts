@@ -45,6 +45,10 @@ export class StaffService {
         this.isCloseDialog.next(true);
       }, error: err => {
         console.log(err);
+        if (err.error.code == 'UNIQUE') {
+          this.toastrService.warning(err.error.message);
+          return;
+        }
         this.toastrService.error('Sửa nhân viên thất bại!');
       }
     })

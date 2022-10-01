@@ -22,10 +22,12 @@ export class StaffListComponent implements OnInit {
 
   displayedColumns: string[] =
     [
-      'id', 'fullName',
+      'stt', 'fullName',
       'dateOfBirth', 'image', 'username',
       'email', 'phoneNumber', 'gender',
-      'address', 'status', 'role', 'action'
+      'address', 'status',
+      // 'role',
+      'action'
     ];
   dataSource!: MatTableDataSource<any>;
 
