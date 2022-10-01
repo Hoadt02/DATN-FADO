@@ -15,4 +15,12 @@ export class CategoryService {
     return this.apiCategory.getAll();
   }
 
+  create(data: any) {
+    return this.apiCategory.create(data);
+  }
+
+  update(data: any) {
+    return this.apiCategory.update(data);
+  }
+
 }

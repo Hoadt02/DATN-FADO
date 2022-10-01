@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ApiConstant} from '../../constants/api-constant';
+import {Observable} from 'rxjs';
 
 const httpOptions: any = {
   headers: new HttpHeaders({
@@ -21,5 +22,13 @@ export class ApiCategoryService {
 
   getAll() {
     return this.http.get(ApiConstant.category, httpOptions);
+  }
+
+  create(data: any): Observable<any> {
+    return this.http.post(ApiConstant.category, data, httpOptions);
+  }
+
+  update(data: any): Observable<any> {
+    return this.http.put(`${ApiConstant.category}/${data.id}`, data, httpOptions);
   }
 }
