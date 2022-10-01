@@ -12,6 +12,23 @@ import {Constants} from '../../../shared/Constants';
 export class CustomerFormComponent implements OnInit {
   title: string;
 
+  formGroup = this.fb.group({
+    id: [''],
+    firstname: [''],
+    lastname: [''],
+    dateOfBirth: [''],
+    image: [''],
+    username: [''],
+    password: [''],
+    email: [''],
+    phoneNumber: [''],
+    gender: [''],
+    address: [''],
+    status: [''],
+    role: this.fb.group({id: [4]}),
+  })
+
+
   constructor(private fb: FormBuilder,
               private customerService: CustomerService,
               private matDialogRef: MatDialogRef<CustomerFormComponent>,
@@ -27,6 +44,7 @@ export class CustomerFormComponent implements OnInit {
       this.title = 'Thêm mới danh mục';
     } else {
       this.title = 'Chỉnh sửa danh mục';
+
     }
   }
   onDismiss() {
@@ -34,6 +52,22 @@ export class CustomerFormComponent implements OnInit {
   }
 
   onSubmit() {
-
+    console.log(this.formGroup.getRawValue());
+    this.formGroup.markAllAsTouched();
+    if (this.formGroup.invalid) {
+      return;
+    }
+    if (this.dataDiaLog.type === Constants.TYPE_DIALOG.NEW) {
+      this.customerService.create(this.formGroup.getRawValue());
+    } else {
+      this.customerService.update(this.dataDiaLog.row.id, this.formGroup.getRawValue());
+    }
+    // tslint:disable-next-line:no-shadowed-variable
+    this.customerService.isCloseDialog.subscribe(data => {
+      if (data) {
+        this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
+        this.customerService.isCloseDialog.next(false);
+      }
+    })
   }
 }

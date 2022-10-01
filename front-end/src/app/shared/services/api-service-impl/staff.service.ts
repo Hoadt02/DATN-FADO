@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {ApiStaffService} from "../api-services/api-staff.service";
-import {BehaviorSubject} from "rxjs";
-import {ToastrService} from "ngx-toastr";
+import {ApiStaffService} from '../api-services/api-staff.service';
+import {BehaviorSubject} from 'rxjs';
+import {ToastrService} from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'

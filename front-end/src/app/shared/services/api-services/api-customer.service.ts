@@ -22,4 +22,12 @@ export class ApiCustomerService {
   getAll() {
     return this.http.get(ApiConstant.customer, httpOptions);
   }
+
+  create(data: any) {
+    return this.http.post(ApiConstant.customer, data, httpOptions);
+  }
+
+  update(id: number, data: any) {
+    return this.http.put(`${ApiConstant.customer}/${id}`, data, httpOptions);
+  }
 }

@@ -84,7 +84,7 @@
             <th mat-header-cell *matHeaderCellDef> Thao tác</th>
             <td mat-cell *matCellDef="let row">
               <button class="btn btn-sm btn-outline-primary mg-r-2" type="button"
-                      (click)="openDiaLog(TYPE_DIALOG.UPDATE,row)">
+                      (click)="openSave(TYPE_DIALOG.UPDATE,row)" title="Sua">
                 <i class="fa-regular fa-pen-to-square"></i>
               </button>
               <button class="btn btn-sm btn-outline-danger mg-l-2" type="button" (click)="openDelete(row.id)">
