@@ -4,34 +4,31 @@
 </div>
 
 <div class="row">
-  <mat-dialog-content style="height: 150px">
-    <form class="example-form">
+  <form class="example-form" [formGroup]="formGroup">
+    <div class="row">
+      <mat-form-field class="w-100" appearance="outline" class="col-6">
+        <mat-label>Tên danh mục</mat-label>
+        <input type="text" matInput formControlName="name">
+      </mat-form-field>
 
-      <div class="row">
-        <mat-form-field class="w-100" appearance="outline" class="col-6">
-          <mat-label>Tên danh mục</mat-label>
-          <input type="text" matInput>
-        </mat-form-field>
+      <mat-form-field appearance="outline" class="col-6">
+        <mat-label>Trạng thái</mat-label>
+        <mat-select disableRipple formControlName="status">
+          <mat-option value="1">Còn kinh doanh</mat-option>
+          <mat-option value="0">Ngừng kinh doanh</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-        <mat-form-field appearance="outline" class="col-5">
-          <mat-label>Trạng thái</mat-label>
-          <mat-select disableRipple>
-            <mat-option value="1">Còn kinh doanh</mat-option>
-            <mat-option value="0">Ngừng kinh doanh</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <mat-dialog-actions>
-        <button mat-raised-button color="primary" (click)="onSubmit()">
-          <span>Lưu</span>
-        </button>
-        <button mat-raised-button color="warn" (click)="onDismiss()">
-          <span>Đóng</span>
-        </button>
-      </mat-dialog-actions>
-    </form>
-  </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button color="primary" (click)="onSubmit()">
+        <span>Lưu</span>
+      </button>
+      <button mat-raised-button color="warn" (click)="onDismiss()">
+        <span>Đóng</span>
+      </button>
+    </mat-dialog-actions>
+  </form>
 
 </div>
 

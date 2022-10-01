@@ -1,8 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CategoryService} from '../../../shared/services/api-service-impl/category.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Constants} from '../../../shared/Constants';
+import {ToastrService} from 'ngx-toastr';
+import {error} from 'protractor';
 
 @Component({
   selector: 'app-category-form',
@@ -13,8 +15,15 @@ export class CategoryFormComponent implements OnInit {
 
   title: string;
 
+  formGroup: FormGroup = this.fb.group({
+    id: '',
+    name: ['', Validators.required],
+    status: [1]
+  })
+
   constructor(private fb: FormBuilder,
               private categoryService: CategoryService,
+              private toastrService: ToastrService,
               private matDialogRef: MatDialogRef<CategoryFormComponent>,
               @Inject(MAT_DIALOG_DATA) private dataDiaLog?: any) { }
 
@@ -36,6 +45,37 @@ export class CategoryFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(123123123123)
+    this.formGroup.markAllAsTouched();
+    if (this.formGroup.invalid) {
+      return;
+    }
+    // tslint:disable-next-line:triple-equals
+    if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
+      this.categoryService.create(this.formGroup.getRawValue()).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
+          this.toastrService.success('Thêm mới danh mục thành công')
+        },
+        // tslint:disable-next-line:no-shadowed-variable
+        error: (error) => {
+        console.log(error);
+          this.toastrService.error('Thêm mới danh mục thất bại!');
+        }
+      });
+    } else {
+      this.categoryService.update(this.formGroup.getRawValue()).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
+          this.toastrService.success('Cập nhật danh mục thành công')
+        },
+        // tslint:disable-next-line:no-shadowed-variable
+        error: (error) => {
+          console.log(error);
+          this.toastrService.error('Cập nhật danh mục thất bại!');
+        }
+      });
+    }
   }
 }
