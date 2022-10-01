@@ -8,6 +8,8 @@ import {MatSort} from "@angular/material/sort";
 import {MatDialog} from "@angular/material/dialog";
 import {ProductFormComponent} from "../product-form/product-form.component";
 import {ProductDetailsService} from "../../../shared/services/api-service-impl/product-details.service";
+import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
+import {ToastrService} from "ngx-toastr";
 
 
 @Component({
@@ -18,6 +20,7 @@ import {ProductDetailsService} from "../../../shared/services/api-service-impl/p
 export class ProductListComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
+  isLoading: boolean = true;
 
   displayedColumns: string[] = ['index', 'avatar', 'name', 'gender', 'price', 'quantity', 'createDate', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
@@ -31,7 +34,8 @@ export class ProductListComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private dialogService: MatDialog,
-              private service: ProductDetailsService) {
+              private service: ProductDetailsService,
+              private toastrService: ToastrService) {
   }
 
   getAll() {
@@ -40,9 +44,12 @@ export class ProductListComponent implements OnInit {
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.isLoading = false;
       },
       error: (error) => {
         console.log(error);
+        this.isLoading = false;
+        this.toastrService.warning('Lỗi load dữ liệu!');
       }
     });
   }
@@ -70,25 +77,26 @@ export class ProductListComponent implements OnInit {
   }
 
   openDelete(id: number) {
-    // this.dialogService.open(ConfirmDialogComponent,
-    //   {
-    //     width: '25vw',
-    //     data: {
-    //       message: 'Bạn có muốn xóa bản ghi này?'
-    //     }
-    //   }).afterClosed().subscribe(result => {
-    //   if (result === Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
-    //     this.service.deleteNhaXuatBan(id).subscribe({
-    //       next: () => {
-    //         this.getAll();
-    //         this.toastService.success('XÓA THÀNH CÔNG!');
-    //       },
-    //       error: (error) => {
-    //         console.log(error);
-    //         this.toastService.error('XÓA THẤT BẠI!');
-    //       }
-    //     })
-    //   }
-    // });
+    this.dialogService.open(ConfirmDialogComponent,
+      {
+        width: '25vw',
+        data: {
+          message: 'Bạn có muốn xóa bản ghi này?'
+        }
+      }).afterClosed().subscribe(result => {
+      if (result === Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
+        // this.service.deleteNhaXuatBan(id).subscribe({
+        //   next: () => {
+        //     this.getAll();
+        //     this.toastService.success('XÓA THÀNH CÔNG!');
+        //   },
+        //   error: (error) => {
+        //     console.log(error);
+        //     this.toastService.error('XÓA THẤT BẠI!');
+        //   }
+        // })
+      }
+    });
   }
+
 }

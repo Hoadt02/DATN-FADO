@@ -1,7 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Constants} from "../../../shared/Constants";
+import {CategoryFormComponent} from "../../category-management/category-form/category-form.component";
+import {BrandFormComponent} from "../../brand-management/brand-form/brand-form.component";
+import {OriginFormComponent} from "../../origin-management/origin-form/origin-form.component";
+import {BrandService} from "../../../shared/services/api-service-impl/brand.service";
+import {CategoryService} from "../../../shared/services/api-service-impl/category.service";
 
 @Component({
   selector: 'app-product-form',
@@ -9,36 +14,44 @@ import {Constants} from "../../../shared/Constants";
   styleUrls: ['./product-form.component.scss']
 })
 export class ProductFormComponent implements OnInit {
+
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
   title: string = '';
+  listProduct: any[] = [];
+  listBrand: any[] = [];
+  listOrigin: any[] = [];
+
   formGroup: FormGroup = this.fb.group({
     id: [''],
     product: this.fb.group({
-      id: ['']
+      id: ['', [Validators.required]]
     }),
     brand: this.fb.group({
-      id: ['']
+      id: ['', [Validators.required]]
     }),
     material: this.fb.group({
-      id: ['']
+      id: ['', [Validators.required]]
     }),
     origin: this.fb.group({
-      id: [''],
+      id: ['', [Validators.required]],
     }),
-    name: [''],
-    price: [0],
-    quantity: [0],
-    gender: [''],
+    name: ['', [Validators.required, Validators.minLength(4)]],
+    price: [0, [Validators.required, Validators.min(10000)]],
+    quantity: [0,[Validators.required, Validators.min(1)]],
+    gender: ['', [Validators.required]],
     imei: [''],
     avatar: [''],
     createDate: [''],
-    description: [''],
-    status: [0]
+    description: ['', [Validators.required]],
+    status: ['', [Validators.required]]
   })
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<ProductFormComponent>,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private dialogService: MatDialog,
+              private brandService: BrandService,
+              private categoryService: CategoryService) {
   }
 
   ngOnInit(): void {
@@ -48,6 +61,7 @@ export class ProductFormComponent implements OnInit {
         this.title = 'CẬP NHẬT SẢN PHẨM CHI TIẾT';
         this.formGroup.patchValue(this.data.row);
     }
+    this.getBrandForCombobox();
   }
 
   onDismiss() {
@@ -55,22 +69,30 @@ export class ProductFormComponent implements OnInit {
   }
 
   onSubmit() {
-
+    this.formGroup.markAllAsTouched();
+    if (this.formGroup.invalid) return;
   }
 
   createCategory() {
-
+    this.dialogService.open(CategoryFormComponent);
   }
 
   createProduct() {
-
+    this.dialogService.open(ProductFormComponent);
   }
 
   createBrand() {
-
+    this.dialogService.open(BrandFormComponent);
   }
 
   createOrigin() {
+    this.dialogService.open(OriginFormComponent);
+  }
 
+  getBrandForCombobox(){
+    this.brandService.getAll().subscribe((data:any) =>{
+      if (data){
+        this.listBrand = data;
+      }});
   }
 }

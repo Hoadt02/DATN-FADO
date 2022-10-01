@@ -4,7 +4,7 @@
 </div>
 
 <div class="row">
-    <form class="example-form">
+    <form class="example-form" [formGroup]="formGroup">
         <div class="row">
           <div class="col-4">
             <div style="border: 1px dashed black; height: 280px" class="d-flex justify-content-center align-items-center">
@@ -25,74 +25,113 @@
           <div class="col-8">
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Tên sản phẩm</mat-label>
-              <input type="text" matInput placeholder="...">
+              <input type="text" matInput placeholder="..." formControlName="name">
+              <mat-error *ngIf="formGroup.get('name')?.hasError('required') && formGroup.get('name')?.touched">
+                Vui lòng không bỏ trống tên sản phẩm chi tiết!
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('name')?.hasError('minlength') && formGroup.get('name')?.touched">
+                Tên sản phẩm chi tiết tối thiểu 4 ký tự!
+              </mat-error>
             </mat-form-field>
 
             <div class="row">
               <mat-form-field class="w-100" appearance="outline" class="col-6">
                 <mat-label>Giá sản phẩm</mat-label>
-                <input type="text" matInput placeholder="...">
+                <input type="number" matInput placeholder="..." formControlName="price">
+                <mat-error *ngIf="formGroup.get('price')?.hasError('required') && formGroup.get('price')?.touched">
+                  Vui lòng không bỏ trống giá sản phẩm chi tiết!
+                </mat-error>
+                <mat-error *ngIf="formGroup.get('price')?.hasError('min') && formGroup.get('price')?.touched">
+                  Giá sản phẩm chi tiết tối thiểu 10.000 VNĐ!
+                </mat-error>
               </mat-form-field>
 
               <mat-form-field class="w-100" appearance="outline" class="col-6">
                 <mat-label>Số lượng sản phẩm</mat-label>
-                <input type="text" matInput placeholder="...">
+                <input type="number" matInput placeholder="..." formControlName="quantity">
+                <mat-error *ngIf="formGroup.get('quantity')?.hasError('required') && formGroup.get('quantity')?.touched">
+                  Vui lòng không bỏ trống số lượng sản phẩm chi tiết!
+                </mat-error>
+                <mat-error *ngIf="formGroup.get('quantity')?.hasError('min') && formGroup.get('quantity')?.touched">
+                  Số lượng sản phẩm chi tiết tối thiểu là 1!
+                </mat-error>
               </mat-form-field>
             </div>
 
             <div class="row">
               <mat-form-field appearance="outline" class="col-6">
                 <mat-label>Giới tính sản phẩm</mat-label>
-                <mat-select disableRipple>
+                <mat-select disableRipple formControlName="gender">
                   <mat-option value="1">Nam</mat-option>
                   <mat-option value="0">Nữ</mat-option>
                 </mat-select>
+                <mat-error *ngIf="formGroup.get('gender')?.hasError('required') && formGroup.get('gender')?.touched">
+                  Vui lòng không bỏ trống giới tính sản phẩm chi tiết!
+                </mat-error>
               </mat-form-field>
 
               <mat-form-field appearance="outline" class="col-6">
                 <mat-label>Trạng thái sản phẩm</mat-label>
-                <mat-select disableRipple>
+                <mat-select disableRipple formControlName="status">
                   <mat-option value="1">Còn kinh doanh</mat-option>
                   <mat-option value="0">Ngừng kinh doanh</mat-option>
                 </mat-select>
+                <mat-error *ngIf="formGroup.get('status')?.hasError('required') && formGroup.get('status')?.touched">
+                  Vui lòng không bỏ trống trạng thái sản phẩm chi tiết!
+                </mat-error>
               </mat-form-field>
             </div>
 
             <div class="row">
-              <mat-form-field appearance="outline" class="col-6">
-                <mat-label>Danh mục</mat-label>
-                <mat-select disableRipple>
-                  <mat-option (click)="createCategory()"><b>-- Thêm danh mục mới --</b></mat-option>
-                </mat-select>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline" class="col-6">
+              <mat-form-field appearance="outline" class="col-6" formGroupName="product">
                 <mat-label>Dòng sản phẩm</mat-label>
-                <mat-select disableRipple>
-                  <mat-option (click)="createProduct()"><b>-- Thêm dòng sản phẩm mới --</b></mat-option>
+                <mat-select formControlName="id">
+                  <mat-option (click)="createProduct()">-- Thêm dòng sản phẩm mới --</mat-option>
                 </mat-select>
+                <mat-error *ngIf="formGroup.get('brand')?.invalid && formGroup.get('brand')?.touched">
+                  Vui lòng không bỏ trống dòng sản phẩm!
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="col-6" formGroupName="brand">
+                <mat-label>Thương hiệu</mat-label>
+                <mat-select formControlName="id">
+                  <mat-option (click)="createBrand()">-- Thêm thương hiệu mới --</mat-option>
+                </mat-select>
+                <mat-error *ngIf="formGroup.get('brand')?.invalid && formGroup.get('brand')?.touched">
+                  Vui lòng không bỏ trống thương hiệu sản phẩm chi tiết!
+                </mat-error>
               </mat-form-field>
             </div>
 
             <div class="row">
-              <mat-form-field appearance="outline" class="col-6">
-                <mat-label>Thương hiệu</mat-label>
-                <mat-select disableRipple>
-                  <mat-option (click)="createBrand()"><b>-- Thêm thương hiệu mới --</b></mat-option>
+              <mat-form-field appearance="outline" class="col-6" formGroupName="material">
+                <mat-label>Chất liệu</mat-label>
+                <mat-select formControlName="id">
+                  <mat-option (click)="createCategory()">-- Thêm chất liệu mới --</mat-option>
                 </mat-select>
+                <mat-error *ngIf="formGroup.get('material')?.invalid && formGroup.get('material')?.touched">
+                  Vui lòng không bỏ trống chất liệu sản phẩm chi tiết!
+                </mat-error>
               </mat-form-field>
 
-              <mat-form-field appearance="outline" class="col-6">
+              <mat-form-field appearance="outline" class="col-6" formGroupName="origin">
                 <mat-label>Xuất xứ</mat-label>
-                <mat-select disableRipple>
-                  <mat-option (click)="createOrigin()"><b>-- Thêm xuất xứ mới --</b></mat-option>
+                <mat-select formControlName="id">
+                  <mat-option (click)="createOrigin()">-- Thêm xuất xứ mới --</mat-option>
                 </mat-select>
+                <mat-error *ngIf="formGroup.get('material')?.invalid && formGroup.get('material')?.touched">
+                  Vui lòng không bỏ trống xuất xứ sản phẩm chi tiết!
+                </mat-error>
               </mat-form-field>
             </div>
 
             <mat-form-field class="w-100" appearance="outline">
               <mat-label>Mô tả</mat-label>
-              <textarea matInput placeholder="..."></textarea>
+              <textarea matInput placeholder="..." formControlName="description"></textarea>
+              <mat-error *ngIf="formGroup.get('description')?.hasError('required') && formGroup.get('description')?.touched">
+                Vui lòng không bỏ trống mô tả sản phẩm chi tiết!
+              </mat-error>
             </mat-form-field>
           </div>
         </div>

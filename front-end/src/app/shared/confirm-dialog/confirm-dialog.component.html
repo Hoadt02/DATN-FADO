@@ -8,11 +8,11 @@
 </div>
 
 <div class="text-center">
-  <button class="btn btn-danger" (click)="onDismiss()">
-    <span><span class="fe fe-x"></span>Đóng</span>
+  <button mat-raised-button color="warn" (click)="onConfirm()" class="me-2">
+    <span><i class="fa-solid fa-check"></i> Xác nhận</span>
   </button>
-  <button class="btn btn-primary" (click)="onConfirm()">
-    <span><span class="fe fe-check mg-r-2"></span>Xác nhận</span>
+  <button mat-raised-button (click)="onDismiss()">
+    <span><i class="fa-solid fa-xmark"></i> Đóng</span>
   </button>
 </div>
 

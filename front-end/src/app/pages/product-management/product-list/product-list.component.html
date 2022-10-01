@@ -1,3 +1,9 @@
+<div class="container-fluid">
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner-border spinner-center" role="status"></div>
+  </div>
+</div>
+
 <div class="card">
   <div class="card-body">
     <mat-form-field appearance="outline" class="w-100">
@@ -26,7 +32,7 @@
           <!-- avatar Column -->
           <ng-container matColumnDef="avatar">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Hình ảnh</th>
-            <td mat-cell *matCellDef="let row"> {{row.avatar}} </td>
+            <td mat-cell *matCellDef="let row"><img src="assets/img/mike.jpg" class="avatar-product"> </td>
           </ng-container>
 
           <!-- name Column -->
@@ -69,11 +75,10 @@
           <ng-container matColumnDef="thaoTac">
             <th mat-header-cell *matHeaderCellDef> Thao tác</th>
             <td mat-cell *matCellDef="let row">
-              <button class="btn btn-sm btn-outline-primary mg-r-2" type="button"
-                      (click)="openDiaLog(TYPE_DIALOG.UPDATE,row)">
+              <button mat-icon-button color="primary" (click)="openDiaLog(TYPE_DIALOG.UPDATE,row)">
                 <i class="fa-regular fa-pen-to-square"></i>
               </button>
-              <button class="btn btn-sm btn-outline-danger mg-l-2" type="button" (click)="openDelete(row.id)">
+              <button [disabled]="row.status == 0" mat-icon-button color="warn" (click)="openDelete(row.id)">
                 <i class="fa-sharp fa-solid fa-trash"></i>
               </button>
             </td>
