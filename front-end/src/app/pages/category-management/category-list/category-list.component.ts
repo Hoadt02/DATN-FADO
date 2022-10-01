@@ -8,6 +8,7 @@ import {MatSort} from '@angular/material/sort';
 import {MatDialog} from '@angular/material/dialog';
 import {CategoryFormComponent} from '../category-form/category-form.component';
 import {CategoryService} from '../../../shared/services/api-service-impl/category.service';
+import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-category-list',
@@ -64,30 +65,30 @@ export class CategoryListComponent implements OnInit {
       }).afterClosed().subscribe(result => {
       if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
         this.getAll();
-      };
+      }
+      ;
     });
   }
 
   openDelete(id: number) {
-    // this.dialogService.open(ConfirmDialogComponent,
-    //   {
-    //     width: '25vw',
-    //     data: {
-    //       message: 'Bạn có muốn xóa bản ghi này?'
-    //     }
-    //   }).afterClosed().subscribe(result => {
-    //   if (result === Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
-    //     this.service.deleteNhaXuatBan(id).subscribe({
-    //       next: () => {
-    //         this.getAll();
-    //         this.toastService.success('XÓA THÀNH CÔNG!');
-    //       },
-    //       error: (error) => {
-    //         console.log(error);
-    //         this.toastService.error('XÓA THẤT BẠI!');
-    //       }
-    //     })
-    //   }
-    // });
+    this.dialogService.open(ConfirmDialogComponent,
+      {
+        width: '25vw',
+        data: {
+          message: 'Bạn có muốn xóa danh mục này?'
+        }
+      }).afterClosed().subscribe(result => {
+      if (result === Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
+        // this.service.deleteNhaXuatBan(id).subscribe({
+        //   next: () => {
+        //     this.getAll();
+        //     this.toastService.success('XÓA THÀNH CÔNG!');
+        //   },
+        //   error: (error) => {
+        //     console.log(error);
+        //     this.toastService.error('XÓA THẤT BẠI!');
+        //   }
+      }
+    })
   }
 }
