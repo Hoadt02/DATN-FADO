@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {StaffService} from "../../../shared/services/api-service-impl/staff.service";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder} from "@angular/forms";
-import {Constants} from "../../../shared/Constants";
+import {StaffService} from '../../../shared/services/api-service-impl/staff.service';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {FormBuilder} from '@angular/forms';
+import {Constants} from '../../../shared/Constants';
 
 @Component({
   selector: 'app-staff-form',
@@ -23,7 +23,7 @@ export class StaffFormComponent implements OnInit {
     password: [''],
     email: [''],
     phoneNumber: [''],
-    gender: [''],
+    gender: [1],
     address: [''],
     status: [''],
     role: this.fb.group({
@@ -52,7 +52,12 @@ export class StaffFormComponent implements OnInit {
   }
 
   save() {
-
+    console.log(this.formGroup.getRawValue());
+    this.formGroup.markAllAsTouched();
+    if (this.formGroup.invalid) {
+      console.log(13213213213213);
+      return;
+    }
   }
 
   close() {
