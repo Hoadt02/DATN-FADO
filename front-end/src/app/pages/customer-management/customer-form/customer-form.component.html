@@ -1,3 +1,8 @@
+<div class="container-fluid">
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner-border spinner-center" role="status"></div>
+  </div>
+</div>
 <div class="row">
   <h2 class="col-11">Quản lý khách hàng</h2>
   <h2 class="col-11">{{title}}</h2>
@@ -6,48 +11,51 @@
 
 <div class="row">
   <mat-dialog-content>
-    <form class="example-form">
+    <form class="example-form" [formGroup]="formGroup">
 
       <div class="row">
         <mat-form-field class="w-100" appearance="outline" class="col-6">
           <mat-label>Firt Name</mat-label>
-          <input type="text" matInput placeholder="...">
+          <input formControlName="firstname" type="text" matInput placeholder="...">
         </mat-form-field>
 
         <mat-form-field class="w-100" appearance="outline" class="col-6">
           <mat-label>Last Name</mat-label>
-          <input type="text" matInput>
+          <input formControlName="lastname" type="text" matInput>
         </mat-form-field>
       </div>
 
       <div class="row">
         <mat-form-field class="w-100" appearance="outline" class="col-6">
           <mat-label>User Name</mat-label>
-          <input type="text" matInput>
+          <input formControlName="username" type="text" matInput>
         </mat-form-field>
 
         <mat-form-field class="w-100" appearance="outline" class="col-6">
           <mat-label>Password</mat-label>
-          <input type="password" matInput>
+          <input formControlName="password" type="password" matInput>
         </mat-form-field>
       </div>
 
       <div class="row">
         <mat-form-field class="w-100" appearance="outline" class="col-6">
           <mat-label>Email</mat-label>
-          <input type="text" matInput>
+          <input formControlName="email" type="text" matInput>
         </mat-form-field>
 
         <mat-form-field class="w-100" appearance="outline" class="col-6">
           <mat-label>Phone</mat-label>
-          <input type="text" matInput>
+          <input formControlName="phoneNumbe" type="text" matInput>
         </mat-form-field>
       </div>
 
       <div class="row">
-        <mat-form-field class="w-100" appearance="outline" class="col-6">
-          <mat-label>Date of Birth</mat-label>
-          <input type="datetime-local" matInput>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Ngày sinh</mat-label>
+          <input formControlName="dateOfBirth" matInput [matDatepicker]="picker1">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
 
         <mat-form-field class="w-100" appearance="outline" class="col-6">
@@ -57,32 +65,29 @@
       </div>
 
       <div class="row">
-        <mat-form-field appearance="outline" class="col-6">
-          <mat-label>Gender</mat-label>
-          <mat-select disableRipple>
-            <mat-option value="1">Nam</mat-option>
-            <mat-option value="0">Nữ</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <mat-label>Giới tính:</mat-label>
+        <mat-radio-group formControlName="gender">
+          <mat-radio-button class="mx-3" [value]="1" [checked]="formGroup.value.gender == 1">Nam</mat-radio-button>
+          <mat-radio-button [value]="0" [checked]="formGroup.value.gender != 1">Nữ</mat-radio-button>
+        </mat-radio-group>
 
-        <mat-form-field appearance="outline" class="col-6">
-          <mat-label>Status</mat-label>
-          <mat-select disableRipple>
-            <mat-option value="1">Còn hoạt động</mat-option>
-            <mat-option value="0">Ngừng hoạt động</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div class="col-md-6">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Trạng thái</mat-label>
+            <mat-select formControlName="status">
+              <mat-option [value]="1">Đang hoạt động</mat-option>
+              <mat-option [value]="0">Ngưng hoạt động</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
 
 
-
       <mat-dialog-actions>
-        <button mat-raised-button color="primary" (click)="onSubmit()">
-          <span>Lưu</span>
-        </button>
-        <button mat-raised-button color="warn" (click)="onDismiss()">
-          <span>Đóng</span>
-        </button>
+        <div class="d-flex justify-content-center">
+          <button mat-raised-button color="primary" (click)="onSubmit()">Lưu</button>
+          <button mat-raised-button color="warn" (click)="onDismiss()" class="mx-5">Thoát</button>
+        </div>
       </mat-dialog-actions>
     </form>
   </mat-dialog-content>
