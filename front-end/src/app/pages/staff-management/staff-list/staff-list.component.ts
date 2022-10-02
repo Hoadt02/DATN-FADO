@@ -1,13 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {StaffService} from "../../../shared/services/api-service-impl/staff.service";
-import {MatDialog} from "@angular/material/dialog";
-import {StaffFormComponent} from "../staff-form/staff-form.component";
-import {Constants} from "../../../shared/Constants";
-import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {StaffService} from '../../../shared/services/api-service-impl/staff.service';
+import {MatDialog} from '@angular/material/dialog';
+import {StaffFormComponent} from '../staff-form/staff-form.component';
+import {Constants} from '../../../shared/Constants';
+import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-staff-list',
@@ -16,7 +16,7 @@ import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dia
 })
 export class StaffListComponent implements OnInit {
 
-  isLoading: boolean = true;
+  isLoading = true;
   TYPE_DIALOG = Constants.TYPE_DIALOG;
   RESULT_CLOSE_DIALOG = Constants.RESULT_CLOSE_DIALOG;
   loading = true;
