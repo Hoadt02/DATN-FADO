@@ -18,12 +18,13 @@ import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dia
 export class CategoryListComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
-
+  isLoading: boolean = true;
   displayedColumns: string[] = ['index', 'name', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
 
   ngOnInit(): void {
     this.getAll();
@@ -41,6 +42,7 @@ export class CategoryListComponent implements OnInit {
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.isLoading = false;
       },
       error: (error) => {
         console.log(error);
@@ -61,12 +63,11 @@ export class CategoryListComponent implements OnInit {
     this.dialogService.open(CategoryFormComponent,
       {
         width: '900px',
-        data: {type, row}
+        data: {type, row},
       }).afterClosed().subscribe(result => {
       if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
         this.getAll();
-      }
-      ;
+      };
     });
   }
 

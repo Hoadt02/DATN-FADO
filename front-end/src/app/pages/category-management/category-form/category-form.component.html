@@ -14,8 +14,8 @@
       <mat-form-field appearance="outline" class="col-6">
         <mat-label>Trạng thái</mat-label>
         <mat-select disableRipple formControlName="status">
-          <mat-option value="1">Còn kinh doanh</mat-option>
-          <mat-option value="0">Ngừng kinh doanh</mat-option>
+          <mat-option [value]="1">Còn kinh doanh</mat-option>
+          <mat-option [value]="0">Ngừng kinh doanh</mat-option>
         </mat-select>
       </mat-form-field>
     </div>

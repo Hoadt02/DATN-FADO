@@ -37,6 +37,7 @@ export class CategoryFormComponent implements OnInit {
       this.title = 'Thêm mới danh mục';
     } else {
       this.title = 'Chỉnh sửa danh mục';
+      this.formGroup.patchValue(this.dataDiaLog.row)
     }
   }
 
