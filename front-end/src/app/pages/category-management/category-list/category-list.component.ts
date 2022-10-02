@@ -21,9 +21,12 @@ export class CategoryListComponent implements OnInit {
   isLoading: boolean = true;
   displayedColumns: string[] = ['index', 'name', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
+  RESULT_CLOSE_DIALOG = Constants.RESULT_CLOSE_DIALOG;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  private title: string;
+  private message: string;
 
 
   ngOnInit(): void {
@@ -33,7 +36,8 @@ export class CategoryListComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private dialogService: MatDialog,
               private toastService: ToastrService,
-              private categoryService: CategoryService) {
+              private categoryService: CategoryService,
+              private matDialog: MatDialog) {
   }
 
   getAll() {
@@ -71,24 +75,53 @@ export class CategoryListComponent implements OnInit {
     });
   }
 
-  openDelete(id: number) {
-    this.dialogService.open(ConfirmDialogComponent,
-      {
-        width: '25vw',
-        data: {
-          message: 'Bạn có muốn xóa danh mục này?'
+  disableActive(type: any, row: any) {
+    if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
+      this.title = 'Mở kinh doanh';
+      this.message = 'Mở kinh doanh cho danh mục này ?'
+    } else {
+      this.title = 'Ngừng kinh doanh';
+      this.message = 'Ngừng kinh doanh cho danh mục này ?'
+    }
+
+    const dialog = this.matDialog.open(ConfirmDialogComponent, {
+      width: '500px',
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        title: this.title,
+        message: this.message,
+      }
+    });
+    dialog.afterClosed().subscribe(rs => {
+      if (rs == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
+        if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
+          row.status = 1;
+          this.categoryService.update(row).subscribe({
+            next: (data) => {
+              console.log(data);
+              this.toastService.success('Đã chuyển thành kinh doanh')
+            },
+            // tslint:disable-next-line:no-shadowed-variable
+            error: (error) => {
+              console.log(error);
+              this.toastService.success('Lỗi !!!')
+            }
+          });
+        } else {
+          row.status = 0;
+          this.categoryService.update(row).subscribe({
+            next: (data) => {
+              console.log(data);
+              this.toastService.success('Đã chuyển thành ngừng kinh doanh')
+            },
+            // tslint:disable-next-line:no-shadowed-variable
+            error: (error) => {
+              console.log(error);
+              this.toastService.success('Lỗi !!!')
+            }
+          });;;
         }
-      }).afterClosed().subscribe(result => {
-      if (result === Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
-        // this.service.deleteNhaXuatBan(id).subscribe({
-        //   next: () => {
-        //     this.getAll();
-        //     this.toastService.success('XÓA THÀNH CÔNG!');
-        //   },
-        //   error: (error) => {
-        //     console.log(error);
-        //     this.toastService.error('XÓA THẤT BẠI!');
-        //   }
       }
     })
   }

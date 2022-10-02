@@ -10,7 +10,7 @@ export class Constants {
         SUCCESS: 'success',
         CONFIRM: 'confirm',
         ACTIVE : 'active',
-        NOT_ACTIVE:'not_active'
+        NOT_ACTIVE: 'not_active'
     }
 
     public static RESPONSE_CODE = {
