@@ -1,15 +1,15 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 
-import {FormBuilder} from "@angular/forms";
-import {Constants} from "../../../shared/Constants";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {MatDialog} from "@angular/material/dialog";
-import {ProductFormComponent} from "../product-form/product-form.component";
-import {ProductDetailsService} from "../../../shared/services/api-service-impl/product-details.service";
-import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
-import {ToastrService} from "ngx-toastr";
+import {FormBuilder} from '@angular/forms';
+import {Constants} from '../../../shared/Constants';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatDialog} from '@angular/material/dialog';
+import {ProductFormComponent} from '../product-form/product-form.component';
+import {ProductDetailsService} from '../../../shared/services/api-service-impl/product-details.service';
+import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dialog.component';
+import {ToastrService} from 'ngx-toastr';
 
 
 @Component({
@@ -20,7 +20,7 @@ import {ToastrService} from "ngx-toastr";
 export class ProductListComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
-  isLoading: boolean = true;
+  isLoading = true;
 
   displayedColumns: string[] = ['index', 'avatar', 'name', 'gender', 'price', 'quantity', 'createDate', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
