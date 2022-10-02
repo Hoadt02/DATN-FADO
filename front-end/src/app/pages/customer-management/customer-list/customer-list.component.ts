@@ -19,8 +19,9 @@ import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dia
 export class CustomerListComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
-  RESULT_CLOSE_DIALOG = Constants.TYPE_DIALOG;
-  displayedColumns: string[] = ['index', 'avatar', 'firstname', 'lastname', 'username', 'password', 'email', 'dateofbirth', 'phone', 'gender', 'status', 'thaoTac'];
+  RESULT_CLOSE_DIALOG = Constants.RESULT_CLOSE_DIALOG;
+  isLoading: boolean = true;
+  displayedColumns: string[] = ['index', 'avatar', 'firstname', 'lastname', 'username', 'password', 'email', 'dateOfBirth', 'phoneNumber', 'gender', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -33,7 +34,8 @@ export class CustomerListComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private dialogService: MatDialog,
               private toastService: ToastrService,
-              private customerService: CustomerService) {
+              private customerService: CustomerService,
+              private apiCustomer: ApiCustomerService) {
   }
 
   getAll() {
@@ -42,6 +44,7 @@ export class CustomerListComponent implements OnInit {
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.isLoading = false;
       },
       error: (error) => {
         console.log(error);
@@ -58,17 +61,17 @@ export class CustomerListComponent implements OnInit {
     }
   }
 
-  openDiaLog(type: string, row?: any) {
-    this.dialogService.open(CustomerFormComponent,
-      {
-        width: '900px',
-        data: {type, row}
-      }).afterClosed().subscribe(result => {
-      if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
-        this.getAll();
-      };
-    });
-  }
+  // openDiaLog(type: string, row?: any) {
+  //   this.dialogService.open(CustomerFormComponent,
+  //     {
+  //       width: '900px',
+  //       data: {type, row}
+  //     }).afterClosed().subscribe(result => {
+  //     if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
+  //       this.getAll();
+  //     };
+  //   });
+  // }
 
   openSave(type: any, row?: any) {
     const dialogRef = this.dialogService.open(CustomerFormComponent, {
@@ -80,8 +83,16 @@ export class CustomerListComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(rs => {
-      if (rs === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
-        this.getAll();
+      // tslint:disable-next-line:triple-equals
+      if (rs == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
+        // tslint:disable-next-line:triple-equals
+        if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
+          row.status = 1;
+          this.apiCustomer.update(row.id, row);
+        } else {
+          row.status = 0;
+          this.apiCustomer.update(row.id, row);
+        }
       }
     })
   }

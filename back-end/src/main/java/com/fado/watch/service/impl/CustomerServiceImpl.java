@@ -26,13 +26,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
     @Override
     public Customer create(Customer customer) {
-        if (this.customerRepository.findByUsername(customer.getUsername()).isPresent()) {
-            throw new UniqueException("Username đã tồn tại");
-        }
-        if (this.customerRepository.findByEmail(customer.getEmail()).isPresent()) {
-            throw new UniqueException("Email đã tồn tại");
-        }
-        customer.setStatus(1);
+
         return this.customerRepository.save(customer);
     }
 
