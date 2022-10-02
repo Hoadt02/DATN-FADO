@@ -9,10 +9,10 @@ import java.util.Optional;
 @Repository
 public interface StaffRepository extends JpaRepository<Staff, Integer> {
 
-    Staff findByEmail(String email);
+    Optional<Staff> findByEmail(String email);
 
-    Staff findByUsername(String username);
+    Optional<Staff> findByUsername(String username);
 
-    Staff findByPhoneNumber(String phoneNumber);
+    Optional<Staff> findByPhoneNumber(String phoneNumber);
 
 }

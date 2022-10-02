@@ -31,13 +31,13 @@ public class StaffServiceImpl implements IStaffService {
     @Override
     public Staff create(Staff staff) {
 
-        if (this.staffRepository.findByUsername(staff.getUsername()) != null) {
+        if (this.staffRepository.findByUsername(staff.getUsername()).isPresent()) {
             throw new UniqueException("Username đã tồn tại");
         }
-        if (this.staffRepository.findByPhoneNumber(staff.getPhoneNumber()) != null) {
+        if (this.staffRepository.findByPhoneNumber(staff.getPhoneNumber()).isPresent()) {
             throw new UniqueException("Số điện thoại đã tồn tại");
         }
-        if (this.staffRepository.findByEmail(staff.getEmail()) != null) {
+        if (this.staffRepository.findByEmail(staff.getEmail()).isPresent()) {
             throw new UniqueException("Email đã tồn tại");
         }
         return this.staffRepository.save(staff);
@@ -50,15 +50,15 @@ public class StaffServiceImpl implements IStaffService {
         System.out.println("email cũ:" + staffBefore.getEmail());
         System.out.println("email mới:" + staff.getEmail());
 
-        if (this.staffRepository.findByUsername(staff.getUsername()) != null
+        if (this.staffRepository.findByUsername(staff.getUsername()).isPresent()
                 && !Objects.equals(staff.getUsername(), staffBefore.getUsername())) {
             throw new UniqueException("Username đã tồn tại ở tài khoản khác");
         }
-        if (this.staffRepository.findByPhoneNumber(staff.getPhoneNumber()) != null
+        if (this.staffRepository.findByPhoneNumber(staff.getPhoneNumber()).isPresent()
                 && !Objects.equals(staff.getPhoneNumber(), staffBefore.getPhoneNumber())) {
             throw new UniqueException("Số điện thoại đã tồn tại ở tài khoản khác");
         }
-        if (this.staffRepository.findByEmail(staff.getEmail()) != null
+        if (this.staffRepository.findByEmail(staff.getEmail()).isPresent()
                 && !Objects.equals(staff.getEmail(), staffBefore.getEmail())) {
             throw new UniqueException("Email đã tồn tại ở tài khoản khác");
         }
