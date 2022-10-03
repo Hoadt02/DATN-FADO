@@ -22,4 +22,12 @@ export class ApiOriginService {
   getAll() {
     return this.http.get(ApiConstant.origin, httpOptions);
   }
+
+  create(data : any){
+    return this.http.post(ApiConstant.origin,data, httpOptions);
+  }
+
+  update(id : number,data : any){
+    return this.http.put(`${ApiConstant.origin}/${id}`,data, httpOptions);
+  }
 }

@@ -4,10 +4,7 @@ import com.fado.watch.entity.Origin;
 import com.fado.watch.service.IOriginService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,5 +21,15 @@ public class OriginController {
     @GetMapping
     public ResponseEntity<List<Origin>> findAll() {
         return new ResponseEntity<>(this.iOriginService.getAll(), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<Origin> create(@RequestBody Origin origin){
+        return new ResponseEntity<>(this.iOriginService.create(origin), HttpStatus.OK);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Origin> update(@RequestBody Origin origin){
+        return new ResponseEntity<>(this.iOriginService.update(origin), HttpStatus.OK);
     }
 }
