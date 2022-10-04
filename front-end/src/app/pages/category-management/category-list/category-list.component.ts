@@ -50,6 +50,7 @@ export class CategoryListComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
+        this.isLoading = true;
       }
     });
   }
@@ -120,7 +121,7 @@ export class CategoryListComponent implements OnInit {
               console.log(error);
               this.toastService.success('Lỗi !!!')
             }
-          });;;
+          });
         }
       }
     })

@@ -50,10 +50,7 @@ export class CustomerListComponent implements OnInit {
     });
   }
 
-  applyFilter(event
-                :
-                Event
-  ) {
+  applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -74,10 +71,7 @@ export class CustomerListComponent implements OnInit {
 //   });
 // }
 
-  openSave(type
-             :
-             any, row ?: any
-  ) {
+  openSave(type: any, row?: any) {
     const dialogRef = this.matDialog.open(CustomerFormComponent, {
       width: '800px',
       disableClose: true,
@@ -94,12 +88,7 @@ export class CustomerListComponent implements OnInit {
     })
   }
 
-  active(type
-           :
-           any, row
-           :
-           any
-  ) {
+  active(type: any, row: any) {
     // tslint:disable-next-line:triple-equals
     if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
       this.title = 'Kích hoạt khách hàng';
