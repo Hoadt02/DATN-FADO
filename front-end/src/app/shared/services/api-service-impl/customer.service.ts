@@ -50,7 +50,7 @@ export class CustomerService {
           this.toastrService.warning(err.error.message);
           return;
         }
-        this.toastrService.error('Sửa khách  thất bại!');
+        this.toastrService.error('Sửa khách hàng thất bại!');
       }
     })
   }

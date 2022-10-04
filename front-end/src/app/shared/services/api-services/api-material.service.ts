@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ApiConstant} from '../../constants/api-constant';
+import {Observable} from 'rxjs';
 
 const httpOptions: any = {
   headers: new HttpHeaders({
@@ -21,5 +22,12 @@ export class ApiMaterialService {
 
   getAll() {
     return this.http.get(ApiConstant.material, httpOptions);
+  }
+  create(data: any): Observable<any> {
+    return this.http.post(ApiConstant.material, data, httpOptions);
+  }
+
+  update(id: number, data: any) {
+    return this.http.put(`${ApiConstant.material}/${id}`, data, httpOptions);
   }
 }
