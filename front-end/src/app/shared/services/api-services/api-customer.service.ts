@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ApiConstant} from '../../constants/api-constant';
 
+
 const httpOptions: any = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
@@ -15,20 +16,19 @@ const httpOptions: any = {
 @Injectable({
   providedIn: 'root'
 })
-export class ApiStaffService {
+export class ApiCustomerService {
   constructor(private http: HttpClient) {
   }
 
   getAll() {
-    return this.http.get(ApiConstant.staff, httpOptions);
+    return this.http.get(ApiConstant.customer, httpOptions);
   }
 
   create(data: any) {
-    return this.http.post(ApiConstant.staff, data, httpOptions);
+    return this.http.post(ApiConstant.customer, data, httpOptions);
   }
 
   update(id: number, data: any) {
-    return this.http.put(`${ApiConstant.staff}/${id}`, data, httpOptions);
+    return this.http.put(`${ApiConstant.customer}/${id}`, data, httpOptions);
   }
-
 }

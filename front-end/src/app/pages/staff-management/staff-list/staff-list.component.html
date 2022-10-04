@@ -1,7 +1,7 @@
-<!--<div *ngIf="isLoading" class="loading">-->
-<!--  <div class="spinner-border text-info spinner-center" role="status">-->
-<!--  </div>-->
-<!--</div>-->
+<div *ngIf="isLoading" class="loading">
+  <div class="spinner-border text-info spinner-center" role="status">
+  </div>
+</div>
 
 <div class="card">
   <div class="card-body">
@@ -22,27 +22,23 @@
   <div class="col-lg-12 col-md-12">
     <div class="card custom-card">
       <div class="card-body">
-        <table mat-table [dataSource]="dataSource" matSort class="w-100 table table-hover">
+        <table mat-table [dataSource]="dataSource" matSort class="w-100 table-hover">
 
-          <!-- ID Column -->
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID</th>
-            <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+          <ng-container matColumnDef="stt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> STT</th>
+            <td mat-cell *matCellDef="let row, index as index "> {{index + 1}} </td>
           </ng-container>
 
-          <!-- Progress Column -->
-          <ng-container matColumnDef="firstname">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Họ</th>
-            <td mat-cell *matCellDef="let row"> {{row.firstname}} </td>
+          <ng-container matColumnDef="fullName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="lastname"> Họ và Tên</th>
+            <td mat-cell *matCellDef="let row"> {{row.firstname}} {{row.lastname}}</td>
           </ng-container>
 
-          <!-- Name Column -->
-          <ng-container matColumnDef="lastname">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên</th>
-            <td mat-cell *matCellDef="let row"> {{row.lastname}} </td>
-          </ng-container>
+          <!--                    <ng-container matColumnDef="lastname">-->
+          <!--                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên</th>-->
+          <!--                      <td mat-cell *matCellDef="let row"> {{row.lastname}} </td>-->
+          <!--                    </ng-container>-->
 
-          <!-- Fruit Column -->
           <ng-container matColumnDef="dateOfBirth">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Ngày sinh</th>
             <td mat-cell *matCellDef="let row"> {{row.dateOfBirth}} </td>
@@ -50,8 +46,8 @@
 
           <ng-container matColumnDef="image">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Ảnh</th>
-            <td mat-cell *matCellDef="let row"><img class="img-staff"
-                                                    src="https://st.quantrimang.com/photos/image/2020/06/19/Hinh-Nen-Meo-Ngao-38.jpg">
+            <td mat-cell *matCellDef="let row">
+              <img class="img-staff" src="{{row.image}}">
             </td>
           </ng-container>
 
@@ -80,26 +76,32 @@
             <td mat-cell *matCellDef="let row"> {{row.address}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Trạng thái</th>
-            <td mat-cell *matCellDef="let row"> {{row.status == 1 ? 'Đang hoạt động' : 'Ngưng hoạt động'}} </td>
-          </ng-container>
+<!--          <ng-container matColumnDef="status">-->
+<!--            <th mat-header-cell *matHeaderCellDef mat-sort-header> Trạng thái</th>-->
+<!--            <td mat-cell *matCellDef="let row"> {{row.status == 1 ? 'Đang hoạt động' : 'Ngưng hoạt động'}} </td>-->
+<!--          </ng-container>-->
 
-          <ng-container matColumnDef="role">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Vai trò</th>
-            <td mat-cell *matCellDef="let row"> {{row.role.name}} </td>
-          </ng-container>
+          <!--          <ng-container matColumnDef="role">-->
+          <!--            <th mat-header-cell *matHeaderCellDef mat-sort-header> Vai trò</th>-->
+          <!--            <td mat-cell *matCellDef="let row"> {{row.role.name}} </td>-->
+          <!--          </ng-container>-->
 
           <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Hành động</th>
-            <td mat-cell *matCellDef="let row">
-              <button class="btn btn-sm btn-outline-primary" type="button"
+            <td mat-cell *matCellDef="let row" class="text-center">
+              <button class="btn btn-sm btn-outline-primary me-2 px-2" type="button"
                       (click)="openSave(TYPE_DIALOG.UPDATE, row)" title="Sửa">
                 <i class="fa-regular fa-pen-to-square"></i>
               </button>
-              <button class="btn btn-sm btn-outline-danger" type="button"
-                      (click)="openDelete(row.id)" title="Xóa">
-                <i class="fa-sharp fa-solid fa-trash"></i>
+
+              <button *ngIf="row.status == 1" class="btn btn-sm btn-outline-danger px-2" type="button"
+                      (click)="active(RESULT_CLOSE_DIALOG.NOT_ACTIVE,row)" title="Vô hiệu hoá">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+
+              <button *ngIf="row.status == 0" class="btn btn-sm btn-outline-success px-2" type="button"
+                      (click)="active(RESULT_CLOSE_DIALOG.ACTIVE,row)" title="Kích hoạt">
+                <i class="fa-solid fa-plus"></i>
               </button>
             </td>
           </ng-container>

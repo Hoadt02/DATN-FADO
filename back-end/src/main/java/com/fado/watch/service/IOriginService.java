@@ -6,4 +6,7 @@ import java.util.List;
 
 public interface IOriginService {
     List<Origin> getAll();
+
+    Origin create(Origin origin);
+    Origin update(Origin origin);
 }

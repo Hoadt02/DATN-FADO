@@ -8,7 +8,8 @@ export const ApiConstant = {
   product: `${environment.service.localhost}/api/v1/product`,
   origin: `${environment.service.localhost}/api/v1/origin`,
   material: `${environment.service.localhost}/api/v1/material`,
-  uploadImage: `${environment.service.localhost}/api/v1/upload/images`
+  uploadImage: `${environment.service.localhost}/api/v1/upload/images`,
+  customer: `${environment.service.localhost}/api/v1/customer`
 }
 // Vinh là một con lợn, xấu trai, xấu hơn hòa, hòa đẹp trai hơn vinh
 // hoà đẹp trai cu to vinh bú cho hòa sướng, xong hòa bắn tinh vào lỗ tai vinh, vinh rên ứ ừ ư phe lòi :))))

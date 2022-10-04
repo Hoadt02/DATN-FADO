@@ -8,6 +8,8 @@ export class Constants {
     public static RESULT_CLOSE_DIALOG = {
         CLOSE: 'close',
         SUCCESS: 'success',
-        CONFIRM: 'confirm'
+        CONFIRM: 'confirm',
+        ACTIVE : 'active',
+        NOT_ACTIVE: 'not_active'
     }
 }

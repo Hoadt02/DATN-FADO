@@ -9,13 +9,17 @@
       <mat-form-field class="w-100" appearance="outline" class="col-6">
         <mat-label>Tên danh mục</mat-label>
         <input type="text" matInput formControlName="name">
+        <mat-error
+          *ngIf="formGroup.get('name')?.hasError('required') && formGroup.get('name')?.touched">
+          Vui lòng không bỏ trống tên danh mục
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="col-6">
         <mat-label>Trạng thái</mat-label>
         <mat-select disableRipple formControlName="status">
-          <mat-option value="1">Còn kinh doanh</mat-option>
-          <mat-option value="0">Ngừng kinh doanh</mat-option>
+          <mat-option [value]="1">Còn kinh doanh</mat-option>
+          <mat-option [value]="0">Ngừng kinh doanh</mat-option>
         </mat-select>
       </mat-form-field>
     </div>

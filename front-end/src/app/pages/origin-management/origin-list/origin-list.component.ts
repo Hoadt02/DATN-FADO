@@ -7,6 +7,7 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatDialog} from "@angular/material/dialog";
 import {OriginFormComponent} from "../origin-form/origin-form.component";
+import {OriginService} from "../../../shared/services/api-service-impl/origin.service";
 
 @Component({
   selector: 'app-customer-list',
@@ -15,6 +16,7 @@ import {OriginFormComponent} from "../origin-form/origin-form.component";
 })
 export class OriginListComponent implements OnInit {
 
+  isLoading = true;
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
 
   ngOnInit(): void {
@@ -29,20 +31,22 @@ export class OriginListComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private dialogService: MatDialog,
-              private toastService: ToastrService) {
+              private originService : OriginService,
+              ) {
   }
 
   getAll() {
-    // this.service.getAllNhaXuatBan().subscribe({
-    //   next: (data: any) => {
-    //     this.dataSource = new MatTableDataSource(data);
-    //     this.dataSource.paginator = this.paginator;
-    //     this.dataSource.sort = this.sort;
-    //   },
-    //   error: (error) => {
-    //     console.log(error);
-    //   }
-    // });
+    this.originService.getAll().subscribe({
+      next: (data: any) => {
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
   applyFilter(event: Event) {
@@ -57,7 +61,9 @@ export class OriginListComponent implements OnInit {
   openDiaLog(type: string, row?: any) {
     this.dialogService.open(OriginFormComponent,
       {
-        width: "900px",
+        width: "400px",
+        disableClose: true,
+        hasBackdrop : true,
         data: {type, row}
       }).afterClosed().subscribe(result => {
       if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {

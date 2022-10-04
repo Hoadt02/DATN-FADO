@@ -1,57 +1,57 @@
 import {Injectable} from '@angular/core';
-import {ApiStaffService} from '../api-services/api-staff.service';
+import {ApiCustomerService} from '../api-services/api-customer.service';
 import {BehaviorSubject} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StaffService {
+export class CustomerService {
   isCloseDialog: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-
   constructor(
-    private readonly apiStaff: ApiStaffService,
+    private readonly apiCustomer: ApiCustomerService,
     private toastrService: ToastrService,
   ) {
   }
-
   getAll() {
-    return this.apiStaff.getAll();
+    return this.apiCustomer.getAll();
   }
-
   create(data: any) {
-    return this.apiStaff.create(data).subscribe({
+    return this.apiCustomer.create(data).subscribe({
+      // tslint:disable-next-line:no-shadowed-variable
       next: (data: any) => {
         console.log(data);
-        this.toastrService.success('Thêm nhân viên thành công!');
+        this.toastrService.success('Khách hàng thêm thành công!');
         this.isCloseDialog.next(true);
       }, error: err => {
         console.log(err);
+        // tslint:disable-next-line:triple-equals
         if (err.error.code == 'UNIQUE') {
           this.toastrService.warning(err.error.message);
           return;
         }
-        this.toastrService.error('Thêm nhân viên thất bại!');
+        this.toastrService.error('Thêm khách hàng thất bại!');
       }
     })
   }
 
-  update(id: number, data: any) {
-    return this.apiStaff.update(id, data).subscribe({
+  update(data: any, id: number) {
+    return this.apiCustomer.update(id, data).subscribe({
+      // tslint:disable-next-line:no-shadowed-variable
       next: (data: any) => {
         console.log(data);
-        this.toastrService.success('Sửa nhân viên thành công!');
+        this.toastrService.success('Khách hàng sửa thành công!');
         this.isCloseDialog.next(true);
       }, error: err => {
         console.log(err);
+        // tslint:disable-next-line:triple-equals
         if (err.error.code == 'UNIQUE') {
           this.toastrService.warning(err.error.message);
           return;
         }
-        this.toastrService.error('Sửa nhân viên thất bại!');
+        this.toastrService.error('Sửa khách  thất bại!');
       }
     })
   }
-
 }
