@@ -21,7 +21,7 @@ public class ProductDetailsController {
         return new ResponseEntity<>(this.service.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping("id")
+    @GetMapping("{id}")
     public ResponseEntity<ProductDetail> findProductDetail(@PathVariable("id") Integer id){
         return new ResponseEntity<>(this.service.findProductDetails(id), HttpStatus.OK);
     }
@@ -31,7 +31,7 @@ public class ProductDetailsController {
         return new ResponseEntity<>(this.service.create(productDetail), HttpStatus.OK);
     }
 
-    @PutMapping("id")
+    @PutMapping("{id}")
     public ResponseEntity<ProductDetail> update(@RequestBody ProductDetail productDetail){
         return new ResponseEntity<>(this.service.update(productDetail), HttpStatus.OK);
     }

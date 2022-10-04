@@ -15,6 +15,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatSelectModule} from "@angular/material/select";
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import {MatSelectModule} from "@angular/material/select";
     MatRadioModule,
     MatDatepickerModule,
     MatSelectModule,
+    NgxDropzoneModule
   ],
   entryComponents: [ProductFormComponent]
 })

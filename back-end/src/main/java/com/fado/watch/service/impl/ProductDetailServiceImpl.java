@@ -33,7 +33,7 @@ public class ProductDetailServiceImpl implements IProductDetailService {
         Random random = new Random();
         Long number = Math.abs(random.nextLong());
         for (int i = 0; i < getAll().size(); i++) {
-            if (getAll().get(i).getImei().equals(number.toString())){
+            if (getAll().get(i).getImei().equals(number.toString().substring(0,15))){
                 number = Math.abs(random.nextLong());
             }
         }

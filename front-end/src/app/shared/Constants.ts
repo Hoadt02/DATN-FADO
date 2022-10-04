@@ -10,12 +10,4 @@ export class Constants {
         SUCCESS: 'success',
         CONFIRM: 'confirm'
     }
-
-    public static RESPONSE_CODE = {
-        SUCCESS: '200'
-    }
-
-    public static ROOT_SPINNER = {
-        NAME: 'ROOT'
-    }
 }
