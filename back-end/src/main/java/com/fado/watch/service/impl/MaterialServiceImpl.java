@@ -21,16 +21,16 @@ public class MaterialServiceImpl implements IMaterialService {
 
     @Override
     public Material findById(Integer id) {
-        return null;
+        return materialRepository.findById(id).get();
     }
 
     @Override
-    public Material create(Material staff) {
-        return null;
+    public Material create(Material material) {
+        return materialRepository.save(material);
     }
 
     @Override
-    public Material update(Material staff) {
-        return null;
+    public Material update(Material material) {
+        return materialRepository.save(material);
     }
 }
