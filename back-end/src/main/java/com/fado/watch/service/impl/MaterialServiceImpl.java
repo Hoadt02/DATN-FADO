@@ -18,4 +18,19 @@ public class MaterialServiceImpl implements IMaterialService {
     public List<Material> getAll() {
         return materialRepository.findAll();
     }
+
+    @Override
+    public Material findById(Integer id) {
+        return null;
+    }
+
+    @Override
+    public Material create(Material staff) {
+        return null;
+    }
+
+    @Override
+    public Material update(Material staff) {
+        return null;
+    }
 }
