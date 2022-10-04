@@ -31,12 +31,12 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<Customer> create(@RequestBody Customer category) {
-        return new ResponseEntity<>(this.iCustomerService.create(category), HttpStatus.OK);
+    public ResponseEntity<Customer> create(@RequestBody Customer customer) {
+        return new ResponseEntity<>(this.iCustomerService.create(customer), HttpStatus.OK);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Customer> update(@RequestBody Customer category) {
-        return new ResponseEntity<>(this.iCustomerService.update(category), HttpStatus.OK);
+    public ResponseEntity<Customer> update(@RequestBody Customer customer) {
+        return new ResponseEntity<>(this.iCustomerService.update(customer), HttpStatus.OK);
     }
 }

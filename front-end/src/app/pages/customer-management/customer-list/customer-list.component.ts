@@ -21,7 +21,7 @@ export class CustomerListComponent implements OnInit {
   isLoading = true;
   title: string
   message: string
-  displayedColumns: string[] = ['index', 'avatar', 'firstname', 'lastname', 'username', 'password', 'email', 'dateOfBirth', 'phoneNumber', 'gender', 'thaoTac'];
+  displayedColumns: string[] = ['index', 'avatar', 'firstname', 'lastname', 'username', 'password', 'email', 'dateOfBirth', 'phoneNumber', 'gender', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -50,7 +50,8 @@ export class CustomerListComponent implements OnInit {
     });
   }
 
-  applyFilter(event: Event) {
+  applyFilter(event: Event
+  ) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -71,7 +72,8 @@ export class CustomerListComponent implements OnInit {
 //   });
 // }
 
-  openSave(type: any, row?: any) {
+  openSave(type: any, row?: any
+  ) {
     const dialogRef = this.matDialog.open(CustomerFormComponent, {
       width: '800px',
       disableClose: true,
@@ -88,13 +90,14 @@ export class CustomerListComponent implements OnInit {
     })
   }
 
-  active(type: any, row: any) {
+  active(type: any, row: any
+  ) {
     // tslint:disable-next-line:triple-equals
     if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
       this.title = 'Kích hoạt khách hàng';
       this.message = 'Bạn có chắc chắn muốn kích hoạt khách hàng này?'
     } else {
-      this.title = 'Vô hiệu hoá khách !';
+      this.title = 'Vô hiệu hoá khách hang!';
       this.message = 'Bạn có chắc chắn muốn vô hiệu hoá khách hàng này?'
     }
 

@@ -27,9 +27,10 @@ export class CustomerFormComponent implements OnInit {
       Validators.pattern(Regex.email)]],
     phoneNumber: ['', [Validators.required, Validators.pattern(Regex.phoneNumber)]],
     gender: [1],
-    address: ['', Validators.required],
     status: [1],
-    role: this.fb.group({id: [4]}),
+    role: this.fb.group({
+      id: [4]
+    }),
   })
 
 
@@ -48,6 +49,7 @@ export class CustomerFormComponent implements OnInit {
       this.title = 'Thêm mới khach hang';
     } else {
       this.title = 'Chỉnh sửa khach hang';
+      this.formGroup.patchValue(this.dataDiaLog.row)
     }
   }
   onDismiss() {

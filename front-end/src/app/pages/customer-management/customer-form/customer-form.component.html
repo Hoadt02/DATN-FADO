@@ -8,7 +8,8 @@
   <mat-dialog-content>
     <form class="example-form" [formGroup]="formGroup">
       <div class="row">
-        <div class="col-md-4">
+
+        <div class="col">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>First Name</mat-label>
             <input formControlName="firstname" type="text"
@@ -25,7 +26,7 @@
           </mat-form-field>
         </div>
 
-        <div class="col-md-4">
+        <div class="col">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Last Name</mat-label>
             <input formControlName="lastname" type="text"
@@ -56,7 +57,7 @@
 
       <div class="row">
 
-        <div class="col-md-6">
+        <div class="col">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Tài khoản</mat-label>
             <input formControlName="username" type="text"
@@ -73,7 +74,7 @@
           </mat-form-field>
         </div>
 
-        <div class="col-md-6">
+        <div class="col">
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Mật khẩu</mat-label>
             <input formControlName="password" type="password"
@@ -91,7 +92,7 @@
 
       <div class="row">
 
-        <div class="col-md-6">
+        <div class="col">
 
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Số điện thoại</mat-label>
@@ -110,7 +111,7 @@
 
         </div>
 
-        <div class="col-md-6">
+        <div class="col">
 
           <mat-form-field class="w-100" appearance="outline">
             <mat-label>Email</mat-label>
@@ -128,28 +129,26 @@
           </mat-form-field>
 
         </div>
+        <div class="col">
+
+          <div class="col">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Ngày sinh</mat-label>
+              <input matInput formControlName="dateOfBirth" type="datetime-local" class="w-100">
+              <mat-error
+                *ngIf="formGroup.get('dateOfBirth')?.hasError('required') &&
+          formGroup.get('dateOfBirth')?.touched">Bạn phải chọn ngày sinh
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
 
       </div>
 
 
       <div class="row">
-
-        <div class="col-md-8">
-
-          <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Địa chỉ</mat-label>
-            <input formControlName="address" type="text"
-                   id="exampleInputDiaChi1" required maxlength="255"
-                   matInput>
-            <mat-error
-              *ngIf="formGroup.get('address')?.hasError('required') &&
-          formGroup.get('address')?.touched">Bạn phải nhập địa chỉ
-            </mat-error>
-          </mat-form-field>
-
-        </div>
-
-        <div class="col-md-4 d-flex align-items-center">
+        <div class="col align-items-center">
           <mat-label>Giới tính:</mat-label>
           <mat-radio-group formControlName="gender">
             <mat-radio-button class="mx-3" [value]="1" [checked]="formGroup.value.gender == 1">Nam</mat-radio-button>
