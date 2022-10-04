@@ -6,10 +6,11 @@ import {CategoryFormComponent} from "../../category-management/category-form/cat
 import {BrandFormComponent} from "../../brand-management/brand-form/brand-form.component";
 import {OriginFormComponent} from "../../origin-management/origin-form/origin-form.component";
 import {BrandService} from "../../../shared/services/api-service-impl/brand.service";
-import {CategoryService} from "../../../shared/services/api-service-impl/category.service";
 import {ProductService} from "../../../shared/services/api-service-impl/product.service";
 import {OriginService} from "../../../shared/services/api-service-impl/origin.service";
 import {MaterialService} from "../../../shared/services/api-service-impl/material.service";
+import {ProductDetailsService} from "../../../shared/services/api-service-impl/product-details.service";
+import {UploadImageService} from "../../../shared/services/api-service-impl/upload-image.service";
 
 @Component({
   selector: 'app-product-form',
@@ -20,6 +21,8 @@ export class ProductFormComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
   title: string = '';
+  isLoading = true;
+
   listProduct: any[] = [];
   listBrand: any[] = [];
   listOrigin: any[] = [];
@@ -41,7 +44,7 @@ export class ProductFormComponent implements OnInit {
     }),
     name: ['', [Validators.required, Validators.minLength(4)]],
     price: [0, [Validators.required, Validators.min(10000)]],
-    quantity: [0,[Validators.required, Validators.min(1)]],
+    quantity: [0, [Validators.required, Validators.min(1)]],
     gender: ['', [Validators.required]],
     imei: [''],
     avatar: [''],
@@ -57,20 +60,43 @@ export class ProductFormComponent implements OnInit {
               private brandService: BrandService,
               private productService: ProductService,
               private originService: OriginService,
-              private materialService: MaterialService) {
+              private materialService: MaterialService,
+              private productDetailService: ProductDetailsService,
+              private uploadImageService: UploadImageService) {
   }
 
   ngOnInit(): void {
-    if (this.data.type == Constants.TYPE_DIALOG.NEW){
-        this.title = 'THÊM MỚI SẢN PHẨM CHI TIẾT'
-    }else{
-        this.title = 'CẬP NHẬT SẢN PHẨM CHI TIẾT';
-        this.formGroup.patchValue(this.data.row);
+    if (this.data.type == Constants.TYPE_DIALOG.NEW) {
+      this.title = 'THÊM MỚI SẢN PHẨM CHI TIẾT'
+    } else {
+      this.title = 'CẬP NHẬT SẢN PHẨM CHI TIẾT';
+      this.formGroup.patchValue(this.data.row);
     }
+    this.getProductForCombobox();
     this.getBrandForCombobox();
     this.getMaterialForCombobox();
     this.getOriginForCombobox();
-    this.getProductForCombobox();
+  }
+
+  files: File[] = [];
+  fileAvt: File[] = [];
+
+  onSelect(event) {
+    this.files.push(...event.addedFiles);
+  }
+
+  onSelectAvt(event) {
+    if (this.fileAvt.length >= 1) this.fileAvt.splice(0,this.fileAvt.length);
+    this.fileAvt = event.addedFiles;
+  }
+
+  onRemove(event) {
+    this.files.splice(this.files.indexOf(event), 1);
+  }
+
+  onRemoveAvt() {
+    console.log(this.fileAvt.length);
+    this.fileAvt.splice(0, 1);
   }
 
   onDismiss() {
@@ -78,8 +104,24 @@ export class ProductFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.formGroup.markAllAsTouched();
-    if (this.formGroup.invalid) return;
+    const data = new FormData();
+    data.append("file", this.fileAvt[0]);
+    this.uploadImageService.uploadImage(data, 'avtProduct');
+    this.dialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
+    // this.formGroup.markAllAsTouched();
+    // if (this.formGroup.invalid) return;
+    // this.isLoading = true;
+    // if (this.data.type == this.TYPE_DIALOG.NEW) {
+    //   this.productDetailService.createProductDetail(this.formGroup.getRawValue());
+    // } else {
+    //   this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
+    // }
+    // this.productDetailService.isCloseDialog.subscribe(value => {
+    //   if (value){
+    //     this.dialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
+    //     this.productDetailService.isCloseDialog.next(false);
+    //   }
+    // })
   }
 
   createCategory() {
@@ -98,31 +140,37 @@ export class ProductFormComponent implements OnInit {
     this.dialogService.open(OriginFormComponent);
   }
 
-  getBrandForCombobox(){
-    this.brandService.getAll().subscribe((data:any) =>{
-      if (data){
+  getBrandForCombobox() {
+    this.isLoading = true;
+    this.brandService.getAll().subscribe((data: any) => {
+      if (data) {
         this.listBrand = data;
-      }});
+      }
+    });
   }
 
-  getProductForCombobox(){
-    this.productService.getAll().subscribe((data:any) =>{
-      if (data){
+  getProductForCombobox() {
+    this.productService.getAll().subscribe((data: any) => {
+      if (data) {
         this.listProduct = data;
-      }});
+        this.isLoading = false;
+      }
+    });
   }
 
   getOriginForCombobox() {
     this.originService.getAll().subscribe((data: any) => {
-      if (data){
+      if (data) {
         this.listOrigin = data;
-      }});
+      }
+    });
   }
 
-  getMaterialForCombobox(){
-    this.materialService.getAll().subscribe((data:any) =>{
-      if (data){
+  getMaterialForCombobox() {
+    this.materialService.getAll().subscribe((data: any) => {
+      if (data) {
         this.listMaterial = data;
-      }});
+      }
+    });
   }
 }

@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {Injectable, ViewChild} from "@angular/core";
 import {ApiProductDetailService} from "../api-services/api-product-detail.service";
 import {ToastrService} from "ngx-toastr";
 import {BehaviorSubject} from "rxjs";
@@ -48,8 +48,8 @@ export class ProductDetailsService{
       });
     }
 
-    updateProductDetail(data:any){
-      this.apiService.updateProductDetail(data).subscribe({
+    updateProductDetail(data:any, id:number){
+      this.apiService.updateProductDetail(data, id).subscribe({
         next:(data)=>{
           console.log(data);
           this.toatService.success('Cập nhật sản phẩm chi tiết thành công!');
@@ -59,6 +59,20 @@ export class ProductDetailsService{
           console.log(error);
           this.toatService.error('Cập nhật sản phẩm chi tiết thất bại!');
           this.isCloseDialog.next(false);
+        }
+      });
+    }
+
+    deleteProductDetail(data:any, id:number){
+      data.status = 0;
+      this.apiService.updateProductDetail(data, id).subscribe({
+        next:(data)=>{
+          console.log(data);
+          this.toatService.success('Xóa sản phẩm chi tiết thành công!');
+        },
+        error:(error)=>{
+          console.log(error);
+          this.toatService.error('Xóa sản phẩm chi tiết thất bại!');
         }
       });
     }
