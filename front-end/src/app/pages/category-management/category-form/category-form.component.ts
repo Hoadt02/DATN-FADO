@@ -4,7 +4,6 @@ import {CategoryService} from '../../../shared/services/api-service-impl/categor
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Constants} from '../../../shared/Constants';
 import {ToastrService} from 'ngx-toastr';
-import {error} from 'protractor';
 
 @Component({
   selector: 'app-category-form',
@@ -25,7 +24,8 @@ export class CategoryFormComponent implements OnInit {
               private categoryService: CategoryService,
               private toastrService: ToastrService,
               private matDialogRef: MatDialogRef<CategoryFormComponent>,
-              @Inject(MAT_DIALOG_DATA) private dataDiaLog?: any) { }
+              @Inject(MAT_DIALOG_DATA) private dataDiaLog?: any) {
+  }
 
   ngOnInit(): void {
     this.setTitleForm();
@@ -56,12 +56,12 @@ export class CategoryFormComponent implements OnInit {
         next: (data) => {
           console.log(data);
           this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
-          this.toastrService.success('Thêm mới danh mục thành công')
+          this.toastrService.success('Thêm mới danh mục thành công');
         },
         // tslint:disable-next-line:no-shadowed-variable
         error: (error) => {
-        console.log(error);
-          this.toastrService.error('Thêm mới danh mục thất bại!');
+          console.log(error);
+          this.toastrService.error('Thêm mới danh mục thất bại !');
         }
       });
     } else {

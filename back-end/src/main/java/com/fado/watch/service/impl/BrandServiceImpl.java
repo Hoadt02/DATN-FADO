@@ -17,4 +17,19 @@ public class BrandServiceImpl implements IBrandService {
     public List<Brand> getAll() {
         return repository.findAll();
     }
+
+    @Override
+    public Brand findById(Integer id) {
+        return repository.findById(id).get();
+    }
+
+    @Override
+    public Brand create(Brand brand) {
+        return repository.save(brand);
+    }
+
+    @Override
+    public Brand update(Brand brand) {
+        return repository.save(brand);
+    }
 }

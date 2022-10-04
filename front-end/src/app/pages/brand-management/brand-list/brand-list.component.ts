@@ -20,6 +20,7 @@ export class BrandListComponent implements OnInit {
 
   displayedColumns: string[] = ['index', 'name', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
+  isLoading = true;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -40,9 +41,11 @@ export class BrandListComponent implements OnInit {
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.isLoading = false;
       },
       error: (error) => {
         console.log(error);
+        this.isLoading = true;
       }
     });
   }
@@ -68,26 +71,4 @@ export class BrandListComponent implements OnInit {
     });
   }
 
-  openDelete(id: number) {
-    // this.dialogService.open(ConfirmDialogComponent,
-    //   {
-    //     width: '25vw',
-    //     data: {
-    //       message: 'Bạn có muốn xóa bản ghi này?'
-    //     }
-    //   }).afterClosed().subscribe(result => {
-    //   if (result === Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
-    //     this.service.deleteNhaXuatBan(id).subscribe({
-    //       next: () => {
-    //         this.getAll();
-    //         this.toastService.success('XÓA THÀNH CÔNG!');
-    //       },
-    //       error: (error) => {
-    //         console.log(error);
-    //         this.toastService.error('XÓA THẤT BẠI!');
-    //       }
-    //     })
-    //   }
-    // });
-  }
 }
