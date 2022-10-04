@@ -16,13 +16,11 @@ public class SendEmailController {
         this.emailService = emailService;
     }
 
-    // Sending a simple Email
     @PostMapping("/sendMail")
     public String sendMail(@RequestBody EmailDetails details) {
         return emailService.sendSimpleMail(details);
     }
 
-    // Sending email with attachment
     @PostMapping("/sendMailWithAttachment")
     public String sendMailWithAttachment(@RequestBody EmailDetails details) {
         return emailService.sendMailWithAttachment(details);
