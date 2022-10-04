@@ -11,6 +11,10 @@
           <mat-label>Tên thương hiệu</mat-label>
           <input type="text" matInput formControlName="name">
         </mat-form-field>
+        <mat-error
+          *ngIf="formGroup.get('name')?.hasError('required') && formGroup.get('name')?.touched">
+          Vui lòng không bỏ trống tên thương hiệu
+        </mat-error>
       </div>
 
       <mat-dialog-actions>
