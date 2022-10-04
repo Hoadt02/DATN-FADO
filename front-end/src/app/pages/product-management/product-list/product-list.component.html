@@ -78,7 +78,7 @@
               <button mat-icon-button color="primary" (click)="openDiaLog(TYPE_DIALOG.UPDATE,row)">
                 <i class="fa-regular fa-pen-to-square"></i>
               </button>
-              <button [disabled]="row.status == 0" mat-icon-button color="warn" (click)="openDelete(row.id)">
+              <button [disabled]="row.status == 0" mat-icon-button color="warn" (click)="openDelete(row,row.id)">
                 <i class="fa-sharp fa-solid fa-trash"></i>
               </button>
             </td>
@@ -99,4 +99,3 @@
   </div>
 </div>
 <!-- End Row -->
-

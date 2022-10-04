@@ -3,28 +3,25 @@
   <span class="col-1 fs-4" (click)="onDismiss()"><i class="fa-solid fa-xmark"></i></span>
 </div>
 
-<div class="row">
-  <mat-dialog-content>
-    <form class="example-form">
-
-      <div class="row">
-        <mat-form-field class="w-100" appearance="outline" class="col-6">
-          <mat-label>Nơi xuất xứ</mat-label>
-          <input type="text" matInput placeholder="...">
-        </mat-form-field>
-
-      </div>
-
+    <form [formGroup]="formGroup" class="example-form">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Họ</mat-label>
+        <input formControlName="name" type="text"
+               id="exampleInputName1" required maxlength="50"
+               matInput>
+        <mat-error
+          *ngIf="formGroup.get('name')?.hasError('required') &&
+            formGroup.get('name')?.touched">Bạn phải nhập xuất xứ
+        </mat-error>
+      </mat-form-field>
 
       <mat-dialog-actions>
-        <button mat-raised-button color="primary" (click)="onSubmit()">
+        <button mat-raised-button color="primary" (click)="onSubmit()" type="button">
           <span>Lưu</span>
         </button>
-        <button mat-raised-button color="warn" (click)="onDismiss()">
+        <button mat-raised-button color="warn" (click)="onDismiss()" type="button">
           <span>Đóng</span>
         </button>
       </mat-dialog-actions>
     </form>
-  </mat-dialog-content>
 
-</div>

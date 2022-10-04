@@ -15,4 +15,12 @@ export class BrandService {
     return this.apiBrand.getAll();
   }
 
+  create(data: any) {
+    return this.apiBrand.create(data);
+  }
+
+  update(data: any) {
+    return this.apiBrand.update(data);
+  }
+
 }

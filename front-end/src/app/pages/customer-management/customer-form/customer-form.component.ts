@@ -20,7 +20,7 @@ export class CustomerFormComponent implements OnInit {
     lastname: ['', [Validators.required,
       Validators.pattern(Regex.name)]],
     dateOfBirth: [new Date(), Validators.required],
-    image: ['https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png'],
+    image: [''],
     username: ['', [Validators.required, Validators.pattern(Regex.username)]],
     password: ['', Validators.required],
     email: ['', [Validators.required,

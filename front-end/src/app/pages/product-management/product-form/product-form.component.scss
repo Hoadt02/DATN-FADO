@@ -2,3 +2,45 @@
   margin-left: 16px;
 }
 
+ngx-dropzone,
+.custom-dropzone {
+  margin: 2px;
+}
+
+ngx-dropzone,
+.custom-dropzone-avt {
+  margin: 2px;
+}
+
+.custom-dropzone {
+  height: 150px;
+  color: black;
+  border: 1px dashed black;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+.custom-dropzone-avt {
+  height: 250px;
+  color: black;
+  border: 1px dashed black;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+.custom-dropzone.ngx-dz-hovered {
+  border: 1px solid rgb(235, 79, 79);
+}
+
+.custom-dropzone-avt.ngx-dz-hovered {
+  border: 1px solid rgb(235, 79, 79);
+}
+
+.imgAvt {
+  width: 100% !important;
+  height: 228px !important;
+}
+
+:host ::ng-deep img {
+  max-width: 100% !important;
+}

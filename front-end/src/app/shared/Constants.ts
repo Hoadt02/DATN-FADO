@@ -12,12 +12,4 @@ export class Constants {
         ACTIVE : 'active',
         NOT_ACTIVE: 'not_active'
     }
-
-    public static RESPONSE_CODE = {
-        SUCCESS: '200'
-    }
-
-    public static ROOT_SPINNER = {
-        NAME: 'ROOT'
-    }
 }
