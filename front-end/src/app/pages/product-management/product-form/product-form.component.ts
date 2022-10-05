@@ -10,6 +10,8 @@ import {ProductDetailsService} from "../../../shared/services/api-service-impl/p
 import {UploadImageService} from "../../../shared/services/api-service-impl/upload-image.service";
 import {ToastrService} from "ngx-toastr";
 import {ImageService} from "../../../shared/services/api-service-impl/image.service";
+import {checkSpace} from "../../../shared/validator/validatorForm";
+import {Regex} from "../../../shared/validator/regex";
 
 @Component({
   selector: 'app-product-form',
@@ -41,14 +43,14 @@ export class ProductFormComponent implements OnInit {
     origin: this.fb.group({
       id: ['', [Validators.required]],
     }),
-    name: ['', [Validators.required, Validators.minLength(4)]],
+    name: ['', [checkSpace,Validators.pattern(Regex.name), Validators.minLength(4)]],
     price: ['', [Validators.required, Validators.min(10000)]],
     quantity: ['', [Validators.required, Validators.min(1)]],
     gender: ['', [Validators.required]],
     imei: [''],
     avatar: [''],
     createDate: [''],
-    description: ['', [Validators.required]],
+    description: ['', [checkSpace]],
     status: ['', [Validators.required]]
   });
 
@@ -196,9 +198,5 @@ export class ProductFormComponent implements OnInit {
         this.listMaterial = data;
       }
     });
-  }
-
-  touchedAll() {
-     this.formGroup.markAllAsTouched();
   }
 }

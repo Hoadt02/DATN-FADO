@@ -30,33 +30,36 @@
             <mat-form-field class="w-100" appearance="outline" class="col-4">
               <mat-label>Tên sản phẩm</mat-label>
               <input type="text" matInput placeholder="..." formControlName="name">
-              <mat-error *ngIf="formGroup.get('name')?.hasError('required') && formGroup.get('name')?.touched">
-                Vui lòng không bỏ trống tên sản phẩm chi tiết!
+              <mat-error *ngIf="formGroup.get('name')?.hasError('isSpace') && formGroup.get('name')?.touched">
+                Vui lòng không bỏ trống tên sản phẩm!
+              </mat-error>
+              <mat-error *ngIf="formGroup.get('name')?.hasError('pattern') && formGroup.get('name')?.touched">
+                Tên sản phẩm không được chứa ký tự đặc biệt!
               </mat-error>
               <mat-error *ngIf="formGroup.get('name')?.hasError('minlength') && formGroup.get('name')?.touched">
-                Tên sản phẩm chi tiết tối thiểu 4 ký tự!
+                Tên sản phẩm tối thiểu 4 ký tự!
               </mat-error>
             </mat-form-field>
 
             <mat-form-field class="w-100" appearance="outline" class="col-4">
               <mat-label>Giá sản phẩm</mat-label>
-              <input type="number" matInput placeholder="..." formControlName="price">
+              <input type="number" matInput placeholder="..." formControlName="price" min="0">
               <mat-error *ngIf="formGroup.get('price')?.hasError('required') && formGroup.get('price')?.touched">
-                Vui lòng không bỏ trống giá sản phẩm chi tiết!
+                Vui lòng không bỏ trống giá sản phẩm!
               </mat-error>
               <mat-error *ngIf="formGroup.get('price')?.hasError('min') && formGroup.get('price')?.touched">
-                Giá sản phẩm chi tiết tối thiểu 10.000 VNĐ!
+                Giá sản phẩm tối thiểu 10.000 VNĐ!
               </mat-error>
             </mat-form-field>
 
             <mat-form-field class="w-100" appearance="outline" class="col-4">
               <mat-label>Số lượng sản phẩm</mat-label>
-              <input type="number" matInput placeholder="..." formControlName="quantity">
+              <input type="number" matInput placeholder="..." formControlName="quantity" min="0">
               <mat-error *ngIf="formGroup.get('quantity')?.hasError('required') && formGroup.get('quantity')?.touched">
-                Vui lòng không bỏ trống số lượng sản phẩm chi tiết!
+                Vui lòng không bỏ trống số lượng sản phẩm!
               </mat-error>
               <mat-error *ngIf="formGroup.get('quantity')?.hasError('min') && formGroup.get('quantity')?.touched">
-                Số lượng sản phẩm chi tiết tối thiểu là 1!
+                Số lượng sản phẩm tối thiểu là 1!
               </mat-error>
             </mat-form-field>
           </div>
@@ -69,7 +72,7 @@
                 <mat-option [value]='false'>Nữ</mat-option>
               </mat-select>
               <mat-error *ngIf="formGroup.get('gender')?.hasError('required') && formGroup.get('gender')?.touched">
-                Vui lòng không bỏ trống giới tính sản phẩm chi tiết!
+                Vui lòng không bỏ trống giới tính sản phẩm!
               </mat-error>
             </mat-form-field>
 
@@ -80,7 +83,7 @@
                 <mat-option [value]='0'>Ngừng kinh doanh</mat-option>
               </mat-select>
               <mat-error *ngIf="formGroup.get('status')?.hasError('required') && formGroup.get('status')?.touched">
-                Vui lòng không bỏ trống trạng thái sản phẩm chi tiết!
+                Vui lòng không bỏ trống trạng thái sản phẩm!
               </mat-error>
             </mat-form-field>
           </div>
@@ -102,7 +105,7 @@
                 <mat-option *ngFor="let b of listBrand" [value]="b.id">{{b.name}}</mat-option>
               </mat-select>
               <mat-error *ngIf="formGroup.get('brand')?.invalid && formGroup.get('brand')?.touched">
-                Vui lòng không bỏ trống thương hiệu sản phẩm chi tiết!
+                Vui lòng không bỏ trống thương hiệu sản phẩm!
               </mat-error>
             </mat-form-field>
           </div>
@@ -114,7 +117,7 @@
                 <mat-option *ngFor="let m of listMaterial" [value]="m.id">{{m.name}}</mat-option>
               </mat-select>
               <mat-error *ngIf="formGroup.get('material')?.invalid && formGroup.get('material')?.touched">
-                Vui lòng không bỏ trống chất liệu sản phẩm chi tiết!
+                Vui lòng không bỏ trống chất liệu sản phẩm!
               </mat-error>
             </mat-form-field>
 
@@ -124,7 +127,7 @@
                 <mat-option *ngFor="let o of listOrigin" [value]="o.id">{{o.name}}</mat-option>
               </mat-select>
               <mat-error *ngIf="formGroup.get('origin')?.invalid && formGroup.get('origin')?.touched">
-                Vui lòng không bỏ trống xuất xứ sản phẩm chi tiết!
+                Vui lòng không bỏ trống xuất xứ sản phẩm!
               </mat-error>
             </mat-form-field>
           </div>
@@ -133,14 +136,14 @@
             <mat-label>Mô tả</mat-label>
             <textarea matInput placeholder="..." formControlName="description"></textarea>
             <mat-error
-              *ngIf="formGroup.get('description')?.hasError('required') && formGroup.get('description')?.touched">
-              Vui lòng không bỏ trống mô tả sản phẩm chi tiết!
+              *ngIf="formGroup.get('description')?.hasError('isSpace') && formGroup.get('description')?.touched">
+              Vui lòng không bỏ trống mô tả sản phẩm!
             </mat-error>
           </mat-form-field>
         </div>
       </div>
       <div>
-        <button type="button" mat-raised-button matStepperNext (click)="touchedAll()">Next</button>
+        <button type="button" mat-raised-button matStepperNext>Next</button>
       </div>
     </mat-step>
     <mat-step errorMessage="Address is required.">
@@ -162,11 +165,11 @@
         <i class="fa-sharp fa-solid fa-triangle-exclamation"></i> Vui lòng nhập đúng các thông tin ở phần "Thông tin sản
         phẩm"!
       </p>
-      <p *ngIf="files.length <= 0" class="text-danger">
-        <i class="fa-sharp fa-solid fa-triangle-exclamation"></i> Vui lòng chọn hình ảnh chi tiết của sản phẩm!
-      </p>
       <p *ngIf="fileAvt.length == 0" class="text-danger">
         <i class="fa-sharp fa-solid fa-triangle-exclamation"></i> Vui lòng chọn hình ảnh đại diện của sản phẩm!
+      </p>
+      <p *ngIf="files.length <= 0" class="text-danger">
+        <i class="fa-sharp fa-solid fa-triangle-exclamation"></i> Vui lòng chọn hình ảnh chi tiết của sản phẩm!
       </p>
       <p *ngIf="fileAvt.length != 0 && files.length > 0 && formGroup.valid">
         <i class="fa-solid fa-check text-success"></i> Mời bạn nhấn nút lưu để thêm mới sản phẩm!
