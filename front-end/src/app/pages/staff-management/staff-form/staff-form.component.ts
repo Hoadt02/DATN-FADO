@@ -3,7 +3,8 @@ import {StaffService} from '../../../shared/services/api-service-impl/staff.serv
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, Validators} from '@angular/forms';
 import {Constants} from '../../../shared/Constants';
-import {Regex} from "../../../shared/regexs/regex";
+import {checkSpace} from "../../../shared/validator/validatorForm";
+import {Regex} from "../../../shared/validator/regex";
 
 @Component({
   selector: 'app-staff-form',
@@ -14,23 +15,28 @@ export class StaffFormComponent implements OnInit {
 
   isLoading: boolean = false;
   title: String;
+  hide = true;
 
   formGroup = this.fb.group({
     id: [''],
-    firstname: ['', [Validators.required,
+    firstname: ['', [checkSpace,
       Validators.pattern(Regex.name)]],
-    lastname: ['', [Validators.required,
+    lastname: ['', [checkSpace,
       Validators.pattern(Regex.name)]],
     dateOfBirth: [new Date(), Validators.required],
     image: ['https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png'],
-    username: ['', [Validators.required, Validators.pattern(Regex.username)]],
-    password: ['', Validators.required],
+    username: ['', [Validators.required,
+      Validators.pattern(Regex.username)]],
+    password: ['', [Validators.required,
+      Validators.minLength(8),
+      Validators.maxLength(24),
+      Validators.pattern(Regex.password)]],
     email: ['', [Validators.required,
       Validators.pattern(Regex.email)]],
     phoneNumber: ['', [Validators.required,
       Validators.pattern(Regex.phoneNumber)]],
     gender: [1],
-    address: ['', Validators.required],
+    address: ['', checkSpace],
     status: [1],
     role: this.fb.group({
       id: [4],
@@ -66,6 +72,7 @@ export class StaffFormComponent implements OnInit {
     if (this.formGroup.invalid) {
       return;
     }
+
     if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
       this.staffService.create(this.formGroup.getRawValue());
     } else {

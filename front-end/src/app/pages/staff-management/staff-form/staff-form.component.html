@@ -19,8 +19,8 @@
                id="exampleInputFirstname1" required maxlength="50"
                matInput>
         <mat-error
-          *ngIf="formGroup.get('firstname')?.hasError('required') &&
-            formGroup.get('firstname')?.touched">Bạn phải nhập họ
+          *ngIf="formGroup.get('firstname')?.hasError('isSpace') &&
+            formGroup.get('firstname')?.touched">Vui lòng không để trống họ
         </mat-error>
         <mat-error
           *ngIf="formGroup.get('firstname')?.hasError('pattern') &&
@@ -36,8 +36,8 @@
                id="exampleInputLastname1" required maxlength="50"
                matInput>
         <mat-error
-          *ngIf="formGroup.get('lastname')?.hasError('required') &&
-            formGroup.get('lastname')?.touched">Bạn phải nhập tên
+          *ngIf="formGroup.get('lastname')?.hasError('isSpace') &&
+            formGroup.get('lastname')?.touched">Vui lòng không để trống tên
         </mat-error>
         <mat-error
           *ngIf="formGroup.get('lastname')?.hasError('pattern') &&
@@ -84,12 +84,26 @@
     <div class="col-md-6">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Mật khẩu</mat-label>
-        <input formControlName="password" type="password"
-               id="exampleInputPassword1" required maxlength="50"
-               matInput>
+        <input formControlName="password" matInput [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
         <mat-error
           *ngIf="formGroup.get('password')?.hasError('required') &&
             formGroup.get('password')?.touched">Bạn phải nhập mật khẩu
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('password')?.hasError('minlength') &&
+            formGroup.get('password')?.touched">Mật khẩu tối thiểu 8 ký tự
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('password')?.hasError('maxlength') &&
+            formGroup.get('password')?.touched">Mật khẩu tối đa 24 ký tự
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('password')?.hasError('pattern') &&
+            formGroup.get('password')?.touched">Mật khẩu không được viết dấu và không chứa khoảng trắng
         </mat-error>
       </mat-form-field>
     </div>
@@ -127,7 +141,7 @@
                matInput>
         <mat-error
           *ngIf="formGroup.get('email')?.hasError('required') &&
-            formGroup.get('email')?.touched">Bạn phải nhập email
+            formGroup.get('email')?.touched">Vui lòng không để trống email
         </mat-error>
         <mat-error
           *ngIf="formGroup.get('email')?.hasError('pattern') &&
@@ -147,10 +161,10 @@
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Địa chỉ</mat-label>
         <input formControlName="address" type="text"
-               id="exampleInputDiaChi1" required maxlength="255"
+               id="exampleInputDiaChi1" maxlength="255"
                matInput>
         <mat-error
-          *ngIf="formGroup.get('address')?.hasError('required') &&
+          *ngIf="formGroup.get('address')?.hasError('isSpace') &&
           formGroup.get('address')?.touched">Bạn phải nhập địa chỉ
         </mat-error>
       </mat-form-field>
@@ -196,9 +210,9 @@
   <!--    </div>-->
 
 
-    <div class="d-flex justify-content-center">
-      <button mat-raised-button color="accent" (click)="save()">Lưu</button>
-      <button mat-raised-button color="warn" (click)="close()" class="mx-5">Thoát</button>
-    </div>
+  <div class="d-flex justify-content-center">
+    <button mat-raised-button color="accent" (click)="save()">Lưu</button>
+    <button mat-raised-button color="warn" (click)="close()" class="mx-5">Thoát</button>
+  </div>
 </form>
 
