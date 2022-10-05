@@ -11,13 +11,10 @@ export class UploadImageService{
   }
 
   uploadImage(data:any, folder:string){
-    this.apiUploadService.uploadImage(data, folder).subscribe({
-      next:(data)=>{
-        console.log(data);
-      },
-      error:(error)=>{
-        console.log(error);
-      }
-    })
+    return this.apiUploadService.uploadImage(data, folder);
+  }
+
+  uploadImageDetail(data: any, folder:string) {
+    return this.apiUploadService.upLoadImageDetail(data, folder);
   }
 }

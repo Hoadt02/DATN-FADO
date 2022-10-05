@@ -13,7 +13,7 @@ ngx-dropzone,
 }
 
 .custom-dropzone {
-  height: 150px;
+  height: 188px;
   color: black;
   border: 1px dashed black;
   border-radius: 5px;
@@ -21,7 +21,7 @@ ngx-dropzone,
 }
 
 .custom-dropzone-avt {
-  height: 250px;
+  height: 288px;
   color: black;
   border: 1px dashed black;
   border-radius: 5px;
@@ -29,11 +29,11 @@ ngx-dropzone,
 }
 
 .custom-dropzone.ngx-dz-hovered {
-  border: 1px solid rgb(235, 79, 79);
+  border: 3px solid rgb(235, 79, 79);
 }
 
 .custom-dropzone-avt.ngx-dz-hovered {
-  border: 1px solid rgb(235, 79, 79);
+  border: 3px solid rgb(235, 79, 79);
 }
 
 .imgAvt {
@@ -43,4 +43,8 @@ ngx-dropzone,
 
 :host ::ng-deep img {
   max-width: 100% !important;
+}
+
+.mat-form-field{
+  margin-top: 10px;
 }

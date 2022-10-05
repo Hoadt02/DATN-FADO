@@ -2,15 +2,14 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Constants} from "../../../shared/Constants";
-import {CategoryFormComponent} from "../../category-management/category-form/category-form.component";
-import {BrandFormComponent} from "../../brand-management/brand-form/brand-form.component";
-import {OriginFormComponent} from "../../origin-management/origin-form/origin-form.component";
 import {BrandService} from "../../../shared/services/api-service-impl/brand.service";
 import {ProductService} from "../../../shared/services/api-service-impl/product.service";
 import {OriginService} from "../../../shared/services/api-service-impl/origin.service";
 import {MaterialService} from "../../../shared/services/api-service-impl/material.service";
 import {ProductDetailsService} from "../../../shared/services/api-service-impl/product-details.service";
 import {UploadImageService} from "../../../shared/services/api-service-impl/upload-image.service";
+import {ToastrService} from "ngx-toastr";
+import {ImageService} from "../../../shared/services/api-service-impl/image.service";
 
 @Component({
   selector: 'app-product-form',
@@ -21,7 +20,7 @@ export class ProductFormComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
   title: string = '';
-  isLoading = true;
+  isLoading = false;
 
   listProduct: any[] = [];
   listBrand: any[] = [];
@@ -43,15 +42,18 @@ export class ProductFormComponent implements OnInit {
       id: ['', [Validators.required]],
     }),
     name: ['', [Validators.required, Validators.minLength(4)]],
-    price: [0, [Validators.required, Validators.min(10000)]],
-    quantity: [0, [Validators.required, Validators.min(1)]],
+    price: ['', [Validators.required, Validators.min(10000)]],
+    quantity: ['', [Validators.required, Validators.min(1)]],
     gender: ['', [Validators.required]],
     imei: [''],
     avatar: [''],
     createDate: [''],
     description: ['', [Validators.required]],
     status: ['', [Validators.required]]
-  })
+  });
+
+  files: File[] = [];
+  fileAvt: File[] = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<ProductFormComponent>,
@@ -62,7 +64,9 @@ export class ProductFormComponent implements OnInit {
               private originService: OriginService,
               private materialService: MaterialService,
               private productDetailService: ProductDetailsService,
-              private uploadImageService: UploadImageService) {
+              private uploadImageService: UploadImageService,
+              private toastrService: ToastrService,
+              private imageService: ImageService) {
   }
 
   ngOnInit(): void {
@@ -78,15 +82,13 @@ export class ProductFormComponent implements OnInit {
     this.getOriginForCombobox();
   }
 
-  files: File[] = [];
-  fileAvt: File[] = [];
-
   onSelect(event) {
+    console.log(event);
     this.files.push(...event.addedFiles);
   }
 
   onSelectAvt(event) {
-    if (this.fileAvt.length >= 1) this.fileAvt.splice(0,this.fileAvt.length);
+    if (this.fileAvt.length >= 1) this.fileAvt.splice(0, this.fileAvt.length);
     this.fileAvt = event.addedFiles;
   }
 
@@ -104,44 +106,67 @@ export class ProductFormComponent implements OnInit {
   }
 
   onSubmit() {
-    const data = new FormData();
-    data.append("file", this.fileAvt[0]);
-    this.uploadImageService.uploadImage(data, 'avtProduct');
-    this.dialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
-    // this.formGroup.markAllAsTouched();
     // if (this.formGroup.invalid) return;
-    // this.isLoading = true;
-    // if (this.data.type == this.TYPE_DIALOG.NEW) {
-    //   this.productDetailService.createProductDetail(this.formGroup.getRawValue());
-    // } else {
-    //   this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
-    // }
-    // this.productDetailService.isCloseDialog.subscribe(value => {
-    //   if (value){
-    //     this.dialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
-    //     this.productDetailService.isCloseDialog.next(false);
-    //   }
-    // })
+    this.isLoading = true;
+    if (this.data.type == this.TYPE_DIALOG.NEW) {
+      this.createProductDetail();
+    } else {
+      this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
+    }
+    this.productDetailService.isCloseDialog.subscribe(value => {
+      if (value) {
+        this.dialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
+        this.productDetailService.isCloseDialog.next(false);
+      }
+    })
   }
 
-  createCategory() {
-    this.dialogService.open(CategoryFormComponent);
-  }
+  createProductDetail() {
+    //Create avatar
+    const avtData = new FormData();
+    avtData.append("file", this.fileAvt[0]);
+    this.uploadImageService.uploadImage(avtData, 'avtProduct').subscribe({
+      next: (data) => {
+        this.formGroup.patchValue({avatar: data.name});
+        //Create product detail
+        this.productDetailService.createProductDetail(this.formGroup.getRawValue());
+      },
+      error: (error) => {
+        console.log(error);
+        this.toastrService.error('Lỗi thêm mới Avatar sản phẩm!')
+        return;
+      }
+    });
 
-  createProduct() {
-    this.dialogService.open(ProductFormComponent);
-  }
-
-  createBrand() {
-    this.dialogService.open(BrandFormComponent);
-  }
-
-  createOrigin() {
-    this.dialogService.open(OriginFormComponent);
+    //Create list image product detail
+    const listImg = new FormData();
+    for (let i = 0; i < this.files.length; i++) {
+      listImg.append("file", this.files[i]);
+    }
+    this.productDetailService.idProductDetail.subscribe(id => {
+      this.uploadImageService.uploadImageDetail(listImg, 'imgDetailProduct').subscribe({
+        next: (data) => {
+          if (id) {
+            for (let i = 0; i < data.length; i++) {
+              const image = this.fb.group({
+                name: [data[i]],
+                productDetail: this.fb.group({
+                  id: id
+                })
+              });
+              this.imageService.createImage(image.value);
+            }
+          }
+        },
+        error: (error) => {
+          console.log(error);
+          this.toastrService.error('Thêm hình ảnh chi tiết của sản phẩm thất bại');
+        }
+      });
+    });
   }
 
   getBrandForCombobox() {
-    this.isLoading = true;
     this.brandService.getAll().subscribe((data: any) => {
       if (data) {
         this.listBrand = data;
@@ -153,7 +178,6 @@ export class ProductFormComponent implements OnInit {
     this.productService.getAll().subscribe((data: any) => {
       if (data) {
         this.listProduct = data;
-        this.isLoading = false;
       }
     });
   }
@@ -172,5 +196,9 @@ export class ProductFormComponent implements OnInit {
         this.listMaterial = data;
       }
     });
+  }
+
+  touchedAll() {
+     this.formGroup.markAllAsTouched();
   }
 }

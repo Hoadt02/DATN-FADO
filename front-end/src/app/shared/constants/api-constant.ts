@@ -10,6 +10,7 @@ export const ApiConstant = {
   material: `${environment.service.localhost}/api/v1/material`,
   uploadImage: `${environment.service.localhost}/api/v1/upload/images`,
   customer: `${environment.service.localhost}/api/v1/customer`,
+  image: `${environment.service.localhost}/api/v1/image`
   sendMail: `${environment.service.localhost}/api/v1/sendMail`,
   sendMailWithAttachment: `${environment.service.localhost}/api/v1/sendMailWithAttachment`,
 }
