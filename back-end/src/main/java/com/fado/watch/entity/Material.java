@@ -33,7 +33,7 @@ public class Material implements Serializable {
     @Column(unique=true, nullable=false, precision=10)
     private Integer id;
    
-    @Column(nullable=false, length=50)
+    @Column(nullable=false, length=50, unique = true)
     private String name;
     
     @OneToMany(mappedBy="material")
