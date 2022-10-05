@@ -4,6 +4,8 @@ import {CategoryService} from '../../../shared/services/api-service-impl/categor
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Constants} from '../../../shared/Constants';
 import {ToastrService} from 'ngx-toastr';
+import {checkSpace} from '../../../shared/validator/validatorForm';
+import {Regex} from '../../../shared/validator/regex';
 
 @Component({
   selector: 'app-category-form',
@@ -16,7 +18,7 @@ export class CategoryFormComponent implements OnInit {
 
   formGroup: FormGroup = this.fb.group({
     id: '',
-    name: ['', Validators.required],
+    name: ['', [Validators.required, checkSpace, Validators.pattern(Regex.name)]],
     status: [1]
   })
 
