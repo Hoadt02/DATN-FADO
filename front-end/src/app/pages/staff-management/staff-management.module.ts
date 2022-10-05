@@ -19,6 +19,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -26,25 +27,26 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     StaffListComponent,
     StaffFormComponent
   ],
-  imports: [
-    CommonModule,
-    StaffManagementRoutingModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatInputModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSelectModule,
-    MatProgressSpinnerModule,
-    MatRadioModule,
-    FormsModule,
-    MatSlideToggleModule,
-  ]
+    imports: [
+        CommonModule,
+        StaffManagementRoutingModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatInputModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatSelectModule,
+        MatProgressSpinnerModule,
+        MatRadioModule,
+        FormsModule,
+        MatSlideToggleModule,
+        MatIconModule,
+    ]
 })
 export class StaffManagementModule {
 }
