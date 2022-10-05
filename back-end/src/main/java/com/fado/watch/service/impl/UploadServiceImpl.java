@@ -1,20 +1,18 @@
 package com.fado.watch.service.impl;
 
 import com.fado.watch.service.IUploadService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletContext;
 import java.io.File;
 
 @Service
 public class UploadServiceImpl implements IUploadService {
     @Override
     public File upload(MultipartFile file, String folder) {
-        String path = System.getProperty("user.dir") +  "/src/main/resources/static/assets/" + folder;
+        String pathSystem = System.getProperty("user.dir");
+        String path = pathSystem.substring(0, pathSystem.length() - 8) +  "front-end\\src\\assets\\img\\" + folder;
         File currentFile = new File(path);
-        System.out.println(currentFile.getAbsolutePath());
         if (!currentFile.exists()){
             currentFile.mkdirs();
         }
@@ -22,7 +20,6 @@ public class UploadServiceImpl implements IUploadService {
         try {
             File saveFile = new File(currentFile, name);
             file.transferTo(saveFile);
-            System.out.println(saveFile.getAbsolutePath());
             return saveFile;
         }catch (Exception e){
             throw new RuntimeException();

@@ -14,4 +14,8 @@ export class ApiUploadService{
   uploadImage(data:any, folder:string):Observable<any>{
     return this.httpClient.post(`${ApiConstant.uploadImage}/${folder}`, data);
   }
+
+  upLoadImageDetail(data : any, folder:string):Observable<any>{
+    return this.httpClient.post(`${ApiConstant.uploadImage}/detail/${folder}`, data);
+  }
 }

@@ -9,6 +9,7 @@ import {BehaviorSubject} from "rxjs";
 export class ProductDetailsService{
 
    isCloseDialog: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+   idProductDetail: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
     constructor(private apiService: ApiProductDetailService,
                 private toatService: ToastrService) {
@@ -29,6 +30,7 @@ export class ProductDetailsService{
           if (error.error.code == 'NOT_FOUND'){
               this.toatService.warning(error.error.message);
           }
+          return;
         }
       });
     }
@@ -37,13 +39,15 @@ export class ProductDetailsService{
       this.apiService.createProductDetail(data).subscribe({
         next:(data)=>{
           console.log(data);
-          this.toatService.success('Thêm mới sản phẩm chi tiết thành công!');
+          this.toatService.success('Thêm mới sản phẩm thành công!');
           this.isCloseDialog.next(true);
+          this.idProductDetail.next(data.id);
         },
         error:(error)=>{
           console.log(error);
-          this.toatService.error('Thêm mới sản phẩm chi tiết thất bại!');
+          this.toatService.error('Thêm mới sản phẩm thất bại!');
           this.isCloseDialog.next(false);
+          return;
         }
       });
     }
@@ -52,13 +56,14 @@ export class ProductDetailsService{
       this.apiService.updateProductDetail(data, id).subscribe({
         next:(data)=>{
           console.log(data);
-          this.toatService.success('Cập nhật sản phẩm chi tiết thành công!');
+          this.toatService.success('Cập nhật sản phẩm thành công!');
           this.isCloseDialog.next(true);
         },
         error:(error)=>{
           console.log(error);
-          this.toatService.error('Cập nhật sản phẩm chi tiết thất bại!');
+          this.toatService.error('Cập nhật sản phẩm thất bại!');
           this.isCloseDialog.next(false);
+          return;
         }
       });
     }
@@ -68,11 +73,12 @@ export class ProductDetailsService{
       this.apiService.updateProductDetail(data, id).subscribe({
         next:(data)=>{
           console.log(data);
-          this.toatService.success('Xóa sản phẩm chi tiết thành công!');
+          this.toatService.success('Xóa sản phẩm thành công!');
         },
         error:(error)=>{
           console.log(error);
-          this.toatService.error('Xóa sản phẩm chi tiết thất bại!');
+          this.toatService.error('Xóa sản phẩm thất bại!');
+          return;
         }
       });
     }

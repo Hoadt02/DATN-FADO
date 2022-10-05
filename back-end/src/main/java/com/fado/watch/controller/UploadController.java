@@ -11,6 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.websocket.server.PathParam;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -20,12 +24,20 @@ public class UploadController {
     IUploadService service;
 
     @PostMapping("/{folder}")
-    public JsonNode upload(@PathParam("file") MultipartFile file, @PathVariable("folder") String folder) {
+    public Map upload(@RequestParam("file") MultipartFile file, @PathVariable("folder") String folder) {
         File saveFile = service.upload(file, folder);
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectNode node = mapper.createObjectNode();
-        node.put("name", saveFile.getName());
-        node.put("size", saveFile.length());
-        return node;
+        Map<String, String> map = new HashMap<>();
+        map.put("name",saveFile.getName());
+        return map;
+    }
+
+    @PostMapping("/detail/{folder}")
+    public List<String> uploadImages(@RequestParam("file") MultipartFile[] files, @PathVariable("folder") String folder) {
+        List<String> list = new ArrayList<>();
+        for (MultipartFile file: files) {
+            File saveFile = service.upload(file, folder);
+            list.add(saveFile.getName());
+        }
+        return list;
     }
 }

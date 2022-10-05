@@ -36,8 +36,7 @@ export class ProductListComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private dialogService: MatDialog,
               private service: ProductDetailsService,
-              private toastrService: ToastrService,
-              private apiService: ApiProductDetailService) {
+              private toastrService: ToastrService) {
   }
 
   getAll() {
@@ -86,7 +85,7 @@ export class ProductListComponent implements OnInit {
         data: {
           message: 'Bạn có muốn xóa bản ghi này?'
         }
-      }).afterClosed().subscribe( result => {
+      }).afterClosed().subscribe(  result => {
       if (result == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
         this.service.deleteProductDetail(data, id);
       }

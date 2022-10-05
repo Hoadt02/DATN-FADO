@@ -12,6 +12,7 @@ public class test {
 //            System.out.println(number.toString().substring(0,15));
 //        }
 //        System.out.println(LocalDate.now());
-        System.out.println(System.getProperty("user.dir"));
+        String pathSystem = System.getProperty("user.dir");
+        System.out.println(pathSystem.substring(0,pathSystem.length() - 8));
     }
 }
