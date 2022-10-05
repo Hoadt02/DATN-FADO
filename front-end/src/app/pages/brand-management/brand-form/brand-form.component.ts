@@ -59,6 +59,10 @@ export class BrandFormComponent implements OnInit {
         },
         error: (error) => {
           console.log(error);
+          if (error.error.code == 'UNIQUE') {
+            this.toastrService.warning(error.error.message);
+            return;
+          }
           this.toastrService.error('Thêm mới thương hiệu thất bại !');
         }
       });
@@ -71,6 +75,10 @@ export class BrandFormComponent implements OnInit {
         },
         error: (error) => {
           console.log(error);
+          if (error.error.code == 'UNIQUE') {
+            this.toastrService.warning(error.error.message);
+            return;
+          }
           this.toastrService.error('Câp nhật thương hiệu thất bại !');
         }
       });
