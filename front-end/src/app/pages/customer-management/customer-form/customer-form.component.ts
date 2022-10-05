@@ -3,7 +3,7 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {CustomerService} from '../../../shared/services/api-service-impl/customer.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Constants} from '../../../shared/Constants';
-import {Regex} from '../../../shared/validator/regex';
+import {Regex} from "../../../shared/validator/regex";
 
 @Component({
   selector: 'app-customer-form',
