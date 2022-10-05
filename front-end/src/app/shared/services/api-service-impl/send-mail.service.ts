@@ -1,19 +1,20 @@
 import {Injectable} from '@angular/core';
 import {ApiConstant} from "../../constants/api-constant";
 import {ToastrService} from "ngx-toastr";
+import {ApiSendMailService} from "../api-services/api-send-mail.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SendMailService {
 
-  constructor(private sendMailService: SendMailService,
+  constructor(private apiSendMailService: ApiSendMailService,
               private toastrService: ToastrService
   ) {
   }
 
   senMail(data: any) {
-    return this.sendMailService.senMail(data).subscribe({
+    return this.apiSendMailService.senMail(data).subscribe({
       next: (rs: any) => {
         console.log(rs);
         this.toastrService.success('Gửi mail thành công!');
@@ -25,7 +26,7 @@ export class SendMailService {
   }
 
   sendMailWithAttachment(data: any) {
-    return this.sendMailService.sendMailWithAttachment(data).subscribe({
+    return this.apiSendMailService.sendMailWithAttachment(data).subscribe({
       next: (rs: any) => {
         console.log(rs);
         this.toastrService.success('Gửi mail thành công!');
