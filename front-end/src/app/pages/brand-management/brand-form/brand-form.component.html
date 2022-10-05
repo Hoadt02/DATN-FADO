@@ -15,6 +15,10 @@
           *ngIf="formGroup.get('name')?.hasError('required') && formGroup.get('name')?.touched">
           Vui lòng không bỏ trống tên thương hiệu
         </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('name')?.hasError('pattern') && formGroup.get('name')?.touched">
+          Vui lòng không chứa ký tự đặc biệt ở tên thương hiệu
+        </mat-error>
       </div>
 
       <mat-dialog-actions>
