@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Constants } from "../../../shared/Constants";
 import { checkSpace } from "../../../shared/validator/validatorForm";
-import { Regex } from "../../../shared/validator/regex";
+import {Regex} from "../../../shared/validator/regex";
 
 @Component({
   selector: "app-staff-form",
