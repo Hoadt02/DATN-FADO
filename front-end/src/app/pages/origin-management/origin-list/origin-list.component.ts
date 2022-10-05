@@ -8,6 +8,7 @@ import {MatSort} from "@angular/material/sort";
 import {MatDialog} from "@angular/material/dialog";
 import {OriginFormComponent} from "../origin-form/origin-form.component";
 import {OriginService} from "../../../shared/services/api-service-impl/origin.service";
+import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-customer-list',
@@ -18,12 +19,15 @@ export class OriginListComponent implements OnInit {
 
   isLoading = true;
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
+  readonly RESULT_CLOSE_DIALOG = Constants.RESULT_CLOSE_DIALOG;
+  title : string;
+  message : string;
 
   ngOnInit(): void {
     this.getAll();
   }
 
-  displayedColumns: string[] = ['index','name', 'thaoTac'];
+  displayedColumns: string[] = ['index','name', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -31,7 +35,9 @@ export class OriginListComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private dialogService: MatDialog,
+              private readonly apiOrigin : OriginService,
               private originService : OriginService,
+              private matDialog : MatDialog,
               ) {
   }
 
@@ -72,26 +78,35 @@ export class OriginListComponent implements OnInit {
     });
   }
 
-  openDelete(id: number) {
-    // this.dialogService.open(ConfirmDialogComponent,
-    //   {
-    //     width: '25vw',
-    //     data: {
-    //       message: 'Bạn có muốn xóa bản ghi này?'
-    //     }
-    //   }).afterClosed().subscribe(result => {
-    //   if (result === Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
-    //     this.service.deleteNhaXuatBan(id).subscribe({
-    //       next: () => {
-    //         this.getAll();
-    //         this.toastService.success('XÓA THÀNH CÔNG!');
-    //       },
-    //       error: (error) => {
-    //         console.log(error);
-    //         this.toastService.error('XÓA THẤT BẠI!');
-    //       }
-    //     })
-    //   }
-    // });
+  active(type: any, row: any) {
+    if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
+      this.title = 'Kích hoạt xuất xứ!';
+      this.message = 'Bạn có chắc chắn muốn kích hoạt xuất xứ này?'
+    } else {
+      this.title = 'Vô hiệu hoá xuất xứ!';
+      this.message = 'Bạn có chắc chắn muốn vô hiệu hoá xuất xứ này?'
+    }
+
+    const diaLogRef = this.matDialog.open(ConfirmDialogComponent, {
+      width: '500px',
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        title: this.title,
+        message: this.message,
+      }
+    });
+    diaLogRef.afterClosed().subscribe(rs => {
+      if (rs == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
+        if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
+          row.status = 1;
+          this.apiOrigin.update(row.id, row);
+        } else {
+          row.status = 0;
+          this.apiOrigin.update(row.id, row);
+        }
+      }
+    })
   }
+
 }
