@@ -3,6 +3,8 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Constants} from "../../../shared/Constants";
 import {OriginService} from "../../../shared/services/api-service-impl/origin.service";
+import {checkSpace} from '../../../shared/validator/validatorForm';
+import {Regex} from '../../../shared/validator/regex';
 
 @Component({
   selector: 'app-customer-form',
@@ -11,10 +13,12 @@ import {OriginService} from "../../../shared/services/api-service-impl/origin.se
 })
 export class OriginFormComponent implements OnInit {
 
+  title : string;
+
   formGroup = this.fb.group(
     {
       id : [''],
-      name:['', Validators.required]
+      name: ['', [checkSpace, Validators.pattern(Regex.name)]]
     }
   )
 
@@ -29,10 +33,19 @@ export class OriginFormComponent implements OnInit {
     if (this.dataDiaLog.row){
       this.formGroup.patchValue(this.dataDiaLog.row);
     }
+    this.setTitle();
   }
 
   onDismiss() {
       this.matDialogRef.close();
+  }
+
+  setTitle(){
+    if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW){
+      this.title = 'Thêm xuất xứ';
+    }else{
+      this.title = 'Sửa xuất xứ';
+    }
   }
 
   onSubmit() {

@@ -22,6 +22,7 @@ export class OriginService {
   }
 
   create(data : any){
+    data.name = data.name.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
     return this.apiOrigin.create(data).subscribe({
       next: (data : any) =>{
         console.log(data);
@@ -39,6 +40,7 @@ export class OriginService {
   }
 
   update(id:number,data : any){
+    data.name = data.name.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
     return this.apiOrigin.update(id,data).subscribe({
       next: (data : any) =>{
         console.log(data);
