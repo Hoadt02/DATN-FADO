@@ -3,7 +3,7 @@ import {StaffService} from '../../../shared/services/api-service-impl/staff.serv
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, Validators} from '@angular/forms';
 import {Constants} from '../../../shared/Constants';
-import {Regex} from "../../../shared/regexs/regex";
+import {Regex} from '../../../shared/regexs/regex';
 
 @Component({
   selector: 'app-staff-form',
@@ -12,7 +12,7 @@ import {Regex} from "../../../shared/regexs/regex";
 })
 export class StaffFormComponent implements OnInit {
 
-  isLoading: boolean = false;
+  isLoading = false;
   title: String;
 
   formGroup = this.fb.group({
