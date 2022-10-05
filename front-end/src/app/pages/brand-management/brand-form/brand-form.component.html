@@ -12,7 +12,7 @@
           <input type="text" matInput formControlName="name">
         </mat-form-field>
         <mat-error
-          *ngIf="formGroup.get('name')?.hasError('required') && formGroup.get('name')?.touched">
+          *ngIf="formGroup.get('name')?.hasError('isSpace') && formGroup.get('name')?.touched">
           Vui lòng không bỏ trống tên thương hiệu
         </mat-error>
         <mat-error
