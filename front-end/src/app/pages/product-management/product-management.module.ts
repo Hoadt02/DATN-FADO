@@ -15,8 +15,8 @@ import {MatRadioModule} from "@angular/material/radio";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatSelectModule} from "@angular/material/select";
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import {ProductFormComponent} from "./product-form/product-form.component";
 import {MatStepperModule} from "@angular/material/stepper";
+import {ProductFormComponent} from "./product-form/product-form.component";
 
 @NgModule({
   declarations: [
