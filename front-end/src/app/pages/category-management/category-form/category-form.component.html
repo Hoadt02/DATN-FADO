@@ -10,8 +10,12 @@
         <mat-label>Tên danh mục</mat-label>
         <input type="text" matInput formControlName="name">
         <mat-error
-          *ngIf="formGroup.get('name')?.hasError('required') && formGroup.get('name')?.touched">
+          *ngIf="formGroup.get('name')?.hasError('isSpace') && formGroup.get('name')?.touched">
           Vui lòng không bỏ trống tên danh mục
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('name')?.hasError('pattern') && formGroup.get('name')?.touched">
+          Vui lòng không chứa ký tự đặc biệt ở tên danh mục
         </mat-error>
       </mat-form-field>
 

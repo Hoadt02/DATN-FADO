@@ -12,11 +12,15 @@
 
         <mat-form-field class="w-100" appearance="outline" class="col-6">
           <mat-label>Tên chất liệu</mat-label>
-          <input type="text" matInput formControlName="name">
+          <input type="text" matInput formControlName="name" id="exampleInputFirstname1" required maxlength="60">
         </mat-form-field>
         <mat-error
-          *ngIf="formGroup.get('name')?.hasError('required') &&
-            formGroup.get('name')?.touched">Bạn phải nhập tên chất liệu
+          *ngIf="formGroup.get('name')?.hasError('isSpace') &&
+            formGroup.get('name')?.touched">Tên chất liệu đang bị trống
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('name')?.hasError('pattern') &&
+            formGroup.get('name')?.touched">Tên chất liệu đang bị sai cú pháp
         </mat-error>
       </div>
 

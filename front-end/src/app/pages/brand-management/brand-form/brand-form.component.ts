@@ -4,6 +4,8 @@ import {ToastrService} from 'ngx-toastr';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {BrandService} from '../../../shared/services/api-service-impl/brand.service';
 import {Constants} from '../../../shared/Constants';
+import {checkSpace} from '../../../shared/validator/validatorForm';
+import {Regex} from '../../../shared/validator/regex';
 
 @Component({
   selector: 'app-brand-form',
@@ -16,7 +18,7 @@ export class BrandFormComponent implements OnInit {
 
   formGroup: FormGroup = this.fb.group({
     id: '',
-    name: ['', Validators.required],
+    name: ['', [checkSpace, Validators.pattern(Regex.name)]],
   })
 
   constructor(private fb: FormBuilder,

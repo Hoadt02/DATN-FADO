@@ -74,6 +74,10 @@
               *ngIf="formGroup.get('password')?.hasError('required') &&
             formGroup.get('password')?.touched">Bạn phải nhập mật khẩu
             </mat-error>
+            <mat-error
+              *ngIf="formGroup.get('password')?.hasError('pattern') &&
+            formGroup.get('password')?.touched">Mật khẩu không được viết dấu và không chứa khoảng trắng
+            </mat-error>
           </mat-form-field>
         </div>
 
