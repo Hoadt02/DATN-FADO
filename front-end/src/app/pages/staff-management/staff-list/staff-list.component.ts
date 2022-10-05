@@ -28,8 +28,8 @@ export class StaffListComponent implements OnInit {
       'stt', 'fullName',
       'dateOfBirth', 'image', 'username',
       'email', 'phoneNumber', 'gender',
-      'address',
-      //'status', 'role',
+      'address', 'status',
+      // 'role',
       'action'
     ];
   dataSource!: MatTableDataSource<any>;

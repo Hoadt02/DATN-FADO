@@ -36,7 +36,7 @@ export class CustomerService {
     })
   }
 
-  update(data: any, id: number) {
+  update(id: number, data: any) {
     return this.apiCustomer.update(id, data).subscribe({
       // tslint:disable-next-line:no-shadowed-variable
       next: (data: any) => {
@@ -50,7 +50,7 @@ export class CustomerService {
           this.toastrService.warning(err.error.message);
           return;
         }
-        this.toastrService.error('Sửa khách  thất bại!');
+        this.toastrService.error('Sửa khách hàng thất bại!');
       }
     })
   }

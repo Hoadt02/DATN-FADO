@@ -20,7 +20,15 @@ export class StaffService {
     return this.apiStaff.getAll();
   }
 
+  dataReplace(data: any) {
+    data.firstname = data.firstname.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+    data.lastname = data.lastname.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+    data.address = data.address.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+    data.email = data.email.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+  }
+
   create(data: any) {
+    this.dataReplace(data);
     return this.apiStaff.create(data).subscribe({
       next: (data: any) => {
         console.log(data);
@@ -38,6 +46,7 @@ export class StaffService {
   }
 
   update(id: number, data: any) {
+    this.dataReplace(data);
     return this.apiStaff.update(id, data).subscribe({
       next: (data: any) => {
         console.log(data);

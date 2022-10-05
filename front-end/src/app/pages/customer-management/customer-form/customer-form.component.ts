@@ -3,7 +3,7 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {CustomerService} from '../../../shared/services/api-service-impl/customer.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Constants} from '../../../shared/Constants';
-import {Regex} from '../../../shared/regexs/regex';
+import {Regex} from "../../../shared/validator/regex";
 
 @Component({
   selector: 'app-customer-form',
@@ -12,7 +12,6 @@ import {Regex} from '../../../shared/regexs/regex';
 })
 export class CustomerFormComponent implements OnInit {
   title: string;
-  isLoading = true;
 
   formGroup = this.fb.group({
     id: [''],
@@ -28,9 +27,10 @@ export class CustomerFormComponent implements OnInit {
       Validators.pattern(Regex.email)]],
     phoneNumber: ['', [Validators.required, Validators.pattern(Regex.phoneNumber)]],
     gender: [1],
-    address: ['', Validators.required],
     status: [1],
-    role: this.fb.group({id: [4]}),
+    role: this.fb.group({
+      id: [4]
+    }),
   })
 
 
@@ -46,9 +46,10 @@ export class CustomerFormComponent implements OnInit {
   setTitleForm() {
     // tslint:disable-next-line:triple-equals
     if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
-      this.title = 'Thêm mới khach hang';
+      this.title = 'Thêm mới khách hàng';
     } else {
-      this.title = 'Chỉnh sửa khach hang';
+      this.title = 'Chỉnh sửa khách hàng';
+      this.formGroup.patchValue(this.dataDiaLog.row)
     }
   }
   onDismiss() {

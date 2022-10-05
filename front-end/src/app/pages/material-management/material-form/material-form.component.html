@@ -5,15 +5,19 @@
 
 <div class="row">
   <mat-dialog-content>
-    <form class="example-form">
+    <form class="example-form" [formGroup]="formGroup" >
 
       <div class="row">
 
 
         <mat-form-field class="w-100" appearance="outline" class="col-6">
           <mat-label>Tên chất liệu</mat-label>
-          <input type="text" matInput placeholder="...">
+          <input type="text" matInput formControlName="name">
         </mat-form-field>
+        <mat-error
+          *ngIf="formGroup.get('name')?.hasError('required') &&
+            formGroup.get('name')?.touched">Bạn phải nhập tên chất liệu
+        </mat-error>
       </div>
 
       <mat-dialog-actions>

@@ -1,12 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder} from "@angular/forms";
-import {ToastrService} from "ngx-toastr";
-import {Constants} from "../../../shared/Constants";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {MatDialog} from "@angular/material/dialog";
-import {MaterialFormComponent} from "../material-form/material-form.component";
+import {FormBuilder} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {Constants} from '../../../shared/Constants';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatDialog} from '@angular/material/dialog';
+import {MaterialFormComponent} from '../material-form/material-form.component';
+import {MaterialService} from '../../../shared/services/api-service-impl/material.service';
 
 @Component({
   selector: 'app-customer-list',
@@ -17,32 +18,36 @@ export class MaterialListComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
 
-  ngOnInit(): void {
-    this.getAll();
-  }
-
-  displayedColumns: string[] = ['index','name', 'thaoTac'];
+  displayedColumns: string[] = ['index', 'name', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
+  isLoading = true;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  ngOnInit(): void {
+    this.getAll();
+  }
+
+
   constructor(private fb: FormBuilder,
               private dialogService: MatDialog,
-              private toastService: ToastrService) {
+              private toastService: ToastrService,
+              private materialservice: MaterialService) {
   }
 
   getAll() {
-    // this.service.getAllNhaXuatBan().subscribe({
-    //   next: (data: any) => {
-    //     this.dataSource = new MatTableDataSource(data);
-    //     this.dataSource.paginator = this.paginator;
-    //     this.dataSource.sort = this.sort;
-    //   },
-    //   error: (error) => {
-    //     console.log(error);
-    //   }
-    // });
+    this.materialservice.getAll().subscribe({
+      next: (data: any) => {
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
   applyFilter(event: Event) {
@@ -57,7 +62,7 @@ export class MaterialListComponent implements OnInit {
   openDiaLog(type: string, row?: any) {
     this.dialogService.open(MaterialFormComponent,
       {
-        width: "900px",
+        width: '900px',
         data: {type, row}
       }).afterClosed().subscribe(result => {
       if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
@@ -66,26 +71,15 @@ export class MaterialListComponent implements OnInit {
     });
   }
 
-  openDelete(id: number) {
-    // this.dialogService.open(ConfirmDialogComponent,
-    //   {
-    //     width: '25vw',
-    //     data: {
-    //       message: 'Bạn có muốn xóa bản ghi này?'
-    //     }
-    //   }).afterClosed().subscribe(result => {
-    //   if (result === Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
-    //     this.service.deleteNhaXuatBan(id).subscribe({
-    //       next: () => {
-    //         this.getAll();
-    //         this.toastService.success('XÓA THÀNH CÔNG!');
-    //       },
-    //       error: (error) => {
-    //         console.log(error);
-    //         this.toastService.error('XÓA THẤT BẠI!');
-    //       }
-    //     })
-    //   }
-    // });
+  openDialog(type: string, row?: any) {
+    this.dialogService.open(MaterialFormComponent,
+      {
+        width: '900px',
+        data: {type, row}
+      }).afterClosed().subscribe(result => {
+      if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
+        this.getAll();
+      };
+    });
   }
 }
