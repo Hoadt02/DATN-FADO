@@ -1,9 +1,9 @@
-import { Component, Inject, OnInit } from "@angular/core";
-import { StaffService } from "../../../shared/services/api-service-impl/staff.service";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { FormBuilder, Validators } from "@angular/forms";
-import { Constants } from "../../../shared/Constants";
-import { checkSpace } from "../../../shared/validator/validatorForm";
+import {Component, Inject, OnInit} from "@angular/core";
+import {StaffService} from "../../../shared/services/api-service-impl/staff.service";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {FormBuilder, Validators} from "@angular/forms";
+import {Constants} from "../../../shared/Constants";
+import {checkSpace} from "../../../shared/validator/validatorForm";
 import {Regex} from "../../../shared/validator/regex";
 
 @Component({
@@ -15,6 +15,7 @@ export class StaffFormComponent implements OnInit {
   isLoading = false;
   title: String;
   hide = true;
+  hidePassword = true;
 
   formGroup = this.fb.group({
     id: [""],
@@ -52,7 +53,8 @@ export class StaffFormComponent implements OnInit {
     private staffService: StaffService,
     private matDialogRef: MatDialogRef<StaffFormComponent>,
     @Inject(MAT_DIALOG_DATA) private dataDiaLog?: any
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.setTitleForm();
@@ -63,6 +65,7 @@ export class StaffFormComponent implements OnInit {
       this.title = "Thêm mới nhân viên";
     } else {
       this.title = "Chỉnh sửa nhân viên";
+      this.hidePassword = false;
       if (this.dataDiaLog.row) {
         this.formGroup.patchValue(this.dataDiaLog.row);
       }
