@@ -18,7 +18,7 @@ export class CategoryFormComponent implements OnInit {
 
   formGroup: FormGroup = this.fb.group({
     id: '',
-    name: ['', [Validators.required, checkSpace, Validators.pattern(Regex.name)]],
+    name: ['', [checkSpace, Validators.pattern(Regex.name)]],
     status: [1]
   })
 
