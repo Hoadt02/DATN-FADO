@@ -2,6 +2,7 @@ package com.fado.watch.service.impl;
 
 import com.fado.watch.entity.Category;
 
+import com.fado.watch.exception.UniqueException;
 import com.fado.watch.repository.CategoryRepository;
 import com.fado.watch.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,17 @@ public class CategoryServiceImpl implements ICategoryService {
 
     @Override
     public Category create(Category category) {
+        if (this.categoryRepository.findByName(category.getName()).isPresent()) {
+            throw new UniqueException("Tên danh mục này đã tồn tại !");
+        }
         return categoryRepository.save(category);
     }
 
     @Override
     public Category update(Category category) {
+        if (this.categoryRepository.findByName(category.getName()).isPresent()) {
+            throw new UniqueException("Tên danh mục này đã tồn tại !");
+        }
         return categoryRepository.save(category);
     }
 }

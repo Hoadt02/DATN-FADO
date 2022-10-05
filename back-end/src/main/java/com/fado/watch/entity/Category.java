@@ -33,7 +33,7 @@ public class Category implements Serializable {
     @Column(unique=true, nullable=false, precision=10)
     private Integer id;
     
-    @Column(nullable=false, length=255)
+    @Column(nullable=false, length= 255, unique = true)
     private String name;
     
     @Column(precision=10)

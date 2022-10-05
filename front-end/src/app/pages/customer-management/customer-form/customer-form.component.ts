@@ -20,7 +20,7 @@ export class CustomerFormComponent implements OnInit {
     lastname: ['', [Validators.required,
       Validators.pattern(Regex.name)]],
     dateOfBirth: [new Date(), Validators.required],
-    image: [''],
+    image: ['https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png'],
     username: ['', [Validators.required, Validators.pattern(Regex.username)]],
     password: ['', Validators.required],
     email: ['', [Validators.required,
@@ -46,9 +46,9 @@ export class CustomerFormComponent implements OnInit {
   setTitleForm() {
     // tslint:disable-next-line:triple-equals
     if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
-      this.title = 'Thêm mới khach hang';
+      this.title = 'Thêm mới khách hàng';
     } else {
-      this.title = 'Chỉnh sửa khach hang';
+      this.title = 'Chỉnh sửa khách hàng';
       this.formGroup.patchValue(this.dataDiaLog.row)
     }
   }

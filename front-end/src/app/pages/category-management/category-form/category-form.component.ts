@@ -61,6 +61,10 @@ export class CategoryFormComponent implements OnInit {
         // tslint:disable-next-line:no-shadowed-variable
         error: (error) => {
           console.log(error);
+          if (error.error.code == 'UNIQUE') {
+            this.toastrService.warning(error.error.message);
+            return;
+          }
           this.toastrService.error('Thêm mới danh mục thất bại !');
         }
       });
@@ -74,6 +78,10 @@ export class CategoryFormComponent implements OnInit {
         // tslint:disable-next-line:no-shadowed-variable
         error: (error) => {
           console.log(error);
+          if (error.error.code == 'UNIQUE') {
+            this.toastrService.warning(error.error.message);
+            return;
+          }
           this.toastrService.error('Cập nhật danh mục thất bại!');
         }
       });
