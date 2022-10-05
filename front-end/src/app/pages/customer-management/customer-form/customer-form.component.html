@@ -11,48 +11,38 @@
 
         <div class="col">
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>First Name</mat-label>
+            <mat-label>Họ</mat-label>
             <input formControlName="firstname" type="text"
                    id="exampleInputFirstname1" required maxlength="50"
                    matInput>
             <mat-error
               *ngIf="formGroup.get('firstname')?.hasError('required') &&
-            formGroup.get('firstname')?.touched">Bạn phải nhập firstname
+            formGroup.get('firstname')?.touched">Bạn phải nhập họ
             </mat-error>
             <mat-error
               *ngIf="formGroup.get('firstname')?.hasError('pattern') &&
-            formGroup.get('firstname')?.touched">Firstname chứa số và ký tự đặc biệt
+            formGroup.get('firstname')?.touched">Họ chứa số và ký tự đặc biệt
             </mat-error>
           </mat-form-field>
         </div>
 
         <div class="col">
           <mat-form-field class="w-100" appearance="outline">
-            <mat-label>Last Name</mat-label>
+            <mat-label>Tên</mat-label>
             <input formControlName="lastname" type="text"
                    id="exampleInputLastname1" required maxlength="50"
                    matInput>
             <mat-error
               *ngIf="formGroup.get('lastname')?.hasError('required') &&
-            formGroup.get('lastname')?.touched">Bạn phải nhập last name
+            formGroup.get('lastname')?.touched">Bạn phải nhập tên
             </mat-error>
             <mat-error
               *ngIf="formGroup.get('lastname')?.hasError('pattern') &&
-            formGroup.get('lastname')?.touched">Last Name chứa số và ký tự đặc biệt
+            formGroup.get('lastname')?.touched">Tên chứa số và ký tự đặc biệt
             </mat-error>
           </mat-form-field>
         </div>
 
-        <div class="col-md-4">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Ngày sinh</mat-label>
-            <input matInput formControlName="dateOfBirth" type="datetime-local" class="w-100">
-            <mat-error
-              *ngIf="formGroup.get('dateOfBirth')?.hasError('required') &&
-          formGroup.get('dateOfBirth')?.touched">Bạn phải chọn ngày sinh
-            </mat-error>
-          </mat-form-field>
-        </div>
       </div>
 
       <div class="row">
@@ -134,7 +124,8 @@
           <div class="col">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Ngày sinh</mat-label>
-              <input matInput formControlName="dateOfBirth" type="datetime-local" class="w-100">
+              <input matInput formControlName="dateOfBirth" type="datetime-local" class="w-100" >
+              <mat-hint>DD/MM/YYYY</mat-hint>
               <mat-error
                 *ngIf="formGroup.get('dateOfBirth')?.hasError('required') &&
           formGroup.get('dateOfBirth')?.touched">Bạn phải chọn ngày sinh

@@ -21,7 +21,7 @@ export class CustomerListComponent implements OnInit {
   isLoading = true;
   title: string
   message: string
-  displayedColumns: string[] = ['index', 'avatar', 'firstname', 'lastname', 'username', 'password', 'email', 'dateOfBirth', 'phoneNumber', 'gender', 'status', 'thaoTac'];
+  displayedColumns: string[] = ['index', 'image', 'firstname', 'lastname', 'username', 'password', 'email', 'dateOfBirth', 'phoneNumber', 'gender', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
