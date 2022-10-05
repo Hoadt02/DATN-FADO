@@ -5,6 +5,8 @@ import {BrandService} from '../../../shared/services/api-service-impl/brand.serv
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Constants} from '../../../shared/Constants';
 import {MaterialService} from '../../../shared/services/api-service-impl/material.service';
+import {checkSpace} from '../../../shared/validator/validatorForm';
+import {Regex} from '../../../shared/validator/regex';
 
 @Component({
   selector: 'app-customer-form',
@@ -17,7 +19,7 @@ export class MaterialFormComponent implements OnInit {
 
   formGroup: FormGroup = this.fb.group({
     id: '',
-    name: ['', Validators.required],
+    name: ['', [checkSpace, Validators.pattern(Regex.name)]],
   })
   constructor(private fb: FormBuilder,
               private toastrService: ToastrService,

@@ -3,7 +3,8 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {CustomerService} from '../../../shared/services/api-service-impl/customer.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Constants} from '../../../shared/Constants';
-import {Regex} from "../../../shared/validator/regex";
+import {Regex} from '../../../shared/validator/regex';
+import {checkSpace} from '../../../shared/validator/validatorForm';
 
 @Component({
   selector: 'app-customer-form',
@@ -15,14 +16,14 @@ export class CustomerFormComponent implements OnInit {
 
   formGroup = this.fb.group({
     id: [''],
-    firstname: ['', [Validators.required,
+    firstname: ['', [checkSpace,
       Validators.pattern(Regex.name)]],
-    lastname: ['', [Validators.required,
+    lastname: ['', [checkSpace,
       Validators.pattern(Regex.name)]],
     dateOfBirth: [new Date(), Validators.required],
     image: ['https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png'],
     username: ['', [Validators.required, Validators.pattern(Regex.username)]],
-    password: ['', Validators.required],
+    password: ['', Validators.required, Validators.pattern(Regex.password)],
     email: ['', [Validators.required,
       Validators.pattern(Regex.email)]],
     phoneNumber: ['', [Validators.required, Validators.pattern(Regex.phoneNumber)]],
