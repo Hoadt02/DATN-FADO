@@ -35,6 +35,9 @@ public class Origin implements Serializable {
     
     @Column(nullable=false, length=50)
     private String name;
+
+    @Column(nullable=false)
+    private boolean status;
     
     @OneToMany(mappedBy="origin")
     @JsonIgnore
