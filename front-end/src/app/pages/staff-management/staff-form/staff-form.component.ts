@@ -12,6 +12,7 @@ import {Regex} from "../../../shared/validator/regex";
   styleUrls: ["./staff-form.component.scss"],
 })
 export class StaffFormComponent implements OnInit {
+  
   isLoading = false;
   title: String;
   hide = true;
