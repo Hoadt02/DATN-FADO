@@ -14,13 +14,13 @@ import java.util.Date;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(UniqueException.class)
-    public ResponseEntity<?> UniqueExceptionHandler(UniqueException exception) {
+    public ResponseEntity<?> uniqueExceptionHandler(UniqueException exception) {
         ErrorMessage errorMessage = new ErrorMessage("UNIQUE", exception.getMessage(), new Date());
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> ResourceNotFoundExceptionHandler(ResourceNotFoundException exception){
+    public ResponseEntity<?> resourceNotFoundExceptionHandler(ResourceNotFoundException exception){
         ErrorMessage errorMessage = new ErrorMessage("NOT_FOUND", exception.getMessage(), new Date());
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }

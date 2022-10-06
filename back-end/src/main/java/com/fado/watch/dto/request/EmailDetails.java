@@ -1,4 +1,4 @@
-package com.fado.watch.dto;
+package com.fado.watch.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
