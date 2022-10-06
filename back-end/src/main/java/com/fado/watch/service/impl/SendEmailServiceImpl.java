@@ -4,7 +4,7 @@ import java.io.File;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import com.fado.watch.dto.EmailDetails;
+import com.fado.watch.dto.request.EmailDetails;
 import com.fado.watch.service.SendEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

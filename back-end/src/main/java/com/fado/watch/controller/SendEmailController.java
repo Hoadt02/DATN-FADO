@@ -1,7 +1,7 @@
 package com.fado.watch.controller;
 
 
-import com.fado.watch.dto.EmailDetails;
+import com.fado.watch.dto.request.EmailDetails;
 import com.fado.watch.service.SendEmailService;
 import org.springframework.web.bind.annotation.*;
 
