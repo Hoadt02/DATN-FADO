@@ -13,19 +13,25 @@ import {checkSpace} from '../../../shared/validator/validatorForm';
 })
 export class CustomerFormComponent implements OnInit {
   title: string;
+  isLoading = false;
 
   formGroup = this.fb.group({
     id: [''],
-    firstname: ['', [checkSpace,
-      Validators.pattern(Regex.name)]],
-    lastname: ['', [checkSpace,
-      Validators.pattern(Regex.name)]],
+    firstname: ['', [checkSpace, Validators.pattern(Regex.name)]],
+    lastname: ['', [checkSpace,  Validators.pattern(Regex.name)]],
     dateOfBirth: [new Date(), Validators.required],
     image: ['https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png'],
     username: ['', [Validators.required, Validators.pattern(Regex.username)]],
-    password: ['', Validators.required, Validators.pattern(Regex.password)],
-    email: ['', [Validators.required,
-      Validators.pattern(Regex.email)]],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(24),
+        Validators.pattern(Regex.password),
+      ],
+    ],
+    email: ['', [Validators.required, Validators.pattern(Regex.email)]],
     phoneNumber: ['', [Validators.required, Validators.pattern(Regex.phoneNumber)]],
     gender: [1],
     status: [1],
@@ -38,7 +44,8 @@ export class CustomerFormComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private customerService: CustomerService,
               private matDialogRef: MatDialogRef<CustomerFormComponent>,
-              @Inject(MAT_DIALOG_DATA) private dataDiaLog?: any) { }
+              @Inject(MAT_DIALOG_DATA) private dataDiaLog?: any) {
+  }
 
   ngOnInit(): void {
     this.setTitleForm();
@@ -53,6 +60,7 @@ export class CustomerFormComponent implements OnInit {
       this.formGroup.patchValue(this.dataDiaLog.row)
     }
   }
+
   onDismiss() {
     this.matDialogRef.close();
   }

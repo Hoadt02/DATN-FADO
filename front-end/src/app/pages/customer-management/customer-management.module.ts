@@ -11,10 +11,14 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSortModule} from '@angular/material/sort';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -26,16 +30,21 @@ import {MatSelectModule} from '@angular/material/select';
     CommonModule,
     CustomerManagementRoutingModule,
     MatFormFieldModule,
-    MatPaginatorModule,
-    MatTableModule,
-    MatInputModule,
-    MatSortModule,
     MatButtonModule,
     MatDialogModule,
+    MatInputModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
     ReactiveFormsModule,
-    MatRadioModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    FormsModule,
+    MatSlideToggleModule,
+    MatIconModule,
   ],
   entryComponents: [CustomerFormComponent]
 })
