@@ -23,6 +23,10 @@ export class ApiStaffService {
     return this.http.get(ApiConstant.staff, httpOptions);
   }
 
+  findById(id: number) {
+    return this.http.get(`${ApiConstant.staff}/${id}`, httpOptions);
+  }
+
   create(data: any) {
     return this.http.post(ApiConstant.staff, data, httpOptions);
   }

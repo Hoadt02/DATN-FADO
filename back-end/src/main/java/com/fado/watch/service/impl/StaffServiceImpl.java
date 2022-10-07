@@ -1,11 +1,13 @@
 package com.fado.watch.service.impl;
 
 import com.fado.watch.entity.Staff;
+import com.fado.watch.exception.ResourceNotFoundException;
 import com.fado.watch.exception.UniqueException;
 import com.fado.watch.repository.StaffRepository;
 import com.fado.watch.service.IStaffService;
 import org.springframework.stereotype.Service;
 
+import java.rmi.NotBoundException;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,7 +27,8 @@ public class StaffServiceImpl implements IStaffService {
 
     @Override
     public Staff findById(Integer id) {
-        return this.staffRepository.findById(id).get();
+        return this.staffRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Không tìm thấy nhân viên"));
     }
 
     @Override
@@ -50,16 +53,13 @@ public class StaffServiceImpl implements IStaffService {
         System.out.println("email cũ:" + staffBefore.getEmail());
         System.out.println("email mới:" + staff.getEmail());
 
-        if (this.staffRepository.findByUsername(staff.getUsername()).isPresent()
-                && !Objects.equals(staff.getUsername(), staffBefore.getUsername())) {
+        if (this.staffRepository.findByUsername(staff.getUsername()).isPresent() && !Objects.equals(staff.getUsername(), staffBefore.getUsername())) {
             throw new UniqueException("Username đã tồn tại ở tài khoản khác");
         }
-        if (this.staffRepository.findByPhoneNumber(staff.getPhoneNumber()).isPresent()
-                && !Objects.equals(staff.getPhoneNumber(), staffBefore.getPhoneNumber())) {
+        if (this.staffRepository.findByPhoneNumber(staff.getPhoneNumber()).isPresent() && !Objects.equals(staff.getPhoneNumber(), staffBefore.getPhoneNumber())) {
             throw new UniqueException("Số điện thoại đã tồn tại ở tài khoản khác");
         }
-        if (this.staffRepository.findByEmail(staff.getEmail()).isPresent()
-                && !Objects.equals(staff.getEmail(), staffBefore.getEmail())) {
+        if (this.staffRepository.findByEmail(staff.getEmail()).isPresent() && !Objects.equals(staff.getEmail(), staffBefore.getEmail())) {
             throw new UniqueException("Email đã tồn tại ở tài khoản khác");
         }
         return this.staffRepository.save(staff);
