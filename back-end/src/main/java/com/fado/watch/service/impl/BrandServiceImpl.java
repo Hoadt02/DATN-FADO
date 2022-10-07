@@ -34,9 +34,6 @@ public class BrandServiceImpl implements IBrandService {
 
     @Override
     public Brand update(Brand brand) {
-        if (this.brandRepository.findByName(brand.getName()).isPresent()) {
-            throw new UniqueException("Tên thương hiệu này đã tồn tại !");
-        }
         return brandRepository.save(brand);
     }
 }

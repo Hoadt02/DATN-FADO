@@ -5,9 +5,10 @@ import {Constants} from '../../../shared/Constants';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {BrandFormComponent} from '../brand-form/brand-form.component';
 import {BrandService} from '../../../shared/services/api-service-impl/brand.service';
+import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-brand-list',
@@ -18,7 +19,7 @@ export class BrandListComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
 
-  displayedColumns: string[] = ['index', 'name', 'thaoTac'];
+  displayedColumns: string[] = ['index', 'name', 'status' , 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
   isLoading = true;
 
@@ -68,6 +69,25 @@ export class BrandListComponent implements OnInit {
       if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
         this.getAll();
       };
+    });
+  }
+
+  onDelete(row: any) {
+    this.dialogService.open(ConfirmDialogComponent,
+      {
+        width: '25vw',
+        data: {
+          message: 'Bạn có muốn xóa thương hiệu này?'
+        }
+      }).afterClosed().subscribe(  result => {
+      if (result == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
+        row.status = 0;
+        this.brandService.update(row).subscribe({
+          next: () => {
+            this.toastService.success('Xóa thương hiệu thành công');
+          }
+        });
+      }
     });
   }
 

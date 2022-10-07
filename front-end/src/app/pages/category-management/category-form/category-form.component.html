@@ -17,6 +17,10 @@
           *ngIf="formGroup.get('name')?.hasError('pattern') && formGroup.get('name')?.touched">
           Vui lòng không chứa ký tự đặc biệt ở tên danh mục
         </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('name')?.hasError('maxlength') && formGroup.get('name')?.touched">
+          Vui lòng không nhập quá 255 ký tự
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="col-6">

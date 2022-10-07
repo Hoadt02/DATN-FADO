@@ -19,6 +19,7 @@ export class BrandFormComponent implements OnInit {
   formGroup: FormGroup = this.fb.group({
     id: '',
     name: ['', [checkSpace, Validators.pattern(Regex.name)]],
+    status: [1]
   })
 
   constructor(private fb: FormBuilder,
@@ -77,10 +78,6 @@ export class BrandFormComponent implements OnInit {
         },
         error: (error) => {
           console.log(error);
-          if (error.error.code == 'UNIQUE') {
-            this.toastrService.warning(error.error.message);
-            return;
-          }
           this.toastrService.error('Câp nhật thương hiệu thất bại !');
         }
       });
