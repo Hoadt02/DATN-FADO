@@ -1,0 +1,41 @@
+<h2>Chi tiết nhân viên</h2>
+<div class="row">
+  <div class="col-3">
+    <img src="{{staff.image}}" alt="image-staff">
+  </div>
+  <div class="col-9">
+    <div class="row">
+      <div class="col-6">
+        <h4>Họ và Tên:</h4>
+
+        <span>{{staff.lastname}} {{staff.firstname}}</span>
+
+        <h4>Ngày sinh:</h4>
+        <span>{{staff.dateOfBirth}}</span>
+
+        <h4>Giới tính:</h4>
+        <span>{{staff.gender}}</span>
+
+        <h4>Tài khoản:</h4>
+        <span>{{staff.username}}</span>
+
+      </div>
+      <div class="col-6">
+
+        <h4>Số điện thoại:</h4>
+        <span>{{staff.phoneNumber}}</span>
+
+        <h4>Email:</h4>
+        <span>{{staff.email}}</span>
+
+        <h4>Địa chỉ:</h4>
+        <span>{{staff.address}}</span>
+
+        <h4>Trạng thái:</h4>
+        <span>{{staff.status}}</span>
+
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-outline-success" (click)="close();">Close</button>
+</div>

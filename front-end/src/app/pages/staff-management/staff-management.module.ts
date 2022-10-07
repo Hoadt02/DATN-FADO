@@ -20,12 +20,14 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatIconModule} from "@angular/material/icon";
+import { StaffDetailComponent } from './staff-detail/staff-detail.component';
 
 
 @NgModule({
   declarations: [
     StaffListComponent,
-    StaffFormComponent
+    StaffFormComponent,
+    StaffDetailComponent
   ],
     imports: [
         CommonModule,

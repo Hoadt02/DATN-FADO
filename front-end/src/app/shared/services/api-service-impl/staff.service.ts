@@ -20,6 +20,19 @@ export class StaffService {
     return this.apiStaff.getAll();
   }
 
+  findById(id: number) {
+    return this.apiStaff.findById(id).subscribe({
+      next: (data: any) => {
+        console.log(data);
+      }, error: err => {
+        if (err.error.code == 'NOT_FOUND') {
+          this.toastrService.warning(err.error.message);
+        }
+        console.log(err);
+      }
+    })
+  }
+
   dataReplace(data: any) {
     data.firstname = data.firstname.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
     data.lastname = data.lastname.replace(/^\s+|\s+$|\s+(?=\s)/g, "");

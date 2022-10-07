@@ -8,6 +8,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {StaffFormComponent} from '../staff-form/staff-form.component';
 import {Constants} from '../../../shared/Constants';
 import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dialog.component';
+import {StaffDetailComponent} from "../staff-detail/staff-detail.component";
 
 @Component({
   selector: 'app-staff-list',
@@ -112,6 +113,17 @@ export class StaffListComponent implements OnInit {
           row.status = 0;
           this.apiStaff.update(row.id, row);
         }
+      }
+    })
+  }
+
+  detail(row) {
+    this.matDialog.open(StaffDetailComponent, {
+      width: '700px',
+      hasBackdrop: true,
+      disableClose: true,
+      data: {
+        row
       }
     })
   }
