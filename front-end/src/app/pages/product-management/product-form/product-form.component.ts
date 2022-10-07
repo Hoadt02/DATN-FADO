@@ -1,17 +1,17 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Constants} from "../../../shared/Constants";
-import {BrandService} from "../../../shared/services/api-service-impl/brand.service";
-import {ProductService} from "../../../shared/services/api-service-impl/product.service";
-import {OriginService} from "../../../shared/services/api-service-impl/origin.service";
-import {MaterialService} from "../../../shared/services/api-service-impl/material.service";
-import {ProductDetailsService} from "../../../shared/services/api-service-impl/product-details.service";
-import {UploadImageService} from "../../../shared/services/api-service-impl/upload-image.service";
-import {ToastrService} from "ngx-toastr";
-import {ImageService} from "../../../shared/services/api-service-impl/image.service";
-import {checkSpace} from "../../../shared/validator/validatorForm";
-import {Regex} from "../../../shared/validator/regex";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Constants} from '../../../shared/Constants';
+import {BrandService} from '../../../shared/services/api-service-impl/brand.service';
+import {ProductService} from '../../../shared/services/api-service-impl/product.service';
+import {OriginService} from '../../../shared/services/api-service-impl/origin.service';
+import {MaterialService} from '../../../shared/services/api-service-impl/material.service';
+import {ProductDetailsService} from '../../../shared/services/api-service-impl/product-details.service';
+import {UploadImageService} from '../../../shared/services/api-service-impl/upload-image.service';
+import {ToastrService} from 'ngx-toastr';
+import {ImageService} from '../../../shared/services/api-service-impl/image.service';
+import {checkSpace} from '../../../shared/validator/validatorForm';
+import {Regex} from '../../../shared/validator/regex';
 
 @Component({
   selector: 'app-product-form',
@@ -21,7 +21,7 @@ import {Regex} from "../../../shared/validator/regex";
 export class ProductFormComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
-  title: string = '';
+  title = '';
   isLoading = false;
 
   listProduct: any[] = [];
@@ -43,7 +43,7 @@ export class ProductFormComponent implements OnInit {
     origin: this.fb.group({
       id: ['', [Validators.required]],
     }),
-    name: ['', [checkSpace,Validators.pattern(Regex.name), Validators.minLength(4)]],
+    name: ['', [checkSpace, Validators.pattern(Regex.name), Validators.minLength(4)]],
     price: ['', [Validators.required, Validators.min(10000)]],
     quantity: ['', [Validators.required, Validators.min(1)]],
     gender: ['', [Validators.required]],
@@ -90,7 +90,7 @@ export class ProductFormComponent implements OnInit {
   }
 
   onSelectAvt(event) {
-    if (this.fileAvt.length >= 1) this.fileAvt.splice(0, this.fileAvt.length);
+    if (this.fileAvt.length >= 1) { this.fileAvt.splice(0, this.fileAvt.length); }
     this.fileAvt = event.addedFiles;
   }
 
@@ -124,13 +124,13 @@ export class ProductFormComponent implements OnInit {
   }
 
   createProductDetail() {
-    //Create avatar
+    // Create avatar
     const avtData = new FormData();
-    avtData.append("file", this.fileAvt[0]);
+    avtData.append('file', this.fileAvt[0]);
     this.uploadImageService.uploadImage(avtData, 'avtProduct').subscribe({
       next: (data) => {
         this.formGroup.patchValue({avatar: data.name});
-        //Create product detail
+        // Create product detail
         this.productDetailService.createProductDetail(this.formGroup.getRawValue());
       },
       error: (error) => {
@@ -140,10 +140,10 @@ export class ProductFormComponent implements OnInit {
       }
     });
 
-    //Create list image product detail
+    // Create list image product detail
     const listImg = new FormData();
     for (let i = 0; i < this.files.length; i++) {
-      listImg.append("file", this.files[i]);
+      listImg.append('file', this.files[i]);
     }
     this.productDetailService.idProductDetail.subscribe(id => {
       this.uploadImageService.uploadImageDetail(listImg, 'imgDetailProduct').subscribe({

@@ -35,9 +35,6 @@ public class CategoryServiceImpl implements ICategoryService {
 
     @Override
     public Category update(Category category) {
-        if (this.categoryRepository.findByName(category.getName()).isPresent()) {
-            throw new UniqueException("Tên danh mục này đã tồn tại !");
-        }
         return categoryRepository.save(category);
     }
 }

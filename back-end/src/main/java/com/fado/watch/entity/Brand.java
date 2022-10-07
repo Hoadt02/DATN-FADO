@@ -31,6 +31,9 @@ public class Brand implements Serializable {
     
     @Column(nullable=false, length=50, unique = true)
     private String name;
+
+    @Column(precision=10)
+    private Integer status;
     
     @OneToMany(mappedBy="brand")
     @JsonIgnore
