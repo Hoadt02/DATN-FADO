@@ -55,4 +55,18 @@ export class MaterialService {
       }
     })
   }
+  delete(id: number, data: any) {
+    data.status = 0;
+    this.apiMaterial.update(id, data).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.toastrService.success('Xóa chất liệu thành công!');
+      },
+      error: (error) => {
+        console.log(error);
+        this.toastrService.error('Xóa chất liệu thất bại!');
+        return;
+      }
+    });
+  }
 }

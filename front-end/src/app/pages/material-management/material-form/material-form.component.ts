@@ -20,6 +20,7 @@ export class MaterialFormComponent implements OnInit {
   formGroup: FormGroup = this.fb.group({
     id: '',
     name: ['', [checkSpace, Validators.pattern(Regex.name)]],
+    status: [1]
   })
   constructor(private fb: FormBuilder,
               private toastrService: ToastrService,
