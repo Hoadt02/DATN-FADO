@@ -8,6 +8,7 @@ import {MatSort} from '@angular/material/sort';
 import {MatDialog} from '@angular/material/dialog';
 import {MaterialFormComponent} from '../material-form/material-form.component';
 import {MaterialService} from '../../../shared/services/api-service-impl/material.service';
+import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-customer-list',
@@ -17,10 +18,14 @@ import {MaterialService} from '../../../shared/services/api-service-impl/materia
 export class MaterialListComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
+  readonly RESULT_CLOSE_DIALOG = Constants.RESULT_CLOSE_DIALOG;
 
-  displayedColumns: string[] = ['index', 'name', 'thaoTac'];
+
+  displayedColumns: string[] = ['index', 'name', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
   isLoading = true;
+  title : string;
+  message : string;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -32,8 +37,8 @@ export class MaterialListComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private dialogService: MatDialog,
-              private toastService: ToastrService,
-              private materialservice: MaterialService) {
+              private materialservice: MaterialService,
+              private toastService: ToastrService) {
   }
 
   getAll() {
@@ -71,15 +76,17 @@ export class MaterialListComponent implements OnInit {
     });
   }
 
-  openDialog(type: string, row?: any) {
-    this.dialogService.open(MaterialFormComponent,
+  onDelete(id: number, data:any) {
+    this.dialogService.open(ConfirmDialogComponent,
       {
-        width: '900px',
-        data: {type, row}
-      }).afterClosed().subscribe(result => {
-      if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
-        this.getAll();
-      };
+        width: '25vw',
+        data: {
+          message: 'Bạn có muốn xóa chất liệu này?'
+        }
+      }).afterClosed().subscribe(  result => {
+      if (result == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
+        this.materialservice.delete(id, data);
+      }
     });
   }
 }
