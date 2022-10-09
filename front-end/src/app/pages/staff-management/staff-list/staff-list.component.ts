@@ -9,6 +9,7 @@ import {StaffFormComponent} from '../staff-form/staff-form.component';
 import {Constants} from '../../../shared/Constants';
 import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dialog.component';
 import {StaffDetailComponent} from "../staff-detail/staff-detail.component";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-staff-list',
@@ -27,9 +28,11 @@ export class StaffListComponent implements OnInit {
   displayedColumns: string[] =
     [
       'stt', 'fullName',
-      'dateOfBirth', 'image', 'username',
-      'email', 'phoneNumber', 'gender',
-      'address', 'status',
+      'dateOfBirth', 'image',
+      // 'username', 'email', 'phoneNumber',
+      'gender',
+      // 'address',
+      'status',
       // 'role',
       'action'
     ];
@@ -40,6 +43,7 @@ export class StaffListComponent implements OnInit {
 
   constructor(
     private apiStaff: StaffService,
+    private toastrService: ToastrService,
     private matDialog: MatDialog
   ) {
   }
@@ -56,7 +60,9 @@ export class StaffListComponent implements OnInit {
         this.dataSource.sort = this.sort;
         this.isLoading = false;
       }, error: (err => {
+        this.toastrService.error('Lỗi tải dữ liệu');
         console.log(err);
+        return;
       })
     })
   }
