@@ -14,12 +14,22 @@ public class ImageServiceImpl implements IImageService {
     ImageRepository repository;
 
     @Override
-    public List<Image> getAll() {
-        return repository.findAll();
+    public List<Image> getImagesByIdProductDetail(Integer id) {
+        return repository.getImagesByProductDetailId(id);
     }
 
     @Override
     public Image create(Image image) {
         return repository.save(image);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        List<Image> images = repository.findAll();
+        for (Image image: images) {
+            if (image.getProductDetail().getId() == Integer.parseInt(id.toString())){
+                repository.delete(image);
+            }
+        }
     }
 }

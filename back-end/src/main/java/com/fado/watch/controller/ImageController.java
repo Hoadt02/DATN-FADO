@@ -18,13 +18,18 @@ public class ImageController {
     @Autowired
     IImageService service;
 
-    @GetMapping()
-    public ResponseEntity<List<Image>> getAll(){
-        return new ResponseEntity<>(this.service.getAll(), HttpStatus.OK);
+    @GetMapping("{id}")
+    public ResponseEntity<List<Image>> getImagesByIdProductDetail(@PathVariable("id") Integer id){
+        return new ResponseEntity<>(this.service.getImagesByIdProductDetail(id), HttpStatus.OK);
     }
 
     @PostMapping()
     public ResponseEntity<Image> create(@RequestBody Image image){
         return new ResponseEntity<>(this.service.create(image), HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable("id") Integer id){
+        this.service.delete(id);
     }
 }

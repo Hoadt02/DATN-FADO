@@ -84,11 +84,11 @@ public class ProductDetail implements Serializable {
     private Brand brand;
     
 	@ManyToOne(optional=false)
-    @JoinColumn(name="material_id", nullable=false)
+    @JoinColumn(name="origin_id", nullable=false)
     private Origin origin;
     
 	@ManyToOne(optional=false)
-    @JoinColumn(name="origin_id", nullable=false)
+    @JoinColumn(name="material_id", nullable=false)
     private Material material;
     
 	@OneToMany(mappedBy="productDetail")

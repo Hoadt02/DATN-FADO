@@ -28,6 +28,7 @@ export class ProductFormComponent implements OnInit {
   listBrand: any[] = [];
   listOrigin: any[] = [];
   listMaterial: any[] = [];
+  listImageProductDetail: any[] = [];
 
   formGroup: FormGroup = this.fb.group({
     id: [''],
@@ -56,6 +57,8 @@ export class ProductFormComponent implements OnInit {
 
   files: File[] = [];
   fileAvt: File[] = [];
+  showImage: boolean = true;
+  showImageDetail: boolean = true;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<ProductFormComponent>,
@@ -77,6 +80,13 @@ export class ProductFormComponent implements OnInit {
     } else {
       this.title = 'CẬP NHẬT SẢN PHẨM CHI TIẾT';
       this.formGroup.patchValue(this.data.row);
+      this.showImage = false;
+      this.showImageDetail = false;
+      this.imageService.getImagesByIdProductDetail(this.data.row.id).subscribe(data => {
+        if (data) {
+          this.listImageProductDetail = data;
+        }
+      });
     }
     this.getProductForCombobox();
     this.getBrandForCombobox();
@@ -113,7 +123,7 @@ export class ProductFormComponent implements OnInit {
     if (this.data.type == this.TYPE_DIALOG.NEW) {
       this.createProductDetail();
     } else {
-      this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
+      this.updateProductDetail();
     }
     this.productDetailService.isCloseDialog.subscribe(value => {
       if (value) {
@@ -146,9 +156,9 @@ export class ProductFormComponent implements OnInit {
       listImg.append('file', this.files[i]);
     }
     this.productDetailService.idProductDetail.subscribe(id => {
-      this.uploadImageService.uploadImageDetail(listImg, 'imgDetailProduct').subscribe({
-        next: (data) => {
-          if (id) {
+      if (id) {
+        this.uploadImageService.uploadImageDetail(listImg, 'imgDetailProduct').subscribe({
+          next: (data) => {
             for (let i = 0; i < data.length; i++) {
               const image = this.fb.group({
                 name: [data[i]],
@@ -158,6 +168,56 @@ export class ProductFormComponent implements OnInit {
               });
               this.imageService.createImage(image.value);
             }
+          },
+          error: (error) => {
+            console.log(error);
+            this.toastrService.error('Thêm hình ảnh chi tiết của sản phẩm thất bại');
+          },
+          complete:() =>{
+            console.log("Đã chạy vào đây nhé");
+            this.productDetailService.idProductDetail.next(null);
+          }
+        })
+      }
+    });
+  }
+
+  updateProductDetail() {
+    if (this.showImage == true && this.showImageDetail == false) {
+      const avtData = new FormData();
+      avtData.append("file", this.fileAvt[0]);
+      this.uploadImageService.uploadImage(avtData, 'avtProduct').subscribe({
+        next: (data) => {
+          this.formGroup.patchValue({avatar: data.name});
+          //Update product detail
+          this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
+        },
+        error: (error) => {
+          console.log(error);
+          this.toastrService.error('Lỗi cập nhật Avatar sản phẩm!')
+          return;
+        }
+      });
+
+    } else if (this.showImage == false && this.showImageDetail == true) {
+      //Xóa ảnh chi tiết sản phẩm hiện tại
+      this.imageService.deleteImage(this.formGroup.getRawValue().id);
+
+      //Thêm ảnh chi tiết sản phẩm mới vào
+      const listImg = new FormData();
+      for (let i = 0; i < this.files.length; i++) {
+        listImg.append("file", this.files[i]);
+      }
+      this.uploadImageService.uploadImageDetail(listImg, 'imgDetailProduct').subscribe({
+        next: (data) => {
+          for (let i = 0; i < data.length; i++) {
+            const image = this.fb.group({
+              name: [data[i]],
+              productDetail: this.fb.group({
+                id: this.formGroup.getRawValue().id
+              })
+            });
+            this.imageService.createImage(image.value);
           }
         },
         error: (error) => {
@@ -165,7 +225,57 @@ export class ProductFormComponent implements OnInit {
           this.toastrService.error('Thêm hình ảnh chi tiết của sản phẩm thất bại');
         }
       });
-    });
+
+      //Cập nhật sản phẩm chi tiết
+      this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
+
+    } else if (this.showImage == true && this.showImageDetail == true) {
+      //Xóa ảnh chi tiết sản phẩm hiện tại
+      this.imageService.deleteImage(this.formGroup.getRawValue().id);
+
+      //Cập nhật lại avt product
+      const avtData = new FormData();
+      avtData.append("file", this.fileAvt[0]);
+      this.uploadImageService.uploadImage(avtData, 'avtProduct').subscribe({
+        next: (data) => {
+          this.formGroup.patchValue({avatar: data.name});
+        },
+        error: (error) => {
+          console.log(error);
+          this.toastrService.error('Lỗi cập nhật Avatar sản phẩm!')
+          return;
+        }
+      });
+
+      //Thêm ảnh chi tiết sản phẩm mới vào
+      const listImg = new FormData();
+      for (let i = 0; i < this.files.length; i++) {
+        listImg.append("file", this.files[i]);
+      }
+      this.uploadImageService.uploadImageDetail(listImg, 'imgDetailProduct').subscribe({
+        next: (data) => {
+          for (let i = 0; i < data.length; i++) {
+            const image = this.fb.group({
+              name: [data[i]],
+              productDetail: this.fb.group({
+                id: this.formGroup.getRawValue().id
+              })
+            });
+            this.imageService.createImage(image.value);
+          }
+        },
+        error: (error) => {
+          console.log(error);
+          this.toastrService.error('Thêm hình ảnh chi tiết của sản phẩm thất bại');
+        }
+      });
+
+      //Cập nhật sản phẩm chi tiết
+      this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
+
+    } else {
+      this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
+    }
   }
 
   getBrandForCombobox() {
