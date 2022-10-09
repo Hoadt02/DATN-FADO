@@ -12,7 +12,7 @@ import {Regex} from "../../../shared/validator/regex";
   styleUrls: ["./staff-form.component.scss"],
 })
 export class StaffFormComponent implements OnInit {
-  
+
   isLoading = false;
   title: String;
   hide = true;
@@ -26,7 +26,7 @@ export class StaffFormComponent implements OnInit {
     image: [
       "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png",
     ],
-    username: ["", [Validators.required, Validators.pattern(Regex.username)]],
+    username: ["", [Validators.required, Validators.pattern(Regex.username),Validators.minLength(8),]],
     password: [
       "",
       [
