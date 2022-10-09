@@ -18,7 +18,8 @@ export class OriginFormComponent implements OnInit {
   formGroup = this.fb.group(
     {
       id : [''],
-      name: ['', [checkSpace, Validators.pattern(Regex.name)]]
+      name: ['', [checkSpace, Validators.pattern(Regex.name)]],
+      status: 1
     }
   )
 
