@@ -11,6 +11,11 @@ import {ProductDetailsService} from "../../../shared/services/api-service-impl/p
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 import {ToastrService} from "ngx-toastr";
 import {ApiProductDetailService} from "../../../shared/services/api-services/api-product-detail.service";
+import {ProductViewComponent} from "../product-view/product-view.component";
+import {BrandService} from "../../../shared/services/api-service-impl/brand.service";
+import {ProductService} from "../../../shared/services/api-service-impl/product.service";
+import {OriginService} from "../../../shared/services/api-service-impl/origin.service";
+import {MaterialService} from "../../../shared/services/api-service-impl/material.service";
 
 
 @Component({
@@ -22,8 +27,14 @@ export class ProductListComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
   isLoading = true;
+  panelOpenState = false;
 
-  displayedColumns: string[] = ['index', 'avatar', 'name', 'gender', 'price', 'quantity', 'createDate', 'status', 'thaoTac'];
+  listProduct: any[] = [];
+  listBrand: any[] = [];
+  listOrigin: any[] = [];
+  listMaterial: any[] = [];
+
+  displayedColumns: string[] = ['index' ,'avatar-product', 'name', 'price', 'quantity', 'gender', 'createDate', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -31,12 +42,20 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAll();
+    this.getProductForCombobox();
+    this.getBrandForCombobox();
+    this.getMaterialForCombobox();
+    this.getOriginForCombobox();
   }
 
   constructor(private fb: FormBuilder,
               private dialogService: MatDialog,
               private service: ProductDetailsService,
-              private toastrService: ToastrService) {
+              private toastrService: ToastrService,
+              private brandService: BrandService,
+              private productService: ProductService,
+              private originService: OriginService,
+              private materialService: MaterialService) {
   }
 
   getAll() {
@@ -53,6 +72,42 @@ export class ProductListComponent implements OnInit {
         this.toastrService.warning('Lỗi load dữ liệu!');
       }
     });
+  }
+
+  getAllFilter(type:number, check:any){
+    this.isLoading = true;
+    this.service.getAllProductDetail().subscribe({
+      next: (data: any) => {
+        if (type == 1){
+          data = data.filter(n => n.product.id == check)
+        }else if (type == 2){
+          data = data.filter(n => n.brand.id == check)
+        }else if (type == 3){
+          data = data.filter(n => n.material.id == check)
+        }else if (type == 4){
+          data = data.filter(n => n.origin.id == check)
+        }else if (type == 5){
+          data = data.filter(n => n.status == check)
+        }else if (type == 6){
+          data = data.filter(n => n.gender == check)
+        }
+
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.log(error);
+        this.isLoading = false;
+        this.toastrService.warning('Lỗi load dữ liệu!');
+      }
+    });
+  }
+
+  onResetFilter(){
+    this.isLoading = true;
+    this.getAll();
   }
 
   applyFilter(event: Event) {
@@ -91,4 +146,47 @@ export class ProductListComponent implements OnInit {
       }
     });
   }
+
+  openViewDialog(row:any){
+    this.dialogService.open(ProductViewComponent,
+      {
+        disableClose: true,
+        width: '800px',
+        height: '600px',
+        data: row
+      });
+  }
+
+  getBrandForCombobox() {
+    this.brandService.getAll().subscribe((data: any) => {
+      if (data) {
+        this.listBrand = data;
+      }
+    });
+  }
+
+  getProductForCombobox() {
+    this.productService.getAll().subscribe((data: any) => {
+      if (data) {
+        this.listProduct = data;
+      }
+    });
+  }
+
+  getOriginForCombobox() {
+    this.originService.getAll().subscribe((data: any) => {
+      if (data) {
+        this.listOrigin = data;
+      }
+    });
+  }
+
+  getMaterialForCombobox() {
+    this.materialService.getAll().subscribe((data: any) => {
+      if (data) {
+        this.listMaterial = data;
+      }
+    });
+  }
+
 }

@@ -13,6 +13,6 @@ public class test {
 //        }
 //        System.out.println(LocalDate.now());
         String pathSystem = System.getProperty("user.dir");
-        System.out.println(pathSystem.substring(0,pathSystem.length() - 8));
+        System.out.println(pathSystem.substring(0, pathSystem.length() - 8) +  "front-end\\src\\assets\\img\\");
     }
 }

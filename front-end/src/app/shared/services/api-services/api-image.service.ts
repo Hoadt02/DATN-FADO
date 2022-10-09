@@ -21,11 +21,15 @@ export class ApiImageService{
   constructor(private httpClient: HttpClient) {
   }
 
-  getAllImage(): Observable<any>{
-    return this.httpClient.get(ApiConstant.image, httpOptions);
+  getImagesByIdProductDetail(id:number): Observable<any>{
+    return this.httpClient.get(`${ApiConstant.image}/${id}`, httpOptions);
   }
 
   createImage(data:any): Observable<any>{
     return this.httpClient.post(ApiConstant.image, data, httpOptions);
+  }
+
+  deleteImage(id:number):Observable<any>{
+    return this.httpClient.delete(`${ApiConstant.image}/${id}`);
   }
 }
