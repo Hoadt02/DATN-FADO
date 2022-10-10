@@ -28,6 +28,12 @@ export const ROUTES: RouteInfo[] = [
     class: ""
   },
   {
+    path: "/promotional-management",
+    title: "Quản lý khuyến mại",
+    icon: "nc-box-2",
+    class: ""
+  },
+  {
     path: '/customer-management',
     title: 'Quản lý khách hàng',
     icon: 'nc-single-02',
