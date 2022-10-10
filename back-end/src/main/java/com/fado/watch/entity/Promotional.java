@@ -28,38 +28,41 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name="promotionals")
+@Entity(name = "promotionals")
 public class Promotional implements Serializable {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(unique=true, nullable=false, precision=10)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false, precision = 10)
     private Integer id;
-    
-    @Column(name="start_date", nullable=false)
+
+    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
-    
-    @Column(name="end_date", nullable=false)
+
+    @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
-    
-    @Column(nullable=false, length=255)
+
+    @Column(nullable = false, length = 255)
     private String name;
-   
-    @Column(nullable=false, length=16777215)
+
+    @Column(nullable = false, length = 16777215)
     private String discount;
-    
-    @Column(length=255)
+
+    @Column(length = 255)
     private String description;
-   
-    @Column(precision=10)
+
+    @Column(precision = 10)
     private Integer status;
-   
-    @OneToMany(mappedBy="promotional")
+
+    @Column(precision = 10)
+    private boolean type;
+
+    @OneToMany(mappedBy = "promotional")
     @JsonIgnore
     private List<ProductPromotional> productPromotionalList;
-    
-    @ManyToOne(optional=false)
-    @JoinColumn(name="staff_id", nullable=false)
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "staff_id", nullable = false)
     private Staff staff;
 
 }
