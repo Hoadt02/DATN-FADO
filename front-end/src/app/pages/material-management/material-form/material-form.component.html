@@ -21,6 +21,10 @@
             *ngIf="formGroup.get('name')?.hasError('pattern') &&
             formGroup.get('name')?.touched">Tên chất liệu đang bị sai cú pháp
           </mat-error>
+          <mat-error
+            *ngIf="formGroup.get('name')?.hasError('maxlength') &&
+            formGroup.get('name')?.touched">Tên chất liệu chứa tối đa 50 kí tự
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="col-6">

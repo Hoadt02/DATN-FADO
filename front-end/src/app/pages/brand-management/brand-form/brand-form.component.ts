@@ -18,7 +18,7 @@ export class BrandFormComponent implements OnInit {
 
   formGroup: FormGroup = this.fb.group({
     id: '',
-    name: ['', [checkSpace, Validators.pattern(Regex.name)]],
+    name: ['', [checkSpace, Validators.pattern(Regex.name), Validators.maxLength(50)]],
     status: [1]
   })
 
