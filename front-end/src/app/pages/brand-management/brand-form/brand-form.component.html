@@ -18,6 +18,10 @@
           *ngIf="formGroup.get('name')?.hasError('pattern') && formGroup.get('name')?.touched">
           Vui lòng không chứa ký tự đặc biệt ở tên thương hiệu
         </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('name')?.hasError('maxlength') && formGroup.get('name')?.touched">
+          Tên thương hiệu chỉ tối đa 50 ký tự
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="col-6">
