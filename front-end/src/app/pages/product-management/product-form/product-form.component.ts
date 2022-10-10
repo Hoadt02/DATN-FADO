@@ -239,6 +239,8 @@ export class ProductFormComponent implements OnInit {
       this.uploadImageService.uploadImage(avtData, 'avtProduct').subscribe({
         next: (data) => {
           this.formGroup.patchValue({avatar: data.name});
+          //Cập nhật sản phẩm chi tiết
+          this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
         },
         error: (error) => {
           console.log(error);
@@ -269,9 +271,6 @@ export class ProductFormComponent implements OnInit {
           this.toastrService.error('Thêm hình ảnh chi tiết của sản phẩm thất bại');
         }
       });
-
-      //Cập nhật sản phẩm chi tiết
-      this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
 
     } else {
       this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);

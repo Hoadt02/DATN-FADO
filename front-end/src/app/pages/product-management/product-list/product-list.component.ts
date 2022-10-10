@@ -10,12 +10,11 @@ import {ProductFormComponent} from "../product-form/product-form.component";
 import {ProductDetailsService} from "../../../shared/services/api-service-impl/product-details.service";
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 import {ToastrService} from "ngx-toastr";
-import {ApiProductDetailService} from "../../../shared/services/api-services/api-product-detail.service";
-import {ProductViewComponent} from "../product-view/product-view.component";
 import {BrandService} from "../../../shared/services/api-service-impl/brand.service";
 import {ProductService} from "../../../shared/services/api-service-impl/product.service";
 import {OriginService} from "../../../shared/services/api-service-impl/origin.service";
 import {MaterialService} from "../../../shared/services/api-service-impl/material.service";
+import {ProductViewComponent} from "../product-view/product-view.component";
 
 
 @Component({
