@@ -1,21 +1,21 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 
-import {FormBuilder} from "@angular/forms";
-import {Constants} from "../../../shared/Constants";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {MatDialog} from "@angular/material/dialog";
-import {ProductFormComponent} from "../product-form/product-form.component";
-import {ProductDetailsService} from "../../../shared/services/api-service-impl/product-details.service";
-import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
-import {ToastrService} from "ngx-toastr";
-import {ApiProductDetailService} from "../../../shared/services/api-services/api-product-detail.service";
-import {ProductViewComponent} from "../product-view/product-view.component";
-import {BrandService} from "../../../shared/services/api-service-impl/brand.service";
-import {ProductService} from "../../../shared/services/api-service-impl/product.service";
-import {OriginService} from "../../../shared/services/api-service-impl/origin.service";
-import {MaterialService} from "../../../shared/services/api-service-impl/material.service";
+import {FormBuilder} from '@angular/forms';
+import {Constants} from '../../../shared/Constants';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatDialog} from '@angular/material/dialog';
+import {ProductFormComponent} from '../product-form/product-form.component';
+import {ProductDetailsService} from '../../../shared/services/api-service-impl/product-details.service';
+import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dialog.component';
+import {ToastrService} from 'ngx-toastr';
+import {ApiProductDetailService} from '../../../shared/services/api-services/api-product-detail.service';
+import {ProductViewComponent} from '../product-view/product-view.component';
+import {BrandService} from '../../../shared/services/api-service-impl/brand.service';
+import {ProductService} from '../../../shared/services/api-service-impl/product.service';
+import {OriginService} from '../../../shared/services/api-service-impl/origin.service';
+import {MaterialService} from '../../../shared/services/api-service-impl/material.service';
 
 
 @Component({
@@ -34,7 +34,7 @@ export class ProductListComponent implements OnInit {
   listOrigin: any[] = [];
   listMaterial: any[] = [];
 
-  displayedColumns: string[] = ['index' ,'avatar-product', 'name', 'price', 'quantity', 'gender', 'createDate', 'status', 'thaoTac'];
+  displayedColumns: string[] = ['index' , 'avatar-product', 'name', 'price', 'quantity', 'gender', 'createDate', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -74,21 +74,21 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  getAllFilter(type:number, check:any){
+  getAllFilter(type: number, check: any) {
     this.isLoading = true;
     this.service.getAllProductDetail().subscribe({
       next: (data: any) => {
-        if (type == 1){
+        if (type == 1) {
           data = data.filter(n => n.product.id == check)
-        }else if (type == 2){
+        } else if (type == 2) {
           data = data.filter(n => n.brand.id == check)
-        }else if (type == 3){
+        } else if (type == 3) {
           data = data.filter(n => n.material.id == check)
-        }else if (type == 4){
+        } else if (type == 4) {
           data = data.filter(n => n.origin.id == check)
-        }else if (type == 5){
+        } else if (type == 5) {
           data = data.filter(n => n.status == check)
-        }else if (type == 6){
+        } else if (type == 6) {
           data = data.filter(n => n.gender == check)
         }
 
@@ -105,7 +105,7 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  onResetFilter(){
+  onResetFilter() {
     this.isLoading = true;
     this.getAll();
   }
@@ -133,7 +133,7 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  openDelete(data:any,id: number) {
+  openDelete(data: any, id: number) {
     this.dialogService.open(ConfirmDialogComponent,
       {
         width: '25vw',
@@ -147,7 +147,7 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  openViewDialog(row:any){
+  openViewDialog(row: any) {
     this.dialogService.open(ProductViewComponent,
       {
         disableClose: true,

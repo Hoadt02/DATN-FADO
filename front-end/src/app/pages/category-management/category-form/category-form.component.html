@@ -6,7 +6,7 @@
 <div class="row">
   <form class="example-form" [formGroup]="formGroup">
     <div class="row">
-      <mat-form-field class="w-100" appearance="outline" class="col-6">
+      <mat-form-field class="w-100" appearance="outline">
         <mat-label>Tên danh mục</mat-label>
         <input type="text" matInput formControlName="name">
         <mat-error
@@ -23,7 +23,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="col-6">
+      <mat-form-field appearance="outline" *ngIf="title == 'Thêm mới danh mục'">
         <mat-label>Trạng thái</mat-label>
         <mat-select disableRipple formControlName="status">
           <mat-option [value]="1">Còn kinh doanh</mat-option>

@@ -57,8 +57,8 @@ export class ProductFormComponent implements OnInit {
 
   files: File[] = [];
   fileAvt: File[] = [];
-  showImage: boolean = true;
-  showImageDetail: boolean = true;
+  showImage = true;
+  showImageDetail = true;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<ProductFormComponent>,
@@ -173,8 +173,8 @@ export class ProductFormComponent implements OnInit {
             console.log(error);
             this.toastrService.error('Thêm hình ảnh chi tiết của sản phẩm thất bại');
           },
-          complete:() =>{
-            console.log("Đã chạy vào đây nhé");
+          complete: () => {
+            console.log('Đã chạy vào đây nhé');
             this.productDetailService.idProductDetail.next(null);
           }
         })
@@ -185,11 +185,11 @@ export class ProductFormComponent implements OnInit {
   updateProductDetail() {
     if (this.showImage == true && this.showImageDetail == false) {
       const avtData = new FormData();
-      avtData.append("file", this.fileAvt[0]);
+      avtData.append('file', this.fileAvt[0]);
       this.uploadImageService.uploadImage(avtData, 'avtProduct').subscribe({
         next: (data) => {
           this.formGroup.patchValue({avatar: data.name});
-          //Update product detail
+          // Update product detail
           this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
         },
         error: (error) => {
@@ -200,13 +200,13 @@ export class ProductFormComponent implements OnInit {
       });
 
     } else if (this.showImage == false && this.showImageDetail == true) {
-      //Xóa ảnh chi tiết sản phẩm hiện tại
+      // Xóa ảnh chi tiết sản phẩm hiện tại
       this.imageService.deleteImage(this.formGroup.getRawValue().id);
 
-      //Thêm ảnh chi tiết sản phẩm mới vào
+      // Thêm ảnh chi tiết sản phẩm mới vào
       const listImg = new FormData();
       for (let i = 0; i < this.files.length; i++) {
-        listImg.append("file", this.files[i]);
+        listImg.append('file', this.files[i]);
       }
       this.uploadImageService.uploadImageDetail(listImg, 'imgDetailProduct').subscribe({
         next: (data) => {
@@ -226,16 +226,16 @@ export class ProductFormComponent implements OnInit {
         }
       });
 
-      //Cập nhật sản phẩm chi tiết
+      // Cập nhật sản phẩm chi tiết
       this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
 
     } else if (this.showImage == true && this.showImageDetail == true) {
-      //Xóa ảnh chi tiết sản phẩm hiện tại
+      // Xóa ảnh chi tiết sản phẩm hiện tại
       this.imageService.deleteImage(this.formGroup.getRawValue().id);
 
-      //Cập nhật lại avt product
+      // Cập nhật lại avt product
       const avtData = new FormData();
-      avtData.append("file", this.fileAvt[0]);
+      avtData.append('file', this.fileAvt[0]);
       this.uploadImageService.uploadImage(avtData, 'avtProduct').subscribe({
         next: (data) => {
           this.formGroup.patchValue({avatar: data.name});
@@ -247,10 +247,10 @@ export class ProductFormComponent implements OnInit {
         }
       });
 
-      //Thêm ảnh chi tiết sản phẩm mới vào
+      // Thêm ảnh chi tiết sản phẩm mới vào
       const listImg = new FormData();
       for (let i = 0; i < this.files.length; i++) {
-        listImg.append("file", this.files[i]);
+        listImg.append('file', this.files[i]);
       }
       this.uploadImageService.uploadImageDetail(listImg, 'imgDetailProduct').subscribe({
         next: (data) => {
@@ -270,7 +270,7 @@ export class ProductFormComponent implements OnInit {
         }
       });
 
-      //Cập nhật sản phẩm chi tiết
+      // Cập nhật sản phẩm chi tiết
       this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
 
     } else {

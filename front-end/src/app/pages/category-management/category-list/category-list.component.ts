@@ -50,7 +50,8 @@ export class CategoryListComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
-        this.isLoading = true;
+        this.isLoading = false;
+        this.toastService.warning('Lỗi load dữ liệu!');
       }
     });
   }
@@ -67,7 +68,7 @@ export class CategoryListComponent implements OnInit {
   openDiaLog(type: string, row?: any) {
     this.dialogService.open(CategoryFormComponent,
       {
-        width: '900px',
+        width: '500px',
         data: {type, row},
       }).afterClosed().subscribe(result => {
       if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
