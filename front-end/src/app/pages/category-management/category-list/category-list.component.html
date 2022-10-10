@@ -51,11 +51,11 @@
               </button>
               <button *ngIf="row.status == 0" class="btn btn-sm btn-outline-success mg-l-2" type="button"
                       (click)="disableActive(RESULT_CLOSE_DIALOG.ACTIVE,row)" title="Kinh doanh">
-                Active
+                <i class="fas fa-lock-open-alt"></i>
               </button>
               <button *ngIf="row.status == 1" class="btn btn-sm btn-outline-danger mg-l-2" type="button"
                       (click)="disableActive(RESULT_CLOSE_DIALOG.NOT_ACTIVE,row)" title="Ngừng kinh doanh">
-                In-Active
+                <i class="fas fa-lock-alt"></i>
               </button>
             </td>
           </ng-container>
