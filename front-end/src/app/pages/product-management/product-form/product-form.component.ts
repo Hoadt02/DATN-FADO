@@ -271,10 +271,6 @@ export class ProductFormComponent implements OnInit {
           this.toastrService.error('Thêm hình ảnh chi tiết của sản phẩm thất bại');
         }
       });
-
-      // Cập nhật sản phẩm chi tiết
-      this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
-
     } else {
       this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
     }
