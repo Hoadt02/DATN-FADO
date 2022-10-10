@@ -95,12 +95,12 @@
               </button>
               <button *ngIf="row.status == 1" class="btn btn-sm btn-outline-danger px-2" type="button"
                       (click)="active(RESULT_CLOSE_DIALOG.NOT_ACTIVE,row)" title="Vô hiệu hoá">
-                Vô hiệu hóa
+                <i class="fas fa-lock-alt"></i>
               </button>
 
               <button *ngIf="row.status == 0" class="btn btn-sm btn-outline-success px-2" type="button"
                       (click)="active(RESULT_CLOSE_DIALOG.ACTIVE,row)" title="Kích hoạt">
-                Kích hoạt
+                <i class="fas fa-lock-open-alt"></i>
               </button>
             </td>
           </ng-container>
