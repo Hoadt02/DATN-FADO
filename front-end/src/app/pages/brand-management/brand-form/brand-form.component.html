@@ -7,7 +7,7 @@
   <form class="example-form" [formGroup]="formGroup">
 
     <div class="row">
-      <mat-form-field class="w-100" appearance="outline" class="col-6">
+      <mat-form-field class="w-100" appearance="outline">
         <mat-label>Tên thương hiệu</mat-label>
         <input type="text" matInput formControlName="name">
         <mat-error
@@ -18,9 +18,13 @@
           *ngIf="formGroup.get('name')?.hasError('pattern') && formGroup.get('name')?.touched">
           Vui lòng không chứa ký tự đặc biệt ở tên thương hiệu
         </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('name')?.hasError('maxlength') && formGroup.get('name')?.touched">
+          Tên thương hiệu chỉ tối đa 50 ký tự
+        </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="col-6">
+      <mat-form-field appearance="outline">
         <mat-label>Trạng thái</mat-label>
         <mat-select disableRipple formControlName="status">
           <mat-option [value]="1">Đang sử dụng</mat-option>
