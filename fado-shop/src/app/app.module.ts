@@ -10,7 +10,12 @@ import { FooterComponent } from './component/footer/footer.component';
   declarations: [
     AppComponent,
     HeaderComponent,
+<<<<<<< HEAD:website-fado/src/app/app.module.ts
+    FooterComponent,
+    HomePageComponent,
+=======
     FooterComponent
+>>>>>>> main:fado-shop/src/app/app.module.ts
   ],
   imports: [
     BrowserModule,
