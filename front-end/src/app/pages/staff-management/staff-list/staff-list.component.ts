@@ -62,6 +62,7 @@ export class StaffListComponent implements OnInit {
       }, error: (err => {
         this.toastrService.error('Lỗi tải dữ liệu');
         console.log(err);
+        this.isLoading = false;
         return;
       })
     })

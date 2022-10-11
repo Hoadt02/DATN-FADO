@@ -151,7 +151,7 @@
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Địa chỉ</mat-label>
         <input formControlName="address" type="text"
-               id="exampleInputDiaChi1" maxlength="255"
+               id="exampleInputDiaChi1" maxlength="255" required
                matInput>
         <mat-error
           *ngIf="formGroup.get('address')?.hasError('isSpace') &&
