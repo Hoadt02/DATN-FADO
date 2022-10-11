@@ -1,0 +1,30 @@
+<h2>Chi tiết nhân viên</h2>
+<hr>
+<div class="row">
+  <div class="col-3">
+    <img src="{{staff.image}}" alt="image-staff" style="width: 145px">
+  </div>
+  <div class="col-9">
+    <div class="row mt-3">
+      <div class="col-6">
+
+        <p>Họ và Tên: {{staff.firstname}} {{staff.lastname}}</p>
+        <p>Ngày sinh: {{staff.dateOfBirth}}</p>
+        <p>Giới tính: {{staff.gender}}</p>
+        <p>Tài khoản: {{staff.username}}</p>
+
+      </div>
+      <div class="col-6">
+
+        <p>Số điện thoại: {{staff.phoneNumber}}</p>
+        <p>Email: {{staff.email}}</p>
+        <p>Địa chỉ: {{staff.address}}</p>
+        <p>Trạng thái:{{staff.status == 0 ? 'Ngưng hoạt động' : 'Đang hoạt động'}}</p>
+
+      </div>
+    </div>
+  </div>
+  <div class="text-center">
+    <button class="btn btn-outline-success" (click)="close();">Close</button>
+  </div>
+</div>

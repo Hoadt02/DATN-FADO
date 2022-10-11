@@ -1,0 +1,131 @@
+<div *ngIf="isLoading" class="loading">
+  <div class="spinner-border text-info spinner-center" role="status">
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Tìm kiếm</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Tìm kiếm " #input>
+    </mat-form-field>
+    <div class="text-center">
+      <button mat-raised-button color="primary" (click)="openSave(TYPE_DIALOG.NEW)">
+        <i class="fa-solid fa-plus"></i> Thêm
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Row -->
+<div class="row row-sm">
+  <div class="col-lg-12 col-md-12">
+    <div class="card custom-card">
+      <div class="card-body">
+        <table mat-table [dataSource]="dataSource" matSort class="w-100 table-hover">
+
+          <ng-container matColumnDef="stt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> STT</th>
+            <td mat-cell *matCellDef="let row, index as index "> {{index + 1}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="fullName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="lastname"> Họ và Tên</th>
+            <td mat-cell *matCellDef="let row"> {{row.firstname}} {{row.lastname}}</td>
+          </ng-container>
+
+          <!--                    <ng-container matColumnDef="lastname">-->
+          <!--                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên</th>-->
+          <!--                      <td mat-cell *matCellDef="let row"> {{row.lastname}} </td>-->
+          <!--                    </ng-container>-->
+
+          <ng-container matColumnDef="dateOfBirth">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Ngày sinh</th>
+            <td mat-cell *matCellDef="let row"> {{row.dateOfBirth}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="image">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Ảnh</th>
+            <td mat-cell *matCellDef="let row">
+              <img class="img-staff" src="{{row.image}}">
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Tài khoản</th>
+            <td mat-cell *matCellDef="let row"> {{row.username}} </td>
+          </ng-container>
+
+          <!--          <ng-container matColumnDef="email">-->
+          <!--            <th mat-header-cell *matHeaderCellDef mat-sort-header> Email</th>-->
+          <!--            <td mat-cell *matCellDef="let row"> {{row.email}} </td>-->
+          <!--          </ng-container>-->
+
+          <!--          <ng-container matColumnDef="phoneNumber">-->
+          <!--            <th mat-header-cell *matHeaderCellDef mat-sort-header> Sdt</th>-->
+          <!--            <td mat-cell *matCellDef="let row"> {{row.phoneNumber}} </td>-->
+          <!--          </ng-container>-->
+
+          <ng-container matColumnDef="gender">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Giới tính</th>
+            <td mat-cell *matCellDef="let row"> {{row.gender == 1 ? 'Nam' : 'Nữ'}} </td>
+          </ng-container>
+
+          <!--          <ng-container matColumnDef="address">-->
+          <!--            <th mat-header-cell *matHeaderCellDef mat-sort-header> Địa chỉ</th>-->
+          <!--            <td mat-cell *matCellDef="let row"> {{row.address}} </td>-->
+          <!--          </ng-container>-->
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Trạng thái</th>
+            <td mat-cell *matCellDef="let row"> {{row.status == 1 ? 'Đang hoạt động' : 'Ngưng hoạt động'}} </td>
+          </ng-container>
+
+          <!--          <ng-container matColumnDef="role">-->
+          <!--            <th mat-header-cell *matHeaderCellDef mat-sort-header> Vai trò</th>-->
+          <!--            <td mat-cell *matCellDef="let row"> {{row.role.name}} </td>-->
+          <!--          </ng-container>-->
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Hành động
+            </th>
+            <td mat-cell *matCellDef="let row" class="text-center">
+              <button class="btn btn-sm btn-outline-primary me-2 px-2" type="button"
+                      (click)="openSave(TYPE_DIALOG.UPDATE, row)" title="Sửa">
+                <i class="fa-regular fa-pen-to-square"></i>
+              </button>
+
+              <button *ngIf="row.status == 1" class="btn btn-sm btn-outline-danger px-2" type="button"
+                      (click)="active(RESULT_CLOSE_DIALOG.NOT_ACTIVE,row)" title="Vô hiệu hoá">
+                <i class="fa-solid fa-x"></i>
+              </button>
+
+              <button *ngIf="row.status == 0" class="btn btn-sm btn-outline-success px-2" type="button"
+                      (click)="active(RESULT_CLOSE_DIALOG.ACTIVE,row)" title="Kích hoạt">
+                <i class="fa-solid fa-check"></i>
+              </button>
+
+              <button class="btn btn-sm btn-outline-primary ms-2 px-2" type="button"
+                      (click)="detail(row)" title="Chi tiết">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+          </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" aria-label="Select page of users"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Row -->
+

@@ -1,0 +1,208 @@
+<div *ngIf="isLoading" class="loading">
+  <div class="spinner-border text-info spinner-center" role="status">
+  </div>
+</div>
+
+
+<p class="fw-bold">
+  {{title}}
+</p>
+
+<form [formGroup]="formGroup">
+
+  <div class="row">
+
+    <div class="col-md-4">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Họ</mat-label>
+        <input formControlName="firstname" type="text"
+               id="exampleInputFirstname1" required maxlength="50"
+               matInput>
+        <mat-error
+          *ngIf="formGroup.get('firstname')?.hasError('isSpace') &&
+            formGroup.get('firstname')?.touched">Vui lòng không để trống họ
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('firstname')?.hasError('pattern') &&
+            formGroup.get('firstname')?.touched">Họ không được chứa số và ký tự đặc biệt
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Tên</mat-label>
+        <input formControlName="lastname" type="text"
+               id="exampleInputLastname1" required maxlength="50"
+               matInput>
+        <mat-error
+          *ngIf="formGroup.get('lastname')?.hasError('isSpace') &&
+            formGroup.get('lastname')?.touched">Vui lòng không để trống tên
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('lastname')?.hasError('pattern') &&
+            formGroup.get('lastname')?.touched">Tên không được chứa số và ký tự đặc biệt
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Ngày sinh</mat-label>
+        <input formControlName="dateOfBirth" matInput [matDatepicker]="picker1">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+        <mat-error
+          *ngIf="formGroup.get('dateOfBirth')?.hasError('required') &&
+          formGroup.get('dateOfBirth')?.touched">Bạn phải chọn ngày sinh
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Tài khoản</mat-label>
+        <input formControlName="username" type="text"
+               id="exampleInputUsername1" required minlength="8" maxlength="50"
+               matInput>
+        <mat-error
+          *ngIf="formGroup.get('username')?.hasError('required') &&
+            formGroup.get('username')?.touched">Bạn phải nhập tài khoản
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('username')?.hasError('minlength') &&
+            formGroup.get('username')?.touched">Mật khẩu tối thiểu 8 ký tự
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('username')?.hasError('pattern') &&
+            formGroup.get('username')?.touched">Tài khoản không được chứa khoảng trắng, viết dấu và ký tự đặc biệt
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6" *ngIf="hidePassword">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Mật khẩu</mat-label>
+        <input formControlName="password" matInput [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error
+          *ngIf="formGroup.get('password')?.hasError('required') &&
+            formGroup.get('password')?.touched">Bạn phải nhập mật khẩu
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('password')?.hasError('minlength') &&
+            formGroup.get('password')?.touched">Mật khẩu tối thiểu 8 ký tự
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('password')?.hasError('maxlength') &&
+            formGroup.get('password')?.touched">Mật khẩu tối đa 24 ký tự
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('password')?.hasError('pattern') &&
+            formGroup.get('password')?.touched">Mật khẩu không được viết dấu và không chứa khoảng trắng
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-6">
+
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Số điện thoại</mat-label>
+        <input formControlName="phoneNumber" type="text"
+               id="exampleInputPhoneNumber1" required maxlength="10"
+               matInput>
+        <mat-error
+          *ngIf="formGroup.get('phoneNumber')?.hasError('required') &&
+            formGroup.get('phoneNumber')?.touched">Bạn phải số điện thoại
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('phoneNumber')?.hasError('pattern') &&
+                    formGroup.get('phoneNumber')?.touched">Số điện thoại sai định dạng
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div class="col-md-6">
+
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Email</mat-label>
+        <input formControlName="email" type="text"
+               id="exampleInpuEmail1" required maxlength="50"
+               matInput>
+        <mat-error
+          *ngIf="formGroup.get('email')?.hasError('required') &&
+            formGroup.get('email')?.touched">Vui lòng không để trống email
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('email')?.hasError('pattern') &&
+                    formGroup.get('email')?.touched">Email sai định dạng
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div [class]="hidePassword?'col-md-8':'col-md-6'">
+
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Địa chỉ</mat-label>
+        <input formControlName="address" type="text"
+               id="exampleInputDiaChi1" maxlength="255" required
+               matInput>
+        <mat-error
+          *ngIf="formGroup.get('address')?.hasError('isSpace') &&
+          formGroup.get('address')?.touched">Bạn phải nhập địa chỉ
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div class="col-md-4 d-flex align-items-center">
+      <mat-label>Giới tính:</mat-label>
+      <mat-radio-group formControlName="gender">
+        <mat-radio-button class="mx-3" [value]="1" [checked]="formGroup.value.gender == 1">Nam</mat-radio-button>
+        <mat-radio-button [value]="0" [checked]="formGroup.value.gender != 1">Nữ</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+  </div>
+
+  <!--    <div class="col-md-6">-->
+  <!--      <mat-form-field class="w-100" appearance="outline">-->
+  <!--        <mat-label>Trạng thái</mat-label>-->
+  <!--        <mat-select formControlName="status">-->
+  <!--          <mat-option [value]="1">Đang hoạt động</mat-option>-->
+  <!--          <mat-option [value]="0">Ngưng hoạt động</mat-option>-->
+  <!--        </mat-select>-->
+  <!--        <mat-error-->
+  <!--          *ngIf="formGroup.get('status')?.hasError('required')-->
+  <!--        && formGroup.get('status')?.touched">Bạn phải chọn trạng thái-->
+  <!--        </mat-error>-->
+  <!--      </mat-form-field>-->
+  <!--    </div>-->
+
+  <!--    <div class="col-md-4">-->
+  <!--      <mat-form-field class="w-100" appearance="outline" formGroupName="role">-->
+  <!--        <mat-label>Quyền</mat-label>-->
+  <!--        <mat-select formControlName="id">-->
+  <!--          <mat-option [value]="4">ADMIN</mat-option>-->
+  <!--          <mat-option [value]="24">CUSTOMER</mat-option>-->
+  <!--        </mat-select>-->
+  <!--        <mat-error-->
+  <!--          *ngIf="formGroup.get('role')?.hasError('required')-->
+  <!--        && formGroup.get('role')?.touched">Bạn phải chọn quyền truy cập-->
+  <!--        </mat-error>-->
+  <!--      </mat-form-field>-->
+  <!--    </div>-->
+
+
+  <div class="d-flex justify-content-center">
+    <button mat-raised-button color="accent" (click)="save()">Lưu</button>
+    <button mat-raised-button color="warn" (click)="close()" class="mx-5">Thoát</button>
+  </div>
+</form>
+

@@ -1,8 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {checkSpace} from "../../../shared/validator/validatorForm";
 import {FormBuilder, Validators} from "@angular/forms";
-import {Regex} from "../../../shared/validator/regex";
-import {StaffService} from "../../../shared/services/api-service-impl/staff.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Constants} from "../../../shared/Constants";
 import {PromotionalService} from "../../../shared/services/api-service-impl/promotional.service";

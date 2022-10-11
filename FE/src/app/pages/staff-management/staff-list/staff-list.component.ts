@@ -1,23 +1,22 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Constants} from "../../../shared/Constants";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatSort} from "@angular/material/sort";
-import {StaffService} from "../../../shared/services/api-service-impl/staff.service";
+
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {StaffService} from '../../../shared/services/api-service-impl/staff.service';
+import {MatDialog} from '@angular/material/dialog';
+import {StaffFormComponent} from '../staff-form/staff-form.component';
+import {Constants} from '../../../shared/Constants';
+import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dialog.component';
+import {StaffDetailComponent} from "../staff-detail/staff-detail.component";
 import {ToastrService} from "ngx-toastr";
-import {MatDialog} from "@angular/material/dialog";
-import {StaffFormComponent} from "../../staff-management/staff-form/staff-form.component";
-import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
-import {StaffDetailComponent} from "../../staff-management/staff-detail/staff-detail.component";
-import {PromotionalService} from "../../../shared/services/api-service-impl/promotional.service";
-import {PromotionalFormComponent} from "../promotional-form/promotional-form.component";
 
 @Component({
-  selector: 'app-promotional-list',
-  templateUrl: './promotional-list.component.html',
-  styleUrls: ['./promotional-list.component.scss']
+  selector: 'app-staff-list',
+  templateUrl: './staff-list.component.html',
+  styleUrls: ['./staff-list.component.scss']
 })
-export class PromotionalListComponent implements OnInit {
+export class StaffListComponent implements OnInit {
 
   isLoading = true;
   TYPE_DIALOG = Constants.TYPE_DIALOG;
@@ -28,9 +27,14 @@ export class PromotionalListComponent implements OnInit {
 
   displayedColumns: string[] =
     [
-      'stt', 'name', 'discount',
-      'startDate', 'endDate', 'status',
-      'staff', 'description', 'action'
+      'stt', 'fullName',
+      'dateOfBirth', 'image',
+      // 'username', 'email', 'phoneNumber',
+      'gender',
+      // 'address',
+      'status',
+      // 'role',
+      'action'
     ];
   dataSource!: MatTableDataSource<any>;
 
@@ -38,7 +42,7 @@ export class PromotionalListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    private apiPromotional: PromotionalService,
+    private apiStaff: StaffService,
     private toastrService: ToastrService,
     private matDialog: MatDialog
   ) {
@@ -49,7 +53,7 @@ export class PromotionalListComponent implements OnInit {
   }
 
   getAll() {
-    this.apiPromotional.getAll().subscribe({
+    this.apiStaff.getAll().subscribe({
       next: (data: any) => {
         this.dataSource = new MatTableDataSource<any>(data);
         this.dataSource.paginator = this.paginator;
@@ -74,7 +78,7 @@ export class PromotionalListComponent implements OnInit {
   }
 
   openSave(type: any, row?: any) {
-    const diaLogRef = this.matDialog.open(PromotionalFormComponent, {
+    const diaLogRef = this.matDialog.open(StaffFormComponent, {
       width: '800px',
       disableClose: true,
       hasBackdrop: true,
@@ -91,11 +95,11 @@ export class PromotionalListComponent implements OnInit {
 
   active(type: any, row: any) {
     if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
-      this.title = 'Kích hoạt khuyến mại!';
-      this.message = 'Bạn có chắc chắn muốn kích hoạt khuyến mại này?'
+      this.title = 'Kích hoạt nhân viên!';
+      this.message = 'Bạn có chắc chắn muốn kích hoạt nhân viên này?'
     } else {
-      this.title = 'Vô hiệu hoá khuyến mại!';
-      this.message = 'Bạn có chắc chắn muốn vô hiệu hoá khuyến mại này?'
+      this.title = 'Vô hiệu hoá nhân viên!';
+      this.message = 'Bạn có chắc chắn muốn vô hiệu hoá nhân viên này?'
     }
 
     const diaLogRef = this.matDialog.open(ConfirmDialogComponent, {
@@ -111,10 +115,10 @@ export class PromotionalListComponent implements OnInit {
       if (rs == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
         if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
           row.status = 1;
-          this.apiPromotional.update(row.id, row);
+          this.apiStaff.update(row.id, row);
         } else {
           row.status = 0;
-          this.apiPromotional.update(row.id, row);
+          this.apiStaff.update(row.id, row);
         }
       }
     })
@@ -130,5 +134,4 @@ export class PromotionalListComponent implements OnInit {
       }
     })
   }
-
 }
