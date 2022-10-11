@@ -33,9 +33,8 @@ export class PromotionalService {
   }
 
   dataReplace(data: any) {
-    data.name = data.firstname.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
-    data.discount = data.lastname.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
-    data.description = data.address.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+    data.name = data.name.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+    data.description = data.description.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
   }
 
   create(data: any) {

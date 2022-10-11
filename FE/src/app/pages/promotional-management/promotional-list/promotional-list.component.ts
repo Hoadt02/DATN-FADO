@@ -75,7 +75,7 @@ export class PromotionalListComponent implements OnInit {
 
   openSave(type: any, row?: any) {
     const diaLogRef = this.matDialog.open(PromotionalFormComponent, {
-      width: '800px',
+      width: '600px',
       disableClose: true,
       hasBackdrop: true,
       data: {
