@@ -1,0 +1,51 @@
+<div class="row">
+  <h2 class="col-11">Quản lý chất liệu</h2>
+  <span class="col-1 fs-4" (click)="onDismiss()"><i class="fa-solid fa-xmark"></i></span>
+</div>
+
+<div class="row">
+  <mat-dialog-content>
+    <form class="example-form" [formGroup]="formGroup" >
+
+      <div class="row">
+
+
+        <mat-form-field class="w-100" appearance="outline" class="col-6">
+          <mat-label>Tên chất liệu</mat-label>
+          <input type="text" matInput formControlName="name" id="exampleInputFirstname1" required maxlength="60">
+          <mat-error
+            *ngIf="formGroup.get('name')?.hasError('isSpace') &&
+            formGroup.get('name')?.touched">Tên chất liệu đang bị trống
+          </mat-error>
+          <mat-error
+            *ngIf="formGroup.get('name')?.hasError('pattern') &&
+            formGroup.get('name')?.touched">Tên chất liệu đang bị sai cú pháp
+          </mat-error>
+          <mat-error
+            *ngIf="formGroup.get('name')?.hasError('maxlength') &&
+            formGroup.get('name')?.touched">Tên chất liệu chứa tối đa 50 kí tự
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-6">
+          <mat-label>Trạng thái</mat-label>
+          <mat-select disableRipple formControlName="status">
+            <mat-option [value]="1">Đang sử dụng</mat-option>
+            <mat-option [value]="0">Đã xóa</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+
+      <mat-dialog-actions>
+        <button mat-raised-button color="primary" (click)="onSubmit()">
+          <span>Lưu</span>
+        </button>
+        <button mat-raised-button color="warn" (click)="onDismiss()">
+          <span>Đóng</span>
+        </button>
+      </mat-dialog-actions>
+    </form>
+  </mat-dialog-content>
+
+</div>

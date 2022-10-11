@@ -1,0 +1,165 @@
+<div class="row">
+  <h2 class="col-11">{{title}}</h2>
+  <span class="col-1 fs-4" (click)="onDismiss()"><i class="fa-solid fa-xmark"></i></span>
+</div>
+
+<div class="row">
+  <form class="example-form" [formGroup]="formGroup">
+    <div class="row">
+
+      <div class="col">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Họ</mat-label>
+          <input formControlName="firstname" type="text"
+                 id="exampleInputFirstname1" required maxlength="50"
+                 matInput>
+          <mat-error
+            *ngIf="formGroup.get('firstname')?.hasError('isSpace') &&
+            formGroup.get('firstname')?.touched">Họ đang để trống hoặc đang chứa khoảng trắng
+          </mat-error>
+          <mat-error
+            *ngIf="formGroup.get('firstname')?.hasError('pattern') &&
+            formGroup.get('firstname')?.touched">Họ không được chứa số và kí tự đặc biệt
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Tên</mat-label>
+          <input formControlName="lastname" type="text"
+                 id="exampleInputLastname1" required maxlength="50"
+                 matInput>
+          <mat-error
+            *ngIf="formGroup.get('lastname')?.hasError('isSpace') &&
+            formGroup.get('lastname')?.touched">Họ đang để trống hoặc đang chứa khoảng trắng
+          </mat-error>
+          <mat-error
+            *ngIf="formGroup.get('lastname')?.hasError('pattern') &&
+            formGroup.get('lastname')?.touched">Tên không được chứa số và kí tự đặc biệt
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Tài khoản</mat-label>
+          <input formControlName="username" type="text"
+                 id="exampleInputUsername1" required maxlength="50"
+                 matInput>
+          <mat-error
+            *ngIf="formGroup.get('username')?.hasError('required') &&
+            formGroup.get('username')?.touched">Bạn phải nhập tài khoản
+          </mat-error>
+          <mat-error
+            *ngIf="formGroup.get('username')?.hasError('pattern') &&
+            formGroup.get('username')?.touched">Tài khoản không được chứa khoảng trắng, viết dấu và ký tự đặc biệt
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Mật khẩu</mat-label>
+          <input formControlName="password" type="password"
+                 id="exampleInputPassword1" required maxlength="50"
+                 matInput>
+          <mat-error
+            *ngIf="formGroup.get('password')?.hasError('required') &&
+            formGroup.get('password')?.touched">Bạn phải nhập mật khẩu
+          </mat-error>
+          <mat-error
+            *ngIf="formGroup.get('password')?.hasError('minlength') &&
+            formGroup.get('password')?.touched">Mật khẩu tối thiểu 8 ký tự
+          </mat-error>
+          <mat-error
+            *ngIf="formGroup.get('password')?.hasError('maxlength') &&
+            formGroup.get('password')?.touched">Mật khẩu tối đa 24 ký tự
+          </mat-error>
+          <mat-error
+            *ngIf="formGroup.get('password')?.hasError('pattern') &&
+            formGroup.get('password')?.touched">Mật khẩu không được viết dấu và không chứa khoảng trắng
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+
+    <div class="row">
+
+      <div class="col">
+
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Số điện thoại</mat-label>
+          <input formControlName="phoneNumber" type="text"
+                 id="exampleInputPhoneNumber1" required maxlength="10"
+                 matInput>
+          <mat-error
+            *ngIf="formGroup.get('phoneNumber')?.hasError('required') &&
+            formGroup.get('phoneNumber')?.touched">Bạn phải nhập số điện thoại
+          </mat-error>
+          <mat-error
+            *ngIf="formGroup.get('phoneNumber')?.hasError('pattern') &&
+                    formGroup.get('phoneNumber')?.touched">Số điện thoại sai định dạng
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+
+      <div class="col">
+
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input formControlName="email" type="text"
+                 id="exampleInpuEmail1" required maxlength="50"
+                 matInput>
+          <mat-error
+            *ngIf="formGroup.get('email')?.hasError('required') &&
+            formGroup.get('email')?.touched">Bạn phải nhập email
+          </mat-error>
+          <mat-error
+            *ngIf="formGroup.get('email')?.hasError('pattern') &&
+                    formGroup.get('email')?.touched">Email sai định dạng
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+      <div class="col">
+
+        <div class="col">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Ngày sinh</mat-label>
+            <input matInput formControlName="dateOfBirth" [matDatepicker]="picker">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-4 d-flex align-items-center">
+        <mat-label>Giới tính:</mat-label>
+        <mat-radio-group formControlName="gender">
+          <mat-radio-button class="mx-3" [value]="1" [checked]="formGroup.value.gender == 1">Nam</mat-radio-button>
+          <mat-radio-button [value]="0" [checked]="formGroup.value.gender != 1">Nữ</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+    </div>
+    <div class="d-flex justify-content-center">
+      <button mat-raised-button color="primary" (click)="onSubmit()">Lưu</button>
+      <button mat-raised-button color="warn" (click)="onDismiss()" class="mx-5">Thoát</button>
+    </div>
+  </form>
+
+</div>
