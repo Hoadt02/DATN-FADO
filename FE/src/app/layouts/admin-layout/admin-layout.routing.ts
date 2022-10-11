@@ -40,12 +40,12 @@ export const AdminLayoutRoutes: Routes = [
   //   path: 'origin-management',
   //   loadChildren: () => import('../../pages/origin-management/origin-management.module').then(m => m.OriginManagementModule)
   // },
-  // {
-  //   path: 'category-management',
-  //   loadChildren: () => import('../../pages/category-management/category-management.module').then(m => m.CategoryManagementModule)
-  // },
-  // {
-  //   path: 'brand-management',
-  //   loadChildren: () => import('../../pages/brand-management/brand-management.module').then(m => m.BrandManagementModule)
-  // },
+  {
+    path: 'category-management',
+    loadChildren: () => import('../../pages/category-management/category-management.module').then(m => m.CategoryManagementModule)
+  },
+  {
+    path: 'brand-management',
+    loadChildren: () => import('../../pages/brand-management/brand-management.module').then(m => m.BrandManagementModule)
+  },
 ];
