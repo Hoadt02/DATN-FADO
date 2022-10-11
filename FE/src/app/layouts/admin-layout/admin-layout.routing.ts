@@ -28,14 +28,14 @@ export const AdminLayoutRoutes: Routes = [
     path: 'promotional-management',
     loadChildren: () => import('../../pages/promotional-management/promotional-management.module').then(m => m.PromotionalManagementModule)
   },
-  // {
-  //   path: 'customer-management',
-  //   loadChildren: () => import('../../pages/customer-management/customer-management.module').then(m => m.CustomerManagementModule)
-  // },
-  // {
-  //   path: 'material-management',
-  //   loadChildren: () => import('../../pages/material-management/material-management.module').then(m => m.MaterialManagementModule)
-  // },
+  {
+    path: 'customer-management',
+    loadChildren: () => import('../../pages/customer-management/customer-management.module').then(m => m.CustomerManagementModule)
+  },
+  {
+    path: 'material-management',
+    loadChildren: () => import('../../pages/material-management/material-management.module').then(m => m.MaterialManagementModule)
+  },
   // {
   //   path: 'origin-management',
   //   loadChildren: () => import('../../pages/origin-management/origin-management.module').then(m => m.OriginManagementModule)
