@@ -17,6 +17,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatCardModule} from "@angular/material/card";
 import {MatNativeDateModule} from "@angular/material/core";
+import {MatSelectModule} from "@angular/material/select";
 
 
 @NgModule({
@@ -24,23 +25,24 @@ import {MatNativeDateModule} from "@angular/material/core";
     PromotionalListComponent,
     PromotionalFormComponent
   ],
-  imports: [
-    CommonModule,
-    PromotionalManagementRoutingModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatTableModule,
-    MatSortModule,
-    MatPaginatorModule,
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    MatIconModule,
-    MatRadioModule,
-    MatCardModule,
-    MatNativeDateModule
+    imports: [
+        CommonModule,
+        PromotionalManagementRoutingModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatTableModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatIconModule,
+        MatRadioModule,
+        MatCardModule,
+        MatNativeDateModule,
+        MatSelectModule
 
-  ]
+    ]
 })
 export class PromotionalManagementModule { }

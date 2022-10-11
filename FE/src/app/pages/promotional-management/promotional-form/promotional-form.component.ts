@@ -3,6 +3,7 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Constants} from "../../../shared/Constants";
 import {PromotionalService} from "../../../shared/services/api-service-impl/promotional.service";
+import {checkSpace, checkTypeDiscount} from "../../../shared/validator/validatorForm";
 
 @Component({
   selector: 'app-promotional-form',
@@ -15,19 +16,20 @@ export class PromotionalFormComponent implements OnInit {
   title: String;
   hide = true;
   hidePassword = true;
+  data: any = {};
 
   formGroup = this.fb.group({
-    id: [""],
-    name: ["", []],
-    discount: ["", []],
-    type: ["", []],
+    id: [''],
+    name: ['', [checkSpace]],
+    discount: ['', [Validators.required, Validators.min(1)]],
+    type: [false],
     startDate: [new Date()],
     endDate: [new Date()],
-    status: [""],
+    status: [1],
     staff: this.fb.group({
       id: [4]
     }),
-    description: ["", []],
+    description: [''],
   });
   range = this.fb.group({
     startDate: [new Date(), Validators.required],
@@ -54,21 +56,26 @@ export class PromotionalFormComponent implements OnInit {
       this.hidePassword = false;
       if (this.dataDiaLog.row) {
         this.formGroup.patchValue(this.dataDiaLog.row);
+        this.range.patchValue(this.dataDiaLog.row);
       }
     }
   }
 
   save() {
-    console.log(this.formGroup.getRawValue());
+    this.data = this.formGroup.getRawValue();
+    this.data.startDate = this.range.getRawValue().startDate;
+    this.data.endDate = this.range.getRawValue().endDate;
+
+    console.log(this.data);
     this.formGroup.markAllAsTouched();
     if (this.formGroup.invalid) {
       return;
     }
 
     if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
-      this.promotionalService.create(this.formGroup.getRawValue());
+      this.promotionalService.create(this.data);
     } else {
-      this.promotionalService.update(this.dataDiaLog.row.id, this.formGroup.getRawValue());
+      this.promotionalService.update(this.dataDiaLog.row.id, this.data);
     }
     this.promotionalService.isCloseDialog.subscribe((data) => {
       if (data) {
