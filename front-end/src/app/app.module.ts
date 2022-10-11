@@ -13,7 +13,6 @@ import {AppRoutes} from './app.routing';
 
 import {AdminLayoutComponent} from './layouts/admin-layout/admin-layout.component';
 import {NotFoundComponent} from "./pages/not-found/not-found.component";
-import {NguiMapModule} from "@ngui/map";
 import {HttpClientModule} from "@angular/common/http";
 import {SharedModule} from "./shared/shared.module";
 
@@ -22,7 +21,7 @@ import {SharedModule} from "./shared/shared.module";
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    NotFoundComponent
+    NotFoundComponent,
   ],
   imports: [
     BrowserAnimationsModule,

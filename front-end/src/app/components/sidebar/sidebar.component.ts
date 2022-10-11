@@ -22,10 +22,10 @@ export const ROUTES: RouteInfo[] = [
     class: ''
   },
   {
-    path: "/staff-management",
-    title: "Quản lý nhân viên",
-    icon: "nc-single-02",
-    class: ""
+    path: '/staff-management',
+    title: 'Quản lý nhân viên',
+    icon: 'nc-single-02',
+    class: ''
   },
   {
     path: "/promotional-management",
@@ -40,16 +40,16 @@ export const ROUTES: RouteInfo[] = [
     class: ''
   },
   {
-    path: "/material-management",
-    title: "Quản lý chất liệu",
-    icon: "nc-atom",
-    class: ""
+    path: '/material-management',
+    title: 'Quản lý chất liệu',
+    icon: 'nc-atom',
+    class: ''
   },
   {
-    path: "/origin-management",
-    title: "Quản lý xuất xứ",
-    icon: "nc-shop",
-    class: ""
+    path: '/origin-management',
+    title: 'Quản lý xuất xứ',
+    icon: 'nc-shop',
+    class: ''
   },
   {
     path: '/category-management',
