@@ -20,14 +20,14 @@ export class OriginListComponent implements OnInit {
   isLoading = true;
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
   readonly RESULT_CLOSE_DIALOG = Constants.RESULT_CLOSE_DIALOG;
-  title : string;
-  message : string;
+  title: string;
+  message: string;
 
   ngOnInit(): void {
     this.getAll();
   }
 
-  displayedColumns: string[] = ['index','name', 'status', 'thaoTac'];
+  displayedColumns: string[] = ['index', 'name', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -35,10 +35,10 @@ export class OriginListComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private dialogService: MatDialog,
-              private readonly apiOrigin : OriginService,
-              private originService : OriginService,
-              private matDialog : MatDialog,
-              ) {
+              private readonly apiOrigin: OriginService,
+              private originService: OriginService,
+              private matDialog: MatDialog,
+  ) {
   }
 
   getAll() {
@@ -67,46 +67,33 @@ export class OriginListComponent implements OnInit {
   openDiaLog(type: string, row?: any) {
     this.dialogService.open(OriginFormComponent,
       {
-        width: "400px",
+        width: "600px",
         disableClose: true,
-        hasBackdrop : true,
+        hasBackdrop: true,
         data: {type, row}
       }).afterClosed().subscribe(result => {
       if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
         this.getAll();
-      };
+      }
+      ;
     });
   }
 
-  active(type: any, row: any) {
-    if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
-      this.title = 'Kích hoạt xuất xứ!';
-      this.message = 'Bạn có chắc chắn muốn kích hoạt xuất xứ này?'
-    } else {
-      this.title = 'Vô hiệu hoá xuất xứ!';
-      this.message = 'Bạn có chắc chắn muốn vô hiệu hoá xuất xứ này?'
-    }
-
+  active(row: any) {
     const diaLogRef = this.matDialog.open(ConfirmDialogComponent, {
       width: '500px',
       disableClose: true,
       hasBackdrop: true,
       data: {
-        title: this.title,
-        message: this.message,
+        message: 'Bạn có chắc chắn muốn xóa không?',
       }
     });
     diaLogRef.afterClosed().subscribe(rs => {
-      if (rs == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
-        if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
-          row.status = 1;
-          this.apiOrigin.update(row.id, row);
-        } else {
-          row.status = 0;
+        if (rs == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
+          row.status = false;
           this.apiOrigin.update(row.id, row);
         }
       }
-    })
+    )
   }
-
 }
