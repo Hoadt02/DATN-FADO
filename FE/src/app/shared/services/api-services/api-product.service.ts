@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ApiConstant} from '../../constants/api-constant';
+import {Observable} from "rxjs";
 
 const httpOptions: any = {
   headers: new HttpHeaders({
@@ -21,5 +22,13 @@ export class ApiProductService {
 
   getAll() {
     return this.http.get(ApiConstant.product, httpOptions);
+  }
+
+  create(data: any): Observable<any> {
+    return this.http.post(ApiConstant.product, data, httpOptions);
+  }
+
+  update(data: any): Observable<any> {
+    return this.http.put(`${ApiConstant.product}/${data.id}`, data, httpOptions);
   }
 }

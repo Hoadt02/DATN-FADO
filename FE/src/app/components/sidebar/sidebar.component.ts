@@ -16,6 +16,12 @@ export const ROUTES: RouteInfo[] = [
       class: ''
     },
   {
+    path: '/product-line',
+    title: 'Các dòng sản phẩm',
+    icon: 'nc-watch-time',
+    class: ''
+  },
+  {
     path: '/product-management',
     title: 'Quản lý sản phẩm',
     icon: 'nc-watch-time',
