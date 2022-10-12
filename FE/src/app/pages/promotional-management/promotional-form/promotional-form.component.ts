@@ -30,6 +30,8 @@ export class PromotionalFormComponent implements OnInit {
       id: [4]
     }),
     description: [''],
+  }, {
+    validators: checkTypeDiscount('type', 'discount'),
   });
   range = this.fb.group({
     startDate: [new Date(), Validators.required],
@@ -66,9 +68,9 @@ export class PromotionalFormComponent implements OnInit {
     this.data.startDate = this.range.getRawValue().startDate;
     this.data.endDate = this.range.getRawValue().endDate;
 
-    console.log(this.data);
     this.formGroup.markAllAsTouched();
     if (this.formGroup.invalid) {
+      console.log('Có lỗi rồi');
       return;
     }
 

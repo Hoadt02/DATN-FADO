@@ -2,20 +2,70 @@
   <div class="spinner-border text-info spinner-center" role="status">
   </div>
 </div>
+<div class="text-center my-3">
+  <button mat-raised-button color="primary" (click)="openSave(TYPE_DIALOG.NEW)">
+    <i class="fa-solid fa-plus"></i> Thêm
+  </button>
+</div>
 
-<div class="card">
-  <div class="card-body">
-    <mat-form-field appearance="outline" class="w-100">
-      <mat-label>Tìm kiếm</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Tìm kiếm " #input>
-    </mat-form-field>
-    <div class="text-center">
-      <button mat-raised-button color="primary" (click)="openSave(TYPE_DIALOG.NEW)">
-        <i class="fa-solid fa-plus"></i> Thêm
-      </button>
+<div class="row">
+
+  <div class="col-12 col-md-3">
+    <div class="card">
+      <h3><b><i class="fa-solid fa-magnifying-glass"></i> TÌM KIẾM NHANH</b></h3>
+      <div class="card-body py-0">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Tìm kiếm</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Tìm kiếm " #input>
+        </mat-form-field>
+      </div>
     </div>
   </div>
+
+  <div class="col-12 col-md-9">
+
+    <div class="card">
+      <h3><b><i class="fa-solid fa-filter"></i> BỘ LỌC</b></h3>
+      <div class="card-body row py-0">
+        <div class="col-12 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Thời gian</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input matStartDate placeholder="Ngày bắt đầu">
+              <input matEndDate placeholder="Ngày kết thúc">
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Trạng thái</mat-label>
+            <mat-select>
+              <mat-option [value]="1">Đang hoạt động</mat-option>
+              <mat-option [value]="0">Ngưng hoạt động</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Loại khuyến mại</mat-label>
+            <mat-select>
+              <mat-option [value]="false">VND</mat-option>
+              <mat-option [value]="true">%</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
 </div>
+
 
 <!-- Row -->
 <div class="row row-sm">
@@ -41,12 +91,12 @@
 
           <ng-container matColumnDef="startDate">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Ngày bắt đầu</th>
-            <td mat-cell *matCellDef="let row">{{row.startDate}}</td>
+            <td mat-cell *matCellDef="let row">{{row.startDate  | date: 'dd/MM/yyyy'}}</td>
           </ng-container>
 
           <ng-container matColumnDef="endDate">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Ngày kết thúc</th>
-            <td mat-cell *matCellDef="let row"> {{row.endDate}} </td>
+            <td mat-cell *matCellDef="let row"> {{row.endDate | date: 'dd/MM/yyyy'}} </td>
           </ng-container>
 
           <ng-container matColumnDef="status">
@@ -86,7 +136,7 @@
 
               <button class="btn btn-sm btn-outline-primary ms-2 px-2" type="button"
                       (click)="detail(row)" title="Chi tiết">
-                <i class="fa-regular fa-eye"></i>
+                <i class="fa-regular fa-plus"></i>
               </button>
             </td>
           </ng-container>
