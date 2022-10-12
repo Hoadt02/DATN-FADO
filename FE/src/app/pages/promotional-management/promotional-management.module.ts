@@ -41,7 +41,7 @@ import {MatSelectModule} from "@angular/material/select";
         MatRadioModule,
         MatCardModule,
         MatNativeDateModule,
-        MatSelectModule
+        MatSelectModule,
 
     ]
 })
