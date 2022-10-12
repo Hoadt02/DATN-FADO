@@ -1,6 +1,5 @@
 import {Injectable, ViewChild} from '@angular/core';
 import {ApiProductDetailService} from '../api-services/api-product-detail.service';
-import {ToastrService} from 'ngx-toastr';
 import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
@@ -11,8 +10,7 @@ export class ProductDetailsService {
   isCloseDialog: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   idProductDetail: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(private apiService: ApiProductDetailService,
-              private toatService: ToastrService) {
+  constructor(private apiService: ApiProductDetailService){
   }
 
   getAllProductDetail() {
@@ -28,7 +26,6 @@ export class ProductDetailsService {
       error: (error) => {
         console.log(error);
         if (error.error.code == 'NOT_FOUND') {
-          this.toatService.warning(error.error.message);
         }
         return;
       }
