@@ -18,8 +18,8 @@ export class OriginFormComponent implements OnInit {
   formGroup = this.fb.group(
     {
       id : [''],
-      name: ['', [checkSpace, Validators.pattern(Regex.name)]],
-      status: 1
+      name: ['', [checkSpace, Validators.pattern(Regex.name) , Validators.maxLength(50)]],
+      status: true
     }
   )
 
@@ -32,6 +32,7 @@ export class OriginFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.dataDiaLog.row){
+      console.log(this.dataDiaLog.row)
       this.formGroup.patchValue(this.dataDiaLog.row);
     }
     this.setTitle();

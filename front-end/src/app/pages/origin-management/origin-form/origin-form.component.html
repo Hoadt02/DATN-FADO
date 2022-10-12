@@ -4,20 +4,34 @@
 </div>
 
     <form [formGroup]="formGroup" class="example-form">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Họ</mat-label>
-        <input formControlName="name" type="text"
-               id="exampleInputName1" required maxlength="50"
-               matInput>
-        <mat-error
-          *ngIf="formGroup.get('name')?.hasError('isSpace') &&
+      <div class="row">
+        <mat-form-field class=" col-6" appearance="outline">
+          <mat-label>Tên xuất xứ</mat-label>
+          <input formControlName="name" type="text"
+                 id="exampleInputName1" required maxlength="50"
+                 matInput>
+          <mat-error
+            *ngIf="formGroup.get('name')?.hasError('isSpace') &&
             formGroup.get('name')?.touched">Bạn phải nhập xuất xứ
-        </mat-error>
-        <mat-error
-          *ngIf="formGroup.get('name')?.hasError('pattern') &&
+          </mat-error>
+          <mat-error
+            *ngIf="formGroup.get('name')?.hasError('pattern') &&
             formGroup.get('name')?.touched">Xuất xứ không được chứa số và ký tự đặc biệt
-        </mat-error>
-      </mat-form-field>
+          </mat-error>
+          <mat-error
+            *ngIf="formGroup.get('name')?.hasError('maxlength') &&
+            formGroup.get('name')?.touched">Xuất xứ không vượt quá 50 ký tự
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-6">
+          <mat-label>Trạng thái</mat-label>
+          <mat-select disableRipple formControlName="status">
+            <mat-option [value]="true">Đang hoạt động</mat-option>
+            <mat-option [value]="false">Ngừng hoạt động</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
       <mat-dialog-actions>
         <button mat-raised-button color="primary" (click)="onSubmit()" type="button">
