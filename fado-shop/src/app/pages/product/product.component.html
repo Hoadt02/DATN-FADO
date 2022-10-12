@@ -1,121 +1,97 @@
+<!-- Breadcrumb Start -->
+<div class="container">
+  <div class="row px-xl-5">
+    <div class="col-12">
+      <nav class="breadcrumb bg-light mb-30">
+        <a class="breadcrumb-item text-dark" href="#">Home</a>
+        <a class="breadcrumb-item text-dark" href="#">Shop</a>
+        <span class="breadcrumb-item active">Shop List</span>
+      </nav>
+    </div>
+  </div>
+</div>
+<!-- Breadcrumb End -->
+
 <!-- Shop Start -->
-<div class="container-fluid">
+<div class="container">
   <div class="row px-xl-5">
     <!-- Shop Sidebar Start -->
     <div class="col-lg-3 col-md-4">
-      <!-- Price Start -->
-      <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by price</span></h5>
+      <!-- Category Start -->
+      <h6 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3"><i class="fa-solid fa-filter"></i> Lọc theo danh mục</span></h6>
       <div class="bg-light p-4 mb-30">
         <form>
           <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-            <input type="checkbox" class="custom-control-input" checked id="price-all">
-            <label class="custom-control-label" for="price-all">All Price</label>
-            <span class="badge border font-weight-normal">1000</span>
+            <input type="checkbox" class="custom-control-input" checked id="category-all">
+            <label class="custom-control-label" for="category-all">Tất cả</label>
+            <span class="badge border font-weight-normal"></span>
           </div>
-          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-            <input type="checkbox" class="custom-control-input" id="price-1">
-            <label class="custom-control-label" for="price-1">$0 - $100</label>
+          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
+               *ngFor="let c of categories; index as i">
+            <input type="checkbox" class="custom-control-input" id="category-{{i}}">
+            <label class="custom-control-label" for="category-{{i}}">{{c.name}}</label>
             <span class="badge border font-weight-normal">150</span>
-          </div>
-          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-            <input type="checkbox" class="custom-control-input" id="price-2">
-            <label class="custom-control-label" for="price-2">$100 - $200</label>
-            <span class="badge border font-weight-normal">295</span>
-          </div>
-          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-            <input type="checkbox" class="custom-control-input" id="price-3">
-            <label class="custom-control-label" for="price-3">$200 - $300</label>
-            <span class="badge border font-weight-normal">246</span>
-          </div>
-          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-            <input type="checkbox" class="custom-control-input" id="price-4">
-            <label class="custom-control-label" for="price-4">$300 - $400</label>
-            <span class="badge border font-weight-normal">145</span>
-          </div>
-          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-            <input type="checkbox" class="custom-control-input" id="price-5">
-            <label class="custom-control-label" for="price-5">$400 - $500</label>
-            <span class="badge border font-weight-normal">168</span>
           </div>
         </form>
       </div>
-      <!-- Price End -->
+      <!-- Category End -->
 
-      <!-- Color Start -->
-      <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by color</span></h5>
+      <!-- Brand Start -->
+      <h6 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3"><i class="fa-solid fa-filter"></i> Lọc theo thương hiệu</span></h6>
       <div class="bg-light p-4 mb-30">
         <form>
           <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-            <input type="checkbox" class="custom-control-input" checked id="color-all">
-            <label class="custom-control-label" for="color-all">All Color</label>
+            <input type="checkbox" class="custom-control-input" checked id="brand-all">
+            <label class="custom-control-label" for="brand-all">Tất cả</label>
             <span class="badge border font-weight-normal">1000</span>
           </div>
-          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-            <input type="checkbox" class="custom-control-input" id="color-1">
-            <label class="custom-control-label" for="color-1">Black</label>
+          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
+            *ngFor="let b of brands; index as i">
+            <input type="checkbox" class="custom-control-input" id="brand-{{i}}">
+            <label class="custom-control-label" for="brand-{{i}}">{{b.name}}</label>
             <span class="badge border font-weight-normal">150</span>
-          </div>
-          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-            <input type="checkbox" class="custom-control-input" id="color-2">
-            <label class="custom-control-label" for="color-2">White</label>
-            <span class="badge border font-weight-normal">295</span>
-          </div>
-          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-            <input type="checkbox" class="custom-control-input" id="color-3">
-            <label class="custom-control-label" for="color-3">Red</label>
-            <span class="badge border font-weight-normal">246</span>
-          </div>
-          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-            <input type="checkbox" class="custom-control-input" id="color-4">
-            <label class="custom-control-label" for="color-4">Blue</label>
-            <span class="badge border font-weight-normal">145</span>
-          </div>
-          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-            <input type="checkbox" class="custom-control-input" id="color-5">
-            <label class="custom-control-label" for="color-5">Green</label>
-            <span class="badge border font-weight-normal">168</span>
           </div>
         </form>
       </div>
-      <!-- Color End -->
+      <!-- Brand End -->
 
-      <!-- Size Start -->
-      <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by size</span></h5>
+      <!-- Material Start -->
+      <h6 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3"><i class="fa-solid fa-filter"></i> Lọc theo chất liệu</span></h6>
       <div class="bg-light p-4 mb-30">
         <form>
           <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-            <input type="checkbox" class="custom-control-input" checked id="size-all">
-            <label class="custom-control-label" for="size-all">All Size</label>
+            <input type="checkbox" class="custom-control-input" checked id="material-all">
+            <label class="custom-control-label" for="material-all">Tất cả</label>
             <span class="badge border font-weight-normal">1000</span>
           </div>
-          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-            <input type="checkbox" class="custom-control-input" id="size-1">
-            <label class="custom-control-label" for="size-1">XS</label>
+          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
+               *ngFor="let m of materials; index as i">
+            <input type="checkbox" class="custom-control-input" id="material-{{i}}">
+            <label class="custom-control-label" for="material-{{i}}">{{m.name}}</label>
             <span class="badge border font-weight-normal">150</span>
-          </div>
-          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-            <input type="checkbox" class="custom-control-input" id="size-2">
-            <label class="custom-control-label" for="size-2">S</label>
-            <span class="badge border font-weight-normal">295</span>
-          </div>
-          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-            <input type="checkbox" class="custom-control-input" id="size-3">
-            <label class="custom-control-label" for="size-3">M</label>
-            <span class="badge border font-weight-normal">246</span>
-          </div>
-          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-            <input type="checkbox" class="custom-control-input" id="size-4">
-            <label class="custom-control-label" for="size-4">L</label>
-            <span class="badge border font-weight-normal">145</span>
-          </div>
-          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-            <input type="checkbox" class="custom-control-input" id="size-5">
-            <label class="custom-control-label" for="size-5">XL</label>
-            <span class="badge border font-weight-normal">168</span>
           </div>
         </form>
       </div>
-      <!-- Size End -->
+      <!-- Material End -->
+
+      <!-- Origin Start -->
+      <h6 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3"><i class="fa-solid fa-filter"></i> Lọc theo xuất xứ</span></h6>
+      <div class="bg-light p-4 mb-30">
+        <form>
+          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+            <input type="checkbox" class="custom-control-input" checked id="origin-all">
+            <label class="custom-control-label" for="origin-all">Tất cả</label>
+            <span class="badge border font-weight-normal">1000</span>
+          </div>
+          <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3"
+               *ngFor="let o of origins; index as i">
+            <input type="checkbox" class="custom-control-input" id="origin-{{i}}">
+            <label class="custom-control-label" for="origin-{{i}}">{{o.name}}</label>
+            <span class="badge border font-weight-normal">150</span>
+          </div>
+        </form>
+      </div>
+      <!-- Origin End -->
     </div>
     <!-- Shop Sidebar End -->
 
