@@ -48,4 +48,8 @@ export const AdminLayoutRoutes: Routes = [
     path: 'brand-management',
     loadChildren: () => import('../../pages/brand-management/brand-management.module').then(m => m.BrandManagementModule)
   },
+  {
+    path: 'product-line',
+    loadChildren: () => import('../../pages/product-line/product-line.module').then(m => m.ProductLineModule)
+  },
 ];

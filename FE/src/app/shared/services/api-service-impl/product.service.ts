@@ -15,4 +15,11 @@ export class ProductService {
     return this.apiProduct.getAll();
   }
 
+  create(data: any) {
+    return this.apiProduct.create(data);
+  }
+
+  update(data: any) {
+    return this.apiProduct.update(data);
+  }
 }
