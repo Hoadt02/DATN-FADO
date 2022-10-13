@@ -52,9 +52,9 @@
               </button>
 
 
-              <button class="btn btn-sm btn-outline-danger px-2" type="button" [disabled]=" row.status == false" [class]="row.status ? '' : 'btn-secondary'"
+              <button class="btn btn-sm btn-outline-danger px-2" type="button" [disabled]=" row.status == false"
                       (click)="active(row)" title="Ngừng hoạt động" >
-                 <i class="fa-sharp fa-solid fa-trash"></i>
+                 <i class="fa-sharp fa-solid fa-trash" [class]="row.status ? '' : 'text-secondary'"></i>
               </button>
             </td>
           </ng-container>
