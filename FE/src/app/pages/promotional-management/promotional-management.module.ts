@@ -18,12 +18,13 @@ import {MatRadioModule} from "@angular/material/radio";
 import {MatCardModule} from "@angular/material/card";
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 @NgModule({
   declarations: [
     PromotionalListComponent,
-    PromotionalFormComponent
+    PromotionalFormComponent,
   ],
     imports: [
         CommonModule,
@@ -42,7 +43,7 @@ import {MatSelectModule} from "@angular/material/select";
         MatCardModule,
         MatNativeDateModule,
         MatSelectModule,
-
+        MatCheckboxModule
     ]
 })
 export class PromotionalManagementModule { }

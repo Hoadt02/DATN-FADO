@@ -120,15 +120,5 @@ export class PromotionalListComponent implements OnInit {
     })
   }
 
-  detail(row) {
-    this.matDialog.open(StaffDetailComponent, {
-      width: '700px',
-      hasBackdrop: true,
-      disableClose: true,
-      data: {
-        row
-      }
-    })
-  }
 
 }

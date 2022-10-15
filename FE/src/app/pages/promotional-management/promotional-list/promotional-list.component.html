@@ -3,6 +3,9 @@
   </div>
 </div>
 <div class="text-center my-3">
+  <a mat-raised-button color="primary" [routerLink]="['/product-promotional-management']" [state]="{tracingId: 123}">
+    <i class="fa-solid fa-plus"></i> Quản lý sản phẩm khuyến mại
+  </a>
   <button mat-raised-button color="primary" (click)="openSave(TYPE_DIALOG.NEW)">
     <i class="fa-solid fa-plus"></i> Thêm
   </button>
@@ -134,10 +137,6 @@
                 <i class="fa-solid fa-check"></i>
               </button>
 
-              <button class="btn btn-sm btn-outline-primary ms-2 px-2" type="button"
-                      (click)="detail(row)" title="Chi tiết">
-                <i class="fa-regular fa-plus"></i>
-              </button>
             </td>
           </ng-container>
 
