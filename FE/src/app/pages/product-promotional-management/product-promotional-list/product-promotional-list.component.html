@@ -1,0 +1,128 @@
+<div *ngIf="isLoading" class="loading">
+  <div class="spinner-border text-info spinner-center" role="status">
+  </div>
+</div>
+<div class="text-center my-3">
+  <button mat-raised-button color="primary" (click)="openSave(TYPE_DIALOG.NEW);">
+    <i class="fa-solid fa-plus"></i> Thêm mới
+  </button>
+</div>
+
+<div class="row">
+
+  <div class="col-12 col-md-3">
+    <div class="card">
+      <h3><b><i class="fa-solid fa-magnifying-glass"></i> TÌM KIẾM NHANH</b></h3>
+      <div class="card-body py-0">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Tìm kiếm</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Tìm kiếm " #input>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-md-9">
+
+    <div class="card">
+      <h3><b><i class="fa-solid fa-filter"></i> BỘ LỌC</b></h3>
+      <div class="card-body row py-0">
+        <div class="col-12 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Loại sản phẩm</mat-label>
+            <mat-select>
+              <mat-option>--</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Chương trình khuyến mại</mat-label>
+            <mat-select>
+              <mat-option>--</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Loại khuyến mại</mat-label>
+            <mat-select>
+              <mat-option>--</mat-option>
+              <mat-option [value]="false">VND</mat-option>
+              <mat-option [value]="true">%</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div class="row row-sm">
+  <div class="col-lg-12 col-md-12">
+    <div class="card custom-card">
+      <div class="card-body">
+        <table mat-table [dataSource]="dataSource" matSort class="table-hover">
+
+          <ng-container matColumnDef="stt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Stt</th>
+            <td mat-cell *matCellDef="let row, index as i"> {{i + 1}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="productName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên sản phẩm</th>
+            <td mat-cell *matCellDef="let row"> {{row.productDetail.name}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Giá gốc</th>
+            <td mat-cell *matCellDef="let row"> {{row.productDetail.price}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="promotionalPrice">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Khuyến mại</th>
+            <td mat-cell
+                *matCellDef="let row"> {{row.promotional.discount}}{{row.promotional.type ? '%' : ' VND'}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="priceBefore">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Giá sau khuyến mại</th>
+            <td mat-cell *matCellDef="let row">
+              {{row.productDetail.price -
+            (row.promotional.type ?
+              (row.productDetail.price * (row.promotional.discount / 100)) :
+              row.promotional.discount) | number: '1.0-0'}} VND
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="promotional">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Chương trình khuyến mại</th>
+            <td mat-cell *matCellDef="let row"> {{row.promotional.name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="control">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Thao tác</th>
+            <td mat-cell *matCellDef="let row">
+              <button class="btn btn-danger" type="submit">Xoá</button>
+            </td>
+
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+          </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
