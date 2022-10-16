@@ -8,6 +8,7 @@ import {ProductPromotionalFormComponent} from "../product-promotional-form/produ
 import {Constants} from "../../../shared/Constants";
 import {ToastrService} from "ngx-toastr";
 import {SelectionModel} from "@angular/cdk/collections";
+import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-product-promotional-form-list',
@@ -66,28 +67,43 @@ export class ProductPromotionalListComponent implements OnInit {
   }
 
   delete() {
-    const idDelete = {
-      id: []
-    };
+    const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
+      width: '500px',
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        title: 'Xoá sản phẩm khỏi khuyến mại!',
+        message: 'Bạn có muốn xoá sản phẩm khỏi khuyến mại hay ko?',
+      }
+    });
+    diaLogRef.afterClosed().subscribe(rs => {
+      if (rs == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
 
-    for (let i = 0; i < this.selection.selected.length; i++) {
-      idDelete.id.push(this.selection.selected[i].id);
-    }
+        const idDelete = {
+          id: []
+        };
 
-    if (idDelete.id.length == 0) {
-      this.toastrService.warning('Vui lòng chọn đối tượng để xoá!');
-      return;
-    }
+        for (let i = 0; i < this.selection.selected.length; i++) {
+          idDelete.id.push(this.selection.selected[i].id);
+        }
 
-    this.isLoading = true;
+        if (idDelete.id.length == 0) {
+          this.toastrService.warning('Vui lòng chọn đối tượng để xoá!');
+          return;
+        }
 
-    this.productPromotionalService.delete(idDelete);
-    this.productPromotionalService.isCloseDialog.subscribe(data => {
-      if (data) {
-        this.selection.clear();
-        this.getAll();
+        this.isLoading = true;
+
+        this.productPromotionalService.delete(idDelete);
+        this.productPromotionalService.isCloseDialog.subscribe(data => {
+          if (data) {
+            this.selection.clear();
+            this.getAll();
+          }
+        })
       }
     })
+
   }
 
   openSave(type) {
@@ -100,7 +116,7 @@ export class ProductPromotionalListComponent implements OnInit {
       }
     })
   }
-  
+
   /** Whether the number of selected elements matches the total number of rows.
    * Số phần tử được chọn có khớp với tổng số hàng hay không*/
   isAllSelected() {
