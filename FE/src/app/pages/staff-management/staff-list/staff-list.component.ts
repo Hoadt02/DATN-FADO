@@ -53,6 +53,7 @@ export class StaffListComponent implements OnInit {
   }
 
   getAll() {
+    this.isLoading = true;
     this.apiStaff.getAll().subscribe({
       next: (data: any) => {
         this.dataSource = new MatTableDataSource<any>(data);
