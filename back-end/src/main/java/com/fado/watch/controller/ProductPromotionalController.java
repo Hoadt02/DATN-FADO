@@ -1,6 +1,7 @@
 package com.fado.watch.controller;
 
 
+import com.fado.watch.dto.response.DeleteProductPromotional;
 import com.fado.watch.entity.ProductDetail;
 import com.fado.watch.entity.ProductPromotional;
 import com.fado.watch.service.IProductPromotionalService;
@@ -45,4 +46,8 @@ public class ProductPromotionalController {
         return ResponseEntity.ok(this.iProductPromotionalService.update(productPromotionals));
     }
 
+    @PostMapping("delete")
+    public void delete(@RequestBody DeleteProductPromotional deleteProductPromotional) {
+        this.iProductPromotionalService.delete(deleteProductPromotional.getId());
+    }
 }
