@@ -2,14 +2,6 @@
   <div class="spinner-border text-info spinner-center" role="status">
   </div>
 </div>
-<div class="text-center my-3">
-  <a mat-raised-button color="primary" [routerLink]="['/product-promotional-management']" [state]="{tracingId: 123}">
-    <i class="fa-solid fa-plus"></i> Quản lý sản phẩm khuyến mại
-  </a>
-  <button mat-raised-button color="primary" (click)="openSave(TYPE_DIALOG.NEW)">
-    <i class="fa-solid fa-plus"></i> Thêm
-  </button>
-</div>
 
 <div class="row">
 
@@ -69,6 +61,14 @@
   </div>
 </div>
 
+<div class="text-center my-3">
+  <a class="mr-5" mat-raised-button color="primary" [routerLink]="['/product-promotional-management']" [state]="{tracingId: 123}">
+    <i class="fa-solid fa-plus"></i> Quản lý sản phẩm khuyến mại
+  </a>
+  <button mat-raised-button color="primary" (click)="openSave(TYPE_DIALOG.NEW)">
+    <i class="fa-solid fa-plus"></i> Thêm
+  </button>
+</div>
 
 <!-- Row -->
 <div class="row row-sm">

@@ -53,9 +53,7 @@ public class ProductPromotionalServiceImpl implements IProductPromotionalService
     }
 
     @Override
-    public void delete(Integer[] id) {
-        for (Integer x : id) {
-            this.productPromotionalRepository.deleteById(x);
-        }
+    public void delete(List<Integer> id) {
+        this.productPromotionalRepository.deleteAllById(id);
     }
 }

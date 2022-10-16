@@ -17,6 +17,6 @@ public interface IProductPromotionalService {
 
     ProductPromotional[] update(ProductPromotional[] promotional);
 
-    void delete(Integer[] id);
+    void delete(List<Integer> id);
 
 }

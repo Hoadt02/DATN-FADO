@@ -24,7 +24,15 @@ export class ApiProductPromotionalService {
     return this.http.get(ApiConstant.promotionalProduct, httpOptions);
   }
 
-  getProductNotInPromotional(data : any) {
+  getProductNotInPromotional(data: any) {
     return this.http.get(`${ApiConstant.promotionalProduct}/getProductNotInPromotional?idPromotional=${data}`, httpOptions);
+  }
+
+  create(data: any[]) {
+    return this.http.post(ApiConstant.promotionalProduct, data, httpOptions);
+  }
+
+  delete(data: any) {
+    return this.http.post(ApiConstant.promotionalProduct + '/delete', data, httpOptions);
   }
 }
