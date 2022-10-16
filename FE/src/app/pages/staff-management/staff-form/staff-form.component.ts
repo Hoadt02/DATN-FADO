@@ -26,7 +26,7 @@ export class StaffFormComponent implements OnInit {
     image: [
       "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png",
     ],
-    username: ["", [Validators.required, Validators.pattern(Regex.username),Validators.minLength(8),]],
+    username: ["", [Validators.required, Validators.pattern(Regex.username), Validators.minLength(8),]],
     password: [
       "",
       [
@@ -81,8 +81,12 @@ export class StaffFormComponent implements OnInit {
     }
 
     if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
+      this.isLoading = true;
       this.staffService.create(this.formGroup.getRawValue());
-    } else {
+    }
+    if (this.dataDiaLog.type == Constants.TYPE_DIALOG.UPDATE) {
+      this.isLoading = true;
+      console.log("update");
       this.staffService.update(
         this.dataDiaLog.row.id,
         this.formGroup.getRawValue()
@@ -92,6 +96,7 @@ export class StaffFormComponent implements OnInit {
       if (data) {
         this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
         this.staffService.isCloseDialog.next(false);
+        this.isLoading = false;
       }
     });
   }

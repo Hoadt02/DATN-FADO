@@ -107,12 +107,17 @@ export class ProductPromotionalListComponent implements OnInit {
   }
 
   openSave(type) {
-    this.matDiaLog.open(ProductPromotionalFormComponent, {
+    const diaLogRef = this.matDiaLog.open(ProductPromotionalFormComponent, {
       width: '900px',
       hasBackdrop: true,
       disableClose: false,
       data: {
         type
+      }
+    })
+    diaLogRef.afterClosed().subscribe(rs => {
+      if (rs == Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
+        this.getAll();
       }
     })
   }
