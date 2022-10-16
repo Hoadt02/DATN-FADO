@@ -34,8 +34,6 @@ public class PromotionalServiceImpl implements IPromotionalService {
 
     @Override
     public Promotional create(Promotional promotional) {
-        System.out.println(promotional.getName());
-        System.out.println(this.promotionalRepository.findByName(promotional.getName()).get().getName());
 
         if (this.promotionalRepository.findByName(promotional.getName()).isPresent()) {
             throw new UniqueException("Tên chương trình khuyến mại đã tồn tại");

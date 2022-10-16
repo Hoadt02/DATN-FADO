@@ -114,12 +114,20 @@ export class StaffListComponent implements OnInit {
     diaLogRef.afterClosed().subscribe(rs => {
       if (rs == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
         if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
+          this.isLoading = true;
           row.status = 1;
           this.apiStaff.update(row.id, row);
         } else {
+          this.isLoading = true;
           row.status = 0;
           this.apiStaff.update(row.id, row);
         }
+      }
+    })
+    this.apiStaff.isCloseDialog.subscribe(data => {
+      if (data) {
+        this.apiStaff.isCloseDialog.next(false);
+        this.isLoading = false;
       }
     })
   }

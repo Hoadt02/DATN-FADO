@@ -27,7 +27,7 @@ export class PromotionalFormComponent implements OnInit {
     endDate: [new Date()],
     status: [1],
     staff: this.fb.group({
-      id: [4]
+      id: [164]
     }),
     description: [''],
   }, {
@@ -75,14 +75,17 @@ export class PromotionalFormComponent implements OnInit {
     }
 
     if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
+      this.isLoading = true;
       this.promotionalService.create(this.data);
     } else {
+      this.isLoading = true;
       this.promotionalService.update(this.dataDiaLog.row.id, this.data);
     }
     this.promotionalService.isCloseDialog.subscribe((data) => {
       if (data) {
         this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
         this.promotionalService.isCloseDialog.next(false);
+        this.isLoading = false;
       }
     });
   }

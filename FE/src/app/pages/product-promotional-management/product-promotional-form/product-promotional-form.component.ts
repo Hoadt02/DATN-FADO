@@ -7,6 +7,8 @@ import {ProductPromotionalService} from "../../../shared/services/api-service-im
 import {ProductDetailsService} from "../../../shared/services/api-service-impl/product-details.service";
 import {PromotionalService} from "../../../shared/services/api-service-impl/promotional.service";
 import {FormBuilder} from "@angular/forms";
+import {Constants} from "../../../shared/Constants";
+import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-product-promotional-form',
@@ -33,6 +35,7 @@ export class ProductPromotionalFormComponent implements OnInit {
     private readonly productPromotionalService: ProductPromotionalService,
     private readonly promotionalService: PromotionalService,
     private toastrService: ToastrService,
+    private matDialogRef: MatDialogRef<ProductPromotionalFormComponent>,
   ) {
   }
 
@@ -118,7 +121,9 @@ export class ProductPromotionalFormComponent implements OnInit {
     this.productPromotionalService.isCloseDialog.subscribe(data => {
       if (data) {
         this.isLoading = false;
+        this.productPromotionalService.isCloseDialog.next(false);
         this.getProductNotInPromotional(this.idPromotional);
+        this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
       }
     })
 
