@@ -35,8 +35,8 @@ public class ProductDetail implements Serializable {
     @Column(nullable=false, length=255)
     private String name;
     
-	@Column(nullable=false, length=16777215)
-    private String price;
+	@Column(nullable=false, precision=10)
+    private Integer price;
     
 	@Column(nullable=false, precision=10)
     private Integer quantity;
