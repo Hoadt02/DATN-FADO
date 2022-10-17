@@ -5,7 +5,7 @@
 
 <div class="row">
 
-  <div class="col-12 col-md-3">
+  <div class="col-12 col-md-6">
     <div class="card">
       <h3><b><i class="fa-solid fa-magnifying-glass"></i> TÌM KIẾM NHANH</b></h3>
       <div class="card-body py-0">
@@ -17,44 +17,46 @@
     </div>
   </div>
 
-  <div class="col-12 col-md-9">
+  <div class="col-12 col-md-6">
 
     <div class="card">
       <h3><b><i class="fa-solid fa-filter"></i> BỘ LỌC</b></h3>
       <div class="card-body row py-0">
-        <div class="col-12 col-md-4">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Loại sản phẩm</mat-label>
-            <mat-select>
-              <mat-option>--</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
 
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-5">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Chương trình khuyến mại</mat-label>
-            <mat-select>
-              <mat-option>--</mat-option>
+            <mat-select [(ngModel)]="filterPromotional">
+              <mat-option [value]="null">--</mat-option>
+              <mat-option (click)="getFilterPromotional()" *ngFor="let p of promotionalList"
+                          [value]="p.id">{{p.name}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
 
-        <div class="col-12 col-md-4">
+        <div class="col-4 col-md-5">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Loại khuyến mại</mat-label>
-            <mat-select>
-              <mat-option>--</mat-option>
-              <mat-option [value]="false">VND</mat-option>
-              <mat-option [value]="true">%</mat-option>
+            <mat-select [(ngModel)]="filterType">
+              <mat-option [value]="null">--</mat-option>
+              <mat-option (click)="getFilterType()" [value]="false">VND</mat-option>
+              <mat-option (click)="getFilterType()" [value]="true">%</mat-option>
             </mat-select>
           </mat-form-field>
+        </div>
+
+        <div class="col-1 col-md-2">
+          <button class="btn btn-sm btn-outline-danger mt-3 px-2" type="button"
+                  (click)="getAll()" title="Đặt lại">
+            <i class="fa-solid fa-rotate"></i>
+          </button>
         </div>
       </div>
 
     </div>
 
   </div>
+
 </div>
 
 <div class="text-center my-3">
@@ -62,7 +64,7 @@
     <i class="fa-solid fa-plus"></i> Thêm mới
   </button>
   <button mat-raised-button color="warn" (click)="delete();">
-    <i class="fa-solid fa-plus"></i> Xoá
+    <i class="fa-solid fa-minus"></i> Xoá
   </button>
 </div>
 
@@ -129,7 +131,8 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"
               (click)="selection.toggle(row)">
-          ></tr>
+            >
+          </tr>
 
           <!-- Row shown when there is no matching data. -->
           <tr class="mat-row" *matNoDataRow>

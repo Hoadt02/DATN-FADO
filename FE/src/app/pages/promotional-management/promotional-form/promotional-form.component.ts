@@ -3,7 +3,7 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Constants} from "../../../shared/Constants";
 import {PromotionalService} from "../../../shared/services/api-service-impl/promotional.service";
-import {checkSpace, checkTypeDiscount} from "../../../shared/validator/validatorForm";
+import {checkDate, checkSpace, checkTypeDiscount} from "../../../shared/validator/validatorForm";
 
 @Component({
   selector: 'app-promotional-form',
@@ -36,6 +36,8 @@ export class PromotionalFormComponent implements OnInit {
   range = this.fb.group({
     startDate: [new Date(), Validators.required],
     endDate: [new Date(), Validators.required],
+  }, {
+    validators: checkDate('startDate', 'endDate')
   })
 
   constructor(

@@ -25,6 +25,8 @@ export class PromotionalListComponent implements OnInit {
   loading = true;
   title: string;
   message: string;
+  filterStatus: any;
+  filterType: any;
 
   displayedColumns: string[] =
     [
@@ -49,6 +51,8 @@ export class PromotionalListComponent implements OnInit {
   }
 
   getAll() {
+    this.filterType = null;
+    this.filterStatus = null;
     this.isLoading = true;
     this.apiPromotional.getAll().subscribe({
       next: (data: any) => {
@@ -63,6 +67,46 @@ export class PromotionalListComponent implements OnInit {
         return;
       })
     })
+  }
+
+  getFilterStatus() {
+    this.filterType = null;
+    this.isLoading = true;
+    this.apiPromotional.getAll().subscribe({
+      next: (data: any) => {
+        data = data.filter(m => m.status == this.filterStatus)
+        this.dataSource = new MatTableDataSource<any>(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.isLoading = false;
+      }, error: (err => {
+        this.toastrService.error('Lỗi tải dữ liệu');
+        console.log(err);
+        this.isLoading = false;
+        return;
+      })
+    })
+  }
+
+  getFilterType() {
+    this.filterStatus = null;
+    this.isLoading = true;
+    this.apiPromotional.getAll().subscribe({
+      next: (data: any) => {
+        // data = data.filter(s => s.startDate < 123 && s.endDate)
+        data = data.filter(m => m.type == this.filterType)
+        this.dataSource = new MatTableDataSource<any>(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.isLoading = false;
+      }, error: (err => {
+        this.toastrService.error('Lỗi tải dữ liệu');
+        console.log(err);
+        this.isLoading = false;
+        return;
+      })
+    })
+    console.log(this.filterType);
   }
 
   applyFilter(event: Event) {
@@ -90,6 +134,7 @@ export class PromotionalListComponent implements OnInit {
     })
   }
 
+  /**Xoá mềm*/
   active(type: any, row: any) {
     if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
       this.title = 'Kích hoạt khuyến mại!';
