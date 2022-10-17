@@ -9,6 +9,8 @@ import {PromotionalService} from "../../../shared/services/api-service-impl/prom
 import {FormBuilder} from "@angular/forms";
 import {Constants} from "../../../shared/Constants";
 import {MatDialogRef} from "@angular/material/dialog";
+import {CategoryService} from "../../../shared/services/api-service-impl/category.service";
+import {ProductService} from "../../../shared/services/api-service-impl/product.service";
 
 @Component({
   selector: 'app-product-promotional-form',
@@ -19,6 +21,10 @@ export class ProductPromotionalFormComponent implements OnInit {
   isLoading = false;
   promotionalList: any[];
   idPromotional?: any;
+  categories: any[];
+  products: any[];
+  filterCategories: any;
+  filterProducts: any;
 
   dataProductPromotion: any = [];
 
@@ -34,6 +40,8 @@ export class ProductPromotionalFormComponent implements OnInit {
     private readonly productDetailsService: ProductDetailsService,
     private readonly productPromotionalService: ProductPromotionalService,
     private readonly promotionalService: PromotionalService,
+    private readonly categoryService: CategoryService,
+    private readonly productService: ProductService,
     private toastrService: ToastrService,
     private matDialogRef: MatDialogRef<ProductPromotionalFormComponent>,
   ) {
@@ -42,11 +50,13 @@ export class ProductPromotionalFormComponent implements OnInit {
   ngOnInit(): void {
     // this.getAll();
     this.getProductNotInPromotional();
-    this.getAllPromotional();
+    this.findAllByStatusTrue();
+    this.getAllProduct();
+    this.getAllCategory();
   }
 
-  /**Danh sách khuyến mại ở ô select*/
-  getAllPromotional() {
+  /**Danh sách khuyến mại đang hoạt động ở ô select*/
+  findAllByStatusTrue() {
     // this.isLoading = true;
     this.promotionalService.findAllByStatusTrue().subscribe({
       next: (data: any) => {
@@ -62,6 +72,65 @@ export class ProductPromotionalFormComponent implements OnInit {
     })
   }
 
+  getAllCategory() {
+    this.categoryService.getAll().subscribe({
+      next: (data: any) => {
+        this.categories = data as any[];
+      }, error: err => {
+        console.log(err);
+      }
+    })
+  }
+
+  getAllProduct() {
+    this.productService.getAll().subscribe({
+      next: (data: any) => {
+        this.products = data as any[];
+      }, error: err => {
+        console.log(err);
+      }
+    })
+  }
+
+  getFilterCategory() {
+    console.log('id category: ', this.filterCategories);
+    this.filterProducts = null;
+    this.isLoading = true;
+    this.productPromotionalService.getProductNotInPromotional().subscribe({
+      next: (data: any) => {
+        data = data.filter(c => c.product.category.id == this.filterCategories)
+        this.dataSource = new MatTableDataSource<any>(data);
+        this.dataSource.paginator = this.paginator;
+        console.log('danh sahcs san pham chua co trong km nay: ', data);
+        this.isLoading = false;
+      }, error: (err => {
+        this.toastrService.error('Lỗi tải dữ liệu');
+        console.log(err);
+        this.isLoading = false;
+        return;
+      })
+    })
+  }
+
+  getFilterProduct() {
+    console.log('id san pham: ', this.filterProducts);
+    this.filterCategories = null;
+    this.isLoading = true;
+    this.productPromotionalService.getProductNotInPromotional().subscribe({
+      next: (data: any) => {
+        data = data.filter(c => c.product.id == this.filterProducts)
+        this.dataSource = new MatTableDataSource<any>(data);
+        this.dataSource.paginator = this.paginator;
+        console.log('danh sahcs san pham chua co trong km nay: ', data);
+        this.isLoading = false;
+      }, error: (err => {
+        this.toastrService.error('Lỗi tải dữ liệu');
+        console.log(err);
+        this.isLoading = false;
+        return;
+      })
+    })
+  }
 
   /**Danh sách sản phẩm ko tồn tại trong khuyến mại đang hoạt động*/
   getProductNotInPromotional() {
