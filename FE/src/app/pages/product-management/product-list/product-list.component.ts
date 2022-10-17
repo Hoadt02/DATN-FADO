@@ -13,6 +13,8 @@ import {ToastrService} from 'ngx-toastr';
 import {ProductViewComponent} from '../product-view/product-view.component';
 import {BrandService} from '../../../shared/services/api-service-impl/brand.service';
 import {MaterialService} from '../../../shared/services/api-service-impl/material.service';
+import {ProductService} from "../../../shared/services/api-service-impl/product.service";
+import {OriginService} from "../../../shared/services/api-service-impl/origin.service";
 
 
 @Component({
@@ -130,16 +132,16 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  openDelete(data: any, id: number) {
+  openDeleteOrNoDelete(data: any, id: number, type:number) {
     this.dialogService.open(ConfirmDialogComponent,
       {
         width: '25vw',
         data: {
-          message: 'Bạn có muốn xóa bản ghi này?'
+          message: `Bạn có muốn ${type == 1 ? 'kích hoạt':'vô hiệu hóa'} sản phẩm này?`
         }
       }).afterClosed().subscribe(  result => {
       if (result == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
-        this.service.deleteProductDetail(data, id);
+        this.service.activeOrInActiveProductDetail(data, id, type);
       }
     });
   }
