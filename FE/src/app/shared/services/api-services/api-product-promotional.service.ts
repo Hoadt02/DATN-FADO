@@ -24,8 +24,8 @@ export class ApiProductPromotionalService {
     return this.http.get(ApiConstant.promotionalProduct, httpOptions);
   }
 
-  getProductNotInPromotional(data: any) {
-    return this.http.get(`${ApiConstant.promotionalProduct}/getProductNotInPromotional?idPromotional=${data}`, httpOptions);
+  getProductNotInPromotional() {
+    return this.http.get(`${ApiConstant.promotionalProduct}/getProductNotInPromotional`, httpOptions);
   }
 
   create(data: any[]) {

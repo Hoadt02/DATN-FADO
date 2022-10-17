@@ -129,12 +129,12 @@
 
               <button *ngIf="row.status == 1" class="btn btn-sm btn-outline-danger px-2" type="button"
                       (click)="active(RESULT_CLOSE_DIALOG.NOT_ACTIVE,row)" title="Vô hiệu hoá">
-                <i class="fa-solid fa-x"></i>
+                <i class="fa-solid fa-lock-open"></i>
               </button>
 
               <button *ngIf="row.status == 0" class="btn btn-sm btn-outline-success px-2" type="button"
                       (click)="active(RESULT_CLOSE_DIALOG.ACTIVE,row)" title="Kích hoạt">
-                <i class="fa-solid fa-check"></i>
+                <i class="fa-solid fa-lock"></i>
               </button>
 
             </td>

@@ -41,33 +41,37 @@ export class ProductPromotionalFormComponent implements OnInit {
 
   ngOnInit(): void {
     // this.getAll();
+    this.getProductNotInPromotional();
     this.getAllPromotional();
   }
 
+  /**Danh sách khuyến mại ở ô select*/
   getAllPromotional() {
-    this.isLoading = true;
-    this.promotionalService.getAll().subscribe({
+    // this.isLoading = true;
+    this.promotionalService.findAllByStatusTrue().subscribe({
       next: (data: any) => {
         this.promotionalList = data as any[];
         console.log(this.promotionalList);
-        this.isLoading = false;
+        // this.isLoading = false;
       }, error: (err => {
         this.toastrService.error('Lỗi tải dữ liệu');
         console.log(err);
-        this.isLoading = false;
+        // this.isLoading = false;
         return;
       })
     })
   }
 
-  getProductNotInPromotional(id: number) {
+
+  /**Danh sách sản phẩm ko tồn tại trong khuyến mại đang hoạt động*/
+  getProductNotInPromotional() {
     this.selection.clear();
     this.isLoading = true;
-    this.productPromotionalService.getProductNotInPromotional(id).subscribe({
+    this.productPromotionalService.getProductNotInPromotional().subscribe({
       next: (data: any) => {
         this.dataSource = new MatTableDataSource<any>(data);
         this.dataSource.paginator = this.paginator;
-        console.log(data);
+        console.log('danh sahcs san pham chua co trong km nay: ', data);
         this.isLoading = false;
       }, error: (err => {
         this.toastrService.error('Lỗi tải dữ liệu');
@@ -76,33 +80,36 @@ export class ProductPromotionalFormComponent implements OnInit {
         return;
       })
     })
+  }
+
+  // getAll() {
+  //   this.productDetailsService.getAllProductDetail().subscribe({
+  //     next: (data: any) => {
+  //       this.dataSource = new MatTableDataSource<any>(data);
+  //       this.dataSource.paginator = this.paginator;
+  //       console.log(data);
+  //       this.isLoading = false;
+  //     }, error: (err => {
+  //       this.toastrService.error('Lỗi tải dữ liệu');
+  //       this.isLoading = false;
+  //       console.log(err);
+  //       return;
+  //     })
+  //   })
+  // }
+
+  getIdPromotional(id: any) {
     this.idPromotional = id;
   }
 
-  getAll() {
-    this.productDetailsService.getAllProductDetail().subscribe({
-      next: (data: any) => {
-        this.dataSource = new MatTableDataSource<any>(data);
-        this.dataSource.paginator = this.paginator;
-        console.log(data);
-        this.isLoading = false;
-      }, error: (err => {
-        this.toastrService.error('Lỗi tải dữ liệu');
-        this.isLoading = false;
-        console.log(err);
-        return;
-      })
-    })
-  }
-
   save() {
-    this.isLoading = true;
 
     if (this.idPromotional == undefined) {
       this.toastrService.warning('Vui lòng chọn chương trình khuyến mại!');
       return;
     }
 
+    this.isLoading = true;
     for (let i = 0; i < this.selection.selected.length; i++) {
       this.dataProductPromotion.push(
         {
@@ -122,7 +129,7 @@ export class ProductPromotionalFormComponent implements OnInit {
       if (data) {
         this.isLoading = false;
         this.productPromotionalService.isCloseDialog.next(false);
-        this.getProductNotInPromotional(this.idPromotional);
+        this.getProductNotInPromotional();
         this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
       }
     })

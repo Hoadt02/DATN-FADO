@@ -19,6 +19,10 @@ export class PromotionalService {
     return this.apiPromotional.getAll();
   }
 
+  findAllByStatusTrue() {
+    return this.apiPromotional.findAllByStatusTrue();
+  }
+
   findById(id: number) {
     return this.apiPromotional.getById(id).subscribe({
       next: (data: any) => {
