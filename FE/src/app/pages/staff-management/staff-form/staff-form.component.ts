@@ -83,8 +83,7 @@ export class StaffFormComponent implements OnInit {
     if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
       this.isLoading = true;
       this.staffService.create(this.formGroup.getRawValue());
-    }
-    if (this.dataDiaLog.type == Constants.TYPE_DIALOG.UPDATE) {
+    } else {
       this.isLoading = true;
       console.log("update");
       this.staffService.update(
