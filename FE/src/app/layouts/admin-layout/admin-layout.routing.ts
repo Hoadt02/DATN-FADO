@@ -9,17 +9,17 @@ import {MapsComponent} from '../../pages/maps/maps.component';
 import {NotificationsComponent} from '../../pages/notifications/notifications.component';
 
 export const AdminLayoutRoutes: Routes = [
-  {path: 'dashboard', component: DashboardComponent},
-  {path: 'user', component: UserComponent},
-  {path: 'table', component: TableComponent},
-  {path: 'typography', component: TypographyComponent},
-  {path: 'icons', component: IconsComponent},
-  {path: 'maps', component: MapsComponent},
-  {path: 'notifications', component: NotificationsComponent},
-  // {
-  //   path: 'product-management',
-  //   loadChildren: () => import('../../pages/product-management/product-management.module').then(m => m.ProductManagementModule)
-  // },
+    { path: 'dashboard',      component: DashboardComponent },
+    { path: 'user',           component: UserComponent },
+    { path: 'table',          component: TableComponent },
+    { path: 'typography',     component: TypographyComponent },
+    { path: 'icons',          component: IconsComponent },
+    { path: 'maps',           component: MapsComponent },
+    { path: 'notifications',  component: NotificationsComponent },
+  {
+    path: 'product-management',
+    loadChildren: () => import('../../pages/product-management/product-management.module').then(m => m.ProductManagementModule)
+  },
   {
     path: 'staff-management',
     loadChildren: () => import('../../pages/staff-management/staff-management.module').then(m => m.StaffManagementModule)

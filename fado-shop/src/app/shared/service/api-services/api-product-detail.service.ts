@@ -28,4 +28,12 @@ export class ApiProductDetailService{
   findProductDetail(id:number): Observable<any>{
     return this.httpClient.get(`${ApiConstant.productDetail}/${id}`, httpOptions);
   }
+
+  // getProductDetailByFilter(data:any):Observable<any>{
+  //   return this.httpClient.post(`${ApiConstant.productDetail}/filter`, data, httpOptions);
+  // }
+
+  getProductDetailByFilter(url_param:string):Observable<any>{
+    return this.httpClient.get(`${ApiConstant.productDetail}/filter?${url_param}`, httpOptions);
+  }
 }

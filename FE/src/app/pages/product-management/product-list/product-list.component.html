@@ -1,0 +1,162 @@
+<div class="container-fluid">
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner-border spinner-center" role="status"></div>
+  </div>
+</div>
+
+<div class="my-3">
+  <button mat-raised-button color="primary" (click)="openDiaLog(TYPE_DIALOG.NEW)"><i class="fa-solid fa-plus"></i>
+    Thêm mới
+  </button>
+</div>
+
+<div class="row">
+  <div class="col-12 col-md-3">
+    <div class="card">
+      <div class="card-body">
+        <h3><b><i class="fa-solid fa-magnifying-glass"></i> TÌM KIẾM NHANH</b></h3>
+        <mat-form-field appearance="legacy" class="p-0">
+          <input matInput (keyup)="applyFilter($event)" placeholder="Mời bạn nhập từ khóa tìm kiếm" #input>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-9">
+    <div class="card">
+      <div class="card-body">
+        <h3><b><i class="fa-solid fa-filter"></i> BỘ LỌC</b></h3>
+        <div>
+          <button mat-raised-button class="btn-filter" [matMenuTriggerFor]="menu1"> Dòng sản phẩm <i class="fa-solid fa-caret-down"></i>
+          </button>
+          <mat-menu #menu1="matMenu">
+            <button mat-menu-item *ngFor="let p of listProduct" (click)="getAllFilter(1, p.id)">{{p.name}}</button>
+          </mat-menu>
+
+          <button mat-raised-button class="btn-filter" [matMenuTriggerFor]="menu2">Thương hiệu <i class="fa-solid fa-caret-down"></i>
+          </button>
+          <mat-menu #menu2="matMenu">
+            <button mat-menu-item *ngFor="let b of listBrand" (click)="getAllFilter(2, b.id)">{{b.name}}</button>
+          </mat-menu>
+
+          <button mat-raised-button class="btn-filter" [matMenuTriggerFor]="menu3">Chất liệu <i class="fa-solid fa-caret-down"></i></button>
+          <mat-menu #menu3="matMenu">
+            <button mat-menu-item *ngFor="let m of listMaterial" (click)="getAllFilter(3, m.id)">{{m.name}}</button>
+          </mat-menu>
+
+          <button mat-raised-button class="btn-filter" [matMenuTriggerFor]="menu4">Xuất xứ <i class="fa-solid fa-caret-down"></i></button>
+          <mat-menu #menu4="matMenu">
+            <button mat-menu-item *ngFor="let o of listOrigin" (click)="getAllFilter(4,o.id)">{{o.name}}</button>
+          </mat-menu>
+
+          <button mat-raised-button class="btn-filter" [matMenuTriggerFor]="menu5">Trạng thái <i class="fa-solid fa-caret-down"></i>
+          </button>
+          <mat-menu #menu5="matMenu">
+            <button mat-menu-item (click)="getAllFilter(5, 1)">Hoạt động</button>
+            <button mat-menu-item (click)="getAllFilter(5, 0)">Không hoạt động</button>
+          </mat-menu>
+
+          <button mat-raised-button class="btn-filter" [matMenuTriggerFor]="menu6">Đối tượng sử dụng <i class="fa-solid fa-caret-down"></i></button>
+          <mat-menu #menu6="matMenu">
+            <button mat-menu-item (click)="getAllFilter(6, true)">Nam</button>
+            <button mat-menu-item (click)="getAllFilter(6, false)">Nữ</button>
+          </mat-menu>
+
+          <button mat-raised-button color="accent" (click)="onResetFilter()"><i class="fa-solid fa-arrows-rotate"></i> Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Row -->
+<div class="row">
+  <div>
+    <div class="card">
+      <div class="card-body">
+        <div>
+          <h3><b><i class="fa-solid fa-list"></i> DANH SÁCH SẢN PHẨM</b></h3>
+        </div>
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <!-- index Column -->
+          <ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> STT</th>
+            <td mat-cell *matCellDef="let row; index as i"> {{i + 1}} </td>
+          </ng-container>
+
+          <!-- avatar Column -->
+          <ng-container matColumnDef="avatar-product">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Hình ảnh</th>
+            <td mat-cell *matCellDef="let row"><img src="assets/img/avtProduct/{{row.avatar}}" class="avatar-product">
+            </td>
+          </ng-container>
+
+          <!-- name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header width="18%"> Tên sản phẩm</th>
+            <td mat-cell *matCellDef="let row" width="18%"> {{row.name}} </td>
+          </ng-container>
+
+          <!-- price Column -->
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Giá tiền</th>
+            <td mat-cell *matCellDef="let row"> {{row.price | number}} ₫</td>
+          </ng-container>
+
+          <!-- quantity Column -->
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Số lượng</th>
+            <td mat-cell *matCellDef="let row"> {{row.quantity}} </td>
+          </ng-container>
+
+          <!-- gender Column -->
+          <ng-container matColumnDef="gender">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Đối tượng sử dụng</th>
+            <td mat-cell *matCellDef="let row"> {{row.gender ? 'Nam' : 'Nữ'}} </td>
+          </ng-container>
+
+          <!-- createDate Column -->
+          <ng-container matColumnDef="createDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Ngày tạo</th>
+            <td mat-cell *matCellDef="let row"> {{row.createDate | date:'dd-MM-yyyy'}} </td>
+          </ng-container>
+
+          <!-- status Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Trạng thái</th>
+            <td mat-cell *matCellDef="let row">
+              {{row.status == 1 ? 'Hoạt động' : 'Ngưng hoạt động'}}
+            </td>
+          </ng-container>
+
+          <!-- thao tác Column -->
+          <ng-container matColumnDef="thaoTac">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header width="15%"> Thao tác</th>
+            <td mat-cell *matCellDef="let row" width="15%">
+              <button mat-icon-button class="text-green" (click)="openDiaLog(TYPE_DIALOG.UPDATE,row)">
+                <i class="fa-regular fa-pen-to-square"></i>
+              </button>
+              <button [disabled]="row.status == 0" mat-icon-button color="warn" (click)="openDelete(row,row.id)">
+                <i class="fa-sharp fa-solid fa-trash"></i>
+              </button>
+              <button mat-icon-button color="primary" (click)="openViewDialog(row)">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!--          Row shown when there is no matching data.-->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">Không có dữ liệu nào phù hợp với "{{input.value}}"</td>
+          </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[10, 20, 35, 100]" aria-label="Select page of users"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End Row -->
