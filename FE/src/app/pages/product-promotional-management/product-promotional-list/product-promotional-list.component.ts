@@ -22,7 +22,7 @@ export class ProductPromotionalListComponent implements OnInit {
   RESULT_CLOSE_DIALOG = Constants.RESULT_CLOSE_DIALOG;
 
 
-  displayedColumns: string[] = ['select', 'productName', 'price', 'promotionalPrice', 'priceBefore', 'promotional'];
+  displayedColumns: string[] = ['select', 'productName', 'price', 'promotionalPrice', 'priceBefore', 'promotional', 'status'];
   dataSource: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

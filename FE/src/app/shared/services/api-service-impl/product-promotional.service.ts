@@ -21,8 +21,8 @@ export class ProductPromotionalService {
     return this.apiProductPromotionalService.getAll();
   }
 
-  getProductNotInPromotional(data: any) {
-    return this.apiProductPromotionalService.getProductNotInPromotional(data);
+  getProductNotInPromotional() {
+    return this.apiProductPromotionalService.getProductNotInPromotional();
   }
 
   create(data: any[]) {

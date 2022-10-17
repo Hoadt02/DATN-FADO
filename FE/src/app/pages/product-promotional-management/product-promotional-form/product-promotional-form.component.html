@@ -24,8 +24,8 @@
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Chương trình khuyến mại</mat-label>
             <mat-select>
-              <mat-option *ngFor="let prm of promotionalList" [value]="prm.id"
-                          (click)="getProductNotInPromotional(prm.id);">{{prm.name}}</mat-option>
+              <mat-option *ngFor="let prm of promotionalList" (click)="getIdPromotional(prm.id);"
+                          [value]="prm.id">{{prm.name}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>

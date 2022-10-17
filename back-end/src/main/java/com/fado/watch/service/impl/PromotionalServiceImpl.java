@@ -23,6 +23,12 @@ public class PromotionalServiceImpl implements IPromotionalService {
     @Override
     public List<Promotional> getAll() {
         return this.promotionalRepository.findAll();
+
+    }
+
+    @Override
+    public List<Promotional> findAllByStatusTrue() {
+        return this.promotionalRepository.findAllByStatusTrue();
     }
 
     @Override

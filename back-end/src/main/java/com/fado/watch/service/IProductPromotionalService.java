@@ -9,7 +9,7 @@ public interface IProductPromotionalService {
 
     List<ProductPromotional> getAll();
 
-    List<ProductDetail> getProductNotInPromotional(Integer idPromotional);
+    List<ProductDetail> getProductNotInPromotional();
 
     ProductPromotional getById(Integer id);
 
