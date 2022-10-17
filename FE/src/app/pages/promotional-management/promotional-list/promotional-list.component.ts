@@ -49,6 +49,7 @@ export class PromotionalListComponent implements OnInit {
   }
 
   getAll() {
+    this.isLoading = true;
     this.apiPromotional.getAll().subscribe({
       next: (data: any) => {
         this.dataSource = new MatTableDataSource<any>(data);
@@ -110,25 +111,23 @@ export class PromotionalListComponent implements OnInit {
     diaLogRef.afterClosed().subscribe(rs => {
       if (rs == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
         if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
+          this.isLoading = true;
           row.status = 1;
           this.apiPromotional.update(row.id, row);
         } else {
+          this.isLoading = true;
           row.status = 0;
           this.apiPromotional.update(row.id, row);
         }
       }
+      this.apiPromotional.isCloseDialog.subscribe((data) => {
+        if (data) {
+          this.apiPromotional.isCloseDialog.next(false);
+          this.isLoading = false;
+        }
+      });
     })
   }
 
-  detail(row) {
-    this.matDialog.open(StaffDetailComponent, {
-      width: '700px',
-      hasBackdrop: true,
-      disableClose: true,
-      data: {
-        row
-      }
-    })
-  }
 
 }

@@ -27,9 +27,11 @@ export class PromotionalFormComponent implements OnInit {
     endDate: [new Date()],
     status: [1],
     staff: this.fb.group({
-      id: [4]
+      id: [164]
     }),
     description: [''],
+  }, {
+    validators: checkTypeDiscount('type', 'discount'),
   });
   range = this.fb.group({
     startDate: [new Date(), Validators.required],
@@ -66,21 +68,24 @@ export class PromotionalFormComponent implements OnInit {
     this.data.startDate = this.range.getRawValue().startDate;
     this.data.endDate = this.range.getRawValue().endDate;
 
-    console.log(this.data);
     this.formGroup.markAllAsTouched();
     if (this.formGroup.invalid) {
+      console.log('Có lỗi rồi');
       return;
     }
 
     if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
+      this.isLoading = true;
       this.promotionalService.create(this.data);
     } else {
+      this.isLoading = true;
       this.promotionalService.update(this.dataDiaLog.row.id, this.data);
     }
     this.promotionalService.isCloseDialog.subscribe((data) => {
       if (data) {
         this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
         this.promotionalService.isCloseDialog.next(false);
+        this.isLoading = false;
       }
     });
   }

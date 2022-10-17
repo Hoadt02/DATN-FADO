@@ -1,12 +1,12 @@
-import { Routes } from '@angular/router';
+import {Routes} from '@angular/router';
 
-import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
-import { UserComponent } from '../../pages/user/user.component';
-import { TableComponent } from '../../pages/table/table.component';
-import { TypographyComponent } from '../../pages/typography/typography.component';
-import { IconsComponent } from '../../pages/icons/icons.component';
-import { MapsComponent } from '../../pages/maps/maps.component';
-import { NotificationsComponent } from '../../pages/notifications/notifications.component';
+import {DashboardComponent} from '../../pages/dashboard/dashboard.component';
+import {UserComponent} from '../../pages/user/user.component';
+import {TableComponent} from '../../pages/table/table.component';
+import {TypographyComponent} from '../../pages/typography/typography.component';
+import {IconsComponent} from '../../pages/icons/icons.component';
+import {MapsComponent} from '../../pages/maps/maps.component';
+import {NotificationsComponent} from '../../pages/notifications/notifications.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -29,6 +29,10 @@ export const AdminLayoutRoutes: Routes = [
     loadChildren: () => import('../../pages/promotional-management/promotional-management.module').then(m => m.PromotionalManagementModule)
   },
   {
+    path: 'product-promotional-management',
+    loadChildren: () => import('../../pages/product-promotional-management/product-promotional-management.module').then(m => m.ProductPromotionalManagementModule)
+  },
+  {
     path: 'customer-management',
     loadChildren: () => import('../../pages/customer-management/customer-management.module').then(m => m.CustomerManagementModule)
   },
@@ -36,10 +40,10 @@ export const AdminLayoutRoutes: Routes = [
     path: 'material-management',
     loadChildren: () => import('../../pages/material-management/material-management.module').then(m => m.MaterialManagementModule)
   },
-  // {
-  //   path: 'origin-management',
-  //   loadChildren: () => import('../../pages/origin-management/origin-management.module').then(m => m.OriginManagementModule)
-  // },
+  {
+    path: 'origin-management',
+    loadChildren: () => import('../../pages/origin-management/origin-management.module').then(m => m.OriginManagementModule)
+  },
   {
     path: 'category-management',
     loadChildren: () => import('../../pages/category-management/category-management.module').then(m => m.CategoryManagementModule)
@@ -47,5 +51,9 @@ export const AdminLayoutRoutes: Routes = [
   {
     path: 'brand-management',
     loadChildren: () => import('../../pages/brand-management/brand-management.module').then(m => m.BrandManagementModule)
+  },
+  {
+    path: 'product-line',
+    loadChildren: () => import('../../pages/product-line/product-line.module').then(m => m.ProductLineModule)
   },
 ];

@@ -48,10 +48,10 @@
         && formGroup.get('discount')?.touched">
           Vui lòng nhập số tiền hoặc % khuyến mại lớn hơn 1!
         </mat-error>
-        <mat-error *ngIf="formGroup.get('discount')?.hasError('isType')
-        && formGroup.get('discount')?.touched">
+        <mat-hint style="color: red"
+                  *ngIf="formGroup.errors?.isType && (formGroup.get('discount')?.touched || formGroup.get('type')?.touched)">
           Khuyến mại theo % thì chỉ được nhập từ 1 > 100.
-        </mat-error>
+        </mat-hint>
       </mat-form-field>
     </div>
 
