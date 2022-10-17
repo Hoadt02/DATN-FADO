@@ -68,17 +68,24 @@ export class ProductDetailsService {
     });
   }
 
-  deleteProductDetail(data: any, id: number) {
-    data.status = 0;
+  activeOrInActiveProductDetail(data: any, id: number, type:number) {
+    data.status = type;
     this.apiService.updateProductDetail(data, id).subscribe({
       next: (data) => {
         console.log(data);
-        this.toatService.success('Xóa sản phẩm thành công!');
+        if (type == 1){
+          this.toatService.success('Kích hoạt sản phẩm thành công!');
+        }else {
+          this.toatService.success('Vô hiệu hóa sản phẩm thành công!');
+        }
       },
       error: (error) => {
         console.log(error);
-        this.toatService.error('Xóa sản phẩm thất bại!');
-        return;
+        if (type == 1){
+          this.toatService.error('Kích hoạt sản phẩm thất bại!');
+        } else {
+          this.toatService.error('Vô hiệu hóa sản phẩm thất bại!');
+        }
       }
     });
   }
