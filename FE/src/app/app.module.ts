@@ -13,6 +13,7 @@ import { AppRoutes } from './app.routing';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {ProductViewComponent} from "./pages/product-management/product-view/product-view.component";
 
 
 @NgModule({

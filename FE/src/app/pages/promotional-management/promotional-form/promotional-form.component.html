@@ -33,6 +33,10 @@
         <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
+        <mat-hint style="color: red"
+                  *ngIf="range.errors?.isCheckDate && (range.get('startDate')?.touched || range.get('endDate')?.touched)">
+          Ngày bắt đầu phải nhỏ hơn ngày kết thúc!
+        </mat-hint>
       </mat-form-field>
     </div>
 

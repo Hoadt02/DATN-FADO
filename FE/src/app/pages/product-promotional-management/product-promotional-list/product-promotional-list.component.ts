@@ -9,6 +9,7 @@ import {Constants} from "../../../shared/Constants";
 import {ToastrService} from "ngx-toastr";
 import {SelectionModel} from "@angular/cdk/collections";
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
+import {PromotionalService} from "../../../shared/services/api-service-impl/promotional.service";
 
 @Component({
   selector: 'app-product-promotional-form-list',
@@ -20,6 +21,9 @@ export class ProductPromotionalListComponent implements OnInit {
   isLoading = true;
   TYPE_DIALOG = Constants.TYPE_DIALOG;
   RESULT_CLOSE_DIALOG = Constants.RESULT_CLOSE_DIALOG;
+  filterType: any;
+  filterPromotional: any;
+  promotionalList: any[];
 
 
   displayedColumns: string[] = ['select', 'productName', 'price', 'promotionalPrice', 'priceBefore', 'promotional', 'status'];
@@ -32,6 +36,7 @@ export class ProductPromotionalListComponent implements OnInit {
 
   constructor(
     private readonly productPromotionalService: ProductPromotionalService,
+    private readonly promotionalService: PromotionalService,
     private matDiaLog: MatDialog,
     private readonly toastrService: ToastrService,
   ) {
@@ -39,12 +44,68 @@ export class ProductPromotionalListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAll();
+    this.getAllPromotional();
   }
 
   getAll() {
+    this.filterType = null;
+    this.filterPromotional = null;
     this.isLoading = true;
     this.productPromotionalService.getAll().subscribe({
       next: (data: any) => {
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.isLoading = false;
+      }, error: err => {
+        this.isLoading = false;
+        this.toastrService.error('Lỗi load dữ liệu');
+        console.log(err);
+      }
+    })
+  }
+
+  getAllPromotional() {
+    // this.isLoading = true;
+    this.promotionalService.getAll().subscribe({
+      next: (data: any) => {
+        this.promotionalList = data as any[];
+        console.log(this.promotionalList);
+        // this.isLoading = false;
+      }, error: (err => {
+        this.toastrService.error('Lỗi tải dữ liệu');
+        console.log(err);
+        // this.isLoading = false;
+        return;
+      })
+    })
+  }
+
+
+  getFilterType() {
+    this.filterPromotional = null;
+    this.isLoading = true;
+    this.productPromotionalService.getAll().subscribe({
+      next: (data: any) => {
+        data = data.filter(m => m.promotional.type == this.filterType);
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.isLoading = false;
+      }, error: err => {
+        this.isLoading = false;
+        this.toastrService.error('Lỗi load dữ liệu');
+        console.log(err);
+      }
+    })
+  }
+
+  getFilterPromotional() {
+    this.filterType = null;
+    this.isLoading = true;
+    this.productPromotionalService.getAll().subscribe({
+      next: (data: any) => {
+        data = data.filter(m => m.promotional.id == this.filterPromotional);
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

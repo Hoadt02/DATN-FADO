@@ -11,7 +11,7 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatDialogModule} from "@angular/material/dialog";
 import { PromotionalFormComponent } from './promotional-form/promotional-form.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatIconModule} from "@angular/material/icon";
 import {MatRadioModule} from "@angular/material/radio";
@@ -43,7 +43,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
         MatCardModule,
         MatNativeDateModule,
         MatSelectModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        FormsModule
     ]
 })
 export class PromotionalManagementModule { }

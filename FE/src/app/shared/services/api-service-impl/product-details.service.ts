@@ -78,6 +78,7 @@ export class ProductDetailsService {
         }else {
           this.toatService.success('Vô hiệu hóa sản phẩm thành công!');
         }
+        this.isCloseDialog.next(true);
       },
       error: (error) => {
         console.log(error);

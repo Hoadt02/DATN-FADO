@@ -15,6 +15,7 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSortModule} from "@angular/material/sort";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -22,20 +23,21 @@ import {MatSortModule} from "@angular/material/sort";
     ProductPromotionalListComponent,
     ProductPromotionalFormComponent
   ],
-  imports: [
-    CommonModule,
-    ProductPromotionalManagementRoutingModule,
-    MatPaginatorModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatTableModule,
-    MatCheckboxModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatDialogModule,
-    MatSortModule
-  ]
+    imports: [
+        CommonModule,
+        ProductPromotionalManagementRoutingModule,
+        MatPaginatorModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatTableModule,
+        MatCheckboxModule,
+        MatInputModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatDialogModule,
+        MatSortModule,
+        FormsModule
+    ]
 })
 export class ProductPromotionalManagementModule {
 }
