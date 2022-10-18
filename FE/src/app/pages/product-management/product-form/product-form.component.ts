@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Constants} from '../../../shared/Constants';
@@ -18,7 +18,7 @@ import {Regex} from '../../../shared/validator/regex';
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.scss']
 })
-export class ProductFormComponent implements OnInit {
+export class ProductFormComponent implements OnInit{
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
   title = '';
@@ -52,7 +52,7 @@ export class ProductFormComponent implements OnInit {
     avatar: [''],
     createDate: [''],
     description: ['', [checkSpace]],
-    status: ['', [Validators.required]]
+    status: [1]
   });
 
   files: File[] = [];
@@ -307,4 +307,5 @@ export class ProductFormComponent implements OnInit {
       }
     });
   }
+
 }

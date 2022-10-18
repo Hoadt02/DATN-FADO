@@ -1,5 +1,5 @@
 <div class="row">
-  <span class="col-1 fs-4 offset-11" (click)="onDismiss()"><i class="fa-solid fa-xmark"></i></span>
+  <span class="col-1 offset-11" style="font-size: 25px" (click)="onDismiss()"><i class="fa-solid fa-xmark"></i></span>
 </div>
 
 <div class="row">
@@ -15,8 +15,11 @@
   </div>
   <div class="col-6">
     <div class="row">
-      <h1><b>{{data.name | uppercase}}</b></h1>
-      <h2 style="color: red"><b>{{data.price | number}} ₫</b></h2>
+      <div class="col-12">
+        <h1><b>{{data.name | uppercase}}</b></h1>
+        <h2 style="color: red"><b>{{data.price | number}} ₫</b></h2>
+      </div>
+
     </div>
     <hr>
     <div>
