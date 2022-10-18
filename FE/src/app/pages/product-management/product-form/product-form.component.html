@@ -6,7 +6,7 @@
 
 <div class="row">
   <h2 class="col-11">{{title}}</h2>
-  <span class="col-1 fs-4" (click)="onDismiss()"><i class="fa-solid fa-xmark"></i></span>
+  <span class="col-1" style="font-size: 25px" (click)="onDismiss()"><i class="fa-solid fa-xmark"></i></span>
 </div>
 
 <mat-stepper #stepper>
@@ -35,7 +35,7 @@
         </div>
         <div class="col-8">
           <div class="row">
-            <mat-form-field class="w-100" appearance="outline" class="col-4">
+            <mat-form-field class="w-100" appearance="outline" class="col-6">
               <mat-label>Tên sản phẩm</mat-label>
               <input type="text" matInput placeholder="..." formControlName="name">
               <mat-error *ngIf="formGroup.get('name')?.hasError('isSpace') && formGroup.get('name')?.touched">
@@ -49,9 +49,9 @@
               </mat-error>
             </mat-form-field>
 
-            <mat-form-field class="w-100" appearance="outline" class="col-4">
+            <mat-form-field class="w-100" appearance="outline" class="col-6">
               <mat-label>Giá sản phẩm</mat-label>
-              <input type="number" matInput placeholder="..." formControlName="price" min="0">
+              <input type="number" matInput placeholder="..." formControlName="price" min="0" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
               <mat-error *ngIf="formGroup.get('price')?.hasError('required') && formGroup.get('price')?.touched">
                 Vui lòng không bỏ trống giá sản phẩm!
               </mat-error>
@@ -59,10 +59,12 @@
                 Giá sản phẩm tối thiểu 10.000 VNĐ!
               </mat-error>
             </mat-form-field>
+          </div>
 
-            <mat-form-field class="w-100" appearance="outline" class="col-4">
+          <div class="row">
+            <mat-form-field class="w-100" appearance="outline" class="col-6">
               <mat-label>Số lượng sản phẩm</mat-label>
-              <input type="number" matInput placeholder="..." formControlName="quantity" min="0">
+              <input type="number" matInput placeholder="..." formControlName="quantity" min="0" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
               <mat-error *ngIf="formGroup.get('quantity')?.hasError('required') && formGroup.get('quantity')?.touched">
                 Vui lòng không bỏ trống số lượng sản phẩm!
               </mat-error>
@@ -70,9 +72,7 @@
                 Số lượng sản phẩm tối thiểu là 1!
               </mat-error>
             </mat-form-field>
-          </div>
 
-          <div class="row">
             <mat-form-field appearance="outline" class="col-6">
               <mat-label>Đối tượng sử dụng</mat-label>
               <mat-select disableRipple formControlName="gender">
@@ -84,16 +84,6 @@
               </mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="col-6">
-              <mat-label>Trạng thái sản phẩm</mat-label>
-              <mat-select disableRipple formControlName="status">
-                <mat-option [value]='1'>Hoạt động</mat-option>
-                <mat-option [value]='0'>Ngưng hoạt động</mat-option>
-              </mat-select>
-              <mat-error *ngIf="formGroup.get('status')?.hasError('required') && formGroup.get('status')?.touched">
-                Vui lòng không bỏ trống trạng thái sản phẩm!
-              </mat-error>
-            </mat-form-field>
           </div>
 
           <div class="row">
@@ -172,7 +162,7 @@
         <button type="button" mat-icon-button color="primary" class="mt-2" (click)="showImageDetail = !showImageDetail"><i class="fa-solid fa-rotate-right fs-5"></i></button>
       </div>
       <div class="mt-3">
-        <button type="button" class="me-2" mat-raised-button matStepperPrevious>Back</button>
+        <button type="button" class="mr-2" mat-raised-button matStepperPrevious>Back</button>
         <button type="button" mat-raised-button matStepperNext>Next</button>
       </div>
     </mat-step>

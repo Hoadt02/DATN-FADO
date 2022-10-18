@@ -14,6 +14,7 @@ import { MapsComponent }            from '../../pages/maps/maps.component';
 import { NotificationsComponent }   from '../../pages/notifications/notifications.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {ProductViewComponent} from "../../pages/product-management/product-view/product-view.component";
 
 @NgModule({
   imports: [

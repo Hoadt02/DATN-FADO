@@ -25,6 +25,8 @@ import {OriginService} from "../../../shared/services/api-service-impl/origin.se
 export class ProductListComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
+  readonly TYPE_FILTER = Constants.TYPE_FILTER;
+
   isLoading = true;
   panelOpenState = false;
 
@@ -32,6 +34,8 @@ export class ProductListComponent implements OnInit {
   listBrand: any[] = [];
   listOrigin: any[] = [];
   listMaterial: any[] = [];
+
+
 
   displayedColumns: string[] = ['index' , 'avatar-product', 'name', 'price', 'quantity', 'gender', 'createDate', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
@@ -73,21 +77,21 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  getAllFilter(type: number, check: any) {
+  getAllFilter(type: string, check: any) {
     this.isLoading = true;
     this.service.getAllProductDetail().subscribe({
       next: (data: any) => {
-        if (type == 1) {
+        if (type == this.TYPE_FILTER.PRODUCT) {
           data = data.filter(n => n.product.id == check)
-        } else if (type == 2) {
+        } else if (type == this.TYPE_FILTER.BRAND) {
           data = data.filter(n => n.brand.id == check)
-        } else if (type == 3) {
+        } else if (type == this.TYPE_FILTER.MATERIAL) {
           data = data.filter(n => n.material.id == check)
-        } else if (type == 4) {
+        } else if (type == this.TYPE_FILTER.ORIGIN) {
           data = data.filter(n => n.origin.id == check)
-        } else if (type == 5) {
+        } else if (type == this.TYPE_FILTER.STATUS) {
           data = data.filter(n => n.status == check)
-        } else if (type == 6) {
+        } else if (type == this.TYPE_FILTER.GENDER) {
           data = data.filter(n => n.gender == check)
         }
 
@@ -142,6 +146,12 @@ export class ProductListComponent implements OnInit {
       }).afterClosed().subscribe(  result => {
       if (result == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
         this.service.activeOrInActiveProductDetail(data, id, type);
+        this.service.isCloseDialog.subscribe(data =>{
+          if (data){
+            this.getAll();
+            this.service.isCloseDialog.next(false);
+          }
+        });
       }
     });
   }

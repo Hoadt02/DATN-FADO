@@ -46,6 +46,6 @@ import {NgxDropzoneModule} from "ngx-dropzone";
     MatMenuModule,
     NgxDropzoneModule
   ],
-  entryComponents: [ProductFormComponent, ProductViewComponent]
+  entryComponents: [ProductFormComponent]
 })
 export class ProductManagementModule { }

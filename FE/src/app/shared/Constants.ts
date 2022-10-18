@@ -12,4 +12,13 @@ export class Constants {
         ACTIVE : 'active',
         NOT_ACTIVE: 'not_active'
     }
+
+  public static TYPE_FILTER = {
+    PRODUCT: 'product',
+    BRAND: 'brand',
+    MATERIAL: 'material',
+    ORIGIN: 'origin',
+    GENDER: 'gender',
+    STATUS: 'status'
+  }
 }

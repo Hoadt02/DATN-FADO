@@ -8,6 +8,9 @@
   <button mat-raised-button color="primary" (click)="openDiaLog(TYPE_DIALOG.NEW)"><i class="fa-solid fa-plus"></i>
     Thêm mới
   </button>
+  <button mat-raised-button color="accent" (click)="onResetFilter()"><i class="fa-solid fa-arrows-rotate"></i>
+    Reset
+  </button>
 </div>
 
 <div class="row">
@@ -15,7 +18,8 @@
     <div class="card">
       <div class="card-body">
         <h3><b><i class="fa-solid fa-magnifying-glass"></i> TÌM KIẾM NHANH</b></h3>
-        <mat-form-field appearance="legacy" class="p-0">
+        <mat-form-field appearance="outline" class="p-0">
+          <mat-label>Từ khóa tìm kiếm</mat-label>
           <input matInput (keyup)="applyFilter($event)" placeholder="Mời bạn nhập từ khóa tìm kiếm" #input>
         </mat-form-field>
       </div>
@@ -25,43 +29,50 @@
     <div class="card">
       <div class="card-body">
         <h3><b><i class="fa-solid fa-filter"></i> BỘ LỌC</b></h3>
-        <div class="text-center">
-          <button mat-raised-button class="btn-filter" [matMenuTriggerFor]="menu1"> Dòng sản phẩm <i class="fa-solid fa-caret-down"></i>
-          </button>
-          <mat-menu #menu1="matMenu">
-            <button mat-menu-item *ngFor="let p of listProduct" (click)="getAllFilter(1, p.id)">{{p.name}}</button>
-          </mat-menu>
+        <div class="row">
+          <mat-form-field appearance="outline" class="col-2">
+            <mat-label>Dòng sản phẩm</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let p of listProduct" (click)="getAllFilter(TYPE_FILTER.PRODUCT, p.id)" [value]="p.id">{{p.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-          <button mat-raised-button class="btn-filter" [matMenuTriggerFor]="menu2">Thương hiệu <i class="fa-solid fa-caret-down"></i>
-          </button>
-          <mat-menu #menu2="matMenu">
-            <button mat-menu-item *ngFor="let b of listBrand" (click)="getAllFilter(2, b.id)">{{b.name}}</button>
-          </mat-menu>
+          <mat-form-field appearance="outline" class="col-2">
+            <mat-label>Thương hiệu</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let b of listBrand" (click)="getAllFilter(TYPE_FILTER.BRAND, b.id)" [value]="b.id">{{b.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-          <button mat-raised-button class="btn-filter" [matMenuTriggerFor]="menu3">Chất liệu <i class="fa-solid fa-caret-down"></i></button>
-          <mat-menu #menu3="matMenu">
-            <button mat-menu-item *ngFor="let m of listMaterial" (click)="getAllFilter(3, m.id)">{{m.name}}</button>
-          </mat-menu>
+          <mat-form-field appearance="outline" class="col-2">
+            <mat-label>Chất liệu</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let m of listMaterial" (click)="getAllFilter(TYPE_FILTER.MATERIAL, m.id)" [value]="m.id">{{m.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-          <button mat-raised-button class="btn-filter" [matMenuTriggerFor]="menu4">Xuất xứ <i class="fa-solid fa-caret-down"></i></button>
-          <mat-menu #menu4="matMenu">
-            <button mat-menu-item *ngFor="let o of listOrigin" (click)="getAllFilter(4,o.id)">{{o.name}}</button>
-          </mat-menu>
+          <mat-form-field appearance="outline" class="col-2">
+            <mat-label>Xuất xứ</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let o of listOrigin" (click)="getAllFilter(TYPE_FILTER.ORIGIN,o.id)" [value]="o.id">{{o.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-          <button mat-raised-button class="btn-filter" [matMenuTriggerFor]="menu5">Trạng thái <i class="fa-solid fa-caret-down"></i>
-          </button>
-          <mat-menu #menu5="matMenu">
-            <button mat-menu-item (click)="getAllFilter(5, 1)">Hoạt động</button>
-            <button mat-menu-item (click)="getAllFilter(5, 0)">Không hoạt động</button>
-          </mat-menu>
+          <mat-form-field appearance="outline" class="col-2">
+            <mat-label>Trạng thái</mat-label>
+            <mat-select>
+              <mat-option (click)="getAllFilter(TYPE_FILTER.STATUS, 1)" [value]="1">Hoạt động</mat-option>
+              <mat-option (click)="getAllFilter(TYPE_FILTER.STATUS, 0)" [value]="0">Không hoạt động</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-          <button mat-raised-button class="btn-filter" [matMenuTriggerFor]="menu6">Đối tượng sử dụng <i class="fa-solid fa-caret-down"></i></button>
-          <mat-menu #menu6="matMenu">
-            <button mat-menu-item (click)="getAllFilter(6, true)">Nam</button>
-            <button mat-menu-item (click)="getAllFilter(6, false)">Nữ</button>
-          </mat-menu>
-
-          <button mat-raised-button color="accent" (click)="onResetFilter()"><i class="fa-solid fa-arrows-rotate"></i> Reset</button>
+          <mat-form-field appearance="outline" class="col-2">
+            <mat-label>Đối tượng sử dụng</mat-label>
+            <mat-select>
+              <mat-option (click)="getAllFilter(TYPE_FILTER.GENDER, true)" [value]="1">Nam</mat-option>
+              <mat-option (click)="getAllFilter(TYPE_FILTER.GENDER, false)" [value]="0">Nữ</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
       </div>
     </div>
