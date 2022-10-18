@@ -15,27 +15,29 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
+import {NgxDropzoneModule} from "ngx-dropzone";
 
 @NgModule({
   declarations: [
     CategoryListComponent,
     CategoryFormComponent,
   ],
-  imports: [
-    CommonModule,
-    CategoryManagementRoutingModule,
-    MatFormFieldModule,
-    MatPaginatorModule,
-    MatTableModule,
-    MatInputModule,
-    MatSortModule,
-    MatButtonModule,
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatRadioModule,
-    MatDatepickerModule,
-    MatSelectModule,
-  ],
+    imports: [
+        CommonModule,
+        CategoryManagementRoutingModule,
+        MatFormFieldModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatInputModule,
+        MatSortModule,
+        MatButtonModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatRadioModule,
+        MatDatepickerModule,
+        MatSelectModule,
+        NgxDropzoneModule,
+    ],
   entryComponents: [CategoryFormComponent]
 })
 export class CategoryManagementModule { }

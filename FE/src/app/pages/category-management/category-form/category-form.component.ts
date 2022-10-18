@@ -6,6 +6,9 @@ import {Constants} from '../../../shared/Constants';
 import {ToastrService} from 'ngx-toastr';
 import {checkSpace} from '../../../shared/validator/validatorForm';
 import {Regex} from '../../../shared/validator/regex';
+import {UploadImageService} from "../../../shared/services/api-service-impl/upload-image.service";
+import {error} from "protractor";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-category-form',
@@ -14,11 +17,16 @@ import {Regex} from '../../../shared/validator/regex';
 })
 export class CategoryFormComponent implements OnInit {
 
+  isCloseDialog: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   title: string;
+  fileImg: File[] = [];
+  showImage = true;
 
   formGroup: FormGroup = this.fb.group({
     id: '',
     name: ['', [checkSpace, Validators.pattern(Regex.name), Validators.maxLength(255)]],
+    image: '',
     status: [1]
   })
 
@@ -26,6 +34,7 @@ export class CategoryFormComponent implements OnInit {
               private categoryService: CategoryService,
               private toastrService: ToastrService,
               private matDialogRef: MatDialogRef<CategoryFormComponent>,
+              private uploadImageService: UploadImageService,
               @Inject(MAT_DIALOG_DATA) private dataDiaLog?: any) {
   }
 
@@ -43,6 +52,18 @@ export class CategoryFormComponent implements OnInit {
     }
   }
 
+  onSelectImg(event) {
+    if (this.fileImg.length >= 1) {
+      this.fileImg.splice(0, this.fileImg.length);
+    }
+    this.fileImg = event.addedFiles;
+  }
+
+  onRemoveImg() {
+    console.log(this.fileImg.length);
+    this.fileImg.splice(0, 1);
+  }
+
   onDismiss() {
     this.matDialogRef.close();
   }
@@ -53,40 +74,31 @@ export class CategoryFormComponent implements OnInit {
       return;
     }
     // tslint:disable-next-line:triple-equals
-    if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
-      this.categoryService.create(this.formGroup.getRawValue()).subscribe({
-        next: (data) => {
-          console.log(data);
-          this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
-          this.toastrService.success('Thêm mới danh mục thành công');
-        },
-        // tslint:disable-next-line:no-shadowed-variable
-        error: (error) => {
-          console.log(error);
-          if (error.error.code == 'UNIQUE') {
-            this.toastrService.warning(error.error.message);
-            return;
+
+    // add image
+    const imgData = new FormData();
+    imgData.append('file', this.fileImg[0]);
+    this.uploadImageService.uploadImage(imgData, 'imageProduct').subscribe((data) => {
+      this.formGroup.patchValue({image: data.name});
+      this.isCloseDialog.next(true);
+    }, error => {
+      console.log(error);
+      this.toastrService.error('Lỗi thêm ảnh !!');
+      return;
+    })
+    this.isCloseDialog.subscribe(
+      data => {
+        if (data) {
+          if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
+            this.categoryService.create(this.formGroup.getRawValue());
+            this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
+
+          } else {
+            this.categoryService.update(this.formGroup.getRawValue());
+            this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
           }
-          this.toastrService.error('Thêm mới danh mục thất bại !');
         }
-      });
-    } else {
-      this.categoryService.update(this.formGroup.getRawValue()).subscribe({
-        next: (data) => {
-          console.log(data);
-          this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
-          this.toastrService.success('Cập nhật danh mục thành công')
-        },
-        // tslint:disable-next-line:no-shadowed-variable
-        error: (error) => {
-          console.log(error);
-          if (error.error.code == 'UNIQUE') {
-            this.toastrService.warning(error.error.message);
-            return;
-          }
-          this.toastrService.error('Cập nhật danh mục thất bại!');
-        }
-      });
-    }
+      }
+    )
   }
 }
