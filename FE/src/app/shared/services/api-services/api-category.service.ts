@@ -31,4 +31,5 @@ export class ApiCategoryService {
   update(data: any): Observable<any> {
     return this.http.put(`${ApiConstant.category}/${data.id}`, data, httpOptions);
   }
+
 }

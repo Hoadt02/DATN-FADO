@@ -99,7 +99,7 @@ export class CategoryListComponent implements OnInit {
       if (rs == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
         if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
           row.status = 1;
-          this.categoryService.update(row).subscribe({
+          this.categoryService.updateActive(row).subscribe({
             next: (data) => {
               console.log(data);
               this.toastService.success('Đã chuyển thành kinh doanh')
@@ -112,7 +112,7 @@ export class CategoryListComponent implements OnInit {
           });
         } else {
           row.status = 0;
-          this.categoryService.update(row).subscribe({
+          this.categoryService.updateActive(row).subscribe({
             next: (data) => {
               console.log(data);
               this.toastService.success('Đã chuyển thành ngừng kinh doanh')
