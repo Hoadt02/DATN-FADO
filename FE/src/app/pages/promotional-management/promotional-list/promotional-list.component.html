@@ -26,9 +26,9 @@
         <div class="col-12 col-md-5">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Thời gian</mat-label>
-            <mat-date-range-input [rangePicker]="picker">
-              <input matStartDate placeholder="Ngày bắt đầu">
-              <input matEndDate placeholder="Ngày kết thúc">
+            <mat-date-range-input (click)="getFilterDate()" [rangePicker]="picker">
+              <input [(ngModel)]="filterStartDate" matStartDate placeholder="Ngày bắt đầu">
+              <input [(ngModel)]="filterEndDate" matEndDate placeholder="Ngày kết thúc">
             </mat-date-range-input>
             <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
