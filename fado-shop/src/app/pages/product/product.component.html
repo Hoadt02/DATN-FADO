@@ -1,5 +1,5 @@
 <!-- Breadcrumb Start -->
-<div class="container">
+<div class="container-fluid" style="width: 80%">
   <div class="row px-xl-5">
     <div class="col-12">
       <nav class="breadcrumb bg-light mb-30">
@@ -13,7 +13,7 @@
 <!-- Breadcrumb End -->
 
 <!-- Shop Start -->
-<div class="container">
+<div class="container-fluid" style="width: 80%">
   <div class="row px-xl-5">
     <!-- Shop Sidebar Start -->
     <div class="col-lg-3 col-md-4">
@@ -105,14 +105,12 @@
           <div class="d-flex align-items-center justify-content-between">
             <div class="form-group">
               <div class="row">
-                <input type="number" class="form-control col-5 m-auto" placeholder="Từ" min="0" formControlName="startPrice">
-                <input type="number" class="form-control col-5 m-auto" placeholder="Đến" max="9999999999" formControlName="endPrice">
+                <input type="number" class="form-control col-5 m-auto" placeholder="Từ" min="0" max="9999999999" formControlName="startPrice" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
+                <input type="number" class="form-control col-5 m-auto" placeholder="Đến" min="0" max="9999999999" formControlName="endPrice" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
               </div>
              <div class="mt-2">
                <p class="m-0 text-danger" *ngIf="formGroup.get('startPrice')?.hasError('required') && formGroup.get('startPrice')?.touched" style="font-size: 10px">Vui lòng không bỏ trống ô giá bắt đầu!</p>
                <p class="m-0 text-danger" *ngIf="formGroup.get('endPrice')?.hasError('required') && formGroup.get('endPrice')?.touched" style="font-size: 10px">Vui lòng không để trống ô giá kết thúc!</p>
-               <p class="m-0 text-danger" *ngIf="formGroup.get('startPrice')?.hasError('min') && formGroup.get('startPrice')?.touched" style="font-size: 10px">Ô giá bắt đầu không được bé hơn 0!</p>
-               <p class="m-0 text-danger" *ngIf="formGroup.get('endPrice')?.hasError('min') && formGroup.get('endPrice')?.touched" style="font-size: 10px">Ô giá kết thúc không được bé hơn 0!</p>
              </div>
               <div class="row mt-3">
                 <button type="button" class="btn btn-primary d-block w-100" (click)="onSubmitFilterPrice()">Áp dụng</button>
@@ -157,7 +155,7 @@
         <div class="col-lg-4 col-md-6 col-sm-6 pb-1" *ngFor="let p of products">
           <div class="product-item bg-light mb-4">
             <div class="product-img position-relative overflow-hidden">
-              <img class="img-fluid w-100" src="assets/img/product-img/avtProduct/{{p.avatar}}" alt="">
+              <img class="img-fluid w-100" src="../../../assets/img/avtProduct/{{p.avatar}}" alt="">
               <div class="product-action">
                 <a class="btn btn-outline-dark btn-square" href="/product"><i class="fa fa-shopping-cart"></i></a>
                 <a class="btn btn-outline-dark btn-square" href="/product"><i class="far fa-heart"></i></a>

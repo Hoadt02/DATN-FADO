@@ -33,8 +33,8 @@ export class ProductComponent implements OnInit {
   url_param:string = '';
 
   formGroup:FormGroup = this.fb.group({
-    startPrice: [null, [Validators.required, Validators.min(0), Validators.max(9999999999)]],
-    endPrice: [null, [Validators.required, Validators.min(0), Validators.max(999999999)]]
+    startPrice: [null, [Validators.required]],
+    endPrice: [null, [Validators.required]]
   });
 
   constructor(private categoryService: CategoryService,
@@ -158,6 +158,7 @@ export class ProductComponent implements OnInit {
   loadByProductDetail(){
     this.productDetailService.getAllProductDetail().subscribe((data:any)=>{
       if (data){
+        data = data.filter((n: { status: number; }) => n.status == 1);
         this.products = data;
       }
     })

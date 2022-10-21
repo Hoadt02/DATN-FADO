@@ -63,7 +63,6 @@ export class ProductFormComponent implements OnInit{
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<ProductFormComponent>,
               private fb: FormBuilder,
-              private dialogService: MatDialog,
               private brandService: BrandService,
               private productService: ProductService,
               private originService: OriginService,

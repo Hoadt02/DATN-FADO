@@ -12,6 +12,6 @@ import java.util.Optional;
 @Repository
 public interface ProductDetailRepository extends JpaRepository<ProductDetail, Integer> {
 
-    @Query("SELECT p FROM product_details p WHERE (p.product.category.id IN (:category_id) OR p.brand.id IN (:brand_id) OR p.material.id IN (:material_id) OR p.origin.id IN (:origin_id)) AND (p.gender IN (:gender)) AND (p.price BETWEEN :startPrice AND :endPrice)")
+    @Query("SELECT p FROM product_details p WHERE (p.product.category.id IN (:category_id) OR p.brand.id IN (:brand_id) OR p.material.id IN (:material_id) OR p.origin.id IN (:origin_id)) AND (p.gender IN (:gender)) AND (p.price BETWEEN :startPrice AND :endPrice) AND (p.status = 1)")
     List<ProductDetail> getProductDetailByFilter(@Param("category_id") Integer[] category_id, @Param("brand_id") Integer[] brand_id, @Param("material_id") Integer[] material_id, @Param("origin_id") Integer[] origin_id, @Param("gender") Boolean[] gender, @Param("startPrice") Integer startPrice, @Param("endPrice") Integer endPrice);
 }
