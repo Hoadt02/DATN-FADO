@@ -85,7 +85,6 @@ export class StaffFormComponent implements OnInit {
       this.staffService.create(this.formGroup.getRawValue());
     } else {
       this.isLoading = true;
-      console.log("update");
       this.staffService.update(
         this.dataDiaLog.row.id,
         this.formGroup.getRawValue()

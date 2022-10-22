@@ -8,6 +8,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 import {PromotionalService} from "../../../shared/services/api-service-impl/promotional.service";
 import {PromotionalFormComponent} from "../promotional-form/promotional-form.component";
+import {formatDate} from "../../../shared/format/formatData";
 
 @Component({
   selector: 'app-promotional-list',
@@ -26,6 +27,7 @@ export class PromotionalListComponent implements OnInit {
   filterType: any;
   filterStartDate: any;
   filterEndDate: any;
+  listData: any[] = [];
 
   displayedColumns: string[] =
     [
@@ -55,10 +57,12 @@ export class PromotionalListComponent implements OnInit {
     this.isLoading = true;
     this.apiPromotional.getAll().subscribe({
       next: (data: any) => {
+        this.listData = data as any[];
         this.dataSource = new MatTableDataSource<any>(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.isLoading = false;
+        this.checkStatus();
       }, error: (err => {
         this.toastrService.error('Lỗi tải dữ liệu');
         console.log(err);
@@ -74,14 +78,11 @@ export class PromotionalListComponent implements OnInit {
     this.isLoading = true;
     this.apiPromotional.getAll().subscribe({
       next: (data: any) => {
-        data = data.filter(s => s.startDate >= this.filterStartDate && s.endDate <= this.filterEndDate)
+        data = data.filter(s => s.startDate >= formatDate(this.filterStartDate) && s.endDate <= formatDate(this.filterEndDate))
         this.dataSource = new MatTableDataSource<any>(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.isLoading = false;
-        console.log(this.filterStartDate);
-        console.log(this.filterEndDate);
-        console.log('km theo date: ', data);
       }, error: (err => {
         this.toastrService.error('Lỗi tải dữ liệu');
         console.log(err);
@@ -196,5 +197,21 @@ export class PromotionalListComponent implements OnInit {
     })
   }
 
+  checkStatus() {
+    console.log(this.listData);
+    for (const x of this.listData) {
+      console.log(x);
+      if (x.endDate < formatDate(new Date()) && x.status == 1) {
+        this.isLoading = true;
+        x.status = 0;
+        this.apiPromotional.update(x.id, x);
+      }
+    }
+    this.apiPromotional.isCloseDialog.subscribe(data => {
+      if (data) {
+        this.isLoading = false;
+      }
+    })
+  }
 
 }

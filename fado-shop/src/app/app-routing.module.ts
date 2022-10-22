@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {HomePageModule} from "./pages/home-page/home-page.module";
 
 const routes: Routes = [
@@ -15,10 +15,15 @@ const routes: Routes = [
     path: 'product',
     loadChildren: () => import('././pages/product/product.module').then(m => m.ProductModule)
   },
+  {
+    path: 'cart',
+    loadChildren: () => import('././pages/cart/cart.module').then(m => m.CartModule)
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
