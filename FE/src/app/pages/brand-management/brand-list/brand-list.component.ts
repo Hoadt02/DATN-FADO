@@ -64,7 +64,7 @@ export class BrandListComponent implements OnInit {
   openDiaLog(type: string, row?: any) {
     this.dialogService.open(BrandFormComponent,
       {
-        width: '500px',
+        width: '400px',
         data: {type, row}
       }).afterClosed().subscribe(result => {
       if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
