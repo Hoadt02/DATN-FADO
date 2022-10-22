@@ -44,11 +44,12 @@ export class PromotionalService {
     data.endDate = formatDate(data.endDate);
     if (formatDate(data.startDate) > formatDate(new Date())) {
       data.status = 2;
-    } else if (formatDate(data.endDate) < formatDate(new Date())) {
-      data.status = 0;
-    } else {
-      data.status = 1;
     }
+    // else if (formatDate(data.endDate) < formatDate(new Date())) {
+    //   data.status = 0;
+    // } else {
+    //   data.status = 1;
+    // }
   }
 
   create(data: any) {
