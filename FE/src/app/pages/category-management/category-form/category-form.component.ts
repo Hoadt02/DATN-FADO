@@ -9,6 +9,7 @@ import {Regex} from '../../../shared/validator/regex';
 import {UploadImageService} from "../../../shared/services/api-service-impl/upload-image.service";
 import {error} from "protractor";
 import {BehaviorSubject} from "rxjs";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-category-form',
@@ -19,6 +20,7 @@ export class CategoryFormComponent implements OnInit {
 
   isCloseDialog: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+  isLoading: boolean = true;
   title: string;
   fileImg: File[] = [];
   showImage = true;
@@ -40,6 +42,19 @@ export class CategoryFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.setTitleForm();
+  }
+
+  getAll() {
+    this.categoryService.getAll().subscribe({
+      next: (data: any) => {
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.log(error);
+        this.isLoading = false;
+        this.toastrService.warning('Lỗi load dữ liệu!');
+      }
+    });
   }
 
   setTitleForm() {
@@ -91,10 +106,11 @@ export class CategoryFormComponent implements OnInit {
         if (data) {
           if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
             this.categoryService.create(this.formGroup.getRawValue());
+            this.getAll();
             this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
-
           } else {
             this.categoryService.update(this.formGroup.getRawValue());
+            this.getAll();
             this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
           }
         }
