@@ -5,18 +5,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.MalformedURLException;
 
 @Service
 public class UploadServiceImpl implements IUploadService {
     @Override
     public File upload(MultipartFile file, String folder) {
         String pathSystem = System.getProperty("user.dir");
-        String path = pathSystem.substring(0, pathSystem.length() - 8) +  "front-end\\src\\assets\\img\\" + folder;
-        File currentFile = new File(path);
+        String path_FE = pathSystem.substring(0, pathSystem.length() - 8) +  "FE\\src\\assets\\img\\" + folder;
+
+        File currentFile = new File(path_FE);
         if (!currentFile.exists()){
             currentFile.mkdirs();
         }
@@ -24,8 +21,10 @@ public class UploadServiceImpl implements IUploadService {
         try {
             File saveFile = new File(currentFile, name);
             file.transferTo(saveFile);
+
             return saveFile;
         }catch (Exception e){
+            e.printStackTrace();
             throw new RuntimeException();
         }
     }

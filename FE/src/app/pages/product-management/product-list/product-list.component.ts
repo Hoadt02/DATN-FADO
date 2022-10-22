@@ -35,7 +35,8 @@ export class ProductListComponent implements OnInit {
   listOrigin: any[] = [];
   listMaterial: any[] = [];
 
-
+  name_filter:string;
+  value_filter:string;
 
   displayedColumns: string[] = ['index' , 'avatar-product', 'name', 'price', 'quantity', 'gender', 'createDate', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
@@ -77,22 +78,39 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  getAllFilter(type: string, check: any) {
+    getAllFilter(type: string, check: any) {
     this.isLoading = true;
     this.service.getAllProductDetail().subscribe({
       next: (data: any) => {
         if (type == this.TYPE_FILTER.PRODUCT) {
-          data = data.filter(n => n.product.id == check)
+          data = data.filter(n => n.product.id == check);
+          this.name_filter = '➣ Dòng sản phẩm ➣';
+          this.value_filter = this.listProduct.filter(n => n.id == check)[0].name;
+
         } else if (type == this.TYPE_FILTER.BRAND) {
-          data = data.filter(n => n.brand.id == check)
+          data = data.filter(n => n.brand.id == check);
+          this.name_filter = ' ➣ Thương hiệu ➣';
+          this.value_filter = this.listBrand.filter(n => n.id == check)[0].name;
+
         } else if (type == this.TYPE_FILTER.MATERIAL) {
-          data = data.filter(n => n.material.id == check)
+          data = data.filter(n => n.material.id == check);
+          this.name_filter = '➣ Chất liệu ➣';
+          this.value_filter = this.listMaterial.filter(n => n.id == check)[0].name;
+
         } else if (type == this.TYPE_FILTER.ORIGIN) {
-          data = data.filter(n => n.origin.id == check)
+          data = data.filter(n => n.origin.id == check);
+          this.name_filter = '➣ Xuất xứ ➣';
+          this.value_filter = this.listOrigin.filter(n => n.id == check)[0].name;
+
         } else if (type == this.TYPE_FILTER.STATUS) {
-          data = data.filter(n => n.status == check)
+          data = data.filter(n => n.status == check);
+          this.name_filter = '➣ Trạng thái ➣';
+          this.value_filter = check == 1 ? 'Hoạt động': 'Ngưng hoạt động';
+
         } else if (type == this.TYPE_FILTER.GENDER) {
-          data = data.filter(n => n.gender == check)
+          data = data.filter(n => n.gender == check);
+          this.name_filter = '➣ Đối tượng sử dụng ➣';
+          this.value_filter = check == 1 ? 'Nam':'Nữ';
         }
 
         this.dataSource = new MatTableDataSource(data);

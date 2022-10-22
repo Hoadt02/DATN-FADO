@@ -44,13 +44,7 @@ public class ProductDetailsController {
                                                                         @RequestParam(name = "gender", defaultValue = "") Boolean[] gender,
                                                                         @RequestParam(name = "startPrice", defaultValue = "") Integer startPrice,
                                                                         @RequestParam(name = "endPrice", defaultValue = "") Integer endPrice){
-//        System.out.println("Danh mục: " + Arrays.toString(category_id));
-//        System.out.println("Thương hiệu: " + Arrays.toString(brand_id));
-//        System.out.println("Chất liệu: " + Arrays.toString(material_id));
-//        System.out.println("Xuất xứ: " + Arrays.toString(origin_id));
-//        System.out.println("Giới tính: " + Arrays.toString(gender));
-//        System.out.println("Giá bắt đầu: " + startPrice);
-//        System.out.println("Giá bắt đầu: " + endPrice);
+
         return new ResponseEntity<>(this.service.getProductDetailByFilter(category_id,brand_id,material_id,origin_id,gender,startPrice,endPrice), HttpStatus.OK);
     }
 
