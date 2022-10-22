@@ -50,9 +50,6 @@ public class StaffServiceImpl implements IStaffService {
     public Staff update(Staff staff) {
         Staff staffBefore = this.staffRepository.findById(staff.getId()).get();
 
-        System.out.println("email cũ:" + staffBefore.getEmail());
-        System.out.println("email mới:" + staff.getEmail());
-
         if (this.staffRepository.findByUsername(staff.getUsername()).isPresent() && !Objects.equals(staff.getUsername(), staffBefore.getUsername())) {
             throw new UniqueException("Username đã tồn tại ở tài khoản khác");
         }
