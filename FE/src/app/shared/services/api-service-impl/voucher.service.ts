@@ -1,0 +1,74 @@
+import {Injectable} from '@angular/core';
+import {ToastrService} from "ngx-toastr";
+import {BehaviorSubject} from "rxjs";
+import {ApiVoucherService} from "../api-services/api-voucher.service";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class VoucherService {
+  isCloseDialog: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  constructor(
+    private readonly apiVoucherService: ApiVoucherService,
+    private toastrService: ToastrService,
+  ) {
+  }
+
+  getAll() {
+    return this.apiVoucherService.getAll();
+  }
+
+  findById(id: number) {
+    return this.apiVoucherService.getById(id).subscribe({
+      next: (data: any) => {
+        console.log(data);
+      }, error: err => {
+        if (err.error.code == 'NOT_FOUND') {
+          this.toastrService.warning(err.error.message);
+        }
+        console.log(err);
+      }
+    })
+  }
+
+  dataReplace(data: any) {
+    data.description = data.description.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+  }
+
+  create(data: any) {
+    this.dataReplace(data);
+    return this.apiVoucherService.create(data).subscribe({
+      next: (data: any) => {
+        console.log(data);
+        this.toastrService.success('Thêm voucher thành công!');
+        this.isCloseDialog.next(true);
+      }, error: err => {
+        console.log(err);
+        if (err.error.code == 'UNIQUE') {
+          this.toastrService.warning(err.error.message);
+          return;
+        }
+        this.toastrService.error('Thêm voucher thất bại!');
+      }
+    })
+  }
+
+  update(id: number, data: any) {
+    this.dataReplace(data);
+    return this.apiVoucherService.update(id, data).subscribe({
+      next: (data: any) => {
+        console.log(data);
+        this.toastrService.success('Sửa voucher thành công!');
+        this.isCloseDialog.next(true);
+      }, error: err => {
+        console.log(err);
+        if (err.error.code == 'UNIQUE') {
+          this.toastrService.warning(err.error.message);
+          return;
+        }
+        this.toastrService.error('Sửa voucher thất bại!');
+      }
+    })
+  }
+}

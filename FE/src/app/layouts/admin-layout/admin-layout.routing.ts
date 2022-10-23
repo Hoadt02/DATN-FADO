@@ -56,4 +56,8 @@ export const AdminLayoutRoutes: Routes = [
     path: 'product-line',
     loadChildren: () => import('../../pages/product-line/product-line.module').then(m => m.ProductLineModule)
   },
+  {
+    path: 'voucher-management',
+    loadChildren: () => import('../../pages/voucher-management/voucher-management.module').then(m => m.VoucherManagementModule)
+  },
 ];
