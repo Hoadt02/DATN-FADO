@@ -10,7 +10,7 @@ import {CustomerService} from '../../../shared/services/api-service-impl/custome
 import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-voucher-list',
+  selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.scss']
 })

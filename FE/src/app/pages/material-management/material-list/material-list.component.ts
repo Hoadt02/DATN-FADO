@@ -11,7 +11,7 @@ import {MaterialService} from '../../../shared/services/api-service-impl/materia
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 
 @Component({
-  selector: 'app-voucher-list',
+  selector: 'app-material-list',
   templateUrl: './material-list.component.html',
   styleUrls: ['./material-list.component.scss']
 })
