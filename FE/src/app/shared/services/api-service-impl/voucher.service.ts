@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {ToastrService} from "ngx-toastr";
 import {BehaviorSubject} from "rxjs";
 import {ApiVoucherService} from "../api-services/api-voucher.service";
+import {formatDate} from "../../format/formatData";
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +35,11 @@ export class VoucherService {
 
   dataReplace(data: any) {
     data.description = data.description.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+    data.startDate = formatDate(data.startDate);
+    data.endDate = formatDate(data.endDate);
+    if (formatDate(data.startDate) > formatDate(new Date())) {
+      data.status = 2;
+    }
   }
 
   create(data: any) {

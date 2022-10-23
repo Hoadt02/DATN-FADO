@@ -15,7 +15,10 @@
     <div class="col-6">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Mã Code</mat-label>
-        <input formControlName="code" type="text" required matInput>
+        <input formControlName="code" type="number" required matInput>
+        <mat-error *ngIf="formGroup.get('code')?.hasError('required') && formGroup.get('code')?.touched">
+          Vui lòng không bỏ trống mã code!
+        </mat-error>
       </mat-form-field>
     </div>
 
@@ -30,12 +33,28 @@
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
+      <mat-hint style="color: red"
+                *ngIf="range.errors?.isCheckDate && (range.get('startDate')?.touched || range.get('endDate')?.touched)">
+        Ngày bắt đầu phải nhỏ hơn ngày kết thúc!
+      </mat-hint>
     </div>
 
     <div class="col-9 my-2">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Giá giảm</mat-label>
         <input formControlName="discount" type="number" min="1" required matInput>
+        <mat-error *ngIf="formGroup.get('discount')?.hasError('required')
+        && formGroup.get('discount')?.touched">
+          Vui lòng nhập số tiền hoặc % của voucher!
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('discount')?.hasError('min')
+        && formGroup.get('discount')?.touched">
+          Vui lòng nhập số tiền hoặc % của voucher lớn hơn 1!
+        </mat-error>
+        <mat-hint style="color: red"
+                  *ngIf="formGroup.errors?.isType && (formGroup.get('discount')?.touched || formGroup.get('type')?.touched)">
+          Voucher theo % thì chỉ được nhập từ 1 > 100.
+        </mat-hint>
       </mat-form-field>
     </div>
 
@@ -52,7 +71,13 @@
     <div class="col-12">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Số lượng</mat-label>
-        <input formControlName="quantity" type="text" required matInput>
+        <input formControlName="quantity" type="number" required matInput>
+        <mat-error *ngIf="formGroup.get('quantity')?.hasError('required') && formGroup.get('quantity')?.touched">
+          Vui lòng không bỏ trống số lượng!
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('quantity')?.hasError('min') && formGroup.get('quantity')?.touched">
+          Số lượng tối thiểu là 1!
+        </mat-error>
       </mat-form-field>
     </div>
 

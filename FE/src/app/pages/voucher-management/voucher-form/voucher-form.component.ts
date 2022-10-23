@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Constants} from '../../../shared/Constants';
-import {checkSpace, checkTypeDiscount} from '../../../shared/validator/validatorForm';
+import {checkDate, checkSpace, checkTypeDiscount} from '../../../shared/validator/validatorForm';
 import {VoucherService} from "../../../shared/services/api-service-impl/voucher.service";
 
 @Component({
@@ -21,8 +21,8 @@ export class VoucherFormComponent implements OnInit {
     startDate: [new Date()],
     endDate: [new Date()],
     discount: ['', [Validators.required, Validators.min(1)]],
-    code: [''],
-    quantity:['', Validators.required],
+    code: ['', Validators.required],
+    quantity:['', [Validators.required, Validators.min(1)]],
     description: [''],
     status: [1],
     type: [false],
@@ -35,6 +35,8 @@ export class VoucherFormComponent implements OnInit {
   range = this.fb.group({
     startDate: [new Date(), Validators.required],
     endDate: [new Date(), Validators.required],
+  }, {
+    validators: checkDate('startDate', 'endDate')
   })
 
   constructor(
@@ -81,6 +83,7 @@ export class VoucherFormComponent implements OnInit {
       if (data) {
         this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
         this.voucherService.isCloseDialog.next(false);
+        this.isLoading = false;
       }
     });
   }
