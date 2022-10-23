@@ -7,7 +7,7 @@ import {Regex} from '../../../shared/validator/regex';
 import {checkSpace} from '../../../shared/validator/validatorForm';
 
 @Component({
-  selector: 'app-customer-form',
+  selector: 'app-voucher-form',
   templateUrl: './customer-form.component.html',
   styleUrls: ['./customer-form.component.scss']
 })

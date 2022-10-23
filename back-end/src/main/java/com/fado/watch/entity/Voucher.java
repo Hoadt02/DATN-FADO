@@ -51,6 +51,9 @@ public class Voucher implements Serializable {
     
     @Column(precision=10)
     private Integer status;
+
+    @Column(precision = 10)
+    private boolean type;
     
     @ManyToOne(optional=false)
     @JoinColumn(name="staff_id", nullable=false)

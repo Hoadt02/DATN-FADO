@@ -10,7 +10,7 @@ import {CustomerService} from '../../../shared/services/api-service-impl/custome
 import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-customer-list',
+  selector: 'app-voucher-list',
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.scss']
 })
@@ -61,7 +61,7 @@ export class CustomerListComponent implements OnInit {
   }
 
 // openDiaLog(type: string, row?: any) {
-//   this.dialogService.open(CustomerFormComponent,
+//   this.dialogService.open(VoucherFormComponent,
 //     {
 //       width: '900px',
 //       data: {type, row}
