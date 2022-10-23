@@ -140,7 +140,8 @@
                 <i class="fa-regular fa-pen-to-square"></i>
               </button>
 
-              <button *ngIf="row.status == 1" class="btn btn-sm btn-outline-danger px-2" type="button"
+              <button *ngIf="row.status == 1 || row.status == 2" class="btn btn-sm btn-outline-danger px-2"
+                      type="button"
                       (click)="active(RESULT_CLOSE_DIALOG.NOT_ACTIVE,row)" title="Vô hiệu hoá">
                 <i class="fa-solid fa-lock"></i>
               </button>
