@@ -52,9 +52,14 @@
               </button>
 
 
-              <button class="btn btn-sm btn-outline-danger px-2" type="button" [disabled]=" row.status == false"
-                      (click)="active(row)" title="Ngừng hoạt động" >
-                 <i class="fa-sharp fa-solid fa-trash" [class]="row.status ? '' : 'text-secondary'"></i>
+              <button *ngIf="row.status == true" class="btn btn-sm btn-outline-danger px-2" type="button"
+                      (click)="active(RESULT_CLOSE_DIALOG.NOT_ACTIVE,row)" title="Vô hiệu hoá">
+                <i class="fa-solid fa-lock"></i>
+              </button>
+
+              <button *ngIf="row.status == false" class="btn btn-sm btn-outline-success px-2" type="button"
+                      (click)="active(RESULT_CLOSE_DIALOG.ACTIVE,row)" title="Kích hoạt">
+                <i class="fa-solid fa-lock-open"></i>
               </button>
             </td>
           </ng-container>
