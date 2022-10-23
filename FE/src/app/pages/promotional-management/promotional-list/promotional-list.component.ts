@@ -55,6 +55,8 @@ export class PromotionalListComponent implements OnInit {
     this.filterType = null;
     this.filterStatus = null;
     this.isLoading = true;
+    this.filterStartDate = null;
+    this.filterEndDate = null;
     this.apiPromotional.getAll().subscribe({
       next: (data: any) => {
         this.listData = data as any[];
@@ -95,6 +97,8 @@ export class PromotionalListComponent implements OnInit {
   getFilterStatus() {
     this.filterType = null;
     this.isLoading = true;
+    this.filterStartDate = null;
+    this.filterEndDate = null;
     this.apiPromotional.getAll().subscribe({
       next: (data: any) => {
         data = data.filter(m => m.status == this.filterStatus)
@@ -114,6 +118,8 @@ export class PromotionalListComponent implements OnInit {
   getFilterType() {
     this.filterStatus = null;
     this.isLoading = true;
+    this.filterStartDate = null;
+    this.filterEndDate = null;
     this.apiPromotional.getAll().subscribe({
       next: (data: any) => {
         // data = data.filter(s => s.startDate < 123 && s.endDate)
