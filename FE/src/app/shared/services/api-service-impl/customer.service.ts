@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {ApiCustomerService} from '../api-services/api-customer.service';
 import {BehaviorSubject} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
+import {formatDate} from "../../format/formatData";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,11 @@ export class CustomerService {
   getAll() {
     return this.apiCustomer.getAll();
   }
+  dataReplace(data: any){
+   data.dateOfBirth=formatDate(data.dateOfBirth);
+  }
   create(data: any) {
+    this.dataReplace(data);
     return this.apiCustomer.create(data).subscribe({
       // tslint:disable-next-line:no-shadowed-variable
       next: (data: any) => {
@@ -37,6 +42,7 @@ export class CustomerService {
   }
 
   update(id: number, data: any) {
+    this.dataReplace(data);
     return this.apiCustomer.update(id, data).subscribe({
       // tslint:disable-next-line:no-shadowed-variable
       next: (data: any) => {

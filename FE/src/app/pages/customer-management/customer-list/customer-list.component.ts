@@ -21,7 +21,7 @@ export class CustomerListComponent implements OnInit {
   isLoading = true;
   title: string
   message: string
-  displayedColumns: string[] = ['index', 'image', 'firstname', 'lastname', 'username', 'password', 'email', 'dateOfBirth', 'phoneNumber', 'gender', 'status', 'thaoTac'];
+  displayedColumns: string[] = ['index', 'image', 'firstname', 'lastname', 'username', 'email', 'dateOfBirth', 'phoneNumber', 'gender', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -90,8 +90,7 @@ export class CustomerListComponent implements OnInit {
     })
   }
 
-  active(type: any, row: any
-  ) {
+  active(type: any, row: any) {
     // tslint:disable-next-line:triple-equals
     if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
       this.title = 'Kích hoạt khách hàng';
