@@ -11,7 +11,7 @@ import {OriginService} from "../../../shared/services/api-service-impl/origin.se
 import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-customer-list',
+  selector: 'app-origin-list',
   templateUrl: './origin-list.component.html',
   styleUrls: ['./origin-list.component.scss']
 })
@@ -22,6 +22,7 @@ export class OriginListComponent implements OnInit {
   readonly RESULT_CLOSE_DIALOG = Constants.RESULT_CLOSE_DIALOG;
   title: string;
   message: string;
+  status : boolean ;
 
   ngOnInit(): void {
     this.getAll();
@@ -79,18 +80,29 @@ export class OriginListComponent implements OnInit {
     });
   }
 
-  active(row: any) {
+  active( type:string , row: any) {
+    if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
+      this.title = 'Kích hoạt xuất xứ!';
+      this.message = 'Bạn có chắc chắn muốn kích hoạt xuất xứ này?'
+      this.status = true;
+    } else {
+      this.title = 'Vô hiệu hoá xuất xứ!';
+      this.message = 'Bạn có chắc chắn muốn vô hiệu hoá xuất xứ này?'
+      this.status = false ;
+    }
+
     const diaLogRef = this.matDialog.open(ConfirmDialogComponent, {
       width: '500px',
       disableClose: true,
       hasBackdrop: true,
       data: {
-        message: 'Bạn có chắc chắn muốn xóa không?',
+        message: this.message,
+        title: this.message
       }
     });
     diaLogRef.afterClosed().subscribe(rs => {
         if (rs == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
-          row.status = false;
+          row.status = this.status ;
           this.apiOrigin.update(row.id, row);
         }
       }

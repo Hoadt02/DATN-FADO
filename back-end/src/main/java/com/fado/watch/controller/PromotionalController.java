@@ -24,6 +24,11 @@ public class PromotionalController {
         return ResponseEntity.ok(this.iPromotionalService.getAll());
     }
 
+    @GetMapping("findAllByStatusTrue")
+    public ResponseEntity<List<Promotional>> findAllByStatusTrue() {
+        return ResponseEntity.ok(this.iPromotionalService.findAllByStatusTrue());
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<Promotional> getById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(this.iPromotionalService.getById(id));

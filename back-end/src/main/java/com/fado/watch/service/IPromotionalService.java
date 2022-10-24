@@ -7,6 +7,7 @@ import java.util.List;
 public interface IPromotionalService {
 
     List<Promotional> getAll();
+    List<Promotional> findAllByStatusTrue();
 
     Promotional getById(Integer id);
 

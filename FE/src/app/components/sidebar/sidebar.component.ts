@@ -40,6 +40,12 @@ export const ROUTES: RouteInfo[] = [
     class: ""
   },
   {
+    path: "/voucher-management",
+    title: "Quản lý voucher",
+    icon: "nc-money-coins",
+    class: ""
+  },
+  {
     path: '/customer-management',
     title: 'Quản lý khách hàng',
     icon: 'nc-single-02',

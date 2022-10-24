@@ -27,8 +27,8 @@ public class ProductPromotionalController {
     }
 
     @GetMapping("/getProductNotInPromotional")
-    public ResponseEntity<List<ProductDetail>> getProductNotInPromotional(@RequestParam("idPromotional") Integer idPromotional) {
-        return ResponseEntity.ok(this.iProductPromotionalService.getProductNotInPromotional(idPromotional));
+    public ResponseEntity<List<ProductDetail>> getProductNotInPromotional() {
+        return ResponseEntity.ok(this.iProductPromotionalService.getProductNotInPromotional());
     }
 
     @GetMapping({"{id}"})

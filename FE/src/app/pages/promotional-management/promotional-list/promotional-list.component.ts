@@ -3,14 +3,12 @@ import {Constants} from "../../../shared/Constants";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import {StaffService} from "../../../shared/services/api-service-impl/staff.service";
 import {ToastrService} from "ngx-toastr";
 import {MatDialog} from "@angular/material/dialog";
-import {StaffFormComponent} from "../../staff-management/staff-form/staff-form.component";
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
-import {StaffDetailComponent} from "../../staff-management/staff-detail/staff-detail.component";
 import {PromotionalService} from "../../../shared/services/api-service-impl/promotional.service";
 import {PromotionalFormComponent} from "../promotional-form/promotional-form.component";
+import {formatDate} from "../../../shared/format/formatData";
 
 @Component({
   selector: 'app-promotional-list',
@@ -25,6 +23,11 @@ export class PromotionalListComponent implements OnInit {
   loading = true;
   title: string;
   message: string;
+  filterStatus: any;
+  filterType: any;
+  filterStartDate: any;
+  filterEndDate: any;
+  listData: any[] = [];
 
   displayedColumns: string[] =
     [
@@ -49,9 +52,35 @@ export class PromotionalListComponent implements OnInit {
   }
 
   getAll() {
+    this.filterType = null;
+    this.filterStatus = null;
+    this.isLoading = true;
+    this.filterStartDate = null;
+    this.filterEndDate = null;
+    this.apiPromotional.getAll().subscribe({
+      next: (data: any) => {
+        this.listData = data as any[];
+        this.dataSource = new MatTableDataSource<any>(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.isLoading = false;
+        this.checkStatus();
+      }, error: (err => {
+        this.toastrService.error('Lỗi tải dữ liệu');
+        console.log(err);
+        this.isLoading = false;
+        return;
+      })
+    })
+  }
+
+  getFilterDate() {
+    this.filterType = null;
+    this.filterStatus = null;
     this.isLoading = true;
     this.apiPromotional.getAll().subscribe({
       next: (data: any) => {
+        data = data.filter(s => s.startDate >= formatDate(this.filterStartDate) && s.endDate <= formatDate(this.filterEndDate))
         this.dataSource = new MatTableDataSource<any>(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -63,6 +92,50 @@ export class PromotionalListComponent implements OnInit {
         return;
       })
     })
+  }
+
+  getFilterStatus() {
+    this.filterType = null;
+    this.isLoading = true;
+    this.filterStartDate = null;
+    this.filterEndDate = null;
+    this.apiPromotional.getAll().subscribe({
+      next: (data: any) => {
+        data = data.filter(m => m.status == this.filterStatus)
+        this.dataSource = new MatTableDataSource<any>(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.isLoading = false;
+      }, error: (err => {
+        this.toastrService.error('Lỗi tải dữ liệu');
+        console.log(err);
+        this.isLoading = false;
+        return;
+      })
+    })
+  }
+
+  getFilterType() {
+    this.filterStatus = null;
+    this.isLoading = true;
+    this.filterStartDate = null;
+    this.filterEndDate = null;
+    this.apiPromotional.getAll().subscribe({
+      next: (data: any) => {
+        // data = data.filter(s => s.startDate < 123 && s.endDate)
+        data = data.filter(m => m.type == this.filterType)
+        this.dataSource = new MatTableDataSource<any>(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.isLoading = false;
+      }, error: (err => {
+        this.toastrService.error('Lỗi tải dữ liệu');
+        console.log(err);
+        this.isLoading = false;
+        return;
+      })
+    })
+    console.log(this.filterType);
   }
 
   applyFilter(event: Event) {
@@ -90,6 +163,7 @@ export class PromotionalListComponent implements OnInit {
     })
   }
 
+  /**Xoá mềm*/
   active(type: any, row: any) {
     if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
       this.title = 'Kích hoạt khuyến mại!';
@@ -129,5 +203,21 @@ export class PromotionalListComponent implements OnInit {
     })
   }
 
+  checkStatus() {
+    console.log(this.listData);
+    for (const x of this.listData) {
+      console.log(x);
+      if (x.endDate < formatDate(new Date()) && x.status == 1) {
+        this.isLoading = true;
+        x.status = 0;
+        this.apiPromotional.update(x.id, x);
+      }
+    }
+    this.apiPromotional.isCloseDialog.subscribe(data => {
+      if (data) {
+        this.isLoading = false;
+      }
+    })
+  }
 
 }

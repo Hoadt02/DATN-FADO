@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {ApiStaffService} from '../api-services/api-staff.service';
 import {BehaviorSubject} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
+import {formatDate} from "../../format/formatData";
 
 @Injectable({
   providedIn: 'root'
@@ -33,15 +34,16 @@ export class StaffService {
     })
   }
 
-  dataReplace(data: any) {
+  dataInput(data: any) {
     data.firstname = data.firstname.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
     data.lastname = data.lastname.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
     data.address = data.address.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
     data.email = data.email.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+    data.dateOfBirth = formatDate(data.dateOfBirth);
   }
 
   create(data: any) {
-    this.dataReplace(data);
+    this.dataInput(data);
     return this.apiStaff.create(data).subscribe({
       next: (data: any) => {
         console.log(data);
@@ -59,10 +61,10 @@ export class StaffService {
   }
 
   update(id: number, data: any) {
-    this.dataReplace(data);
+    this.dataInput(data);
     return this.apiStaff.update(id, data).subscribe({
       next: (data: any) => {
-        console.log(data);
+        console.log('update: ', data);
         this.toastrService.success('Sửa nhân viên thành công!');
         this.isCloseDialog.next(true);
       }, error: err => {

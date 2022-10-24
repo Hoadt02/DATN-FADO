@@ -24,18 +24,19 @@
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Chương trình khuyến mại</mat-label>
             <mat-select>
-              <mat-option *ngFor="let prm of promotionalList" [value]="prm.id"
-                          (click)="getProductNotInPromotional(prm.id);">{{prm.name}}</mat-option>
+              <mat-option *ngFor="let prm of promotionalList" (click)="getIdPromotional(prm.id);"
+                          [value]="prm.id">{{prm.name}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
 
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-3">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Danh mục</mat-label>
-            <mat-select>
+            <mat-select [(ngModel)]="filterCategories">
               <mat-option>------</mat-option>
-              <mat-option [value]="true">Danh mục 1</mat-option>
+              <mat-option (click)="getFilterCategory()" *ngFor="let c of categories"
+                          [value]="c.id">{{c.name}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -43,14 +44,21 @@
         <div class="col-12 col-md-4">
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Sản phẩm</mat-label>
-            <mat-select>
+            <mat-select [(ngModel)]="filterProducts">
               <mat-option>------</mat-option>
-              <mat-option [value]="true">Sản phẩm 1</mat-option>
+              <mat-option (click)="getFilterProduct()" *ngFor="let p of products" [value]="p.id">{{p.name}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-      </div>
 
+        <div class="col-1 col-md-1 pl-0">
+          <button class="btn btn-sm btn-outline-danger mt-3 px-2" type="button"
+                  (click)="getProductNotInPromotional()" title="Đặt lại">
+            <i class="fa-solid fa-rotate"></i>
+          </button>
+        </div>
+
+      </div>
     </div>
 
   </div>

@@ -28,8 +28,8 @@ public class ProductPromotionalServiceImpl implements IProductPromotionalService
     }
 
     @Override
-    public List<ProductDetail> getProductNotInPromotional(Integer idPromotional) {
-        return this.productPromotionalRepository.getProductNotInPromotional(idPromotional);
+    public List<ProductDetail> getProductNotInPromotional() {
+        return this.productPromotionalRepository.getProductNotInPromotional();
     }
 
     @Override
