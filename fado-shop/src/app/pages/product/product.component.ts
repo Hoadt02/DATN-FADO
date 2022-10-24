@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CategoryService} from "../../shared/service/api-service-impl/category.service";
 import {BrandService} from "../../shared/service/api-service-impl/brand.service";
 import {MaterialService} from "../../shared/service/api-service-impl/material.service";
@@ -6,6 +6,8 @@ import {OriginService} from "../../shared/service/api-service-impl/origin.servic
 import {ProductDetailsService} from "../../shared/service/api-service-impl/product-details.service";
 import {Contants} from "../../shared/Contants";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {checkCheckPrice} from "../../shared/validator/validate";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-product',
@@ -14,11 +16,15 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 })
 export class ProductComponent implements OnInit {
 
+  readonly TYPE_SORT = Contants.TYPE_SORT;
   readonly TYPE_FILTER = Contants.TYPE_FILTER;
+
+  sort_name = 'Sắp xếp';
+  sort_value = 0;
 
   categories: any[] = [];
   brands: any[] = [];
-  materials:any[] = [];
+  materials: any[] = [];
   origins: any[] = [];
   products: any[] = [];
 
@@ -30,11 +36,13 @@ export class ProductComponent implements OnInit {
   startPrice: any = null;
   endPrice: any = null;
 
-  url_param:string = '';
+  url_param: string = '';
 
-  formGroup:FormGroup = this.fb.group({
+  formGroup: FormGroup = this.fb.group({
     startPrice: [null, [Validators.required]],
     endPrice: [null, [Validators.required]]
+  }, {
+    validators: checkCheckPrice('startPrice', 'endPrice')
   });
 
   constructor(private categoryService: CategoryService,
@@ -42,7 +50,8 @@ export class ProductComponent implements OnInit {
               private materialService: MaterialService,
               private originService: OriginService,
               private productDetailService: ProductDetailsService,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.loadByProductDetail();
@@ -52,88 +61,66 @@ export class ProductComponent implements OnInit {
     this.loadByOrigin();
   }
 
-  // loadProductDetailByFilter(type:string, value:any){
-  //   this.setValueFilter(type,value);
-  //   const data = {
-  //     category_id: this.category_id,
-  //     brand_id: this.brand_id,
-  //     material_id: this.material_id,
-  //     origin_id: this.origin_id,
-  //     gender: this.gender,
-  //     startPrice: this.startPrice,
-  //     endPrice: this.endPrice
-  //   }
-  //
-  //   this.productDetailService.getProductDetailByFilter(data)
-  //     .subscribe(data =>{
-  //     if (data){
-  //       this.products = data;
-  //       console.log(data);
-  //     }
-  //   })
-  // }
-
-  loadProductDetailByFilter(type:string, value:any){
-    this.setValueFilter(type,value);
+  loadProductDetailByFilter(type: string, value: any) {
+    this.setValueFilter(type, value);
     this.setUrlParam();
-    console.log(this.url_param);
-    if (this.url_param == ''){
+    if (this.url_param == '') {
       this.loadByProductDetail();
-    }else {
+    } else {
       this.productDetailService.getProductDetailByFilter(this.url_param)
-        .subscribe(data =>{
-          if (data){
+        .subscribe(data => {
+          if (data) {
             this.products = data;
-            console.log(data);
+            this.setSortProduct(this.sort_value);
           }
         })
     }
   }
 
-    setValueFilter(type:string,value:any){
-    if (type == this.TYPE_FILTER.CATEGORY){
+  setValueFilter(type: string, value: any) {
+    if (type == this.TYPE_FILTER.CATEGORY) {
       const index = this.category_id.findIndex(n => n == value);
-      if (index > -1){
-        this.category_id.splice(index,1);
-      }else {
+      if (index > -1) {
+        this.category_id.splice(index, 1);
+      } else {
         this.category_id.push(value);
       }
-    }else if (type == this.TYPE_FILTER.BRAND){
+    } else if (type == this.TYPE_FILTER.BRAND) {
       const index = this.brand_id.findIndex(n => n == value);
-      if (index > -1){
-        this.brand_id.splice(index,1);
-      }else {
+      if (index > -1) {
+        this.brand_id.splice(index, 1);
+      } else {
         this.brand_id.push(value);
       }
-    }else if (type == this.TYPE_FILTER.MATERIAL){
+    } else if (type == this.TYPE_FILTER.MATERIAL) {
       const index = this.material_id.findIndex(n => n == value);
-      if (index > -1){
-        this.material_id.splice(index,1);
-      }else {
+      if (index > -1) {
+        this.material_id.splice(index, 1);
+      } else {
         this.material_id.push(value);
       }
-    }else if (type == this.TYPE_FILTER.ORIGIN){
+    } else if (type == this.TYPE_FILTER.ORIGIN) {
       const index = this.origin_id.findIndex(n => n == value);
-      if (index > -1){
-        this.origin_id.splice(index,1);
-      }else {
+      if (index > -1) {
+        this.origin_id.splice(index, 1);
+      } else {
         this.origin_id.push(value);
       }
-    }else if (type == this.TYPE_FILTER.GENDER){
+    } else if (type == this.TYPE_FILTER.GENDER) {
       const index = this.gender.findIndex(n => n == value);
-      if (index > -1){
-        this.gender.splice(index,1);
-      }else {
+      if (index > -1) {
+        this.gender.splice(index, 1);
+      } else {
         this.gender.push(value);
       }
-    }else if (type == this.TYPE_FILTER.START_PRICE){
+    } else if (type == this.TYPE_FILTER.START_PRICE) {
       this.startPrice = value;
-    } else if (type == this.TYPE_FILTER.END_PRICE){
+    } else if (type == this.TYPE_FILTER.END_PRICE) {
       this.endPrice = value;
     }
   }
 
-  setUrlParam(){
+  setUrlParam() {
     this.url_param = '';
     for (const c of this.category_id) {
       this.url_param += "category_id=" + c + "&";
@@ -150,47 +137,47 @@ export class ProductComponent implements OnInit {
     for (const g of this.gender) {
       this.url_param += "gender=" + g + "&";
     }
-    if (this.startPrice != null && this.endPrice != null ){
+    if (this.startPrice != null && this.endPrice != null) {
       this.url_param += "startPrice=" + this.startPrice + "&endPrice=" + this.endPrice;
     }
   }
 
-  loadByProductDetail(){
-    this.productDetailService.getAllProductDetail().subscribe((data:any)=>{
-      if (data){
+  loadByProductDetail() {
+    this.productDetailService.getAllProductDetail().subscribe((data: any) => {
+      if (data) {
         data = data.filter((n: { status: number; }) => n.status == 1);
         this.products = data;
       }
     })
   }
 
-  loadByCategory(){
-    this.categoryService.getAll().subscribe((data:any) =>{
-      if (data){
+  loadByCategory() {
+    this.categoryService.getAll().subscribe((data: any) => {
+      if (data) {
         this.categories = data;
       }
     });
   }
 
-  loadByBrand(){
-    this.brandService.getAll().subscribe((data:any) =>{
-      if (data){
+  loadByBrand() {
+    this.brandService.getAll().subscribe((data: any) => {
+      if (data) {
         this.brands = data;
       }
     });
   }
 
-  loadByMaterial(){
-    this.materialService.getAll().subscribe((data:any) =>{
-      if (data){
+  loadByMaterial() {
+    this.materialService.getAll().subscribe((data: any) => {
+      if (data) {
         this.materials = data;
       }
     });
   }
 
-  loadByOrigin(){
-    this.originService.getAll().subscribe((data:any) =>{
-      if (data){
+  loadByOrigin() {
+    this.originService.getAll().subscribe((data: any) => {
+      if (data) {
         this.origins = data;
       }
     });
@@ -205,11 +192,23 @@ export class ProductComponent implements OnInit {
 
     this.setUrlParam();
     this.productDetailService.getProductDetailByFilter(this.url_param)
-      .subscribe(data =>{
-        if (data){
+      .subscribe(data => {
+        if (data) {
           this.products = data;
           console.log(data);
         }
       })
+  }
+
+  setSortProduct(type:number){
+    if (type == this.TYPE_SORT.PRICE_DOWN){
+      this.sort_name = 'Giá: từ thấp đến cao';
+      this.sort_value = this.TYPE_SORT.PRICE_DOWN;
+      this.products.sort((a,b) => (a.price < b.price) ? -1:1);
+    }else if (type == this.TYPE_SORT.PRICE_UP){
+      this.sort_name = 'Giá: từ cao đến thấp';
+      this.sort_value = this.TYPE_SORT.PRICE_UP;
+      this.products.sort((a,b) => (a.price > b.price) ? -1:1);
+    }
   }
 }

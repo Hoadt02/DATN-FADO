@@ -16,5 +16,5 @@ public interface IProductDetailService {
 
     List<ProductDetail> getProductDetailByFilter(Integer[] category_id, Integer[] brand_id, Integer[] material_id, Integer[] origin_id, Boolean[] gender, Integer startPrice, Integer endPrice);
 
-//    List<ProductDetail> getProductDetailByFilter(FilterModel filterModel);
+    List<ProductDetail> getSimilarProduct(Integer id);
 }

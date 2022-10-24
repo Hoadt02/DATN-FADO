@@ -1,5 +1,5 @@
 <!-- Breadcrumb Start -->
-<div class="container-fluid" style="width: 80%">
+<div class="container-fluid">
   <div class="row px-xl-5">
     <div class="col-12">
       <nav class="breadcrumb bg-light mb-30">
@@ -13,7 +13,7 @@
 <!-- Breadcrumb End -->
 
 <!-- Shop Start -->
-<div class="container-fluid" style="width: 80%">
+<div class="container-fluid">
   <div class="row px-xl-5">
     <!-- Shop Sidebar Start -->
     <div class="col-lg-3 col-md-4">
@@ -102,15 +102,16 @@
         class="fa-solid fa-filter"></i> Lọc theo giá</span></h6>
       <div class="bg-light p-4 mb-30">
         <form [formGroup]="formGroup">
-          <div class="d-flex align-items-center justify-content-between">
+          <div class="text-center">
             <div class="form-group">
               <div class="row">
                 <input type="number" class="form-control col-5 m-auto" placeholder="Từ" min="0" max="9999999999" formControlName="startPrice" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
                 <input type="number" class="form-control col-5 m-auto" placeholder="Đến" min="0" max="9999999999" formControlName="endPrice" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
               </div>
              <div class="mt-2">
-               <p class="m-0 text-danger" *ngIf="formGroup.get('startPrice')?.hasError('required') && formGroup.get('startPrice')?.touched" style="font-size: 10px">Vui lòng không bỏ trống ô giá bắt đầu!</p>
-               <p class="m-0 text-danger" *ngIf="formGroup.get('endPrice')?.hasError('required') && formGroup.get('endPrice')?.touched" style="font-size: 10px">Vui lòng không để trống ô giá kết thúc!</p>
+               <p class="m-0 text-danger" *ngIf="formGroup.errors?.['isCheckPrice'] && (formGroup.get('startPrice')?.touched && formGroup.get('endPrice')?.touched)" style="font-size: 12px">Giá bắt đầu không được lớn hơn giá kết thúc</p>
+               <p class="m-0 text-danger" *ngIf="formGroup.get('startPrice')?.hasError('required') && formGroup.get('startPrice')?.touched" style="font-size: 12px">Vui lòng không bỏ trống ô giá bắt đầu!</p>
+               <p class="m-0 text-danger" *ngIf="formGroup.get('endPrice')?.hasError('required') && formGroup.get('endPrice')?.touched" style="font-size: 12px">Vui lòng không để trống ô giá kết thúc!</p>
              </div>
               <div class="row mt-3">
                 <button type="button" class="btn btn-primary d-block w-100" (click)="onSubmitFilterPrice()">Áp dụng</button>
@@ -131,42 +132,30 @@
           <div class="d-flex align-items-center justify-content-end mb-4">
             <div class="ml-2">
               <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sắp xếp
+                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">{{sort_name}}
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
-                  <a class="dropdown-item" href="#">Latest</a>
-                  <a class="dropdown-item" href="#">Popularity</a>
-                  <a class="dropdown-item" href="#">Best Rating</a>
-                </div>
-              </div>
-              <div class="btn-group ml-2">
-                <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Hiển thị
-                </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                  <a class="dropdown-item" href="#">10</a>
-                  <a class="dropdown-item" href="#">20</a>
-                  <a class="dropdown-item" href="#">30</a>
-                  <a class="dropdown-item" href="#">30+</a>
+                  <a class="dropdown-item" (click)="setSortProduct(TYPE_SORT.PRICE_DOWN)">Giá: từ thấp đến cao</a>
+                  <a class="dropdown-item" (click)="setSortProduct(TYPE_SORT.PRICE_UP)">Giá: từ cao đến thấp</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-lg-4 col-md-6 col-sm-6 pb-1" *ngFor="let p of products">
+        <div class="col-lg-3 col-md-4 col-sm-6 pb-1" *ngFor="let p of products">
           <div class="product-item bg-light mb-4">
             <div class="product-img position-relative overflow-hidden">
               <img class="img-fluid w-100" src="../../../assets/img/avtProduct/{{p.avatar}}" alt="">
               <div class="product-action">
                 <a class="btn btn-outline-dark btn-square" href="/product"><i class="fa fa-shopping-cart"></i></a>
-                <a class="btn btn-outline-dark btn-square" href="/product"><i class="far fa-heart"></i></a>
-                <a class="btn btn-outline-dark btn-square" href="/product"><i class="fa fa-sync-alt"></i></a>
-                <a class="btn btn-outline-dark btn-square" href="/product"><i class="fa fa-search"></i></a>
+                <a class="btn btn-outline-dark btn-square" [routerLink]="['/product-detail']"><i class="far fa-heart"></i></a>
+                <a class="btn btn-outline-dark btn-square" href="" [routerLink]="['/product-detail',p.id]"><i class="fa-regular fa-eye"></i></a>
               </div>
             </div>
             <div class="text-center py-4">
               <a class="h6 text-decoration-none text-truncate" href="/product">{{p.name}}</a>
               <div class="d-flex align-items-center justify-content-center mt-2">
-                <h5>{{p.price | number}}₫</h5>
+                <h6>{{p.price | number}}₫</h6>
                 <h6 class="text-muted ml-2">
                   <del>{{p.price | number}}₫</del>
                 </h6>

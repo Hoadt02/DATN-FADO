@@ -19,7 +19,8 @@
 
   <!-- Libraries Stylesheet -->
   <link href="assets/lib/animate/animate.min.css" rel="stylesheet">
-  <link href="assets/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/lib/owlcarousel/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="../../../assets/lib/owlcarousel/css/owl.theme.default.min.css">
 
   <!-- Customized Bootstrap Stylesheet -->
   <link href="assets/css/style.css" rel="stylesheet">
@@ -27,10 +28,37 @@
 <body>
   <app-root></app-root>
 
+  <!-- Back to Top -->
+  <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
   <script src="assets/lib/easing/easing.min.js"></script>
-  <script src="assets/lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="/src/assets/lib/owlcarousel/js/owl.carousel.min.js"></script>
+
+  <script>
+    $('.related-carousel-2').owlCarousel({
+      loop: true,
+      margin: 29,
+      nav: false,
+      autoplay: true,
+      smartSpeed: 1000,
+      responsive: {
+        0: {
+          items: 1
+        },
+        576: {
+          items: 2
+        },
+        768: {
+          items: 3
+        },
+        992: {
+          items: 4
+        }
+      }
+    });
+  </script>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>

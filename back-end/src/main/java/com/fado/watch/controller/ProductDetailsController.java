@@ -22,19 +22,6 @@ public class ProductDetailsController {
     public ResponseEntity<List<ProductDetail>> getAll(){
         return new ResponseEntity<>(this.service.getAll(), HttpStatus.OK);
     }
-//    @PostMapping("/filter")
-//    public ResponseEntity<List<ProductDetail>> getProductDetailByFilter(@RequestBody FilterModel filterModel){
-//        System.out.println("Danh mục: " + Arrays.toString(filterModel.getCategory_id()));
-//        System.out.println("Thương hiệu: " + Arrays.toString(filterModel.getBrand_id()));
-//        System.out.println("Chất liệu: " + Arrays.toString(filterModel.getMaterial_id()));
-//        System.out.println("Xuất xứ: " + Arrays.toString(filterModel.getOrigin_id()));
-//        System.out.println("Giới tính: " + Arrays.toString(filterModel.getGender()));
-//        System.out.println("Giá bắt đầu: " + filterModel.getStartPrice());
-//        System.out.println("Giá bắt đầu: " + filterModel.getEndPrice());
-//
-//        return new ResponseEntity<>(this.service.getProductDetailByFilter(filterModel), HttpStatus.OK);
-////        return null;
-//    }
 
     @GetMapping("/filter")
     public ResponseEntity<List<ProductDetail>> getProductDetailByFilter(@RequestParam(name = "category_id", defaultValue = "") Integer[] category_id,
@@ -61,5 +48,10 @@ public class ProductDetailsController {
     @PutMapping("{id}")
     public ResponseEntity<ProductDetail> update(@RequestBody ProductDetail productDetail){
         return new ResponseEntity<>(this.service.update(productDetail), HttpStatus.OK);
+    }
+
+    @GetMapping("/similar/{id}")
+    public ResponseEntity<List<ProductDetail>> getSimilarProduct(@PathVariable("id") Integer id){
+        return new ResponseEntity<>(this.service.getSimilarProduct(id), HttpStatus.OK);
     }
 }
