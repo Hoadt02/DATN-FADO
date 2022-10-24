@@ -18,22 +18,11 @@ export class ProductDetailsService {
     return this.apiService.getProductDetailByFilter(url_param);
   }
 
-  // getProductDetailByFilter(data:any){
-  //   return this.apiService.getProductDetailByFilter(data);
-  // }
-
   findProductDetail(id: number) {
-    return this.apiService.findProductDetail(id).subscribe({
-      next: (data) => {
-        console.log(data);
-        return data;
-      },
-      error: (error) => {
-        console.log(error);
-        if (error.error.code == 'NOT_FOUND') {
-        }
-        return;
-      }
-    });
+    return this.apiService.findProductDetail(id);
+  }
+
+  getSimilarProduct(id:number){
+    return this.apiService.getSimilarProduct(id);
   }
 }

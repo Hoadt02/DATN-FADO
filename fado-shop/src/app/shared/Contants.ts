@@ -8,4 +8,9 @@ export class Contants {
     START_PRICE: 'start_price',
     END_PRICE: 'end_price',
   }
+
+  public static TYPE_SORT = {
+    PRICE_UP: 1,
+    PRICE_DOWN: 2,
+  }
 }

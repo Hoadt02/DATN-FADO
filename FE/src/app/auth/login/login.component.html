@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="d-flex justify-content-center align-items-center" style="height: 710px">
+    <div class="card shadow p-5 text-center w-50">
+      <div class="card-body">
+        <div>
+          <i class="fa-solid fa-lock icon"></i>
+        </div>
+        <h2>Đăng nhập</h2>
+        <form>
+          <div class="form-group">
+            <mat-form-field appearance="standard" class="w-100">
+              <mat-label><i class="fa-solid fa-envelope"></i> Email*</mat-label>
+              <input type="email" matInput placeholder="Ex. pat@example.com">
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <mat-form-field appearance="standard" class="w-100">
+              <mat-label><i class="fa-solid fa-key"></i> Mật khẩu*</mat-label>
+              <input matInput [type]="hide ? 'password' : 'text'">
+              <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="form-group">
+            <button mat-raised-button color="accent" type="button" class="w-100" style="border-radius: 20px">ĐĂNG NHẬP</button>
+          </div>
+          <div class="form-group">
+            <b><a href="" style="color: rebeccapurple">Quên mật khẩu?</a></b>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
