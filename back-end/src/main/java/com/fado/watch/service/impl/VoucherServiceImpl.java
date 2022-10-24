@@ -30,14 +30,14 @@ public class VoucherServiceImpl implements IVoucherService {
 
     @Override
     public Voucher create(Voucher voucher) {
-//        Random random = new Random();
-//        Long number = Math.abs(random.nextLong());
-//        for (int i = 0; i < getAll().size(); i++) {
-//            if (getAll().get(i).getCode().equals(number.toString().substring(0,15))){
-//                number = Math.abs(random.nextLong());
-//            }
-//        }
-//        voucher.setCode(number.toString());
+        Random random = new Random();
+        Long number = Math.abs(random.nextLong());
+        for (int i = 0; i < getAll().size(); i++) {
+            if (getAll().get(i).getCode().equals(number.toString().substring(0,13))){
+                number = Math.abs(random.nextLong());
+            }
+        }
+        voucher.setCode(number.toString());
         return this.voucherRepository.save(voucher);
     }
 
