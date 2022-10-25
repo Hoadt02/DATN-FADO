@@ -20,7 +20,7 @@
       <div id="product-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner bg-light">
           <div class="carousel-item active">
-            <img class="w-100 h-100" src="../../../assets/img/avtProduct/{{productDetail.avatar}}" alt="Image">
+            <img class="w-100 h-100" src="../../../assets/img/avtProduct/{{productDetail?.avatar}}" alt="Image">
           </div>
           <div class="carousel-item" *ngFor="let l of listImg">
             <img class="w-100 h-100" src="../../../assets/img/imgDetailProduct/{{l.name}}" alt="Image">
@@ -37,7 +37,7 @@
 
     <div class="col-lg-7 h-auto mb-30">
       <div class="h-100 bg-light p-30">
-        <h3>{{productDetail.name}}</h3>
+        <h3>{{productDetail?.name}}</h3>
         <div class="d-flex mb-3">
           <div class="text-primary mr-2">
             <small class="fas fa-star"></small>
@@ -48,31 +48,31 @@
           </div>
           <small class="pt-1">(99 Reviews)</small>
         </div>
-        <h3 class="font-weight-semi-bold mb-4">{{productDetail.price | number}} đ</h3>
+        <h3 class="font-weight-semi-bold mb-4">{{productDetail?.price | number}} đ</h3>
         <p class="mb-4"></p>
         <div class="d-flex mb-3">
           <strong class="text-dark mr-3">Số lượng còn lại:</strong>
-          <span>{{productDetail.quantity}}</span>
+          <span>{{productDetail?.quantity}}</span>
         </div>
         <div class="d-flex mb-3">
           <strong class="text-dark mr-3">Đối tượng sử dụng:</strong>
-          <span>{{productDetail.gender ? 'Nam':'Nữ'}}</span>
+          <span>{{productDetail?.gender ? 'Nam':'Nữ'}}</span>
         </div>
         <div class="d-flex mb-3">
           <strong class="text-dark mr-3">Dòng sản phẩm:</strong>
-          <span>{{productDetail.product.name}}</span>
+          <span>{{productDetail?.product.name}}</span>
         </div>
         <div class="d-flex mb-3">
           <strong class="text-dark mr-3">Thương hiệu:</strong>
-          <span>{{productDetail.brand.name}}</span>
+          <span>{{productDetail?.brand.name}}</span>
         </div>
         <div class="d-flex mb-3">
           <strong class="text-dark mr-3">Chất liệu:</strong>
-          <span>{{productDetail.material.name}}</span>
+          <span>{{productDetail?.material.name}}</span>
         </div>
         <div class="d-flex mb-4">
           <strong class="text-dark mr-3">Xuất xứ:</strong>
-          <span>{{productDetail.origin.name}}</span>
+          <span>{{productDetail?.origin.name}}</span>
         </div>
         <div class="d-flex align-items-center mb-4 pt-2">
           <div class="input-group quantity mr-3" style="width: 130px;">
@@ -121,11 +121,11 @@
         <div class="tab-content">
           <div class="tab-pane fade show active" id="tab-pane-1">
             <h4 class="mb-3">Mô tả dòng sản phẩm</h4>
-            <p>{{productDetail.product.description}}</p>
+            <p>{{productDetail?.product.description}}</p>
           </div>
           <div class="tab-pane fade" id="tab-pane-2">
             <h4 class="mb-3">Mô tả sản phẩm</h4>
-            <p>{{productDetail.description}}</p>
+            <p>{{productDetail?.description}}</p>
           </div>
         </div>
       </div>
