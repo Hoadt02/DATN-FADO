@@ -1,18 +1,20 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { ProductRoutingModule } from './product-routing.module';
+import {ProductRoutingModule} from './product-routing.module';
 import {ProductComponent} from "./product.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ToastrModule} from "ngx-toastr";
 
 
 @NgModule({
   declarations: [ProductComponent],
-    imports: [
-        CommonModule,
-        ProductRoutingModule,
-        FormsModule,
-        ReactiveFormsModule
-    ]
+  imports: [
+    CommonModule,
+    ProductRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
+  ]
 })
-export class ProductModule { }
+export class ProductModule {
+}
