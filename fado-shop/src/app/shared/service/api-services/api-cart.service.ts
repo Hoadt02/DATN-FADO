@@ -19,4 +19,20 @@ export class ApiCartService {
   constructor(private http: HttpClient) {
   }
 
+  findAllByCustomerId(id: number) {
+    return this.http.get(`${ApiConstant.cart}?id=${id}`);
+  }
+
+  addToCart(data: any) {
+    return this.http.post(ApiConstant.cart, data);
+  }
+
+  delete(id: number) {
+    return this.http.delete(`${ApiConstant.cart}?id=${id}`);
+  }
+
+  deleteAll(listId: []) {
+    return this.http.post(ApiConstant.cart, listId);
+  }
+
 }

@@ -8,4 +8,16 @@ export class Contants {
     START_PRICE: 'start_price',
     END_PRICE: 'end_price',
   }
+
+  public static TYPE_UPDATE_NUMBER_PRD = {
+    PLUS: 'plus',
+    MINUS: 'minus',
+    INPUT: 'input',
+  }
+
+  public static RESULT_CLOSE_DIALOG = {
+    CLOSE: 'close',
+    SUCCESS: 'success',
+    CONFIRM: 'confirm',
+  }
 }

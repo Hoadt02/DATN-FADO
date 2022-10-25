@@ -35,53 +35,57 @@ public class Customer implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(unique=true, nullable=false, precision=10)
     private Integer id;
-    
+
     @Column(nullable=false, length=50)
     private String firstname;
-    
+
     @Column(nullable=false, length=50)
     private String lastname;
-    
+
     @Column(name="date_of_birth", nullable=false)
     private LocalDate dateOfBirth;
-    
+
     @Column(nullable=false, length=255)
     private String image;
-    
+
     @Column(nullable=false, length=50, unique = true)
     private String username;
-    
+
     @Column(nullable=false, length=50)
     private String password;
-    
+
     @Column(nullable=false, length=50, unique = true)
     private String email;
-    
+
     @Column(name="phone_number", nullable=false, length=10, unique = true)
     private String phoneNumber;
-    
+
     @Column(nullable=false, length=1)
     private boolean gender;
-    
+
     @Column(precision=10)
     private Integer status;
-    
+
     @OneToMany(mappedBy="customer")
     @JsonIgnore
     private List<Address> addressList;
-    
+
     @OneToMany(mappedBy="customer")
     @JsonIgnore
     private List<Assess> assessList;
-    
+
+    @OneToMany(mappedBy="customer")
+    @JsonIgnore
+    private List<Cart> cartList;
+
     @ManyToOne(optional=false)
     @JoinColumn(name="role_id", nullable=false)
     private Role role;
-    
+
     @OneToMany(mappedBy="customer")
     @JsonIgnore
     private List<Like> likeList;
-    
+
     @OneToMany(mappedBy="customer")
     @JsonIgnore
     private List<Order> orderList;
