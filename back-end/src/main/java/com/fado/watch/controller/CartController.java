@@ -30,6 +30,11 @@ public class CartController {
         return ResponseEntity.ok(this.cartService.addToCart(cart));
     }
 
+    @PutMapping("updateQuantity")
+    public ResponseEntity<Cart> updateQuantity(@RequestBody Cart cart) {
+        return ResponseEntity.ok(this.cartService.updateQuantity(cart));
+    }
+
     @DeleteMapping
     public void delete(@RequestParam("id") Integer id) {
         this.cartService.delete(id);

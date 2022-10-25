@@ -33,6 +33,14 @@ public class CartServiceImpl implements ICartService {
     }
 
     @Override
+    public Cart updateQuantity(Cart cart) {
+        Cart newCart = this.cartRepository.checkTrung(cart.getProductDetail().getId(), cart.getCustomer().getId());
+
+        newCart.setQuantity(cart.getQuantity());
+        return this.cartRepository.save(newCart);
+    }
+
+    @Override
     public List<Cart> findAllByCustomerId(Integer id) {
         return this.cartRepository.findAllByCustomerId(id);
     }

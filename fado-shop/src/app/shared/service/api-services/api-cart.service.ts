@@ -27,6 +27,10 @@ export class ApiCartService {
     return this.http.post(ApiConstant.cart, data);
   }
 
+  updateQuantity(data: any) {
+    return this.http.put(ApiConstant.cart + "/updateQuantity", data);
+  }
+
   delete(id: number) {
     return this.http.delete(`${ApiConstant.cart}?id=${id}`);
   }

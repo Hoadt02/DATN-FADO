@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ApiCartService} from "../api-services/api-cart.service";
-import {ToastrService} from "ngx-toastr";
 import {BehaviorSubject} from "rxjs";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,8 @@ import {BehaviorSubject} from "rxjs";
 export class CartService {
 
   numberPrdInCart$ = new BehaviorSubject<number>(0);
-  isCloseDialog: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  numberPrdIn$ = new BehaviorSubject<number>(0);
+  isReLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private apiCartService: ApiCartService,
               private toastrService: ToastrService) {
@@ -23,20 +24,33 @@ export class CartService {
     return this.apiCartService.addToCart(data).subscribe({
       next: (rs: any) => {
         console.log(rs);
-        this.toastrService.success('Thêm sản thành công!');
-        this.isCloseDialog.next(true);
+        this.toastrService.success('Thêm sản phẩm vào giỏ hàng thành công!');
+        this.isReLoading.next(true);
       }, error: (err) => {
         console.log(err);
-        this.toastrService.error('Thêm sản phẩm vào rỏ hàng không thành công!');
+        this.toastrService.error('Thêm sản phẩm vào giỏ hàng thất bại!');
+      }
+    });
+  }
+
+  updateQuantity(data: any) {
+    return this.apiCartService.updateQuantity(data).subscribe({
+      next: (rs: any) => {
+        console.log(rs);
+        this.toastrService.success('Cập nhật thành công!');
+        this.isReLoading.next(true);
+      }, error: (err) => {
+        console.log(err);
+        this.toastrService.error('Cập nhật thất bại!');
       }
     });
   }
 
   delete(id: number) {
     return this.apiCartService.delete(id).subscribe({
-      next: (rs: any) => {
-        console.log(rs);
-        this.isCloseDialog.next(true);
+      next: (_: any) => {
+        this.toastrService.success('Xoá thành công!');
+        this.isReLoading.next(true);
       }, error: (err) => {
         console.log(err);
       }
@@ -45,8 +59,7 @@ export class CartService {
 
   deleteAll(listId: []) {
     return this.apiCartService.deleteAll(listId).subscribe({
-      next: (rs: any) => {
-        console.log(rs);
+      next: (_: any) => {
       }, error: (err) => {
         console.log(err);
       }

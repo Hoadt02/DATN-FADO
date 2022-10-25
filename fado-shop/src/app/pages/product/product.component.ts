@@ -8,7 +8,6 @@ import { Contants } from '../../shared/Contants';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CartService } from '../../shared/service/api-service-impl/cart.service';
 import { checkCheckPrice } from '../../shared/validator/validate';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product',
@@ -238,10 +237,10 @@ export class ProductComponent implements OnInit {
     };
 
     this.apiCart.addToCart(this.dataAddToCart);
-    this.apiCart.isCloseDialog.subscribe((data) => {
+    this.apiCart.isReLoading.subscribe((data) => {
       if (data) {
         this.getAllPrdInCart();
-        this.apiCart.isCloseDialog.next(false);
+        this.apiCart.isReLoading.next(false);
       }
     });
   }

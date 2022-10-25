@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {ProductDetailsService} from "../../shared/service/api-service-impl/product-details.service";
-import {ToastrService} from "ngx-toastr";
 import {ImageService} from "../../shared/service/api-service-impl/image.service";
+import {CartService} from "../../shared/service/api-service-impl/cart.service";
 
 @Component({
   selector: 'app-product-detail',
@@ -15,10 +15,19 @@ export class ProductDetailComponent implements OnInit {
   listImg: any[] = [];
   listSimilarProduct: any[] = [];
 
+  //-------------------------------
+  dataAddToCart: any;
+  slSP: number = 1;
+  checkSl = false;
+
+  //-------------------------------
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private productDetailService: ProductDetailsService,
-              private imageService: ImageService) {
+              private imageService: ImageService,
+              private apiCart: CartService
+  ) {
   }
 
   ngOnInit(): void {
@@ -54,4 +63,40 @@ export class ProductDetailComponent implements OnInit {
 
   }
 
+  addToCart(idPrd: number) {
+    if (this.slSP > this.productDetail.quantity) {
+      this.checkSl = true;
+    } else {
+      this.dataAddToCart = {
+        productDetail: {
+          id: idPrd,
+        },
+        customer: {
+          id: 164,
+        },
+        quantity: this.slSP,
+      };
+
+      this.apiCart.addToCart(this.dataAddToCart);
+      this.apiCart.isReLoading.subscribe((data) => {
+        if (data) {
+          this.getAllPrdInCart();
+          this.apiCart.isReLoading.next(false);
+        }
+      });
+    }
+  }
+
+  getAllPrdInCart() {
+    let slPrd = 0;
+    this.apiCart.findAllByCustomerId(164).subscribe({
+      next: (data: any) => {
+        for (const x of data) {
+          slPrd += x.quantity;
+        }
+        this.apiCart.numberPrdInCart$.next(slPrd);
+      },
+    });
+    console.log('aaaaaaâ: ', slPrd);
+  }
 }
