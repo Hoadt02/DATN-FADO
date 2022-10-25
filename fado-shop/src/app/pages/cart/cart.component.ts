@@ -4,6 +4,7 @@ import {Contants} from "../../shared/Contants";
 import * as Constants from "constants";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../shared/confirm-dialog/confirm-dialog.component";
+import {FormBuilder, FormControl, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-cart',
@@ -14,6 +15,8 @@ export class CartComponent implements OnInit {
   items: any = [];
   TYPE_UPDATE_NUMBER_PRD = Contants.TYPE_UPDATE_NUMBER_PRD;
   RESULT_CLOSE_DIALOG = Contants.RESULT_CLOSE_DIALOG;
+  dataAddToCart: any;
+  total: number = 0;
 
   constructor(
     private readonly apiCart: CartService,
@@ -30,8 +33,10 @@ export class CartComponent implements OnInit {
     this.apiCart.findAllByCustomerId(164).subscribe({
       next: (data: any) => {
         this.items = data as any;
+        this.total = 0;
         for (const x of data) {
           slPrd += x.quantity
+          this.total += (x.productDetail.price * x.quantity)
         }
         this.apiCart.numberPrdInCart$.next(slPrd);
       }
@@ -39,15 +44,19 @@ export class CartComponent implements OnInit {
   }
 
   updateQuantity(type: any, idPrd: number, event?: any) {
-    const inputValue = event?.target.value;
-    if (type === this.TYPE_UPDATE_NUMBER_PRD.MINUS) {
-      console.log('Giam : ', idPrd);
-    } else if (type === this.TYPE_UPDATE_NUMBER_PRD.INPUT) {
-      console.log('Input : ', inputValue);
-    } else {
-      console.log('Tang : ', idPrd);
-    }
-    if (inputValue === '') {
+    const slSP = event?.target.value;
+    // if (type === this.TYPE_UPDATE_NUMBER_PRD.MINUS) {
+    // } else if (type === this.TYPE_UPDATE_NUMBER_PRD.PLUS) {
+    // } else {
+      this.dataCreate(idPrd, parseInt(slSP))
+      this.apiCart.updateQuantity(this.dataAddToCart);
+      this.apiCart.isReLoading.subscribe(data => {
+        if (data) {
+          this.getAllPrdInCart();
+        }
+      })
+    // }
+    if (slSP === '') {
       console.log('Ban co muon xoa ko');
     }
   }
@@ -65,13 +74,26 @@ export class CartComponent implements OnInit {
     diaLogRef.afterClosed().subscribe(data => {
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
         this.apiCart.delete(idPrd);
+        this.apiCart.isReLoading.subscribe(data => {
+          if (data) {
+            this.getAllPrdInCart();
+            this.apiCart.isReLoading.next(false);
+          }
+        })
       }
-      this.apiCart.isCloseDialog.subscribe(data => {
-        if (data) {
-          this.getAllPrdInCart();
-          this.apiCart.isCloseDialog.next(false);
-        }
-      })
     })
   }
+
+  dataCreate(idPrd: number, sl: number) {
+    this.dataAddToCart = {
+      productDetail: {
+        id: idPrd,
+      },
+      customer: {
+        id: 164,
+      },
+      quantity: sl,
+    };
+  }
+
 }

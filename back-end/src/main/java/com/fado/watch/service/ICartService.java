@@ -8,6 +8,8 @@ public interface ICartService {
 
     Cart addToCart(Cart cart);
 
+    Cart updateQuantity(Cart cart);
+
     List<Cart> findAllByCustomerId(Integer id);
 
     void delete(Integer id);

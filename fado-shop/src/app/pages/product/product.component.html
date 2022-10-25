@@ -37,7 +37,7 @@
             />
             <label class="custom-control-label" for="category-{{ i }}">{{
               c.name
-            }}</label>
+              }}</label>
           </div>
         </form>
       </div>
@@ -46,7 +46,7 @@
       <!-- Brand Start -->
       <h6 class="section-title position-relative text-uppercase mb-3">
         <span class="bg-secondary pr-3"
-          ><i class="fa-solid fa-filter"></i> Lọc theo thương hiệu</span
+        ><i class="fa-solid fa-filter"></i> Lọc theo thương hiệu</span
         >
       </h6>
       <div class="p-4 mb-30 div-filter">
@@ -63,7 +63,7 @@
             />
             <label class="custom-control-label" for="brand-{{ i }}">{{
               b.name
-            }}</label>
+              }}</label>
           </div>
         </form>
       </div>
@@ -72,7 +72,7 @@
       <!-- Material Start -->
       <h6 class="section-title position-relative text-uppercase mb-3">
         <span class="bg-secondary pr-3"
-          ><i class="fa-solid fa-filter"></i> Lọc theo chất liệu</span
+        ><i class="fa-solid fa-filter"></i> Lọc theo chất liệu</span
         >
       </h6>
       <div class="p-4 mb-30 div-filter">
@@ -89,7 +89,7 @@
             />
             <label class="custom-control-label" for="material-{{ i }}">{{
               m.name
-            }}</label>
+              }}</label>
           </div>
         </form>
       </div>
@@ -98,7 +98,7 @@
       <!-- Origin Start -->
       <h6 class="section-title position-relative text-uppercase mb-3">
         <span class="bg-secondary pr-3"
-          ><i class="fa-solid fa-filter"></i> Lọc theo xuất xứ</span
+        ><i class="fa-solid fa-filter"></i> Lọc theo xuất xứ</span
         >
       </h6>
       <div class="p-4 mb-30 div-filter">
@@ -115,7 +115,7 @@
             />
             <label class="custom-control-label" for="origin-{{ i }}">{{
               o.name
-            }}</label>
+              }}</label>
           </div>
         </form>
       </div>
@@ -124,7 +124,7 @@
       <!-- Gender Start -->
       <h6 class="section-title position-relative text-uppercase mb-3">
         <span class="bg-secondary pr-3"
-          ><i class="fa-solid fa-filter"></i> Lọc theo đối tượng</span
+        ><i class="fa-solid fa-filter"></i> Lọc theo đối tượng</span
         >
       </h6>
       <div class="p-4 mb-30">
@@ -162,7 +162,7 @@
       <!-- Price Start -->
       <h6 class="section-title position-relative text-uppercase mb-3">
         <span class="bg-secondary pr-3"
-          ><i class="fa-solid fa-filter"></i> Lọc theo giá</span
+        ><i class="fa-solid fa-filter"></i> Lọc theo giá</span
         >
       </h6>
       <div class="p-4 mb-30">
@@ -253,12 +253,12 @@
                   <a
                     class="dropdown-item"
                     (click)="setSortProduct(TYPE_SORT.PRICE_DOWN)"
-                    >Giá: từ thấp đến cao</a
+                  >Giá: từ thấp đến cao</a
                   >
                   <a
                     class="dropdown-item"
                     (click)="setSortProduct(TYPE_SORT.PRICE_UP)"
-                    >Giá: từ cao đến thấp</a
+                  >Giá: từ cao đến thấp</a
                   >
                 </div>
               </div>
@@ -268,33 +268,20 @@
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1" *ngFor="let p of products">
           <div class="product-item bg-light mb-4">
             <div class="product-img position-relative overflow-hidden">
-              <img
-                class="img-fluid w-100"
-                src="../../../assets/img/avtProduct/{{ p.avatar }}"
-                alt=""
-              />
+              <img class="img-fluid w-100" src="../../../assets/img/avtProduct/{{ p.avatar }}" alt=""/>
               <div class="product-action">
-                <a
-                  class="btn btn-outline-dark btn-square"
-                  (click)="addToCart(p.id)"
-                  ><i class="fa fa-shopping-cart"></i
-                ></a>
-                <a class="btn btn-outline-dark btn-square" href="/product"
-                  ><i class="far fa-heart"></i
-                ></a>
-                <a class="btn btn-outline-dark btn-square" href="/product"
-                  ><i class="fa fa-sync-alt"></i
-                ></a>
-                <a class="btn btn-outline-dark btn-square" href="/product"
-                  ><i class="fa fa-search"></i
-                ></a>
+                <a class="btn btn-outline-dark btn-square" (click)="addToCart(p.id)"><i class="fa fa-shopping-cart"></i></a>
+                <a class="btn btn-outline-dark btn-square" [routerLink]="['/product-detail']">
+                  <i class="far fa-heart"></i></a>
+                <a class="btn btn-outline-dark btn-square" href="" [routerLink]="['/product-detail',p.id]"><i
+                  class="fa-regular fa-eye"></i></a>
               </div>
             </div>
             <div class="text-center py-4">
               <a
                 class="h6 text-decoration-none text-truncate"
                 href="/product"
-                >{{ p.name }}</a
+              >{{ p.name }}</a
               >
               <div
                 class="d-flex align-items-center justify-content-center mt-2"
