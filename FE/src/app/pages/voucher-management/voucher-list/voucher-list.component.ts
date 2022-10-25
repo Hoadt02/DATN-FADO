@@ -31,7 +31,7 @@ export class VoucherListComponent implements OnInit {
 
   displayedColumns: string[] =
     [
-      'stt', 'code', 'discount','quantity',
+      'stt', 'code', 'discount', 'quantity',
       'startDate', 'endDate', 'status',
       'staff', 'description', 'action'
     ];

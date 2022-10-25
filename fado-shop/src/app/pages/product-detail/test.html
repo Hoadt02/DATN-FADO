@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../../../assets/lib/owlcarousel/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="../../../assets/lib/owlcarousel/css/owl.theme.default.min.css">
+</head>
+
+<body>
+
+<!-- Set up your HTML -->
+<div class="owl-carousel related-carousel-2">
+  <div> Your Content </div>
+  <div> Your Content </div>
+  <div> Your Content </div>
+  <div> Your Content </div>
+  <div> Your Content </div>
+  <div> Your Content </div>
+  <div> Your Content </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="/src/assets/lib/owlcarousel/js/owl.carousel.min.js"></script>
+<script>
+  $('.related-carousel-2').owlCarousel({
+    loop: true,
+    margin: 29,
+    nav: false,
+    autoplay: true,
+    smartSpeed: 1000,
+    responsive: {
+      0: {
+        items: 1
+      },
+      576: {
+        items: 2
+      },
+      768: {
+        items: 3
+      },
+      992: {
+        items: 4
+      }
+    }
+  });
+</script>
+<script src="assets/js/main.js"></script>
+</body>
+
+</html>

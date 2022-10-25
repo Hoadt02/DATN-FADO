@@ -8,7 +8,6 @@
       <img src="{{linkSrcImg}}" width="300px">
     </div>
     <div>
-      <img src="" alt="">
       <img src="assets/img/avtProduct/{{data.avatar}}" width="50px" class="m-2 img-detail" (click)="onClickChangeImg(0,data.avatar)">
       <img *ngFor="let image of listImg" src="assets/img/imgDetailProduct/{{image.name}}" width="50px" class="m-2 img-detail" (click)="onClickChangeImg(1,image.name)">
     </div>
@@ -17,20 +16,20 @@
     <div class="row">
       <div class="col-12">
         <h1><b>{{data.name | uppercase}}</b></h1>
-        <h2 style="color: red"><b>{{data.price | number}} ₫</b></h2>
+        <h2 class="text-warning"><b>{{data.price | number}} ₫</b></h2>
       </div>
 
     </div>
     <hr>
     <div>
-      <p>Thông tin sản phẩm:</p>
-      <p><i class="fa-solid fa-check"></i> Số lượng sản phẩm: {{data.quantity}}</p>
-      <p><i class="fa-solid fa-check"></i> Đối tượng sử dụng: {{data.gender == true ? 'Nam':'Nữ'}}</p>
-      <p><i class="fa-solid fa-check"></i> Trạng thái: {{data.status == 1 ? 'Hoạt động':'Ngưng hoạt động'}}</p>
-      <p><i class="fa-solid fa-check"></i> Dòng sản phẩm: {{data.product.name}}</p>
-      <p><i class="fa-solid fa-check"></i> Thương hiệu: {{data.brand.name}}</p>
-      <p><i class="fa-solid fa-check"></i> Chất liệu: {{data.material.name}}</p>
-      <p><i class="fa-solid fa-check"></i> Xuất xứ: {{data.origin.name}}</p>
+      <h4><b>Thông tin sản phẩm:</b></h4>
+      <p class="text-secondary"><b><i class="fa-solid fa-check"></i> Số lượng sản phẩm: {{data.quantity}}</b></p>
+      <p class="text-secondary"><b><i class="fa-solid fa-check"></i> Đối tượng sử dụng: {{data.gender == true ? 'Nam':'Nữ'}}</b></p>
+      <p class="text-secondary"><b><i class="fa-solid fa-check"></i> Trạng thái: {{data.status == 1 ? 'Hoạt động':'Ngưng hoạt động'}}</b></p>
+      <p class="text-secondary"><b><i class="fa-solid fa-check"></i> Dòng sản phẩm: {{data.product.name}}</b></p>
+      <p class="text-secondary"><b><i class="fa-solid fa-check"></i> Thương hiệu: {{data.brand.name}}</b></p>
+      <p class="text-secondary"><b><i class="fa-solid fa-check"></i> Chất liệu: {{data.material.name}}</b></p>
+      <p class="text-secondary"><b><i class="fa-solid fa-check"></i> Xuất xứ: {{data.origin.name}}</b></p>
     </div>
   </div>
 </div>

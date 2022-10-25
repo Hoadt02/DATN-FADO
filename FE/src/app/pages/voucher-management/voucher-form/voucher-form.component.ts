@@ -21,13 +21,12 @@ export class VoucherFormComponent implements OnInit {
     startDate: [new Date()],
     endDate: [new Date()],
     discount: ['', [Validators.required, Validators.min(1)]],
-    code: ['', Validators.required],
     quantity:['', [Validators.required, Validators.min(1)]],
     description: [''],
     status: [1],
     type: [false],
     staff: this.fb.group({
-      id: [4]
+      id: [164]
     }),
   }, {
     validators: checkTypeDiscount('type', 'discount'),

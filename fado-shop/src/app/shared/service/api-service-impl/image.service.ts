@@ -8,8 +8,7 @@ import {ProductDetailsService} from "./product-details.service";
 })
 export class ImageService{
 
-  constructor(private apiImageService: ApiImageService,
-              private toastrService: ToastrService) {
+  constructor(private apiImageService: ApiImageService) {
   }
 
   getImagesByIdProductDetail(id:number){

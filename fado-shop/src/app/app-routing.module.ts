@@ -1,29 +1,26 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { HomePageModule } from './pages/home-page/home-page.module';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {LayoutAdminComponent} from "./layout/layout-admin/layout-admin.component";
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () =>
-      import('././pages/home-page/home-page.module').then(
-        (m) => m.HomePageModule
-      ),
+    redirectTo: '/home-page',
+    pathMatch: 'full'
   },
   {
-    path: 'contact',
-    loadChildren: () =>
-      import('././pages/contact/contact.module').then((m) => m.ContactModule),
+    path: '',
+    component: LayoutAdminComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./layout/layout-admin/layout-admin.module').then(m => m.LayoutAdminModule)
+      }
+    ]
   },
   {
-    path: 'product',
-    loadChildren: () =>
-      import('././pages/product/product.module').then((m) => m.ProductModule),
-  },
-  {
-    path: 'cart',
-    loadChildren: () =>
-      import('././pages/cart/cart.module').then((m) => m.CartModule),
+    path: 'auth',
+    loadChildren:() => import('./auth/auth.module').then(m => m.AuthModule)
   },
 ];
 
@@ -31,4 +28,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}
