@@ -17,9 +17,10 @@ export class ProductDetailComponent implements OnInit {
 
   //-------------------------------
   dataAddToCart: any;
+  slSP: number = 1;
+  checkSl = false;
 
   //-------------------------------
-  slSP: number = 1;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -63,23 +64,27 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart(idPrd: number) {
-    this.dataAddToCart = {
-      productDetail: {
-        id: idPrd,
-      },
-      customer: {
-        id: 164,
-      },
-      quantity: this.slSP,
-    };
+    if (this.slSP > this.productDetail.quantity) {
+      this.checkSl = true;
+    } else {
+      this.dataAddToCart = {
+        productDetail: {
+          id: idPrd,
+        },
+        customer: {
+          id: 164,
+        },
+        quantity: this.slSP,
+      };
 
-    this.apiCart.addToCart(this.dataAddToCart);
-    this.apiCart.isReLoading.subscribe((data) => {
-      if (data) {
-        this.getAllPrdInCart();
-        this.apiCart.isReLoading.next(false);
-      }
-    });
+      this.apiCart.addToCart(this.dataAddToCart);
+      this.apiCart.isReLoading.subscribe((data) => {
+        if (data) {
+          this.getAllPrdInCart();
+          this.apiCart.isReLoading.next(false);
+        }
+      });
+    }
   }
 
   getAllPrdInCart() {

@@ -46,7 +46,7 @@
             </td>
             <td class="align-middle">{{i.productDetail.price | number}} VND</td>
             <td class="align-middle">
-              <div class="input-group quantity mx-auto" style="width: 150px;">
+              <div class="input-group quantity mx-auto" style="width: 80px;">
                 <!--                <button class="btn btn-sm btn-primary btn-minus"-->
                 <!--                        (click)="updateQuantity(TYPE_UPDATE_NUMBER_PRD.MINUS,i.id)">-->
                 <!--                  <i class="fa fa-minus"></i>-->
@@ -73,9 +73,10 @@
       <div class="col-lg-4">
         <form class="mb-30" action="">
           <div class="input-group">
-            <input type="text" class="form-control border-0 p-4" placeholder="Coupon Code">
+            <input type="text" class="form-control border-0 p-4" placeholder="Voucher Code" name="voucher"
+                   [(ngModel)]="voucherInput">
             <div class="input-group-append">
-              <button class="btn btn-primary" type="button">Apply Coupon</button>
+              <button class="btn btn-primary" type="button" (click)="applyVoucher()">Apply Voucher</button>
             </div>
           </div>
         </form>
@@ -85,11 +86,11 @@
           <div class="border-bottom pb-2">
             <div class="d-flex justify-content-between mb-3">
               <h6>Subtotal</h6>
-              <h6>{{total | number}} VND</h6>
+              <h6>{{subtotal | number}} VND</h6>
             </div>
             <div class="d-flex justify-content-between">
-              <h6 class="font-weight-medium">Shipping</h6>
-              <h6 class="font-weight-medium">$10</h6>
+              <h6 class="font-weight-medium">Discount</h6>
+              <h6 class="font-weight-medium">{{discount}}</h6>
             </div>
           </div>
           <div class="pt-2">

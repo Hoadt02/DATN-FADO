@@ -9,6 +9,7 @@ import {ToastrService} from "ngx-toastr";
 export class CartService {
 
   numberPrdInCart$ = new BehaviorSubject<number>(0);
+  numberPrdIn$ = new BehaviorSubject<number>(0);
   isReLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private apiCartService: ApiCartService,
