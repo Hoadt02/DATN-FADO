@@ -5,7 +5,7 @@ import * as Constants from "constants";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../shared/confirm-dialog/confirm-dialog.component";
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
-import {debounceTime} from "rxjs";
+import {debounceTime, Subject} from "rxjs";
 import {ToastrService} from "ngx-toastr";
 import {VoucherService} from "../../shared/service/api-service-impl/voucher.service";
 
@@ -58,6 +58,7 @@ export class CartComponent implements OnInit {
           this.vouchers.push({
             code: x.code,
             discount: x.discount,
+            status: x.status,
           });
         }
         console.log('list voucher nè: ', this.vouchers);
@@ -82,22 +83,26 @@ export class CartComponent implements OnInit {
           this.total = 0;
         }
         this.apiCart.numberPrdInCart$.next(slPrd);
+        // this.apiCart.listProductInCart$.next(data);
       }
     });
   }
 
-  updateQuantity(type: any, idPrd: number, event?: any) {
+  // term$ = new Subject<string>();
+
+  updateQuantity(type: any, raw: any, event?: any) {
     let slSP = event?.target.value;
-    for (const x of this.items) {
-      if (x.productDetail.id == idPrd && slSP > x.productDetail.quantity) {
-        this.toastrService.warning('Sản phẩm chỉ còn ' + x.productDetail.quantity + ' chiếc');
-        return;
-      }
+
+    if (slSP > raw.productDetail.quantity) {
+      this.toastrService.warning('Sản phẩm chỉ còn ' + raw.productDetail.quantity + ' chiếc');
+      event.target.value = raw.quantity;
+      return;
     }
-    if (slSP == 0 || slSP === "") {
-      slSP = 1;
+    if (slSP <= 0 || slSP === "") {
+      this.deletePrd(raw.id);
+      return;
     }
-    this.dataCreate(idPrd, parseInt(slSP));
+    this.dataCreate(raw.productDetail.id, parseInt(slSP));
     this.apiCart.updateQuantity(this.dataAddToCart);
     this.apiCart.isReLoading.subscribe(data => {
       if (data) {
@@ -130,17 +135,25 @@ export class CartComponent implements OnInit {
   }
 
   applyVoucher() {
-    console.log(this.voucherInput);
+    let checkVoucher = false;
     for (const x of this.vouchers) {
-      if (x.code == this.voucherInput) {
+      if (x.code == this.voucherInput && x.status == 1) {
         this.discount = x.discount;
         this.total = this.subtotal - this.discount;
         if (this.total < 0) {
           this.total = 0;
         }
-        this.toastrService.success('Áp voucher thành công. Đơn hàng được giảm: ' + this.discount);
-        console.log("Voucher khớp, được giảm: ", this.discount);
+        this.apiCart.discount$.next(this.discount);
+        localStorage.setItem('discount',String(this.discount));
+        checkVoucher = true;
       }
     }
+    if (checkVoucher) {
+      this.toastrService.success('Áp voucher thành công. Đơn hàng được giảm: ' + this.discount);
+      console.log("Voucher khớp, được giảm: ", this.discount);
+    } else {
+      this.toastrService.warning('Voucher không hợp lệ!');
+    }
   }
+
 }

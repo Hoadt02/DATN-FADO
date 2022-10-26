@@ -19,7 +19,11 @@ export class HeaderComponent implements OnInit {
     this.getAllPrdInCart();
     this.apiCart.numberPrdInCart$.subscribe(data => {
       this.numberPrdInCart = data;
-    })
+    });
+    //
+    // this.apiCart.listProductInCart$.subscribe(data => {
+    //   console.log('header: ', data);
+    // });
   }
 
   getAllPrdInCart() {
@@ -30,6 +34,7 @@ export class HeaderComponent implements OnInit {
           slPrd += x.quantity
         }
         this.apiCart.numberPrdInCart$.next(slPrd);
+        // this.apiCart.listProductInCart$.next(data);
       }
     });
   }

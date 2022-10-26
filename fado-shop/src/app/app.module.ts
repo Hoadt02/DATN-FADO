@@ -17,7 +17,7 @@ import {ToastrModule} from "ngx-toastr";
     HttpClientModule,
     LayoutAdminModule,
     ToastrModule.forRoot({
-      positionClass: 'toast-top-right', timeOut: 700,
+      positionClass: 'toast-top-left', timeOut: 1000,
       // preventDuplicates: true,
       closeButton: true,
       progressBar: true,

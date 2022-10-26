@@ -3,6 +3,7 @@ import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {ProductDetailsService} from "../../shared/service/api-service-impl/product-details.service";
 import {ImageService} from "../../shared/service/api-service-impl/image.service";
 import {CartService} from "../../shared/service/api-service-impl/cart.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-product-detail',
@@ -19,6 +20,7 @@ export class ProductDetailComponent implements OnInit {
   dataAddToCart: any;
   slSP: number = 1;
   checkSl = false;
+  items: any;
 
   //-------------------------------
 
@@ -26,12 +28,14 @@ export class ProductDetailComponent implements OnInit {
               private router: Router,
               private productDetailService: ProductDetailsService,
               private imageService: ImageService,
-              private apiCart: CartService
+              private apiCart: CartService,
+              private toastrService: ToastrService,
   ) {
   }
 
   ngOnInit(): void {
     this.getProductDetailAndAnyInfomation();
+    this.getAllPrdInCart();
   }
 
   getProductDetailAndAnyInfomation() {
@@ -67,6 +71,12 @@ export class ProductDetailComponent implements OnInit {
     if (this.slSP > this.productDetail.quantity) {
       this.checkSl = true;
     } else {
+      for (const x of this.items) {
+        if (x.productDetail.id == idPrd && (x.quantity + this.slSP) > this.productDetail.quantity) {
+          this.toastrService.warning('Số lượng trong rỏ hàng đã bằng số lượng trong kho');
+          return;
+        }
+      }
       this.dataAddToCart = {
         productDetail: {
           id: idPrd,
@@ -91,6 +101,7 @@ export class ProductDetailComponent implements OnInit {
     let slPrd = 0;
     this.apiCart.findAllByCustomerId(164).subscribe({
       next: (data: any) => {
+        this.items = data as any;
         for (const x of data) {
           slPrd += x.quantity;
         }
