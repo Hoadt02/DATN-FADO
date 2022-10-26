@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { CategoryService } from '../../shared/service/api-service-impl/category.service';
-import { BrandService } from '../../shared/service/api-service-impl/brand.service';
-import { MaterialService } from '../../shared/service/api-service-impl/material.service';
-import { OriginService } from '../../shared/service/api-service-impl/origin.service';
-import { ProductDetailsService } from '../../shared/service/api-service-impl/product-details.service';
-import { Contants } from '../../shared/Contants';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CartService } from '../../shared/service/api-service-impl/cart.service';
-import { checkCheckPrice } from '../../shared/validator/validate';
+import {Component, OnInit} from '@angular/core';
+import {CategoryService} from '../../shared/service/api-service-impl/category.service';
+import {BrandService} from '../../shared/service/api-service-impl/brand.service';
+import {MaterialService} from '../../shared/service/api-service-impl/material.service';
+import {OriginService} from '../../shared/service/api-service-impl/origin.service';
+import {ProductDetailsService} from '../../shared/service/api-service-impl/product-details.service';
+import {Contants} from '../../shared/Contants';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {CartService} from '../../shared/service/api-service-impl/cart.service';
+import {checkCheckPrice} from '../../shared/validator/validate';
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-product',
@@ -39,6 +40,7 @@ export class ProductComponent implements OnInit {
 
   //-------------------------------
   dataAddToCart: any;
+  items: any;
 
   //-------------------------------
 
@@ -59,8 +61,10 @@ export class ProductComponent implements OnInit {
     private originService: OriginService,
     private productDetailService: ProductDetailsService,
     private readonly apiCart: CartService,
+    private toastrService: ToastrService,
     private fb: FormBuilder
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.loadByProductDetail();
@@ -68,6 +72,7 @@ export class ProductComponent implements OnInit {
     this.loadByBrand();
     this.loadByMaterial();
     this.loadByOrigin();
+    this.getAllPrdInCart();
   }
 
   loadProductDetailByFilter(type: string, value: any) {
@@ -225,10 +230,18 @@ export class ProductComponent implements OnInit {
   }
 
   //----------------------------------------------------------
-  addToCart(idPrd: number) {
+  addToCart(raw: any) {
+    console.log(raw);
+    for (const x of this.items) {
+      if (x.productDetail.id == raw.id && x.quantity == raw.quantity) {
+        this.toastrService.warning('Số lượng trong rỏ hàng đã bằng số lượng trong kho');
+        return;
+      }
+    }
+
     this.dataAddToCart = {
       productDetail: {
-        id: idPrd,
+        id: raw.id,
       },
       customer: {
         id: 164,
@@ -250,11 +263,12 @@ export class ProductComponent implements OnInit {
     this.apiCart.findAllByCustomerId(164).subscribe({
       next: (data: any) => {
         for (const x of data) {
+          this.items = data as any[];
           slPrd += x.quantity;
         }
         this.apiCart.numberPrdInCart$.next(slPrd);
+        // this.apiCart.listProductInCart$.next(data);
       },
     });
-    console.log('aaaaaaâ: ', slPrd);
   }
 }
