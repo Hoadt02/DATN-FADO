@@ -49,7 +49,7 @@
                 <div class="col-9 info-prd">
                   <div class="name">
                     <p>
-                      <a routerLink="/product-detail/{{i.productDetail.id}}">
+                      <a class="text-uppercase" routerLink="/product-detail/{{i.productDetail.id}}">
                         {{i.productDetail.name}}
                       </a>
                     </p>
@@ -115,7 +115,9 @@
               <h5>Total</h5>
               <h6>{{total | number}} VND</h6>
             </div>
-            <button routerLink="/check-out" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+            <button (click)="openCheckout()" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To
+              Checkout
+            </button>
           </div>
         </div>
       </div>

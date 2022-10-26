@@ -8,6 +8,7 @@ import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {debounceTime, Subject} from "rxjs";
 import {ToastrService} from "ngx-toastr";
 import {VoucherService} from "../../shared/service/api-service-impl/voucher.service";
+import {CheckOutComponent} from "../check-out/check-out.component";
 
 @Component({
   selector: 'app-cart',
@@ -144,7 +145,7 @@ export class CartComponent implements OnInit {
           this.total = 0;
         }
         this.apiCart.discount$.next(this.discount);
-        localStorage.setItem('discount',String(this.discount));
+        localStorage.setItem('discount', String(this.discount));
         checkVoucher = true;
       }
     }
@@ -156,4 +157,16 @@ export class CartComponent implements OnInit {
     }
   }
 
+  openCheckout() {
+    const discount = this.discount;
+    const items = this.items;
+    this.matDiaLog.open(CheckOutComponent, {
+      width: '1000px',
+      hasBackdrop: true,
+      disableClose: false,
+      data: {
+        discount, items
+      }
+    })
+  }
 }
