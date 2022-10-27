@@ -8,6 +8,9 @@ import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {LayoutAdminModule} from './layout/layout-admin/layout-admin.module';
 import {ToastrModule} from "ngx-toastr";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,6 +29,9 @@ import {ToastrModule} from "ngx-toastr";
     }),
     BrowserAnimationsModule,
     MatDialogModule,
+    MatMenuModule,
+    MatAutocompleteModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent],

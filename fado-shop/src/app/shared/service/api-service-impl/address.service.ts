@@ -36,15 +36,7 @@ export class AddressService {
   }
 
   create(data: any) {
-    return this.apiAddress.create(data).subscribe({
-      next: (data: any) => {
-        console.log(data);
-        this.toastrService.success('Thêm địa chỉ thành công!');
-      }, error: err => {
-        console.log('Có lỗi thêm địa chỉ: ', err);
-        this.toastrService.error('Thêm địa chỉ thất bại!');
-      }
-    });
+    return this.apiAddress.create(data);
   }
 
   update(data: any) {
@@ -60,7 +52,7 @@ export class AddressService {
   }
 
   delete(id: number) {
-    this.apiAddress.delete(id);
+    return this.apiAddress.delete(id);
   }
 
 

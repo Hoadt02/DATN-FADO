@@ -13,6 +13,8 @@ import {EditAddressComponent} from './edit-address/edit-address.component';
 import {EditAddressFormComponent} from './edit-address-form/edit-address-form.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatOptionModule} from "@angular/material/core";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatInputModule} from "@angular/material/input";
 
 
 @NgModule({
@@ -29,10 +31,11 @@ import {MatOptionModule} from "@angular/material/core";
     MatCheckboxModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    MatSelectModule,
     MatTableModule,
     MatDialogModule,
     MatOptionModule,
+    MatSelectModule,
+    MatInputModule,
   ]
 })
 export class CheckOutModule {

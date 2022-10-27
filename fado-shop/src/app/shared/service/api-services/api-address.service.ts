@@ -43,6 +43,6 @@ export class ApiAddressService {
   }
 
   delete(id: number) {
-    this.http.delete(ApiConstant.address + `/${id}`)
+     return this.http.delete(ApiConstant.address + `/${id}`)
   }
 }

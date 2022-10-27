@@ -113,8 +113,14 @@ export class CheckOutComponent implements OnInit {
   }
 
   editAddress() {
+    let idAddressSelect = this.firstAddress.id;
     this.matDiaLog.open(EditAddressComponent, {
       width: '800px',
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        idAddressSelect
+      }
     }).afterClosed().subscribe(data => {
       if (data != null) {
         this.idAddress = data;

@@ -25,4 +25,8 @@ export class Contants {
     PRICE_UP: 1,
     PRICE_DOWN: 2,
   };
+  public static TYPE_DIALOG = {
+    NEW: 'new',
+    UPDATE: 'update'
+  }
 }

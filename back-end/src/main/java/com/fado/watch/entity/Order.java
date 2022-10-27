@@ -35,36 +35,42 @@ public class Order implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(unique=true, nullable=false, precision=10)
     private Integer id;
-   
+
     @Column(name="ship_address", nullable=false, length=255)
     private String shipAddress;
-   
+
     @Column(name="create_date")
     private LocalDate createDate;
-    
+
     @Column(name="payment_type", nullable=false, precision=10)
     private Integer paymentType;
-   
+
     @Column(nullable=false, precision=10)
     private Integer status;
-    
+
     @Column(nullable=false, length=16777215)
     private String total;
-   
+
     @Column(nullable=false, length=16777215)
     private String discount;
-    
+
     @Column(name="total_payment", nullable=false, length=16777215)
     private String totalPayment;
-    
+
+    @Column(nullable=false, length=60)
+    private String fullname;
+
+    @Column(nullable=false, length=10)
+    private String phoneNumber;
+
     @OneToMany(mappedBy="order")
     @JsonIgnore
     private List<OrderDetail> orderDetailList;
-    
+
     @ManyToOne(optional=false)
     @JoinColumn(name="customer_id", nullable=false)
     private Customer customer;
-    
+
     @ManyToOne(optional=false)
     @JoinColumn(name="staff_id", nullable=false)
     private Staff staff;

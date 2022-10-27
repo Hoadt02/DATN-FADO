@@ -8,16 +8,11 @@
   <div class="row">
     <div class="col-lg-8">
       <h5 class="section-title position-relative text-uppercase mb-3"><span
-        class="bg-secondary pr-3">Billing Address</span></h5>
+        class="bg-secondary pr-3">Địa chỉ thanh toán</span></h5>
       <div class="bg-light">
 
-        <div class="checkAndNew row mb-3">
-          <div class="check col-lg-6">
-            <mat-checkbox [(ngModel)]="disableSelect" class="fs-11">Use default address</mat-checkbox>
-          </div>
-          <div class="new col-lg-6 d-flex justify-content-end">
-            <a href="#">New address</a>
-          </div>
+        <div class="checkAndNew mb-3">
+          <mat-checkbox [(ngModel)]="disableSelect" class="fs-11">Sử dụng thông tin của tài khoản</mat-checkbox>
         </div>
         <hr>
         <h5 class="section-title position-relative text-uppercase mb-3"><span
@@ -48,44 +43,53 @@
         <!--          </div>-->
         <hr>
 
-        <form [formGroup]="formGroup">
+        <form [formGroup]="formGroup" class="row">
 
-          <div class="row">
-            <div class="col-4 col-md-4 col-lg-4">
-              <div class="address-select">
-                <select formControlName="province" #selectList (change)="getDistricts(selectList.value)"
-                        class="form-select w-100 custom-select-checkout"
-                        aria-label="Default select example">
-                  <option *ngFor="let p of provinces" [value]="p.code">
-                    {{p.name}}
-                  </option>
-                </select>
-              </div>
-            </div>
+          <div class="col-4 col-md-4 col-lg-4">
+            <mat-form-field appearance="outline">
+              <mat-label>Tỉnh thành</mat-label>
+              <mat-select [disabled]="disableSelect">
+                <mat-option (click)="getDistricts(p.code)" *ngFor="let p of provinces" [value]="p.code">
+                  {{p.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-            <div class=" col-4 col-md-4 col-lg-4">
-              <div class="address-select">
-                <select formControlName="district" #selectList1 (change)="getWards(selectList1.value)"
-                        class="form-select w-100 custom-select-checkout"
-                        aria-label="Default select example">
-                  <option *ngFor="let d of districts" [value]="d.code">
-                    {{d.name}}
-                  </option>
-                </select>
-              </div>
-            </div>
+          <div class=" col-4 col-md-4 col-lg-4">
+            <mat-form-field appearance="outline">
+              <mat-label>Quận - Huyện</mat-label>
+              <mat-select [disabled]="disableSelect">
+                <mat-option (click)="getWards(d.code)" *ngFor="let d of districts" [value]="d.code">
+                  {{d.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-            <div class="col-4 col-md-4 col-lg-4">
-              <div class="address-select">
-                <select formControlName="ward"
-                        class="form-select w-100 custom-select-checkout"
-                        aria-label="Default select example">
-                  <option selected *ngFor="let w of wards" [value]="w.id">
-                    {{w.name}}
-                  </option>
-                </select>
-              </div>
-            </div>
+          <div class="col-4 col-md-4 col-lg-4">
+            <mat-form-field appearance="outline">
+              <mat-label>Xã - Phường</mat-label>
+              <mat-select [disabled]="disableSelect">
+                <mat-option *ngFor="let w of wards" [value]="w.code">
+                  {{w.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-6">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Họ và Tên</mat-label>
+              <input [disabled]="disableSelect" matInput required type="text">
+            </mat-form-field>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-6">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Số điện thoại</mat-label>
+              <input [disabled]="disableSelect" matInput required type="text">
+            </mat-form-field>
           </div>
 
         </form>
@@ -94,11 +98,11 @@
     </div>
     <div class="col-lg-4">
       <h5 class="section-title position-relative text-uppercase mb-3"><span
-        class="bg-secondary pr-3">Order Total</span>
+        class="bg-secondary pr-3">Tổng hoá đơn</span>
       </h5>
       <div class="bg-light">
-        <div class="border-bottom">
-          <h6 class="mb-3">Products</h6>
+        <div class="border-bottom pr-2" style="height: 153px; overflow: auto">
+          <h6 class="mb-3">Danh sách sản phẩm</h6>
           <div *ngFor="let i of items" class="d-flex justify-content-between product">
             <p>{{i.productDetail.name}}</p>
             <p>{{i.productDetail.price | number}} VND x {{i.quantity}}</p>
@@ -106,23 +110,23 @@
         </div>
         <div class="border-bottom pt-3 pb-2">
           <div class="d-flex justify-content-between mb-3">
-            <h6>Subtotal</h6>
+            <h6>Tổng tiền</h6>
             <h6>{{subtotal | number}} VND</h6>
           </div>
           <div class="d-flex justify-content-between">
-            <h6 class="font-weight-medium">Discount</h6>
+            <h6 class="font-weight-medium">Giảm giá</h6>
             <h6 class="font-weight-medium">{{discount | number}} VND</h6>
           </div>
         </div>
         <div class="pt-2">
           <div class="d-flex justify-content-between mt-2">
-            <h5>Total</h5>
+            <h5>Tổng tiền thanh toán</h5>
             <h5>{{total | number}} VND</h5>
           </div>
         </div>
       </div>
       <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">
-        Place order
+        Đặt hàng
       </button>
     </div>
   </div>
