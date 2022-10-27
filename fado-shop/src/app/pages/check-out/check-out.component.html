@@ -2,32 +2,107 @@
 <div class="container-fluid">
 
   <div id="cancel">
-    <button class="fa-solid fa-xmark"></button>
+    <button (click)="onClose()" class="fa-solid fa-xmark"></button>
   </div>
 
   <div class="row">
     <div class="col-lg-8">
       <h5 class="section-title position-relative text-uppercase mb-3"><span
-        class="bg-secondary pr-3">Billing Address</span></h5>
+        class="bg-secondary pr-3">Địa chỉ thanh toán</span></h5>
       <div class="bg-light">
-        <mat-radio-group
-          aria-labelledby="example-radio-group-label"
-          class="example-radio-group"
-        [(ngModel)]="idAddress"
-        >
-          <mat-radio-button class="example-radio-button d-flex fs-11" *ngFor="let ad of address" [value]="ad.id">
-            {{ad.province}} - {{ad.district}} - {{ad.commune}} - {{ad.other}}
-          </mat-radio-button>
-        </mat-radio-group>
-        {{idAddress}}
+
+        <div class="checkAndNew mb-3">
+          <mat-checkbox [(ngModel)]="disableSelect" class="fs-11">Sử dụng thông tin của tài khoản</mat-checkbox>
+        </div>
+        <hr>
+        <h5 class="section-title position-relative text-uppercase mb-3"><span
+          class="bg-secondary pr-3">Thông tin đặt hàng</span></h5>
+        <ng-template [ngIf]="firstAddress != null">
+          <div class="fs-11 address-default row">
+            <div class="name col-9 col-md-9 col-lg-9">
+              <b>Gửi tới:</b>
+              <span>
+            {{customer.phoneNumber}} - {{firstAddress.province}} - {{firstAddress.district}} - {{firstAddress.commune}}
+                - {{firstAddress.other}}
+            </span>
+            </div>
+            <div class="edit col-3 col-md-3 col-lg-3 d-flex justify-content-end">
+              <button (click)="editAddress()">Chỉnh sửa</button>
+            </div>
+          </div>
+        </ng-template>
+        <!--          <div class="address-select">-->
+        <!--            <select [disabled]="disableSelect" [(ngModel)]="idAddress"-->
+        <!--                    class="form-select w-100 custom-select-checkout"-->
+        <!--                    aria-label="Default select example">-->
+        <!--              <option selected *ngFor="let ad of address" [value]="ad.id">-->
+        <!--                {{customer.phoneNumber}} - {{ad.province}} - {{ad.district}} - {{ad.commune}} - {{ad.other}}-->
+        <!--              </option>-->
+        <!--            </select>-->
+        <!--            {{idAddress}}-->
+        <!--          </div>-->
+        <hr>
+
+        <form [formGroup]="formGroup" class="row">
+
+          <div class="col-4 col-md-4 col-lg-4">
+            <mat-form-field appearance="outline">
+              <mat-label>Tỉnh thành</mat-label>
+              <mat-select [disabled]="disableSelect">
+                <mat-option (click)="getDistricts(p.code)" *ngFor="let p of provinces" [value]="p.code">
+                  {{p.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class=" col-4 col-md-4 col-lg-4">
+            <mat-form-field appearance="outline">
+              <mat-label>Quận - Huyện</mat-label>
+              <mat-select [disabled]="disableSelect">
+                <mat-option (click)="getWards(d.code)" *ngFor="let d of districts" [value]="d.code">
+                  {{d.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-4 col-md-4 col-lg-4">
+            <mat-form-field appearance="outline">
+              <mat-label>Xã - Phường</mat-label>
+              <mat-select [disabled]="disableSelect">
+                <mat-option *ngFor="let w of wards" [value]="w.code">
+                  {{w.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-6">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Họ và Tên</mat-label>
+              <input [disabled]="disableSelect" matInput required type="text">
+            </mat-form-field>
+          </div>
+
+          <div class="col-6 col-md-6 col-lg-6">
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Số điện thoại</mat-label>
+              <input [disabled]="disableSelect" matInput required type="text">
+            </mat-form-field>
+          </div>
+
+        </form>
+
       </div>
     </div>
     <div class="col-lg-4">
-      <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Order Total</span>
+      <h5 class="section-title position-relative text-uppercase mb-3"><span
+        class="bg-secondary pr-3">Tổng hoá đơn</span>
       </h5>
       <div class="bg-light">
-        <div class="border-bottom">
-          <h6 class="mb-3">Products</h6>
+        <div class="border-bottom pr-2" style="height: 153px; overflow: auto">
+          <h6 class="mb-3">Danh sách sản phẩm</h6>
           <div *ngFor="let i of items" class="d-flex justify-content-between product">
             <p>{{i.productDetail.name}}</p>
             <p>{{i.productDetail.price | number}} VND x {{i.quantity}}</p>
@@ -35,49 +110,24 @@
         </div>
         <div class="border-bottom pt-3 pb-2">
           <div class="d-flex justify-content-between mb-3">
-            <h6>Subtotal</h6>
+            <h6>Tổng tiền</h6>
             <h6>{{subtotal | number}} VND</h6>
           </div>
           <div class="d-flex justify-content-between">
-            <h6 class="font-weight-medium">Discount</h6>
+            <h6 class="font-weight-medium">Giảm giá</h6>
             <h6 class="font-weight-medium">{{discount | number}} VND</h6>
           </div>
         </div>
         <div class="pt-2">
           <div class="d-flex justify-content-between mt-2">
-            <h5>Total</h5>
+            <h5>Tổng tiền thanh toán</h5>
             <h5>{{total | number}} VND</h5>
           </div>
         </div>
       </div>
       <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">
-        Place order
+        Đặt hàng
       </button>
-      <!--      <div class="mb-5">-->
-      <!--        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Payment</span>-->
-      <!--        </h5>-->
-      <!--        <div class="bg-light p-30">-->
-      <!--          <div class="form-group">-->
-      <!--            <div class="custom-control custom-radio">-->
-      <!--              <input type="radio" class="custom-control-input" name="payment" id="paypal">-->
-      <!--              <label class="custom-control-label" for="paypal">Paypal</label>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--          <div class="form-group">-->
-      <!--            <div class="custom-control custom-radio">-->
-      <!--              <input type="radio" class="custom-control-input" name="payment" id="directcheck">-->
-      <!--              <label class="custom-control-label" for="directcheck">Direct Check</label>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--          <div class="form-group mb-4">-->
-      <!--            <div class="custom-control custom-radio">-->
-      <!--              <input type="radio" class="custom-control-input" name="payment" id="banktransfer">-->
-      <!--              <label class="custom-control-label" for="banktransfer">Bank Transfer</label>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--          <button class="btn btn-block btn-primary font-weight-bold py-3">Place Order</button>-->
-      <!--        </div>-->
-      <!--      </div>-->
     </div>
   </div>
 </div>

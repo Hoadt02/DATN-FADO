@@ -6,6 +6,7 @@ import com.fado.watch.entity.Brand;
 import java.util.List;
 
 public interface IAddressService {
+    Address findById(Integer id);
 
     List<Address> findByCustomerId(Integer id);
 

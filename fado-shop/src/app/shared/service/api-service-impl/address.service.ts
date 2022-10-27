@@ -14,20 +14,29 @@ export class AddressService {
   ) {
   }
 
+  getProvinces() {
+    return this.apiAddress.getProvinces();
+  }
+
+  getDistricts(code: any) {
+    return this.apiAddress.getDistricts(code);
+  }
+
+  getWards(code: any) {
+    return this.apiAddress.getWards(code);
+  }
+
+
+  findById(id: number) {
+    return this.apiAddress.findById(id);
+  }
+
   findByCustomerId(id: number) {
     return this.apiAddress.findByCustomerId(id);
   }
 
   create(data: any) {
-    return this.apiAddress.create(data).subscribe({
-      next: (data: any) => {
-        console.log(data);
-        this.toastrService.success('Thêm địa chỉ thành công!');
-      }, error: err => {
-        console.log('Có lỗi thêm địa chỉ: ', err);
-        this.toastrService.error('Thêm địa chỉ thất bại!');
-      }
-    });
+    return this.apiAddress.create(data);
   }
 
   update(data: any) {
@@ -43,7 +52,7 @@ export class AddressService {
   }
 
   delete(id: number) {
-    this.apiAddress.delete(id);
+    return this.apiAddress.delete(id);
   }
 
 

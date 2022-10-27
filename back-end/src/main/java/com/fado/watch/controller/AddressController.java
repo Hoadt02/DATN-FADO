@@ -18,6 +18,11 @@ public class AddressController {
         this.iAddressService = iAddressService;
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<Address> findById(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(this.iAddressService.findById(id));
+    }
+
     @GetMapping
     public ResponseEntity<List<Address>> findByCustomerId(@RequestParam("idCtm") Integer id) {
         return ResponseEntity.ok(this.iAddressService.findByCustomerId(id));

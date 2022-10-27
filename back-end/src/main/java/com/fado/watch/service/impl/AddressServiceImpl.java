@@ -19,6 +19,11 @@ public class AddressServiceImpl implements IAddressService {
     }
 
     @Override
+    public Address findById(Integer id) {
+        return this.addressRepository.findById(id).get();
+    }
+
+    @Override
     public List<Address> findByCustomerId(Integer id) {
         return this.addressRepository.findByCustomerId(id);
     }

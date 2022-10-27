@@ -163,7 +163,7 @@ export class CartComponent implements OnInit {
     this.matDiaLog.open(CheckOutComponent, {
       width: '1000px',
       hasBackdrop: true,
-      disableClose: false,
+      disableClose: true,
       data: {
         discount, items
       }
