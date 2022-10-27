@@ -39,7 +39,7 @@ public class Address implements Serializable {
     @Column(nullable=false, length=50)
     private String commune;
     
-    @Column(length=10)
+    @Column(length=100)
     private String other;
     
     @ManyToOne(optional=false)
