@@ -1,0 +1,20 @@
+.product {
+  font-size: 11px;
+}
+
+#cancel {
+  position: absolute;
+  top: 12.5%;
+  right: 18%;
+  z-index: 99;
+}
+
+#cancel button {
+  font-size: 20px;
+  border-radius: unset;
+}
+
+.fs-11 {
+  font-size: 11px;
+  word-wrap: break-word;
+}

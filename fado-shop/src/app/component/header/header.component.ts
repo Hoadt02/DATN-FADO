@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CategoryService} from "../../shared/service/api-service-impl/category.service";
 import {ProductService} from "../../shared/service/api-service-impl/product.service";
+import {CartService} from "../../shared/service/api-service-impl/cart.service";
 
 @Component({
   selector: 'app-header',
@@ -9,18 +10,32 @@ import {ProductService} from "../../shared/service/api-service-impl/product.serv
 })
 export class HeaderComponent implements OnInit {
 
-  categories: any[] = [];
+  numberPrdInCart: number = 0;
 
-  constructor(private categoryService: CategoryService) {
+  constructor(private apiCart: CartService) {
   }
 
   ngOnInit(): void {
-    this.getCategory();
+    this.getAllPrdInCart();
+    this.apiCart.numberPrdInCart$.subscribe(data => {
+      this.numberPrdInCart = data;
+    });
+    //
+    // this.apiCart.listProductInCart$.subscribe(data => {
+    //   console.log('header: ', data);
+    // });
   }
 
-  getCategory() {
-    this.categoryService.getAll().subscribe((data: any) => {
-      this.categories = data as any[];
+  getAllPrdInCart() {
+    let slPrd = 0;
+    this.apiCart.findAllByCustomerId(164).subscribe({
+      next: (data: any) => {
+        for (const x of data) {
+          slPrd += x.quantity
+        }
+        this.apiCart.numberPrdInCart$.next(slPrd);
+        // this.apiCart.listProductInCart$.next(data);
+      }
     });
   }
 }

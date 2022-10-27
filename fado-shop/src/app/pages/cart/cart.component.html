@@ -17,11 +17,21 @@
   <!-- Cart Start -->
   <div class="container-fluid">
     <div class="row px-xl-5">
-      <div class="col-lg-8 table-responsive mb-5">
-        <table class="table table-light table-borderless table-hover text-center mb-0">
+      <div class="col-lg-8 table-responsive mb-5" style="overflow: auto;height: 400px;">
+
+        <ng-template [ngIf]="items.length == 0">
+          <div class="text-center">
+            <p>Không có sản phẩm nào trong giỏ hàng. Quay lại cửa
+              hàng để <a style="color:#232121;" routerLink="/product"><b>tiếp tục</b></a> mua
+              sắm.
+            </p>
+          </div>
+        </ng-template>
+
+        <table *ngIf="items.length > 0" class="table table-light table-borderless table-hover text-center mb-0">
           <thead class="thead-dark">
           <tr>
-            <th>Products</th>
+            <th colspan="1">Products</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Total</th>
@@ -30,30 +40,48 @@
           </thead>
           <tbody class="align-middle">
           <tr *ngFor="let i of items">
-            <td class="align-middle"><img
-              src="https://vuonpet.com/wp-content/gallery/cho-chan-cuu-trang-thuy-si/hinh-anh-cho-chan-cuu-trang-thuy-si-vuonpet.com-7.jpg"
-              alt="" style="width: 50px;"> {{i.name}}
-            </td>
-            <td class="align-middle">{{i.price | number : '1.0-0'}} VND</td>
-            <td class="align-middle">
-              <div class="input-group quantity mx-auto" style="width: 100px;">
-                <div class="input-group-btn">
-                  <button class="btn btn-sm btn-primary btn-minus">
-                    <i class="fa fa-minus"></i>
-                  </button>
+            <td class="align-middle td-w-35">
+              <div class="row">
+                <div class="col-3 d-flex justify-content-center align-items-center pr-0">
+                  <img class="w-100" src="../../../assets/img/avtProduct/{{i.productDetail.avatar}}"
+                       alt="" style="width: 50px;"> {{i.name}}
                 </div>
-                <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center"
-                       value="{{i.quantity}}">
-                <div class="input-group-btn">
-                  <button class="btn btn-sm btn-primary btn-plus">
-                    <i class="fa fa-plus"></i>
-                  </button>
+                <div class="col-9 info-prd">
+                  <div class="name">
+                    <p>
+                      <a class="text-uppercase" routerLink="/product-detail/{{i.productDetail.id}}">
+                        {{i.productDetail.name}}
+                      </a>
+                    </p>
+                  </div>
+                  <div class="info">
+                    <p>Thương hiệu: {{i.productDetail.brand.name}}</p>
+                    <p>Chất liệu: {{i.productDetail.material.name}}</p>
+                  </div>
                 </div>
               </div>
             </td>
-            <td class="align-middle">$150</td>
+            <td class="align-middle">{{i.productDetail.price | number}} VND</td>
             <td class="align-middle">
-              <button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button>
+              <div class="input-group quantity mx-auto" style="width: 80px;">
+                <!--                <button class="btn btn-sm btn-primary btn-minus"-->
+                <!--                        (click)="updateQuantity(TYPE_UPDATE_NUMBER_PRD.MINUS,i.id)">-->
+                <!--                  <i class="fa fa-minus"></i>-->
+                <!--                </button>-->
+                <input (change)="updateQuantity(TYPE_UPDATE_NUMBER_PRD.INPUT,i,$event)" type="number"
+                       min="1" required
+                       class="border-radius-10 form-control form-control-sm bg-secondary border-0 text-center mx-2"
+                       [value]="i.quantity">
+                <!--                <button class="btn btn-sm btn-primary btn-plus"-->
+                <!--                        (click)="updateQuantity(TYPE_UPDATE_NUMBER_PRD.PLUS,i.id)">-->
+                <!--                  <i class="fa fa-plus"></i>-->
+                <!--                </button>-->
+              </div>
+            </td>
+            <td class="align-middle">{{(i.productDetail.price * i.quantity) | number}} VND</td>
+            <td class="align-middle">
+              <a href="javascript:void(0)" class="fa-regular fa-trash-can p-4" (click)="deletePrd(i.id)">
+              </a>
             </td>
           </tr>
           </tbody>
@@ -62,9 +90,10 @@
       <div class="col-lg-4">
         <form class="mb-30" action="">
           <div class="input-group">
-            <input type="text" class="form-control border-0 p-4" placeholder="Coupon Code">
+            <input type="text" class="form-control border-0 p-4" placeholder="Voucher Code" name="voucher"
+                   [(ngModel)]="voucherInput">
             <div class="input-group-append">
-              <button class="btn btn-primary" type="button">Apply Coupon</button>
+              <button class="btn btn-primary" type="button" (click)="applyVoucher()">Apply Voucher</button>
             </div>
           </div>
         </form>
@@ -74,19 +103,21 @@
           <div class="border-bottom pb-2">
             <div class="d-flex justify-content-between mb-3">
               <h6>Subtotal</h6>
-              <h6>$150</h6>
+              <h6>{{subtotal | number}} VND</h6>
             </div>
             <div class="d-flex justify-content-between">
-              <h6 class="font-weight-medium">Shipping</h6>
-              <h6 class="font-weight-medium">$10</h6>
+              <h6 class="font-weight-medium">Discount</h6>
+              <h6 class="font-weight-medium">{{discount | number}} VND</h6>
             </div>
           </div>
           <div class="pt-2">
             <div class="d-flex justify-content-between mt-2">
               <h5>Total</h5>
-              <h5>$160</h5>
+              <h6>{{total | number}} VND</h6>
             </div>
-            <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+            <button (click)="openCheckout()" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To
+              Checkout
+            </button>
           </div>
         </div>
       </div>
