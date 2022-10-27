@@ -2,7 +2,7 @@
 <div class="container-fluid">
 
   <div id="cancel">
-    <button class="fa-solid fa-xmark"></button>
+    <button (click)="onClose()" class="fa-solid fa-xmark"></button>
   </div>
 
   <div class="row">
@@ -10,20 +10,91 @@
       <h5 class="section-title position-relative text-uppercase mb-3"><span
         class="bg-secondary pr-3">Billing Address</span></h5>
       <div class="bg-light">
-        <mat-radio-group
-          aria-labelledby="example-radio-group-label"
-          class="example-radio-group"
-        [(ngModel)]="idAddress"
-        >
-          <mat-radio-button class="example-radio-button d-flex fs-11" *ngFor="let ad of address" [value]="ad.id">
-            {{ad.province}} - {{ad.district}} - {{ad.commune}} - {{ad.other}}
-          </mat-radio-button>
-        </mat-radio-group>
-        {{idAddress}}
+
+        <div class="checkAndNew row mb-3">
+          <div class="check col-lg-6">
+            <mat-checkbox [(ngModel)]="disableSelect" class="fs-11">Use default address</mat-checkbox>
+          </div>
+          <div class="new col-lg-6 d-flex justify-content-end">
+            <a href="#">New address</a>
+          </div>
+        </div>
+        <hr>
+        <h5 class="section-title position-relative text-uppercase mb-3"><span
+          class="bg-secondary pr-3">Thông tin đặt hàng</span></h5>
+        <ng-template [ngIf]="firstAddress != null">
+          <div class="fs-11 address-default row">
+            <div class="name col-9 col-md-9 col-lg-9">
+              <b>Gửi tới:</b>
+              <span>
+            {{customer.phoneNumber}} - {{firstAddress.province}} - {{firstAddress.district}} - {{firstAddress.commune}}
+                - {{firstAddress.other}}
+            </span>
+            </div>
+            <div class="edit col-3 col-md-3 col-lg-3 d-flex justify-content-end">
+              <button (click)="editAddress()">Chỉnh sửa</button>
+            </div>
+          </div>
+        </ng-template>
+        <!--          <div class="address-select">-->
+        <!--            <select [disabled]="disableSelect" [(ngModel)]="idAddress"-->
+        <!--                    class="form-select w-100 custom-select-checkout"-->
+        <!--                    aria-label="Default select example">-->
+        <!--              <option selected *ngFor="let ad of address" [value]="ad.id">-->
+        <!--                {{customer.phoneNumber}} - {{ad.province}} - {{ad.district}} - {{ad.commune}} - {{ad.other}}-->
+        <!--              </option>-->
+        <!--            </select>-->
+        <!--            {{idAddress}}-->
+        <!--          </div>-->
+        <hr>
+
+        <form [formGroup]="formGroup">
+
+          <div class="row">
+            <div class="col-4 col-md-4 col-lg-4">
+              <div class="address-select">
+                <select formControlName="province" #selectList (change)="getDistricts(selectList.value)"
+                        class="form-select w-100 custom-select-checkout"
+                        aria-label="Default select example">
+                  <option *ngFor="let p of provinces" [value]="p.code">
+                    {{p.name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class=" col-4 col-md-4 col-lg-4">
+              <div class="address-select">
+                <select formControlName="district" #selectList1 (change)="getWards(selectList1.value)"
+                        class="form-select w-100 custom-select-checkout"
+                        aria-label="Default select example">
+                  <option *ngFor="let d of districts" [value]="d.code">
+                    {{d.name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-4 col-md-4 col-lg-4">
+              <div class="address-select">
+                <select formControlName="ward"
+                        class="form-select w-100 custom-select-checkout"
+                        aria-label="Default select example">
+                  <option selected *ngFor="let w of wards" [value]="w.id">
+                    {{w.name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
       </div>
     </div>
     <div class="col-lg-4">
-      <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Order Total</span>
+      <h5 class="section-title position-relative text-uppercase mb-3"><span
+        class="bg-secondary pr-3">Order Total</span>
       </h5>
       <div class="bg-light">
         <div class="border-bottom">
@@ -53,31 +124,6 @@
       <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">
         Place order
       </button>
-      <!--      <div class="mb-5">-->
-      <!--        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Payment</span>-->
-      <!--        </h5>-->
-      <!--        <div class="bg-light p-30">-->
-      <!--          <div class="form-group">-->
-      <!--            <div class="custom-control custom-radio">-->
-      <!--              <input type="radio" class="custom-control-input" name="payment" id="paypal">-->
-      <!--              <label class="custom-control-label" for="paypal">Paypal</label>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--          <div class="form-group">-->
-      <!--            <div class="custom-control custom-radio">-->
-      <!--              <input type="radio" class="custom-control-input" name="payment" id="directcheck">-->
-      <!--              <label class="custom-control-label" for="directcheck">Direct Check</label>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--          <div class="form-group mb-4">-->
-      <!--            <div class="custom-control custom-radio">-->
-      <!--              <input type="radio" class="custom-control-input" name="payment" id="banktransfer">-->
-      <!--              <label class="custom-control-label" for="banktransfer">Bank Transfer</label>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--          <button class="btn btn-block btn-primary font-weight-bold py-3">Place Order</button>-->
-      <!--        </div>-->
-      <!--      </div>-->
     </div>
   </div>
 </div>

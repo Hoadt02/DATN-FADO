@@ -7,10 +7,27 @@ import {Toast} from "ngx-toastr";
   providedIn: 'root'
 })
 export class ApiAddressService {
+  url = 'https://provinces.open-api.vn/api/';
 
   constructor(
     private http: HttpClient,
   ) {
+  }
+
+  getProvinces() {
+    return this.http.get(this.url + 'p');
+  }
+
+  getDistricts(code: any) {
+    return this.http.get(this.url + 'p/' + code + '?depth=2');
+  }
+
+  getWards(code: any) {
+    return this.http.get(this.url + 'd/' + code + '?depth=2');
+  }
+
+  findById(id: number) {
+    return this.http.get(ApiConstant.address + `/${id}`);
   }
 
   findByCustomerId(id: number) {

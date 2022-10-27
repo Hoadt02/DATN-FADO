@@ -14,6 +14,23 @@ export class AddressService {
   ) {
   }
 
+  getProvinces() {
+    return this.apiAddress.getProvinces();
+  }
+
+  getDistricts(code: any) {
+    return this.apiAddress.getDistricts(code);
+  }
+
+  getWards(code: any) {
+    return this.apiAddress.getWards(code);
+  }
+
+
+  findById(id: number) {
+    return this.apiAddress.findById(id);
+  }
+
   findByCustomerId(id: number) {
     return this.apiAddress.findByCustomerId(id);
   }
