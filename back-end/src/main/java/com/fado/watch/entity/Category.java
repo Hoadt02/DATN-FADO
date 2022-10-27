@@ -38,6 +38,9 @@ public class Category implements Serializable {
 
     @Column(precision=10)
     private Integer status;
+
+    @Column
+    private String image;
     
     @OneToMany(mappedBy="category")
     @JsonIgnore

@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ApiConstant} from "../../constants/api-constant";
-import {Observable} from "rxjs";
+import {map, Observable} from "rxjs";
 
 let httpOptions: any = {
   headers: new HttpHeaders({
@@ -36,4 +36,10 @@ export class ApiProductDetailService{
   updateProductDetail(data:any, id:number): Observable<any>{
     return this.httpClient.put(`${ApiConstant.productDetail}/${id}`, data, httpOptions);
   }
+
+  findProductByName(data: string): Observable<any> {
+    return this.httpClient.get(`${ApiConstant.productDetail}/find?name=${data}`, httpOptions);
+  }
+
+
 }
