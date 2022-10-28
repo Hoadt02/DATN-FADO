@@ -21,6 +21,7 @@ export class VoucherFormComponent implements OnInit {
     startDate: [new Date()],
     endDate: [new Date()],
     discount: ['', [Validators.required, Validators.min(1)]],
+    code:[''],
     quantity:['', [Validators.required, Validators.min(1)]],
     description: [''],
     status: [1],
