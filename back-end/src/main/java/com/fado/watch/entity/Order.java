@@ -49,13 +49,13 @@ public class Order implements Serializable {
     private Integer status;
 
     @Column(nullable=false, length=16777215)
-    private String total;
+    private Integer total;
 
     @Column(nullable=false, length=16777215)
-    private String discount;
+    private Integer discount;
 
     @Column(name="total_payment", nullable=false, length=16777215)
-    private String totalPayment;
+    private Integer totalPayment;
 
     @Column(nullable=false, length=60)
     private String fullname;

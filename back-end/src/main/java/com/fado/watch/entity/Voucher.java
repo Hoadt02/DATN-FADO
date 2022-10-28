@@ -38,7 +38,7 @@ public class Voucher implements Serializable {
     private LocalDate endDate;
     
     @Column(nullable=false, length=16777215)
-    private String discount;
+    private Integer discount;
     
     @Column(nullable=false, length=20)
     private String code;
