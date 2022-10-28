@@ -52,10 +52,9 @@ export class VoucherService {
     data.endDate = formatDate(data.endDate);
     if (data.status == 1 && formatDate(data.startDate) > formatDate(new Date())) {
       data.status = 2;
-    }else if (data.status == 1 && formatDate(data.endDate) < formatDate(new Date())){
+    } else if (data.status == 1 && formatDate(data.endDate) < formatDate(new Date())) {
       data.status = 0;
-      this.toastrService.warning('Voucher đã quá hạn sử dụng');
-    }else if (data.status == 1 && formatDate(data.endDate) > formatDate(new Date())){
+    } else if (data.status == 1 && formatDate(data.endDate) > formatDate(new Date())) {
       data.status = 1;
     }
 
@@ -84,7 +83,7 @@ export class VoucherService {
     return this.apiVoucherService.update(id, data).subscribe({
       next: (data: any) => {
         console.log(data);
-        this.toastrService.success('Sửa voucher thành công')
+        this.toastrService.success('Sửa voucher thành công!');
         this.isCloseDialog.next(true);
       }, error: err => {
         console.log(err);
