@@ -31,25 +31,29 @@ export class AddressService {
     return this.apiAddress.findById(id);
   }
 
+  findByCustomerIdAndDefaultAddress(id: number) {
+    return this.apiAddress.findByCustomerIdAndDefaultAddress(id);
+  }
+
   findByCustomerId(id: number) {
     return this.apiAddress.findByCustomerId(id);
   }
 
-  create(data: any) {
-    return this.apiAddress.create(data);
+  save(data: any) {
+    return this.apiAddress.save(data);
   }
 
-  update(data: any) {
-    return this.apiAddress.update(data).subscribe({
-      next: (data: any) => {
-        console.log(data);
-        this.toastrService.success('Sửa địa chỉ thành công!');
-      }, error: err => {
-        console.log('Có lỗi sửa địa chỉ: ', err);
-        this.toastrService.error('Sửa địa chỉ thất bại!');
-      }
-    });
-  }
+  // update(data: any) {
+  //   return this.apiAddress.update(data).subscribe({
+  //     next: (data: any) => {
+  //       console.log(data);
+  //       this.toastrService.success('Sửa địa chỉ thành công!');
+  //     }, error: err => {
+  //       console.log('Có lỗi sửa địa chỉ: ', err);
+  //       this.toastrService.error('Sửa địa chỉ thất bại!');
+  //     }
+  //   });
+  // }
 
   delete(id: number) {
     return this.apiAddress.delete(id);

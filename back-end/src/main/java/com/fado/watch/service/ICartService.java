@@ -14,7 +14,6 @@ public interface ICartService {
 
     void delete(Integer id);
 
-    void deleteAll(List<Integer> idList);
-
+    void deleteAllByCustomerId(Integer id);
 
 }
