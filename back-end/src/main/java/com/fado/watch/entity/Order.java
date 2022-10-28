@@ -48,14 +48,14 @@ public class Order implements Serializable {
     @Column(nullable=false, precision=10)
     private Integer status;
 
-    @Column(nullable=false)
-    private Long total;
+    @Column(nullable=false, length=16777215)
+    private Integer total;
 
-    @Column(nullable=false)
-    private Long discount;
+    @Column(nullable=false, length=16777215)
+    private Integer discount;
 
-    @Column(name="total_payment", nullable=false)
-    private Long totalPayment;
+    @Column(name="total_payment", nullable=false, length=16777215)
+    private Integer totalPayment;
 
     @Column(nullable=false, length=60)
     private String fullname;
