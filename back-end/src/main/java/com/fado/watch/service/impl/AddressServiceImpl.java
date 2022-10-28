@@ -24,6 +24,11 @@ public class AddressServiceImpl implements IAddressService {
     }
 
     @Override
+    public Address findByCustomerIdAndDefaultAddress(Integer id) {
+        return this.addressRepository.findByCustomerIdAndDefaultAddress(id);
+    }
+
+    @Override
     public List<Address> findByCustomerId(Integer id) {
         return this.addressRepository.findByCustomerId(id);
     }
@@ -33,10 +38,10 @@ public class AddressServiceImpl implements IAddressService {
         return this.addressRepository.save(address);
     }
 
-    @Override
-    public Address update(Address address) {
-        return this.addressRepository.save(address);
-    }
+//    @Override
+//    public Address update(Address address) {
+//        return this.addressRepository.save(address);
+//    }
 
     @Override
     public void delete(Integer id) {

@@ -67,12 +67,12 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getAllPrdInCart();
     this.loadByProductDetail();
     this.loadByCategory();
     this.loadByBrand();
     this.loadByMaterial();
     this.loadByOrigin();
-    this.getAllPrdInCart();
   }
 
   loadProductDetailByFilter(type: string, value: any) {
@@ -232,10 +232,12 @@ export class ProductComponent implements OnInit {
   //----------------------------------------------------------
   addToCart(raw: any) {
     console.log(raw);
-    for (const x of this.items) {
-      if (x.productDetail.id == raw.id && x.quantity == raw.quantity) {
-        this.toastrService.warning('Số lượng trong rỏ hàng đã bằng số lượng trong kho');
-        return;
+    if (this.items != null){
+      for (const x of this.items) {
+        if (x.productDetail.id == raw.id && x.quantity == raw.quantity) {
+          this.toastrService.warning('Số lượng trong rỏ hàng đã bằng số lượng trong kho');
+          return;
+        }
       }
     }
 

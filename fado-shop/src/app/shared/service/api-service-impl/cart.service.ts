@@ -60,13 +60,14 @@ export class CartService {
     });
   }
 
-  deleteAll(listId: []) {
-    return this.apiCartService.deleteAll(listId).subscribe({
-      next: (_: any) => {
-      }, error: (err) => {
-        console.log(err);
-      }
-    });
+  deleteByCustomer(id: number) {
+    return this.apiCartService.deleteByCustomer(id)
+    //   .subscribe({
+    //   next: (_: any) => {
+    //   }, error: (err) => {
+    //     console.log(err);
+    //   }
+    // });
   }
 
 }

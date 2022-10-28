@@ -40,8 +40,8 @@ public class CartController {
         this.cartService.delete(id);
     }
 
-    @PostMapping("deleteAll")
-    public void deleteAll(@RequestBody DeleteProductPromotional listID) {
-        this.cartService.deleteAll(listID.getId());
+    @DeleteMapping("/deleteByCustomer/{id}")
+    public void deleteByCustomer(@PathVariable("id") Integer id) {
+        this.cartService.deleteAllByCustomerId(id);
     }
 }
