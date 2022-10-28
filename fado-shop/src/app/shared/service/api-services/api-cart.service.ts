@@ -35,8 +35,8 @@ export class ApiCartService {
     return this.http.delete(`${ApiConstant.cart}?id=${id}`);
   }
 
-  deleteAll(listId: []) {
-    return this.http.post(ApiConstant.cart, listId);
+  deleteByCustomer(id: number) {
+    return this.http.delete(ApiConstant.cart + `/deleteByCustomer/${id}`);
   }
 
 }

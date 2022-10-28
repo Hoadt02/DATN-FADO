@@ -37,6 +37,7 @@
 
 .address-default .name {
   margin-top: 6px;
+  height: 50px;
 }
 
 .address-default .edit button {

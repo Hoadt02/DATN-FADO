@@ -52,7 +52,7 @@ public class CartServiceImpl implements ICartService {
     }
 
     @Override
-    public void deleteAll(List<Integer> idList) {
-        this.cartRepository.deleteAllById(idList);
+    public void deleteAllByCustomerId(Integer id) {
+        this.cartRepository.deleteAllByCustomerId(id);
     }
 }

@@ -21,12 +21,15 @@ export class EditAddressFormComponent implements OnInit {
     district: [],
     commune: [],
     other: [],
+    defaultAddress: [0],
   })
 
   RESULT_CLOSE_DIALOG = Contants.RESULT_CLOSE_DIALOG;
-  provinces!: any[];
-  districts!: any[];
-  wards!: any[];
+  TYPE_DIALOG = Contants.TYPE_DIALOG;
+  provinces: any[] = [];
+  districts: any[] = [];
+  wards: any[] = [];
+  title: any;
 
   constructor(
     private fb: FormBuilder,
@@ -39,8 +42,11 @@ export class EditAddressFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProvinces();
-    if (this.matDiaLogData.row) {
+    if (this.matDiaLogData.type == this.TYPE_DIALOG.NEW) {
+      this.title = 'Thêm mới địa chỉ.';
+    } else {
       this.formGroup.patchValue(this.matDiaLogData.row);
+      this.title = 'Cập nhật địa chỉ.'
     }
   }
 
@@ -73,16 +79,29 @@ export class EditAddressFormComponent implements OnInit {
   }
 
   saveAddress() {
-    this.apiAddress.create(this.formGroup.getRawValue()).subscribe({
+    if (this.formGroup.getRawValue().defaultAddress == 1) {
+      this.apiAddress.findByCustomerIdAndDefaultAddress(164).subscribe((data: any) => {
+        data.defaultAddress = 0;
+        this.apiAddress.save(data).subscribe({
+          next: () => {
+          }, error: err => {
+            console.log('Có lỗi cập nhật địa chỉ: ', err);
+          }
+        });
+      })
+    }
+
+    this.apiAddress.save(this.formGroup.getRawValue()).subscribe({
       next: (data: any) => {
         console.log(data);
-        this.toastrService.success('Thêm địa chỉ thành công!');
+        this.toastrService.success('Cập nhật địa chỉ thành công!');
         this.matDialogRef.close(this.RESULT_CLOSE_DIALOG.SUCCESS);
       }, error: err => {
-        console.log('Có lỗi thêm địa chỉ: ', err);
-        this.toastrService.error('Thêm địa chỉ thất bại!');
+        console.log('Có lỗi Cập nhật địa chỉ: ', err);
+        this.toastrService.error('Cập nhật địa chỉ thất bại!');
       }
     });
+
   }
 
   onClose() {

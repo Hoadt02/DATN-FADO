@@ -62,7 +62,6 @@ export class CartComponent implements OnInit {
             status: x.status,
           });
         }
-        console.log('list voucher nè: ', this.vouchers);
       }, error: err => {
         console.log(err);
       }
@@ -166,6 +165,10 @@ export class CartComponent implements OnInit {
       disableClose: true,
       data: {
         discount, items
+      }
+    }).afterClosed().subscribe(data => {
+      if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
+        this.getAllPrdInCart();
       }
     })
   }

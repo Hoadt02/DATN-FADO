@@ -30,19 +30,23 @@ export class ApiAddressService {
     return this.http.get(ApiConstant.address + `/${id}`);
   }
 
+  findByCustomerIdAndDefaultAddress(id: number) {
+    return this.http.get(ApiConstant.address + `/default/${id}`);
+  }
+
   findByCustomerId(id: number) {
     return this.http.get(ApiConstant.address + `?idCtm=${id}`);
   }
 
-  create(data: any) {
+  save(data: any) {
     return this.http.post(ApiConstant.address, data);
   }
 
-  update(data: any) {
-    return this.http.put(ApiConstant.address, data);
-  }
+  // update(data: any) {
+  //   return this.http.put(ApiConstant.address, data);
+  // }
 
   delete(id: number) {
-     return this.http.delete(ApiConstant.address + `/${id}`)
+    return this.http.delete(ApiConstant.address + `/${id}`)
   }
 }

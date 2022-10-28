@@ -45,8 +45,8 @@ public class Promotional implements Serializable {
     @Column(nullable = false, length = 255)
     private String name;
 
-    @Column(nullable = false, length = 16777215)
-    private String discount;
+    @Column(nullable = false)
+    private Long discount;
 
     @Column(length = 255)
     private String description;
