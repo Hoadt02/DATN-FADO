@@ -40,6 +40,7 @@ export class CartComponent implements OnInit {
     this.getAllVoucher();
   }
 
+  //data thêm vào cart
   dataCreate(idPrd: number, sl: number) {
     this.dataAddToCart = {
       productDetail: {
@@ -52,6 +53,7 @@ export class CartComponent implements OnInit {
     };
   }
 
+  // lấy ra danh sách voucher
   getAllVoucher() {
     this.apiVoucher.getAll().subscribe({
       next: (data: any) => {
@@ -68,12 +70,14 @@ export class CartComponent implements OnInit {
     })
   }
 
+  //Lấy ra tất cả sản phẩm trong rỏ hàng(láy ra các sản phẩm trong cart theo id người dùng)
   getAllPrdInCart() {
     let slPrd = 0;
     this.apiCart.findAllByCustomerId(164).subscribe({
       next: (data: any) => {
         this.items = data as any;
         this.subtotal = 0;
+        this.discount = 0;
         for (const x of data) {
           slPrd += x.quantity
           this.subtotal += (x.productDetail.price * x.quantity);
@@ -90,6 +94,8 @@ export class CartComponent implements OnInit {
 
   // term$ = new Subject<string>();
 
+
+  // sửa số lượng sản phẩm
   updateQuantity(type: any, raw: any, event?: any) {
     let slSP = event?.target.value;
 
@@ -111,6 +117,7 @@ export class CartComponent implements OnInit {
     })
   }
 
+  // xoá sản phẩm khỏi rỏ hàng
   deletePrd(idPrd: number) {
     const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
       width: '500px',
@@ -134,6 +141,8 @@ export class CartComponent implements OnInit {
     })
   }
 
+
+  //Thêm voucher
   applyVoucher() {
     let checkVoucher = false;
     for (const x of this.vouchers) {
@@ -156,7 +165,13 @@ export class CartComponent implements OnInit {
     }
   }
 
+
+  // mở checkout
   openCheckout() {
+    if (this.items.length == 0) {
+      this.toastrService.warning('Giỏ hàng của bạn đang trống, vui lòng thêm sản phẩm rồi thanh toán!');
+      return;
+    }
     const discount = this.discount;
     const items = this.items;
     this.matDiaLog.open(CheckOutComponent, {

@@ -1,9 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, Validators} from "@angular/forms";
 import {AddressService} from "../../../shared/service/api-service-impl/address.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Contants} from "../../../shared/Contants";
 import {ToastrService} from "ngx-toastr";
+import {checkSpace} from "../../../shared/validator/validate";
 
 @Component({
   selector: 'app-edit-address-form',
@@ -17,10 +18,10 @@ export class EditAddressFormComponent implements OnInit {
     customer: this.fb.group({
       id: [164]
     }),
-    province: [],
-    district: [],
-    commune: [],
-    other: [],
+    province: ['',[Validators.required]],
+    district: ['',[Validators.required]],
+    commune: ['',[Validators.required]],
+    other: ['',[checkSpace]],
     defaultAddress: [0],
   })
 
@@ -78,6 +79,7 @@ export class EditAddressFormComponent implements OnInit {
     });
   }
 
+  // lưu địa chỉ
   saveAddress() {
     if (this.formGroup.getRawValue().defaultAddress == 1) {
       this.apiAddress.findByCustomerIdAndDefaultAddress(164).subscribe((data: any) => {
