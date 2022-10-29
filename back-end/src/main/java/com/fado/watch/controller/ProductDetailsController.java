@@ -1,6 +1,5 @@
 package com.fado.watch.controller;
 
-import com.fado.watch.dto.request.FilterModel;
 import com.fado.watch.entity.ProductDetail;
 import com.fado.watch.service.IProductDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @CrossOrigin("*")

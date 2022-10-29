@@ -1,5 +1,9 @@
 import {AbstractControl, FormGroup, ValidationErrors, ValidatorFn} from "@angular/forms";
 
+export function checkSpace(c: AbstractControl) {
+  return (c.value.trim() == '') ? {isSpace: true} : null;
+}
+
 export function checkCheckPrice(startPrice: any, endPrice: any): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
 

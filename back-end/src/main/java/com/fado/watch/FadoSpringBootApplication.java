@@ -9,5 +9,4 @@ public class FadoSpringBootApplication {
     public static void main(String[] args) {
         SpringApplication.run(FadoSpringBootApplication.class, args);
     }
-
 }

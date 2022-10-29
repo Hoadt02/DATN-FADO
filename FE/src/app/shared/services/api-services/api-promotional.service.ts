@@ -2,17 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ApiConstant} from "../../constants/api-constant";
 
-const httpOptions: any = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
-    // "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type,Accept, x-client-key, x-client-token, x-client-secret"
-  })
-};
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -22,22 +11,22 @@ export class ApiPromotionalService {
   }
 
   getAll() {
-    return this.http.get(ApiConstant.promotional, httpOptions);
+    return this.http.get(ApiConstant.promotional);
   }
 
   findAllByStatusTrue() {
-    return this.http.get(ApiConstant.promotional+'/findAllByStatusTrue', httpOptions);
+    return this.http.get(ApiConstant.promotional+'/findAllByStatusTrue');
   }
 
   getById(id: number) {
-    return this.http.get(`${ApiConstant.promotional}/${id}`, httpOptions);
+    return this.http.get(`${ApiConstant.promotional}/${id}`);
   }
 
   create(data: any) {
-    return this.http.post(ApiConstant.promotional, data, httpOptions);
+    return this.http.post(ApiConstant.promotional, data);
   }
 
   update(id: number, data: any) {
-    return this.http.put(`${ApiConstant.promotional}/${id}`, data, httpOptions);
+    return this.http.put(`${ApiConstant.promotional}/${id}`, data);
   }
 }

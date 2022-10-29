@@ -1,6 +1,5 @@
 package com.fado.watch.service;
 
-import com.fado.watch.dto.request.FilterModel;
 import com.fado.watch.entity.ProductDetail;
 
 import java.util.List;
