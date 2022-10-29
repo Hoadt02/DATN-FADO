@@ -23,6 +23,11 @@ public class OrderDetailController {
         this.orderDetailService = orderDetailService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<OrderDetail>> getAll() {
+        return ResponseEntity.ok(this.orderDetailService.getAll());
+    }
+
     @GetMapping("findAllByOrderId/{id}")
     public ResponseEntity<List<OrderDetail>> findAllByOrderId(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(this.orderDetailService.getAllOrderDetailInOrder(id));

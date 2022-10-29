@@ -34,21 +34,26 @@
                 <p *ngSwitchCase="1">Chờ lấy hàng</p>
                 <p *ngSwitchCase="2">Đang giao</p>
                 <p *ngSwitchCase="3">Đã giao</p>
-                <p *ngSwitchCase="4">Đã huỷ</p>
+                <p *ngSwitchCase="4">Đã nhận hàng</p>
+                <p *ngSwitchCase="5">Đã huỷ</p>
               </div>
 
-              <div class="product-detail row" *ngFor="let odt of orderDetails[i]">
-                <div class="col-1 col-md-1 col-lg-1 image">
-                  <img src="../../../assets/img/avtProduct/{{odt.productDetail.avatar}}">
-                </div>
-                <div class="col-9 col-md-9 col-lg-9">
-                  <p id="title">{{odt.productDetail.name}}</p>
-                  <p>Phân loại: {{odt.productDetail.material.name}}</p>
-                  <p>Số lượng: {{odt.quantity}}</p>
-                </div>
-                <div class="col-2 col-md-2 col-lg-2 price">
-                  <p class="center">{{odt.price | number}} VND</p>
-                </div>
+              <div class="product-detail" *ngFor="let odt of orderDetails">
+                <ng-template [ngIf]="odt.order.id == o.id">
+                  <div class="row">
+                    <div class="col-2 col-md-2 col-lg-2 image">
+                      <img src="../../../assets/img/avtProduct/{{odt.productDetail.avatar}}">
+                    </div>
+                    <div class="col-8 col-md-8 col-lg-8">
+                      <p id="title">{{odt.productDetail.name}}</p>
+                      <p>Phân loại: {{odt.productDetail.material.name}}</p>
+                      <p>Số lượng: {{odt.quantity}}</p>
+                    </div>
+                    <div class="col-2 col-md-2 col-lg-2 price">
+                      <p class="center">{{odt.price | number}} VND</p>
+                    </div>
+                  </div>
+                </ng-template>
               </div>
 
               <div class="total-payment d-flex justify-content-end">
@@ -57,9 +62,15 @@
               </div>
 
               <div class="button-confirm d-flex justify-content-end">
-                <button>Huỷ đơn hàng</button>
-                <button>Đã nhận hàng</button>
-                <button>Mua lại</button>
+                <ng-template [ngIf]="o.status == 0">
+                  <button>Huỷ đơn hàng</button>
+                </ng-template>
+                <ng-template [ngIf]="o.status == 2 || o.status == 3">
+                  <button>Đã nhận hàng</button>
+                </ng-template>
+                <ng-template [ngIf]="o.status == 4 || o.status == 5">
+                  <button>Mua lại</button>
+                </ng-template>
               </div>
 
             </div>

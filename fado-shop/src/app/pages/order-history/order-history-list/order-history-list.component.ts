@@ -30,17 +30,16 @@ export class OrderHistoryListComponent implements OnInit {
     this.apiOrder.findAllByCustomerId(164).subscribe({
       next: (data: any) => {
         this.orders = data as any[];
-
-        for (const x of data) {
-          this.apiOrderDetail.findAllByOrderId(x.id).subscribe({
-            next: (data2: any) => {
-              this.orderDetails.push(data2);
-            }
-          })
-        }
-        console.log('order: ', this.orders);
-        console.log('order detail: ', this.orderDetails);
+        this.getAllOrderDetail();
         this.daMua = this.orders.length;
+      }
+    })
+  }
+
+  getAllOrderDetail() {
+    this.apiOrderDetail.getAll().subscribe({
+      next: (data: any) => {
+        this.orderDetails = data as any[];
       }
     })
   }
