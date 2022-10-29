@@ -12,6 +12,10 @@ export class ApiOrderDetailService {
   ) {
   }
 
+  getAll() {
+    return this.http.get(ApiConstant.orderDetail);
+  }
+
   findAllByOrderId(id: number) {
     return this.http.get(`${ApiConstant.orderDetail}/findAllByOrderId/${id}`);
   }

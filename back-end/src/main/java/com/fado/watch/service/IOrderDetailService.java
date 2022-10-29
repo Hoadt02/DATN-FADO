@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface IOrderDetailService {
 
+    List<OrderDetail> getAll();
+
     List<OrderDetail> getAllOrderDetailInOrder(Integer id);
 
     void save(CartResponse response);
