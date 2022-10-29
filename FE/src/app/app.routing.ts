@@ -24,6 +24,10 @@ export const AppRoutes: Routes = [
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
   {
+    path: 'sell-at-store',
+    loadChildren: () => import('./pages/sell-at-store/sell-at-store.module').then(m => m.SellAtStoreModule)
+  },
+  {
     path: '**',
     redirectTo: 'dashboard'
   }

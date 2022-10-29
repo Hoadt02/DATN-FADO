@@ -27,17 +27,17 @@ public class OrderDetail implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(unique=true, nullable=false, precision=10)
     private Integer id;
-    
+
     @Column(nullable=false, precision=10)
     private Integer quantity;
-    
-    @Column(nullable=false, length=16777215)
-    private String price;
-    
+
+    @Column(nullable=false)
+    private Integer price;
+
     @ManyToOne(optional=false)
     @JoinColumn(name="product_detail_id", nullable=false)
     private ProductDetail productDetail;
-    
+
     @ManyToOne(optional=false)
     @JoinColumn(name="order_id", nullable=false)
     private Order order;

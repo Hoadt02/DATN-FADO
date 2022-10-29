@@ -13,4 +13,8 @@ export class ApiCustomerService {
     return this.http.get(ApiConstant.customer);
   }
 
+  findByid(id: number) {
+    return this.http.get(ApiConstant.customer + `/${id}`, httpOptions)
+  }
+
 }

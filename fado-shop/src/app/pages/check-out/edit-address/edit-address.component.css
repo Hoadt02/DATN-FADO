@@ -1,0 +1,54 @@
+.example-table {
+  width: 100%;
+}
+
+th {
+  padding: 15px 5px 15px 5px;
+  font-size: 13px;
+  color: white;
+}
+
+td {
+  height: 30px;
+  padding: 10px 5px 10px 5px;
+  border-bottom: 1px solid #bcbec1;
+  font-size: 11px;
+}
+
+.editBtnSubmit {
+  margin-top: 25px;
+  width: 90px;
+  height: 40px;
+  border: none;
+  background-color: #FFD333;
+  margin-right: 10px;
+}
+
+.editBtnClose {
+  margin-top: 25px;
+  width: 90px;
+  height: 40px;
+  border: none;
+  background-color: #9ea4a8;
+  margin-left: 10px;
+}
+
+.editBtnSubmit:hover {
+  margin-top: 25px;
+  width: 90px;
+  height: 40px;
+  border: none;
+  background-color: #ffcb0d;
+  margin-right: 10px;
+  border-radius: 7px;
+}
+
+.editBtnClose:hover {
+  margin-top: 25px;
+  width: 90px;
+  height: 40px;
+  border: none;
+  background-color: #828688;
+  margin-left: 10px;
+  border-radius: 7px;
+}

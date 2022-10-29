@@ -11,7 +11,12 @@ export class CustomerService {
 
   constructor(private readonly apiCustomer: ApiCustomerService) {
   }
+
   getAll() {
     return this.apiCustomer.getAll();
+  }
+
+  findById(id: number) {
+    return this.apiCustomer.findByid(id);
   }
 }

@@ -7,12 +7,12 @@
           <span
             class="h1 text-uppercase text-primary px-2"
             style="border: 3px solid #ffd333"
-            >fado</span
+          >fado</span
           >
           <span
             class="h1 text-uppercase bg-primary px-2 ml-n1"
             style="color: #212120; border: 3px solid #ffd333"
-            >Shop</span
+          >Shop</span
           >
         </a>
       </div>
@@ -23,12 +23,12 @@
           <span
             class="h1 text-uppercase text-primary px-2"
             style="border: 3px solid #ffd333"
-            >fado</span
+          >fado</span
           >
           <span
             class="h1 text-uppercase bg-primary px-2 ml-n1"
             style="color: #212120; border: 3px solid #ffd333"
-            >shop</span
+          >shop</span
           >
         </a>
         <button
@@ -44,7 +44,7 @@
           id="navbarCollapse"
         >
           <div class="navbar-nav mr-auto py-0">
-            <a routerLink="/" class="nav-item nav-link active">Home</a>
+            <a routerLink="/" class="nav-item nav-link">Home</a>
             <a routerLink="/product" class="nav-item nav-link">Sản phẩm</a>
             <a routerLink="/product-detail" class="nav-item nav-link">Sản phẩm chi tiết</a>
             <div class="nav-item dropdown">
@@ -52,7 +52,7 @@
                 href="#"
                 class="nav-link dropdown-toggle"
                 data-toggle="dropdown"
-                >Pages <i class="fa fa-angle-down mt-1"></i
+              >Pages <i class="fa fa-angle-down mt-1"></i
               ></a>
               <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
                 <a routerLink="/cart" class="dropdown-item">Shopping Cart</a>
@@ -85,15 +85,14 @@
               <span
                 class="badge text-secondary border border-secondary rounded-circle"
                 style="padding-bottom: 2px"
-                >0</span>
+              >0</span>
             </a>
             <a routerLink="/cart" class="btn px-0 ml-3">
               <i class="fas fa-shopping-cart text-primary"></i>
               <span
                 class="badge text-secondary border border-secondary rounded-circle"
                 style="padding-bottom: 2px"
-                >0</span
-              >
+                >{{numberPrdInCart}}</span>
             </a>
           </div>
         </div>

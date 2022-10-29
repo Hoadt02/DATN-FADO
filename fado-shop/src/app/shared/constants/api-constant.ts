@@ -14,4 +14,9 @@ export const ApiConstant = {
   sendMail: `${environment.service.localhost}/api/v1/sendMail`,
   sendMailWithAttachment: `${environment.service.localhost}/api/v1/sendMailWithAttachment`,
   auth: `${environment.service.localhost}/api/auth`,
+  cart: `${environment.service.localhost}/api/v1/cart`,
+  voucher: `${environment.service.localhost}/api/v1/voucher`,
+  address: `${environment.service.localhost}/api/v1/address`,
+  order: `${environment.service.localhost}/api/v1/order`,
+  orderDetail: `${environment.service.localhost}/api/v1/order-detail`,
 }

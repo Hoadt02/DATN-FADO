@@ -52,4 +52,9 @@ public class ProductDetailsController {
     public ResponseEntity<List<ProductDetail>> getSimilarProduct(@PathVariable("id") Integer id){
         return new ResponseEntity<>(this.service.getSimilarProduct(id), HttpStatus.OK);
     }
+
+    @GetMapping("/find")
+    public ResponseEntity<List<ProductDetail>> getProductByName(@RequestParam("name") String name) {
+        return new ResponseEntity<>(this.service.findProductByName(name), HttpStatus.OK);
+    }
 }

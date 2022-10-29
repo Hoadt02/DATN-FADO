@@ -1,7 +1,8 @@
 import {Injectable, ViewChild} from '@angular/core';
 import {ApiProductDetailService} from '../api-services/api-product-detail.service';
 import {ToastrService} from 'ngx-toastr';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, map, Observable} from 'rxjs';
+import {ApiConstant} from "../../constants/api-constant";
 
 @Injectable({
   providedIn: 'root'
@@ -90,5 +91,16 @@ export class ProductDetailsService {
         }
       }
     });
+  }
+
+  findProductByName(data: string) {
+    return this.apiService.findProductByName(data);
+  }
+
+  getNameProductDetail() {
+    return this.apiService.getAllProductDetail()
+      .pipe(
+        map((data: any[]) => data.map(item => item['name']))
+      );
   }
 }

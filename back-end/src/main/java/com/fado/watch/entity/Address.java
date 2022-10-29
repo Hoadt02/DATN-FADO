@@ -22,28 +22,31 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name="address")
+@Entity(name = "address")
 public class Address implements Serializable {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(unique=true, nullable=false, precision=10)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false, precision = 10)
     private Integer id;
-    
-    @Column(nullable=false, length=50)
+
+    @Column(nullable = false, length = 50)
     private String province;
-    
-    @Column(nullable=false, length=50)
+
+    @Column(nullable = false, length = 50)
     private String district;
-    
-    @Column(nullable=false, length=50)
+
+    @Column(nullable = false, length = 50)
     private String commune;
-    
-    @Column(length=10)
+
+    @Column(length = 100)
     private String other;
-    
-    @ManyToOne(optional=false)
-    @JoinColumn(name="customer_id", nullable=false)
+
+    @Column()
+    private Integer defaultAddress;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
 

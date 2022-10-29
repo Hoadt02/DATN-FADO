@@ -92,4 +92,9 @@ public class ProductDetailServiceImpl implements IProductDetailService {
     public List<ProductDetail> getSimilarProduct(Integer id) {
         return repository.getSimilarProduct(id);
     }
+
+    @Override
+    public List<ProductDetail> findProductByName(String name) {
+        return repository.getProductByName(name);
+    }
 }

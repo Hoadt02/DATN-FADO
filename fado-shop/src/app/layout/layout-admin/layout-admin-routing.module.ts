@@ -30,6 +30,13 @@ const routes: Routes = [
     path: 'auth',
     loadChildren:() => import('../../auth/auth.module').then(m => m.AuthModule)
   },
+    path: 'check-out',
+    loadChildren: () => import('../../pages/check-out/check-out.module').then(m => m.CheckOutModule)
+  },
+  {
+    path: 'order-history',
+    loadChildren: () => import('../../pages/order-history/order-history.module').then(m => m.OrderHistoryModule)
+  }
 ];
 
 @NgModule({
