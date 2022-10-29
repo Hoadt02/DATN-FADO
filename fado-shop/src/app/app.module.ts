@@ -11,6 +11,7 @@ import {ToastrModule} from "ngx-toastr";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatSelectModule} from "@angular/material/select";
+import { httpInterceptorProviders } from './shared/helpers/http.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,7 +34,7 @@ import {MatSelectModule} from "@angular/material/select";
     MatAutocompleteModule,
     MatSelectModule
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {

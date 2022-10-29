@@ -1,9 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, Validators} from "@angular/forms";
 import {AddressService} from "../../../shared/service/api-service-impl/address.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Contants} from "../../../shared/Contants";
 import {ToastrService} from "ngx-toastr";
+import {checkSpace} from "../../../shared/validator/validate";
 
 @Component({
   selector: 'app-edit-address-form',
@@ -17,16 +18,19 @@ export class EditAddressFormComponent implements OnInit {
     customer: this.fb.group({
       id: [164]
     }),
-    province: [],
-    district: [],
-    commune: [],
-    other: [],
+    province: ['',[Validators.required]],
+    district: ['',[Validators.required]],
+    commune: ['',[Validators.required]],
+    other: ['',[checkSpace]],
+    defaultAddress: [0],
   })
 
   RESULT_CLOSE_DIALOG = Contants.RESULT_CLOSE_DIALOG;
-  provinces!: any[];
-  districts!: any[];
-  wards!: any[];
+  TYPE_DIALOG = Contants.TYPE_DIALOG;
+  provinces: any[] = [];
+  districts: any[] = [];
+  wards: any[] = [];
+  title: any;
 
   constructor(
     private fb: FormBuilder,
@@ -39,8 +43,11 @@ export class EditAddressFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProvinces();
-    if (this.matDiaLogData.row) {
+    if (this.matDiaLogData.type == this.TYPE_DIALOG.NEW) {
+      this.title = 'Thêm mới địa chỉ.';
+    } else {
       this.formGroup.patchValue(this.matDiaLogData.row);
+      this.title = 'Cập nhật địa chỉ.'
     }
   }
 
@@ -72,17 +79,31 @@ export class EditAddressFormComponent implements OnInit {
     });
   }
 
+  // lưu địa chỉ
   saveAddress() {
-    this.apiAddress.create(this.formGroup.getRawValue()).subscribe({
+    if (this.formGroup.getRawValue().defaultAddress == 1) {
+      this.apiAddress.findByCustomerIdAndDefaultAddress(164).subscribe((data: any) => {
+        data.defaultAddress = 0;
+        this.apiAddress.save(data).subscribe({
+          next: () => {
+          }, error: err => {
+            console.log('Có lỗi cập nhật địa chỉ: ', err);
+          }
+        });
+      })
+    }
+
+    this.apiAddress.save(this.formGroup.getRawValue()).subscribe({
       next: (data: any) => {
         console.log(data);
-        this.toastrService.success('Thêm địa chỉ thành công!');
+        this.toastrService.success('Cập nhật địa chỉ thành công!');
         this.matDialogRef.close(this.RESULT_CLOSE_DIALOG.SUCCESS);
       }, error: err => {
-        console.log('Có lỗi thêm địa chỉ: ', err);
-        this.toastrService.error('Thêm địa chỉ thất bại!');
+        console.log('Có lỗi Cập nhật địa chỉ: ', err);
+        this.toastrService.error('Cập nhật địa chỉ thất bại!');
       }
     });
+
   }
 
   onClose() {

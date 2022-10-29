@@ -15,6 +15,8 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
 
     List<Cart> findAllByCustomerId(Integer id);
 
+    void deleteAllByCustomerId(Integer id);
+
     @Query("select c from carts c where c.productDetail.id =:idPrd and c.customer.id =:ctmId")
     Cart checkTrung(@Param("idPrd") Integer idPrd, @Param("ctmId") Integer ctmId);
 }

@@ -2,16 +2,25 @@
   font-size: 11px;
 }
 
+.daddy-cancel {
+  position: relative;
+}
+
 #cancel {
   position: absolute;
-  top: 12.5%;
-  right: 18%;
+  top: -3%;
+  right: -1%;
   z-index: 99;
 }
 
-#cancel button {
-  font-size: 20px;
-  border-radius: unset;
+#cancel p {
+  font-size: 25px;
+}
+
+#cancel p:hover {
+  cursor: pointer;
+  color: red;
+  font-size: 25px;
 }
 
 .fs-11 {
@@ -37,6 +46,7 @@
 
 .address-default .name {
   margin-top: 6px;
+  height: 50px;
 }
 
 .address-default .edit button {

@@ -8,10 +8,9 @@ import java.util.List;
 
 public interface ICustomerService {
     List<Customer> findAll();
-
     Customer findbyId(Integer id);
     Customer create(Customer customer);
     Customer update(Customer customer);
-// yeeu hien yeu son nhieu lam
-    //gitađâsdsad
+    Boolean existsByUsername(String username);
+    Boolean existsByEmail(String email);
 }

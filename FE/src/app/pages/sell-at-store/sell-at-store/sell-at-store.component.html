@@ -50,7 +50,11 @@
     </div>
   </div>
   <div class="row mx-auto mt-3" style="height: 700px">
-    <div class="col-7" style="border-radius: 10px">
+
+    <div class="col-7" style="border-radius: 10px;">
+      <div class="orders " *ngFor="let product of products;let index = index">
+        <div class="align-middle">{{index + 1}} {{product.name}} {{product.price}}</div>
+      </div>
     </div>
 
 <!--    Thanh toán bên phải-->

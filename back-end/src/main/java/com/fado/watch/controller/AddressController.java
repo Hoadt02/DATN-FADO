@@ -23,6 +23,11 @@ public class AddressController {
         return ResponseEntity.ok(this.iAddressService.findById(id));
     }
 
+    @GetMapping("/default/{id}")
+    public ResponseEntity<Address> findByCustomerIdAndDefaultAddress(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(this.iAddressService.findByCustomerIdAndDefaultAddress(id));
+    }
+
     @GetMapping
     public ResponseEntity<List<Address>> findByCustomerId(@RequestParam("idCtm") Integer id) {
         return ResponseEntity.ok(this.iAddressService.findByCustomerId(id));
@@ -33,10 +38,10 @@ public class AddressController {
         return ResponseEntity.ok(this.iAddressService.create(address));
     }
 
-    @PutMapping
-    public ResponseEntity<Address> update(@RequestBody Address address) {
-        return ResponseEntity.ok(this.iAddressService.update(address));
-    }
+//    @PutMapping
+//    public ResponseEntity<Address> update(@RequestBody Address address) {
+//        return ResponseEntity.ok(this.iAddressService.update(address));
+//    }
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable("id") Integer id) {
