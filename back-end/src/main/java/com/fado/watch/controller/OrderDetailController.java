@@ -3,6 +3,7 @@ package com.fado.watch.controller;
 
 import com.fado.watch.dto.response.CartResponse;
 import com.fado.watch.entity.Order;
+import com.fado.watch.entity.OrderDetail;
 import com.fado.watch.service.IOrderDetailService;
 import com.fado.watch.service.IOrderService;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,11 @@ public class OrderDetailController {
 
     public OrderDetailController(IOrderDetailService orderDetailService) {
         this.orderDetailService = orderDetailService;
+    }
+
+    @GetMapping("findAllByOrderId/{id}")
+    public ResponseEntity<List<OrderDetail>> findAllByOrderId(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(this.orderDetailService.getAllOrderDetailInOrder(id));
     }
 
     @PostMapping()

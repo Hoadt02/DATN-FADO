@@ -13,10 +13,14 @@ export class ApiOrderService {
   }
 
   getALl() {
-   return  this.http.get(ApiConstant.order);
+    return this.http.get(ApiConstant.order);
+  }
+
+  findAllByCustomerId(id: number) {
+    return this.http.get(`${ApiConstant.order}/findAllByCustomerId/${id}`);
   }
 
   save(data: any) {
-   return  this.http.post(ApiConstant.order, data);
+    return this.http.post(ApiConstant.order, data);
   }
 }

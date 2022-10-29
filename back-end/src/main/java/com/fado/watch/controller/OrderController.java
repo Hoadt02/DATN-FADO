@@ -25,6 +25,11 @@ public class OrderController {
         return ResponseEntity.ok(this.iOrderService.getAll());
     }
 
+    @GetMapping("findAllByCustomerId/{id}")
+    public ResponseEntity<List<Order>> findAllByCustomerId(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(this.iOrderService.findAllByCustomerId(id));
+    }
+
     @PostMapping()
     public ResponseEntity<Order> save(@RequestBody Order order) {
         return ResponseEntity.ok(this.iOrderService.save(order));

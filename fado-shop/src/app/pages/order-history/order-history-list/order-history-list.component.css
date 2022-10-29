@@ -1,0 +1,86 @@
+.info-order {
+  margin-top: 37px;
+}
+
+.order-sum {
+  width: 70px;
+  align-items: center;
+  text-align: center;
+}
+
+.order-sum img {
+  margin-top: 20px;
+  width: 70px;
+}
+
+.order-sum p {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 50px;
+}
+
+/*-------------------------------------------------------------*/
+.product {
+  border-bottom: 0.5px solid #9a9fa2;
+}
+
+.status-order p {
+  color: red;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.product-detail {
+margin-bottom: 10px;
+}
+
+.product-detail p {
+  font-size: 12px;
+}
+
+.product-detail #title {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.total-payment {
+  margin-top: 10px;
+}
+
+.button-confirm {
+  margin: 10px 0 20px 0;
+}
+
+.button-confirm button {
+  width: 120px;
+  height: 37px;
+  border-radius: 5px;
+  background-color: #ffc107;
+  margin: 0px 7px 0px 7px;
+  border: none;
+}
+
+.button-confirm button:hover {
+  width: 120px;
+  height: 37px;
+  border-radius: 5px;
+  background-color: #e0aa0b;
+  margin: 0px 7px 0px 7px;
+  border: none;
+}
+
+.image img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.price {
+  position: relative;
+}
+
+.price .center {
+  position: absolute;
+  top: 37%;
+  left: 50%;
+}

@@ -16,6 +16,10 @@ export class OrderDetailService {
   ) {
   }
 
+  findAllByOrderId(id: number) {
+    return this.api.findAllByOrderId(id);
+  }
+
   save(data: any) {
     return this.api.save(data)
     //   .subscribe(() => {

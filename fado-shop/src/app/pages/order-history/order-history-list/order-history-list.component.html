@@ -1,0 +1,78 @@
+<div class="container-fluid">
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="col-3 col-md-3 col-lg-3">
+
+        <div class="col-12 col-md-12 col-lg-12 info-order">
+          <h5 class="section-title position-relative text-uppercase mb-3"><span
+            class="bg-secondary pr-3">Thông tin đơn mua</span></h5>
+
+          <div class="order-sum w-100">
+            <img src="../../../assets/img/check.png">
+            <p>{{daMua}}</p>
+            <h3 class="text-uppercase">Đơn hàng đã đặt</h3>
+          </div>
+          <hr>
+          <div class="order-sum w-100">
+            <img src="../../../assets/img/failed.png">
+            <p>4</p>
+            <h3 class="text-uppercase">Đơn hàng đã huỷ</h3>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-8 col-md-8 col-lg-8">
+
+        <mat-tab-group>
+          <mat-tab label="Tất cả">
+
+            <div class="product" *ngFor="let o of orders, let i = index">
+              <div class="status-order text-uppercase d-flex justify-content-end" [ngSwitch]="o.status">
+                <p *ngSwitchCase="0">Chờ xác nhận</p>
+                <p *ngSwitchCase="1">Chờ lấy hàng</p>
+                <p *ngSwitchCase="2">Đang giao</p>
+                <p *ngSwitchCase="3">Đã giao</p>
+                <p *ngSwitchCase="4">Đã huỷ</p>
+              </div>
+
+              <div class="product-detail row" *ngFor="let odt of orderDetails[i]">
+                <div class="col-1 col-md-1 col-lg-1 image">
+                  <img src="../../../assets/img/avtProduct/{{odt.productDetail.avatar}}">
+                </div>
+                <div class="col-9 col-md-9 col-lg-9">
+                  <p id="title">{{odt.productDetail.name}}</p>
+                  <p>Phân loại: {{odt.productDetail.material.name}}</p>
+                  <p>Số lượng: {{odt.quantity}}</p>
+                </div>
+                <div class="col-2 col-md-2 col-lg-2 price">
+                  <p class="center">{{odt.price | number}} VND</p>
+                </div>
+              </div>
+
+              <div class="total-payment d-flex justify-content-end">
+                <b>Tổng tiền thanh toán: </b><span
+                style="color: red; font-size: 20px; padding-left: 5px">{{o.totalPayment | number}} VND</span>
+              </div>
+
+              <div class="button-confirm d-flex justify-content-end">
+                <button>Huỷ đơn hàng</button>
+                <button>Đã nhận hàng</button>
+                <button>Mua lại</button>
+              </div>
+
+            </div>
+
+          </mat-tab>
+          <mat-tab label="Chờ xác nhận"> Chờ xác nhận</mat-tab>
+          <mat-tab label="Chờ lấy hàng"> Chờ lấy hàng</mat-tab>
+          <mat-tab label="Đang giao"> Đang giao</mat-tab>
+          <mat-tab label="Đã giao"> Đã giao</mat-tab>
+          <mat-tab label="Đã huỷ"> Đã huỷ</mat-tab>
+        </mat-tab-group>
+
+      </div>
+    </div>
+  </div>
+</div>
