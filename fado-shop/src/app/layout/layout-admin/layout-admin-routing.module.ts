@@ -29,6 +29,10 @@ const routes: Routes = [
   {
     path: 'check-out',
     loadChildren: () => import('../../pages/check-out/check-out.module').then(m => m.CheckOutModule)
+  },
+  {
+    path: 'order-history',
+    loadChildren: () => import('../../pages/order-history/order-history.module').then(m => m.OrderHistoryModule)
   }
 ];
 

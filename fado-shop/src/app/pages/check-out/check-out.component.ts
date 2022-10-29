@@ -13,6 +13,7 @@ import {OrderDetailService} from "../../shared/service/api-service-impl/orderDet
 import {Contants} from "../../shared/Contants";
 import {checkSpace, formatDate} from "../../shared/validator/validate";
 import {Regex} from "../../shared/validator/regex";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-check-out',
@@ -58,6 +59,7 @@ export class CheckOutComponent implements OnInit {
     private toastrService: ToastrService,
     private matDialogRef: MatDialogRef<CheckOutComponent>,
     @Inject(MAT_DIALOG_DATA) private matDiaLogData: any,
+    private router : Router
   ) {
   }
 
@@ -217,6 +219,7 @@ export class CheckOutComponent implements OnInit {
           this.apiCart.deleteByCustomer(164).subscribe(() => {
             this.toastrService.success('Đặt hàng thành công!');
             this.matDialogRef.close(this.RESULT_CLOSE_DIALOG.CONFIRM);
+            this.router.navigate(['/order-history']);
           });
         });
       }, error: (err: any) => {
