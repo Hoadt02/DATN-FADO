@@ -61,4 +61,14 @@ private final CustomerRepository customerRepository;
         }
         return this.customerRepository.save(customer);
     }
+
+    @Override
+    public Boolean existsByUsername(String username) {
+        return customerRepository.existsByUsername(username);
+    }
+
+    @Override
+    public Boolean existsByEmail(String email) {
+        return customerRepository.existsByEmail(email);
+    }
 }

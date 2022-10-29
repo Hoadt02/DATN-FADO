@@ -70,19 +70,20 @@ export class ProductDetailsService {
   }
 
   activeOrInActiveProductDetail(data: any, id: number, type:number) {
+    const old_status = data.status;
     data.status = type;
     this.apiService.updateProductDetail(data, id).subscribe({
-      next: (data) => {
-        console.log(data);
+      next: (res) => {
+        console.log(res);
         if (type == 1){
           this.toatService.success('Kích hoạt sản phẩm thành công!');
         }else {
           this.toatService.success('Vô hiệu hóa sản phẩm thành công!');
         }
-        this.isCloseDialog.next(true);
       },
       error: (error) => {
         console.log(error);
+        data.status = old_status;
         if (type == 1){
           this.toatService.error('Kích hoạt sản phẩm thất bại!');
         } else {
