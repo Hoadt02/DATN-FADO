@@ -50,7 +50,7 @@ import {MatIconModule} from "@angular/material/icon";
     MatStepperModule,
     MatMenuModule,
     NgxDropzoneModule,
-    MatIconModule
+    MatIconModule,
   ]
 })
 export class SellAtStoreModule { }

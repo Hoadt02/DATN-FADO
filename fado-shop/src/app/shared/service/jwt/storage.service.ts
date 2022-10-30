@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {JwtHelperService} from "@auth0/angular-jwt";
+import {async} from "rxjs";
 
 const USER_KEY = 'auth-token';
 
@@ -57,7 +58,7 @@ export class StorageService {
 
   getFullNameFromToken(){
     const objectToken = this.getDecodeToken();
-    return objectToken !== null && objectToken?.name !== null ? objectToken?.name : 'Lỗi tên người dùng!';
+    return objectToken !== null && objectToken?.name !== null ? objectToken?.name : '';
   }
 
   getIdFromToken(){

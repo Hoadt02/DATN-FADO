@@ -2,7 +2,7 @@
   <div class="row m-0 p-0 bg-warning" style="border-radius: 5px">
     <div class="col-0">
       <div class="example-button-container d-flex justify-content-center align-items-center" style="width: 100%; height: 100%">
-        <a class="" href="/" mat-mini-fab color="accent"><mat-icon>home</mat-icon></a>
+        <a class="" routerLink="/" mat-mini-fab color="accent"><mat-icon>home</mat-icon></a>
       </div>
     </div>
     <div class="ng-autocomplete col-4 mt-2">
@@ -26,19 +26,19 @@
     </div>
 
     <div class="col-6">
-      <mat-tab-group [selectedIndex]="selected.value"
-                     animationDuration="0ms"
-                     (selectedIndexChange)="selected.setValue($event)">
-        <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}" >
-          <ng-template mat-tab-label >
-            <div> Hóa đơn {{index + 1}}
-              <a mat-icon-button class="text-green" (click)="removeTab(index)">
-                <i class="fas fa-times"></i>
-              </a>
-            </div>
-          </ng-template>
-        </mat-tab>
-      </mat-tab-group>
+<!--      <mat-tab-group [selectedIndex]="selected.value"-->
+<!--                     animationDuration="0ms"-->
+<!--                     (selectedIndexChange)="selected.setValue($event)">-->
+<!--        <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}" >-->
+<!--          <ng-template mat-tab-label >-->
+<!--            <div> Hóa đơn {{index + 1}}-->
+<!--              <a mat-icon-button class="text-green" (click)="removeTab(index)">-->
+<!--                <i class="fas fa-times"></i>-->
+<!--              </a>-->
+<!--            </div>-->
+<!--          </ng-template>-->
+<!--        </mat-tab>-->
+<!--      </mat-tab-group>-->
     </div>
     <div class="example-button-container d-flex justify-content-center align-items-center" >
       <a (click)="addTab(true)" mat-mini-fab color="accent"><mat-icon>add</mat-icon></a>
@@ -57,5 +57,4 @@
       </div>
     </div>
   </div>
-
 </div>
