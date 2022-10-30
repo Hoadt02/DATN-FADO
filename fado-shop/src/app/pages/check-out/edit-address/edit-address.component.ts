@@ -36,6 +36,7 @@ export class EditAddressComponent implements OnInit {
     this.checkAddress = this.matDiaLogData.idAddressSelect;
   }
 
+  //lấy ra danh sách địa chỉ của người dùng
   findAddressByCustomerId() {
     this.apiAddress.findByCustomerId(164).subscribe({
       next: (data: any) => {
@@ -47,10 +48,7 @@ export class EditAddressComponent implements OnInit {
     })
   }
 
-  saveAddress() {
-    this.matDiaLogRef.close(this.idAddress);
-  }
-
+  //mở form crud địa chỉ
   openNewAddress(type: any, row?: any) {
     this.matDiaLog.open(EditAddressFormComponent, {
       width: '500px',
@@ -66,6 +64,7 @@ export class EditAddressComponent implements OnInit {
     })
   }
 
+  // xoá địa chỉ
   deleteAddress(id: number) {
     this.matDiaLog.open(ConfirmDialogComponent, {
       width: '400px',
@@ -89,6 +88,12 @@ export class EditAddressComponent implements OnInit {
     this.matDiaLogRef.close();
   }
 
+  // trả id đó về checkout để tìm theo id đó và hiển thị ra
+  saveAddress() {
+    this.matDiaLogRef.close(this.idAddress);
+  }
+
+  // lấy ra id khi click vào radio
   getId(id: number) {
     this.idAddress = id;
   }

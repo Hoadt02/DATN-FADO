@@ -22,8 +22,12 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
+    public List<Order> findAllByCustomerId(Integer id) {
+        return this.orderRepository.findAllByCustomerId(id);
+    }
+
+    @Override
     public Order save(Order order) {
-        System.out.println(order);
         return this.orderRepository.save(order);
     }
 

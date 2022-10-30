@@ -8,6 +8,8 @@ public interface IOrderService {
 
     List<Order> getAll();
 
+    List<Order> findAllByCustomerId(Integer id);
+
     Order save(Order order);
 
 }

@@ -9,6 +9,8 @@ import com.fado.watch.repository.ProductDetailRepository;
 import com.fado.watch.service.IOrderDetailService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OrderDetailServiceImpl implements IOrderDetailService {
 
@@ -23,6 +25,16 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         this.productDetailRepository = productDetailRepository;
     }
 
+
+    @Override
+    public List<OrderDetail> getAll() {
+        return this.orderDetailRepository.findAll();
+    }
+
+    @Override
+    public List<OrderDetail> getAllOrderDetailInOrder(Integer id) {
+        return this.orderDetailRepository.findAllByOrderId(id);
+    }
 
     @Override
     public void save(CartResponse response) {

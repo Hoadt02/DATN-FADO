@@ -1,1 +1,80 @@
-<h1>Đăng nhập</h1>
+<div class="container">
+  <div class="row py-4 mt-4 align-items-center">
+    <!-- For Demo Purpose -->
+    <div class="col-md-5 pr-lg-5 mb-5 mb-md-0 text-center">
+      <img src="assets/img/login.png" alt=""
+           class="img-fluid mb-3 d-none d-md-block">
+    </div>
+
+    <!-- Login Form -->
+    <div class="col-md-7 col-lg-6 ml-auto shadow p-5" style="border-radius: 10px">
+      <div class="text-center">
+        <h2 style="text-shadow: 5px 5px 5px gray">Đăng nhập</h2>
+      </div>
+      <form class="mt-5" [formGroup]="formGroup">
+        <div class="row">
+          <!-- Email Address -->
+          <div class="input-group col-lg-12">
+            <div class="input-group-prepend">
+                            <span class="input-group-text bg-white px-4 border-md border-right-0">
+                                <i class="fa-solid fa-signature"></i>
+                            </span>
+            </div>
+            <input formControlName="username" id="username" type="text" name="username" placeholder="Username"
+                   class="form-control bg-white border-left-0 border-md">
+          </div>
+          <span style="font-size: 12px" class="text-danger px-3" *ngIf="formGroup.get('username')?.hasError('isSpace') && formGroup.get('username')?.touched">
+              Vui lòng không bỏ trống username!
+            </span>
+
+          <!-- Password -->
+          <div class="input-group col-lg-12 mt-4">
+            <div class="input-group-prepend">
+                            <span class="input-group-text bg-white px-4 border-md border-right-0">
+                                <i class="fa fa-lock text-muted"></i>
+                            </span>
+            </div>
+            <input formControlName="password" id="password" type="password" name="password" placeholder="Mật khẩu"
+                   class="form-control bg-white border-left-0 border-md">
+          </div>
+          <span style="font-size: 12px" class="text-danger px-3" *ngIf="formGroup.get('password')?.hasError('isSpace') && formGroup.get('password')?.touched">
+              Vui lòng không bỏ trống password!
+          </span>
+
+          <!-- Submit Button -->
+          <div class="form-group col-lg-12 mx-auto mt-4 mb-0">
+            <a class="btn btn-primary btn-block py-2 shadow-sm" (click)="login()">
+              <span class="font-weight-bold">Đăng nhập</span>
+            </a>
+          </div>
+
+          <!-- Divider Text -->
+          <div class="form-group col-lg-12 mx-auto d-flex align-items-center my-4">
+            <div class="border-bottom w-100 ml-5"></div>
+            <span class="px-2 small text-muted font-weight-bold text-muted">OR</span>
+            <div class="border-bottom w-100 mr-5"></div>
+          </div>
+
+          <!-- Social Login -->
+          <div class="form-group col-lg-12 mx-auto">
+            <a href="#" class="btn btn-outline-info btn-block py-2 btn-facebook">
+              <i class="fa-brands fa-facebook-f"></i>
+              <span class="font-weight-bold"> Đăng nhập với Facebook</span>
+            </a>
+            <a href="#" class="btn btn-outline-danger btn-block py-2 btn-twitter">
+              <i class="fa-brands fa-google"></i>
+              <span class="font-weight-bold"> Đăng nhập với Google</span>
+            </a>
+          </div>
+
+          <!-- Already Registered -->
+          <div class="d-flex justify-content-between col-12">
+            <span class="text-muted font-weight-bold">Bạn chưa có tài khoản? <a routerLink="/auth/register" class="text-primary ml-2">Đăng ký</a></span>
+            <span class="text-muted font-weight-bold"><a href="#" class="text-primary ml-2">Quên mật khẩu? </a></span>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

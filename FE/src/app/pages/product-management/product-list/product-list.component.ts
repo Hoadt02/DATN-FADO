@@ -15,6 +15,7 @@ import {BrandService} from '../../../shared/services/api-service-impl/brand.serv
 import {MaterialService} from '../../../shared/services/api-service-impl/material.service';
 import {ProductService} from "../../../shared/services/api-service-impl/product.service";
 import {OriginService} from "../../../shared/services/api-service-impl/origin.service";
+import {StorageService} from "../../../shared/services/jwt/storage.service";
 
 
 @Component({
@@ -59,7 +60,7 @@ export class ProductListComponent implements OnInit {
               private brandService: BrandService,
               private productService: ProductService,
               private originService: OriginService,
-              private materialService: MaterialService) {
+              private materialService: MaterialService,) {
   }
 
   getAll() {
@@ -164,12 +165,6 @@ export class ProductListComponent implements OnInit {
       }).afterClosed().subscribe(  result => {
       if (result == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
         this.service.activeOrInActiveProductDetail(data, id, type);
-        this.service.isCloseDialog.subscribe(data =>{
-          if (data){
-            this.getAll();
-            this.service.isCloseDialog.next(false);
-          }
-        });
       }
     });
   }

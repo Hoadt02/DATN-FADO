@@ -44,7 +44,7 @@ export class ProductFormComponent implements OnInit{
     origin: this.fb.group({
       id: ['', [Validators.required]],
     }),
-    name: ['', [checkSpace, Validators.pattern(Regex.name), Validators.minLength(4)]],
+    name: ['', [checkSpace, Validators.pattern(Regex.nameAndNumber), Validators.minLength(4)]],
     price: ['', [Validators.required, Validators.min(10000)]],
     quantity: ['', [Validators.required, Validators.min(1)]],
     gender: ['', [Validators.required]],
