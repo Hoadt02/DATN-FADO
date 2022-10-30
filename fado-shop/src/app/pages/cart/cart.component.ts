@@ -9,6 +9,7 @@ import {debounceTime, Subject} from "rxjs";
 import {ToastrService} from "ngx-toastr";
 import {VoucherService} from "../../shared/service/api-service-impl/voucher.service";
 import {CheckOutComponent} from "../check-out/check-out.component";
+import {StorageService} from "../../shared/service/jwt/storage.service";
 
 @Component({
   selector: 'app-cart',
@@ -30,6 +31,7 @@ export class CartComponent implements OnInit {
   constructor(
     private readonly apiCart: CartService,
     private readonly apiVoucher: VoucherService,
+    private storageService: StorageService,
     private matDiaLog: MatDialog,
     private toastrService: ToastrService,
   ) {
@@ -47,7 +49,7 @@ export class CartComponent implements OnInit {
         id: idPrd,
       },
       customer: {
-        id: 164,
+        id: this.storageService.getIdFromToken(),
       },
       quantity: sl,
     };
@@ -73,7 +75,7 @@ export class CartComponent implements OnInit {
   //Lấy ra tất cả sản phẩm trong rỏ hàng(láy ra các sản phẩm trong cart theo id người dùng)
   getAllPrdInCart() {
     let slPrd = 0;
-    this.apiCart.findAllByCustomerId(164).subscribe({
+    this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         this.items = data as any;
         this.subtotal = 0;
@@ -168,8 +170,15 @@ export class CartComponent implements OnInit {
 
   // mở checkout
   openCheckout() {
+    console.log('sản phẩm trong giỏ hàng: ', this.items);
+    for (const item of this.items) {
+      if (item.quantity > item.productDetail.quantity) {
+        this.toastrService.warning(`sản phẩm ${item.productDetail.name.toUpperCase()} chỉ còn ${item.productDetail.quantity} sản phẩm.`);
+        return;
+      }
+    }
     if (this.items.length == 0) {
-      this.toastrService.warning('Giỏ hàng của bạn đang trống, vui lòng thêm sản phẩm rồi thanh toán!');
+      this.toastrService.warning('Giỏ hàng của bạn đang trống, vui lòng thêm sản phẩm rồi tiến hành đặt hàng!');
       return;
     }
     const discount = this.discount;

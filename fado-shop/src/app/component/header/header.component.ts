@@ -22,10 +22,12 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllPrdInCart();
-    this.apiCart.numberPrdInCart$.subscribe(data => {
-      this.numberPrdInCart = data;
-    });
+    if (this.storageService.getIdFromToken()){
+      this.getAllPrdInCart();
+      this.apiCart.numberPrdInCart$.subscribe(data => {
+        this.numberPrdInCart = data;
+      });
+    }
     this.full_name = this.storageService.getFullNameFromToken();
     //
     // this.apiCart.listProductInCart$.subscribe(data => {
@@ -35,7 +37,7 @@ export class HeaderComponent implements OnInit {
 
   getAllPrdInCart() {
     let slPrd = 0;
-    this.apiCart.findAllByCustomerId(164).subscribe({
+    this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         for (const x of data) {
           slPrd += x.quantity

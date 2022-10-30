@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Observable, Observer} from "rxjs";
 import {OrderService} from "../../../shared/service/api-service-impl/order.service";
 import {OrderDetailService} from "../../../shared/service/api-service-impl/orderDetail.service";
+import {StorageService} from "../../../shared/service/jwt/storage.service";
 
 @Component({
   selector: 'app-order-history-list',
@@ -22,6 +23,7 @@ export class OrderHistoryListComponent implements OnInit {
 
   constructor(
     private apiOrder: OrderService,
+    private storageService: StorageService,
     private apiOrderDetail: OrderDetailService,
   ) {
   }
@@ -52,7 +54,7 @@ export class OrderHistoryListComponent implements OnInit {
   }
 
   findAllByCustomerId() {
-    this.apiOrder.findAllByCustomerId(164).subscribe({
+    this.apiOrder.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         this.orders = data as any[];
         this.getAllOrderDetail();
