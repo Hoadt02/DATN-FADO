@@ -25,7 +25,8 @@ export const AppRoutes: Routes = [
   },
   {
     path: 'sell-at-store',
-    loadChildren: () => import('./pages/sell-at-store/sell-at-store.module').then(m => m.SellAtStoreModule)
+    loadChildren: () => import('./pages/sell-at-store/sell-at-store.module').then(m => m.SellAtStoreModule),
+    canActivate: [AuthGuard]
   },
   {
     path: '**',
