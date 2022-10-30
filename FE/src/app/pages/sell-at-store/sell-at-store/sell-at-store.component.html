@@ -1,16 +1,19 @@
 <div class="">
   <div class="row m-0 p-0 bg-warning" style="border-radius: 5px">
     <div class="col-0">
-      <div class="example-button-container d-flex justify-content-center align-items-center" style="width: 100%; height: 100%">
-        <a class="" href="/" mat-mini-fab color="accent"><mat-icon>home</mat-icon></a>
+      <div class="example-button-container d-flex justify-content-center align-items-center"
+           style="width: 100%; height: 100%">
+        <a class="" href="/" mat-mini-fab color="accent">
+          <mat-icon>home</mat-icon>
+        </a>
       </div>
     </div>
     <div class="ng-autocomplete col-4 mt-2">
-      <form [formGroup]="formGroup" >
+      <form [formGroup]="formGroup">
         <mat-form-field style="width: 100%">
           <mat-label><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm sản phẩm</mat-label>
           <input matInput type="text" [matAutocomplete]="auto" formControlName="name">
-          <mat-autocomplete #auto="matAutocomplete" >
+          <mat-autocomplete #auto="matAutocomplete">
             <mat-option class="divAll" *ngFor="let item of filterProduct" [value]="item.name">
               <div class="divImage">
                 <img width="90" class="img-fluid " src="/assets/img/avtProduct/{{item.avatar}}">
@@ -29,8 +32,8 @@
       <mat-tab-group [selectedIndex]="selected.value"
                      animationDuration="0ms"
                      (selectedIndexChange)="selected.setValue($event)">
-        <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}" >
-          <ng-template mat-tab-label >
+        <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}">
+          <ng-template mat-tab-label>
             <div> Hóa đơn {{index + 1}}
               <a mat-icon-button class="text-green" (click)="removeTab(index)">
                 <i class="fas fa-times"></i>
@@ -40,14 +43,30 @@
         </mat-tab>
       </mat-tab-group>
     </div>
-    <div class="example-button-container d-flex justify-content-center align-items-center" >
-      <a (click)="addTab(true)" mat-mini-fab color="accent"><mat-icon>add</mat-icon></a>
+    <div class="example-button-container d-flex justify-content-center align-items-center">
+      <a (click)="addTab(true)" mat-mini-fab color="accent">
+        <mat-icon>add</mat-icon>
+      </a>
     </div>
   </div>
   <div class="row mx-auto mt-3" style="height: 700px">
     <div class="col-7" style="border-radius: 10px;">
-      <div class="orders " *ngFor="let product of products;let index = index">
-        <div class="align-middle">{{index + 1}} {{product.name}} {{product.price}}</div>
+      <div class="orders mb-3" *ngFor="let product of products;let index = index">
+        <mat-grid-list cols="6" rowHeight="3:1">
+          <mat-grid-tile>{{index + 1}}</mat-grid-tile>
+          <mat-grid-tile>{{product.name}}</mat-grid-tile>
+          <mat-grid-tile>{{product.price}}</mat-grid-tile>
+          <mat-grid-tile><input type="number"
+                                min="1" required
+                                class="border-radius-10 form-control form-control-sm border-0 text-center mx-2" value="{{product.quantity}}">
+          </mat-grid-tile>
+          <mat-grid-tile>{{product.price}}</mat-grid-tile>
+          <mat-grid-tile>
+            <button mat-icon-button color="warn">
+              <i class="fa-sharp fa-solid fa-trash"></i>
+            </button>
+          </mat-grid-tile>
+        </mat-grid-list>
       </div>
     </div>
     <div class="col-5" style="border-radius: 10px; box-shadow: 0px 0px 5px 5px #dadada">
@@ -59,3 +78,6 @@
   </div>
 
 </div>
+
+
+
