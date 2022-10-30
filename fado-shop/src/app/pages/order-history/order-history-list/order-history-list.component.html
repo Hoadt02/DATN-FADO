@@ -9,14 +9,26 @@
             class="bg-secondary pr-3">Thông tin đơn mua</span></h5>
 
           <div class="order-sum w-100">
-            <img src="../../../assets/img/check.png">
+            <img src="../../../assets/img/plus.png">
             <p>{{daMua}}</p>
             <h3 class="text-uppercase">Đơn hàng đã đặt</h3>
           </div>
           <hr>
           <div class="order-sum w-100">
+            <img src="../../../assets/img/check.png">
+            <p>{{daNhan}}</p>
+            <h3 class="text-uppercase">Đơn hàng đã nhận</h3>
+          </div>
+          <hr>
+          <div class="order-sum w-100">
+            <img src="../../../assets/img/delivery-truck.png">
+            <p>{{dangGiao}}</p>
+            <h3 class="text-uppercase">Đơn hàng đang giao</h3>
+          </div>
+          <hr>
+          <div class="order-sum w-100">
             <img src="../../../assets/img/failed.png">
-            <p>4</p>
+            <p>{{daHuy}}</p>
             <h3 class="text-uppercase">Đơn hàng đã huỷ</h3>
           </div>
         </div>
@@ -26,7 +38,7 @@
       <div class="col-8 col-md-8 col-lg-8">
 
         <mat-tab-group>
-          <mat-tab label="Tất cả">
+          <mat-tab label="Tất cả ({{daMua}})">
 
             <div class="product" *ngFor="let o of orders">
               <div class="status-order text-uppercase d-flex justify-content-end" [ngSwitch]="o.status">
@@ -74,7 +86,7 @@
             </div>
 
           </mat-tab>
-          <mat-tab label="Chờ xác nhận">
+          <mat-tab label="Chờ xác nhận ({{choXacNhan}})">
             <ng-template *ngFor="let o of orders" [ngIf]="o.status == 0">
               <div class="product">
                 <div class="status-order text-uppercase d-flex justify-content-end" [ngSwitch]="o.status">
@@ -121,7 +133,7 @@
               </div>
             </ng-template>
           </mat-tab>
-          <mat-tab label="Chờ lấy hàng">
+          <mat-tab label="Chờ lấy hàng ({{choLayHang}})">
             <ng-template *ngFor="let o of orders" [ngIf]="o.status == 1">
               <div class="product">
                 <div class="status-order text-uppercase d-flex justify-content-end" [ngSwitch]="o.status">
@@ -168,7 +180,7 @@
               </div>
             </ng-template>
           </mat-tab>
-          <mat-tab label="Đang giao">
+          <mat-tab label="Đang giao ({{dangGiao}})">
             <ng-template *ngFor="let o of orders" [ngIf]="o.status == 2">
               <div class="product">
                 <div class="status-order text-uppercase d-flex justify-content-end" [ngSwitch]="o.status">
@@ -215,7 +227,7 @@
               </div>
             </ng-template>
           </mat-tab>
-          <mat-tab label="Đã giao">
+          <mat-tab label="Đã giao ({{daNhan}})">
             <ng-template *ngFor="let o of orders" [ngIf]="o.status == 3">
               <div class="product">
                 <div class="status-order text-uppercase d-flex justify-content-end" [ngSwitch]="o.status">
@@ -262,7 +274,7 @@
               </div>
             </ng-template>
           </mat-tab>
-          <mat-tab label="Đã huỷ">
+          <mat-tab label="Đã huỷ({{daHuy}})">
             <ng-template *ngFor="let o of orders" [ngIf]="o.status == 4">
               <div class="product">
                 <div class="status-order text-uppercase d-flex justify-content-end" [ngSwitch]="o.status">
