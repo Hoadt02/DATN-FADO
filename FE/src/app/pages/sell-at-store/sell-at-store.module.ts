@@ -23,34 +23,36 @@ import {MatStepperModule} from "@angular/material/stepper";
 import {MatMenuModule} from "@angular/material/menu";
 import {NgxDropzoneModule} from "ngx-dropzone";
 import {MatIconModule} from "@angular/material/icon";
+import {MatGridListModule} from "@angular/material/grid-list";
 
 @NgModule({
   declarations: [
     SellAtStoreComponent
   ],
-  imports: [
-    CommonModule,
-    SellAtStoreRoutingModule,
-    MatTabsModule,
-    MatFormFieldModule,
-    MatSlideToggleModule,
-    MatOptionModule,
-    MatAutocompleteModule,
-    AutocompleteLibModule,
-    MatPaginatorModule,
-    MatTableModule,
-    MatInputModule,
-    MatSortModule,
-    MatButtonModule,
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatRadioModule,
-    MatDatepickerModule,
-    MatSelectModule,
-    MatStepperModule,
-    MatMenuModule,
-    NgxDropzoneModule,
-    MatIconModule
-  ]
+    imports: [
+        CommonModule,
+        SellAtStoreRoutingModule,
+        MatTabsModule,
+        MatFormFieldModule,
+        MatSlideToggleModule,
+        MatOptionModule,
+        MatAutocompleteModule,
+        AutocompleteLibModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatInputModule,
+        MatSortModule,
+        MatButtonModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatRadioModule,
+        MatDatepickerModule,
+        MatSelectModule,
+        MatStepperModule,
+        MatMenuModule,
+        NgxDropzoneModule,
+        MatIconModule,
+        MatGridListModule
+    ]
 })
 export class SellAtStoreModule { }

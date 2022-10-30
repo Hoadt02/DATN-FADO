@@ -9,6 +9,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CartService} from '../../shared/service/api-service-impl/cart.service';
 import {checkCheckPrice} from '../../shared/validator/validate';
 import {ToastrService} from "ngx-toastr";
+import {StorageService} from "../../shared/service/jwt/storage.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-product',
@@ -62,7 +64,9 @@ export class ProductComponent implements OnInit {
     private productDetailService: ProductDetailsService,
     private readonly apiCart: CartService,
     private toastrService: ToastrService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private storageService: StorageService,
+    private router: Router
   ) {
   }
 
@@ -231,6 +235,11 @@ export class ProductComponent implements OnInit {
 
   //----------------------------------------------------------
   addToCart(raw: any) {
+    // tôi check đăng nhập ở đây nhé
+    if (this.checkIsLogin()) return;
+
+    // end check
+
     console.log(raw);
     if (this.items != null){
       for (const x of this.items) {
@@ -272,5 +281,13 @@ export class ProductComponent implements OnInit {
         // this.apiCart.listProductInCart$.next(data);
       },
     });
+  }
+
+  checkIsLogin(): boolean{
+    if (!this.storageService.isLoggedIn()){
+      void this.router.navigate(['/auth/login'], {queryParams:{redirectURL:this.router.url}});
+      return true;
+    }
+    return false;
   }
 }

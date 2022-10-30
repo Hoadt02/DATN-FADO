@@ -13,6 +13,7 @@ import { AppRoutes } from './app.routing';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import {HttpClientModule} from "@angular/common/http";
+import {httpInterceptorProviders} from "./shared/helpers/http.interceptor";
 
 
 @NgModule({
@@ -32,7 +33,7 @@ import {HttpClientModule} from "@angular/common/http";
     FixedPluginModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

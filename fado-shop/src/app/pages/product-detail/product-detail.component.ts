@@ -4,6 +4,7 @@ import {ProductDetailsService} from "../../shared/service/api-service-impl/produ
 import {ImageService} from "../../shared/service/api-service-impl/image.service";
 import {CartService} from "../../shared/service/api-service-impl/cart.service";
 import {ToastrService} from "ngx-toastr";
+import {StorageService} from "../../shared/service/jwt/storage.service";
 
 @Component({
   selector: 'app-product-detail',
@@ -30,6 +31,7 @@ export class ProductDetailComponent implements OnInit {
               private imageService: ImageService,
               private apiCart: CartService,
               private toastrService: ToastrService,
+              private storageService: StorageService,
   ) {
   }
 
@@ -60,7 +62,7 @@ export class ProductDetailComponent implements OnInit {
         if (error.error.code == 'NOT_FOUND') {
           console.log(error.error.message);
         }
-        this.router.navigate(['/product']);
+        void this.router.navigate(['/product']);
       }
     });
 
@@ -68,6 +70,10 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart(idPrd: number) {
+    // tôi check đăng nhập ở đây nhé
+      if (this.checkIsLogin()) return;
+    // end check
+
     if (this.slSP > this.productDetail.quantity) {
       this.checkSl = true;
     } else {
@@ -109,5 +115,13 @@ export class ProductDetailComponent implements OnInit {
       },
     });
     console.log('aaaaaaâ: ', slPrd);
+  }
+
+  checkIsLogin(): boolean{
+    if (!this.storageService.isLoggedIn()){
+      void this.router.navigate(['/auth/login'], {queryParams:{redirectURL:this.router.url}});
+      return true;
+    }
+    return false;
   }
 }
