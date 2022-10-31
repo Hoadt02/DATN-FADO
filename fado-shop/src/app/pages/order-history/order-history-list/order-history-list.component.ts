@@ -21,11 +21,12 @@ export class OrderHistoryListComponent implements OnInit {
   orders: any[] = [];
   orderDetails: any[] = [];
   daMua = 0;
-  daNhan = 0;
-  daHuy = 0;
-  dangGiao = 0;
   choXacNhan = 0;
   choLayHang = 0;
+  dangGiao = 0;
+  daNhan = 0;
+  daHuy = 0;
+  listMatTab: any;
 
   constructor(
     private apiOrder: OrderService,
@@ -59,26 +60,43 @@ export class OrderHistoryListComponent implements OnInit {
         this.daHuy++;
       }
     }
+    this.listMatTab = [
+      {
+        status: 0, lable: 'Chờ xác nhận', sl: this.choXacNhan
+      },
+      {
+        status: 1, lable: 'Chờ lấy hàng', sl: this.choLayHang
+      },
+      {
+        status: 2, lable: 'Đang giao', sl: this.dangGiao
+      },
+      {
+        status: 3, lable: 'Đã giao', sl: this.daNhan
+      },
+      {
+        status: 4, lable: 'Đã huỷ', sl: this.daHuy
+      }
+    ]
   }
 
   findAllByCustomerId() {
+    this.daMua = 0;
+    this.daNhan = 0;
+    this.daHuy = 0;
+    this.dangGiao = 0;
+    this.choXacNhan = 0;
+    this.choLayHang = 0;
     this.apiOrder.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         this.orders = data as any[];
-        this.getAllOrderDetail();
-        this.daMua = 0;
-        this.daNhan = 0;
-        this.daHuy = 0;
-        this.dangGiao = 0;
-        this.choXacNhan = 0;
-        this.choLayHang = 0;
+        this.findAllDetailByCustomerId();
         this.getSoLuong();
       }
     })
   }
 
-  getAllOrderDetail() {
-    this.apiOrderDetail.getAll().subscribe({
+  findAllDetailByCustomerId() {
+    this.apiOrderDetail.findAllDetailByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         this.orderDetails = data as any[];
       }

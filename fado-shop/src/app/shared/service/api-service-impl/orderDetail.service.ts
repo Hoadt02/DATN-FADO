@@ -16,13 +16,17 @@ export class OrderDetailService {
   ) {
   }
 
-  getAll() {
-    return this.api.getAll();
+  // getAll() {
+  //   return this.api.getAll();
+  // }
+
+  findAllDetailByCustomerId(id: number) {
+    return this.api.findAllDetailByCustomerId(id);
   }
 
-  findAllByOrderId(id: number) {
-    return this.api.findAllByOrderId(id);
-  }
+  // findAllByOrderId(id: number) {
+  //   return this.api.findAllByOrderId(id);
+  // }
 
   save(data: any) {
     return this.api.save(data)

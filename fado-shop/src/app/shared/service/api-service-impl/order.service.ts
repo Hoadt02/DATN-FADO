@@ -12,9 +12,9 @@ export class OrderService {
   ) {
   }
 
-  getALl() {
-    return this.api.getALl();
-  }
+  // getALl() {
+  //   return this.api.getALl();
+  // }
 
   findAllByCustomerId(id: number) {
     return this.api.findAllByCustomerId(id);
