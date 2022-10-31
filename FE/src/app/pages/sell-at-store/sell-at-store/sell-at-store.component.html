@@ -1,9 +1,11 @@
 <div class="">
-  <div class="row p-0 m-0 bg-success" style="border-radius: 5px;">
+
+  <div class="row p-0 m-0" style="background-color: #ffd333">
     <div class="col-0">
       <div class="example-button-container d-flex justify-content-center align-items-center"
            style="width: 100%; height: 100%">
-        <a class="" href="/" mat-mini-fab color="accent">
+        <a class="mx-lg-3" href="/" mat-mini-fab color="white">
+
           <mat-icon>home</mat-icon>
         </a>
       </div>
@@ -14,7 +16,10 @@
           <mat-label><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm sản phẩm</mat-label>
           <input matInput type="text" [matAutocomplete]="auto" formControlName="name">
           <mat-autocomplete #auto="matAutocomplete">
-            <mat-option class="divAll" *ngFor="let item of filterProduct" [value]="item.name">
+
+            <mat-option (click)="addOrder(item.id)" class="divAll" *ngFor="let item of filterProduct"
+                        [value]="item.name">
+
               <div class="divImage">
                 <img width="90" class="img-fluid " src="/assets/img/avtProduct/{{item.avatar}}">
               </div>
@@ -28,12 +33,14 @@
     </div>
 
     <div class="col-6">
-      <mat-tab-group [selectedIndex]="selected.value" animationDuration="0ms"
+
+      <mat-tab-group [selectedIndex]="selected.value" animationDuration="100ms"
+
                      (selectedIndexChange)="selected.setValue($event)">
         <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}">
           <ng-template mat-tab-label>
             <div> Hóa đơn {{index + 1}}
-              <a mat-icon-button class="text-green" (click)="removeTab(index)">
+              <a mat-icon-button class="text-black-50" (click)="removeTab(index)">
                 <i class="fas fa-times"></i>
               </a>
             </div>
@@ -42,32 +49,46 @@
       </mat-tab-group>
     </div>
     <div class="example-button-container d-flex justify-content-center align-items-center">
-      <a (click)="addTab(true)" mat-mini-fab color="accent">
+      <a (click)="addTab(true)" mat-mini-fab color="white">
         <mat-icon>add</mat-icon>
       </a>
+      <a [matMenuTriggerFor]="menu" class="mx-lg-4" mat-mini-fab color="white">
+        <mat-icon>menu</mat-icon>
+      </a>
+      <mat-menu #menu="matMenu" class="w-auto">
+        <a class="nav-link" mat-menu-item>
+          <i class="material-icons">work_history</i>Lịch sử mua hàng
+        </a>
+      </mat-menu>
     </div>
   </div>
+  <!--    Hóa đơn bên trái -->
   <div class="row mx-auto mt-3" style="height: 700px">
-    <div class="col-8" style="border-radius: 10px;">
-      <div class="orders mb-3" *ngFor="let product of products;let index = index">
-        <mat-grid-list cols="6" rowHeight="3:1">
+
+    <div class="col-7" style="border-radius: 10px;">
+      <div class="orders mb-3" >
+        <mat-grid-list cols="6" rowHeight="3:1" *ngFor="let order of orderDetails;let index = index">
+
           <mat-grid-tile>{{index + 1}}</mat-grid-tile>
-          <mat-grid-tile>{{product.name}}</mat-grid-tile>
-          <mat-grid-tile>{{product.price}}</mat-grid-tile>
+          <mat-grid-tile>{{order.productDetail.name}}</mat-grid-tile>
+          <mat-grid-tile>{{order.price | currency:'VND'}}</mat-grid-tile>
           <mat-grid-tile><input type="number"
                                 min="1" required
                                 class="border-radius-10 form-control form-control-sm border-0 text-center mx-2"
-                                value="{{product.quantity}}">
+
+                                value="{{order.quantity}}">
+
           </mat-grid-tile>
-          <mat-grid-tile>{{product.price}}</mat-grid-tile>
+          <mat-grid-tile>{{order.price * order.quantity | currency:'VND'}}</mat-grid-tile>
           <mat-grid-tile>
-            <button mat-icon-button color="warn">
+            <a mat-icon-button color="warn">
               <i class="fa-sharp fa-solid fa-trash"></i>
-            </button>
+            </a>
           </mat-grid-tile>
         </mat-grid-list>
       </div>
     </div>
+
     <!--    Thanh toán bên phải-->
     <div class="col-4" style="border-radius: 10px; box-shadow: 0px 0px 5px 5px #dadada">
       <div class="row">
@@ -78,10 +99,32 @@
 
         <div class="col-4">
           <p class="pt-4">25-09-2022 19:30</p>
+
+    <!-- end -->
+
+    <!-- Thanh toán bên phải -->
+    <div class="col-5" style="border-radius: 10px; box-shadow: 0px 0px 5px 5px #dadada">
+      <div class="row">
+        <div class="col-9 pt-3 my-2">
+          <mat-form-field appearance="outline" class="w-60">
+            <mat-label>Tên khách hàng</mat-label>
+            <select matNativeControl required>
+              <option>Do Tat Hoa</option>
+              <option>Nguyen Viet Hien</option>
+              <option>Thieu Quang Vinh</option>
+              <option>Pham Tu Anh</option>
+            </select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-3">
+          <p class="pt-5">25-09-2022 19:30</p>
+
         </div>
 
         <div class="col-11 py-0">
           <mat-form-field appearance="outline" class="w-100">
+
             <mat-label>Tên khách hàng</mat-label>
             <mat-select>
               <mat-option>Đỗ Tất Hòa</mat-option>
@@ -92,10 +135,12 @@
 
         <div class="justify-content-between mr-1 pt-1">
           <button class="btn btn-sm btn-outline-warning px-2" type="button" title="Thêm khách hàng">
+
             <i class="fa-solid fa-plus"></i>
           </button>
         </div>
       </div>
+
 
       <div class="p-30 mb-3">
         <div class="border-top pt-1">
@@ -109,6 +154,7 @@
               <h4>Giảm giá</h4>
             </div>
 
+
             <div class="col-3 my-2">
               <mat-form-field class="w-100">
                 <input class="giamgia" matInput #input>
@@ -118,6 +164,7 @@
 
         </div>
         <div class="border-top pt-2">
+
 
           <div class="d-flex justify-content-between pt-3">
             <h4>Tiền khách cần trả</h4>
@@ -149,6 +196,7 @@
       </div>
 
       <div class="pt-2">
+
         <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">
           Thanh toán
         </button>
@@ -158,3 +206,4 @@
 
   </div>
 </div>
+

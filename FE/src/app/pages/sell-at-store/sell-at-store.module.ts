@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 
 import { SellAtStoreRoutingModule } from './sell-at-store-routing.module';
 import { SellAtStoreComponent } from './sell-at-store/sell-at-store.component';
-  import {MatTabsModule} from "@angular/material/tabs";
+import {MatTabsModule} from "@angular/material/tabs";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatOptionModule} from "@angular/material/core";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
@@ -29,30 +29,31 @@ import {MatGridListModule} from "@angular/material/grid-list";
   declarations: [
     SellAtStoreComponent
   ],
-    imports: [
-        CommonModule,
-        SellAtStoreRoutingModule,
-        MatTabsModule,
-        MatFormFieldModule,
-        MatSlideToggleModule,
-        MatOptionModule,
-        MatAutocompleteModule,
-        AutocompleteLibModule,
-        MatPaginatorModule,
-        MatTableModule,
-        MatInputModule,
-        MatSortModule,
-        MatButtonModule,
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatRadioModule,
-        MatDatepickerModule,
-        MatSelectModule,
-        MatStepperModule,
-        MatMenuModule,
-        NgxDropzoneModule,
-        MatIconModule,
-        MatGridListModule
-    ]
+  imports: [
+    CommonModule,
+    SellAtStoreRoutingModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatSlideToggleModule,
+    MatOptionModule,
+    MatAutocompleteModule,
+    AutocompleteLibModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatInputModule,
+    MatSortModule,
+    MatButtonModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatStepperModule,
+    MatMenuModule,
+    NgxDropzoneModule,
+    MatIconModule,
+    MatGridListModule,
+    FormsModule
+  ]
 })
 export class SellAtStoreModule { }

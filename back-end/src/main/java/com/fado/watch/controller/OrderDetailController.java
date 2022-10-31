@@ -23,18 +23,28 @@ public class OrderDetailController {
         this.orderDetailService = orderDetailService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<OrderDetail>> getAll() {
-        return ResponseEntity.ok(this.orderDetailService.getAll());
+//    @GetMapping
+//    public ResponseEntity<List<OrderDetail>> getAll() {
+//        return ResponseEntity.ok(this.orderDetailService.getAll());
+//    }
+
+    @GetMapping("findAllDetailByCustomerId/{id}")
+    public ResponseEntity<List<OrderDetail>> findAllByCustomerId(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(this.orderDetailService.findAllDetailByCustomerId(id));
     }
 
-    @GetMapping("findAllByOrderId/{id}")
-    public ResponseEntity<List<OrderDetail>> findAllByOrderId(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(this.orderDetailService.getAllOrderDetailInOrder(id));
-    }
+//    @GetMapping("findAllByOrderId/{id}")
+//    public ResponseEntity<List<OrderDetail>> findAllByOrderId(@PathVariable("id") Integer id) {
+//        return ResponseEntity.ok(this.orderDetailService.getAllOrderDetailInOrder(id));
+//    }
 
     @PostMapping()
     public void save(@RequestBody CartResponse response) {
         this.orderDetailService.save(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Integer id) {
+        this.orderDetailService.delete(id);
     }
 }

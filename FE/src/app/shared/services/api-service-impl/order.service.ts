@@ -12,9 +12,9 @@ export class OrderService {
   ) {
   }
 
-  // getALl() {
-  //   return this.api.getALl();
-  // }
+  getALl() {
+    return this.api.getALl();
+  }
 
   findAllByCustomerId(id: number) {
     return this.api.findAllByCustomerId(id);
@@ -24,7 +24,7 @@ export class OrderService {
     return this.api.save(data);
   }
 
-  updateStatus(status: number, id: number) {
-    return this.api.updateStatus(status, id);
+  delete(id: number) {
+    return this.api.delete(id);
   }
 }

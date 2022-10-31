@@ -21,11 +21,11 @@ import { httpInterceptorProviders } from './shared/helpers/http.interceptor';
     HttpClientModule,
     LayoutAdminModule,
     ToastrModule.forRoot({
-      positionClass: 'toast-top-left', timeOut: 1000,
+      positionClass: 'toast-top-left', timeOut: 2500,
       // preventDuplicates: true,
       closeButton: true,
       progressBar: true,
-      // maxOpened: 1,
+      maxOpened: 1,
       autoDismiss: true,
     }),
     BrowserAnimationsModule,
