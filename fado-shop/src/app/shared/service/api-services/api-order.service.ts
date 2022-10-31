@@ -12,9 +12,9 @@ export class ApiOrderService {
   ) {
   }
 
-  getALl() {
-    return this.http.get(ApiConstant.order);
-  }
+  // getALl() {
+  //   return this.http.get(ApiConstant.order);
+  // }
 
   findAllByCustomerId(id: number) {
     return this.http.get(`${ApiConstant.order}/findAllByCustomerId/${id}`);

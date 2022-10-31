@@ -26,15 +26,20 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     }
 
 
-    @Override
-    public List<OrderDetail> getAll() {
-        return this.orderDetailRepository.findAll();
-    }
+//    @Override
+//    public List<OrderDetail> getAll() {
+//        return this.orderDetailRepository.findAll();
+//    }
 
     @Override
-    public List<OrderDetail> getAllOrderDetailInOrder(Integer id) {
-        return this.orderDetailRepository.findAllByOrderId(id);
+    public List<OrderDetail> findAllDetailByCustomerId(Integer id) {
+        return this.orderDetailRepository.findAllDetailByCustomerId(id);
     }
+
+//    @Override
+//    public List<OrderDetail> getAllOrderDetailInOrder(Integer id) {
+//        return this.orderDetailRepository.findAllByOrderId(id);
+//    }
 
     @Override
     public void save(CartResponse response) {
