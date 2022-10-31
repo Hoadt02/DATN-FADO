@@ -12,4 +12,6 @@ public interface IOrderService {
 
     Order save(Order order);
 
+    void updateStatus(Integer status, Integer id);
+
 }

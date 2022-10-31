@@ -21,6 +21,15 @@ export class Contants {
     CONFIRM: 'confirm',
   };
 
+  public static RESULT_CLOSE_DIALOG_ORDER = {
+    // Huỷ đơn
+    Cancel: 'cancel',
+    //Mua lại
+    Repurchase: 'repurchase',
+    //Đã nhận hàng
+    HasReceivedTheGoods: 'hasReceivedTheGoods',
+  };
+
   public static TYPE_SORT = {
     PRICE_UP: 1,
     PRICE_DOWN: 2,

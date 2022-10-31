@@ -23,4 +23,8 @@ export class OrderService {
   save(data: any) {
     return this.api.save(data);
   }
+
+  updateStatus(status: number, id: number) {
+    return this.api.updateStatus(status, id);
+  }
 }
