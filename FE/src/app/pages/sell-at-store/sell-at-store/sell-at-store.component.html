@@ -1,68 +1,34 @@
 <div class="">
-    <div class="row m-0 p-0 bg-warning" style="border-radius: 5px">
-        <div class="col-0">
-            <div class="example-button-container d-flex justify-content-center align-items-center" style="width: 100%; height: 100%">
-                <a class="" href="/" mat-mini-fab color="accent">
-                    <mat-icon>home</mat-icon>
-                </a>
-            </div>
-        </div>
-        <div class="ng-autocomplete col-4 mt-2">
-            <form [formGroup]="formGroup">
-                <mat-form-field style="width: 100%">
-                    <mat-label><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm sản phẩm</mat-label>
-                    <input matInput type="text" [matAutocomplete]="auto" formControlName="name">
-                    <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option class="divAll" *ngFor="let item of filterProduct" [value]="item.name">
-                            <div class="divImage">
-                                <img width="90" class="img-fluid " src="/assets/img/avtProduct/{{item.avatar}}">
-                            </div>
-                            <div class="divPhai">
-                                <b>{{item.name}}</b><br> Số lượng: {{item.quantity}}
-                            </div>
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </form>
-        </div>
-
-        <div class="col-6">
-            <!-- <mat-tab-group [selectedIndex]="selected.value" -->
-                <!--                     animationDuration="0ms"-->
-                <!--                     (selectedIndexChange)="selected.setValue($event)">-->
-                <!--        <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}" >-->
-                <!--          <ng-template mat-tab-label >-->
-                <!--            <div> Hóa đơn {{index + 1}}-->
-                <!--              <a mat-icon-button class="text-green" (click)="removeTab(index)">-->
-                <!--                <i class="fas fa-times"></i>-->
-                <!--              </a>-->
-                <!--            </div>-->
-                <!--          </ng-template>-->
-                <!--        </mat-tab>-->
-                <!--      </mat-tab-group>-->
-                <mat-tab-group [selectedIndex]="selected.value" animationDuration="0ms" (selectedIndexChange)="selected.setValue($event)">
-                    <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}">
-                        <ng-template mat-tab-label>
-                            <div> Hóa đơn {{index + 1}}
-                                <a mat-icon-button class="text-green" (click)="removeTab(index)">
-                                    <i class="fas fa-times"></i>
-                                </a>
-                            </div>
-                        </ng-template>
-                    </mat-tab>
-                </mat-tab-group>
-        </div>
-        <div class="example-button-container d-flex justify-content-center align-items-center">
-            <a (click)="addTab(true)" mat-mini-fab color="accent">
-                <mat-icon>add</mat-icon>
-            </a>
-        </div>
+  <div class="row p-0 m-0 bg-primary">
+    <div class="col-0">
+      <div class="example-button-container d-flex justify-content-center align-items-center"
+           style="width: 100%; height: 100%">
+        <a class="mx-lg-3" href="/" mat-mini-fab color="accent">
+          <mat-icon>home</mat-icon>
+        </a>
+      </div>
     </div>
-    <div class="row mx-auto mt-3" style="height: 700px">
+    <div class="ng-autocomplete col-4 mt-2">
+      <form [formGroup]="formGroup">
+        <mat-form-field style="width: 100%">
+          <mat-label><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm sản phẩm</mat-label>
+          <input matInput type="text" [matAutocomplete]="auto" formControlName="name">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option class="divAll" *ngFor="let item of filterProduct" [value]="item.name">
+              <div class="divImage">
+                <img width="90" class="img-fluid " src="/assets/img/avtProduct/{{item.avatar}}">
+              </div>
+              <div class="divPhai">
+                <b>{{item.name}}</b><br> Số lượng: {{item.quantity}}
+              </div>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </div>
 
     <div class="col-6">
-      <mat-tab-group [selectedIndex]="selected.value"
-                     animationDuration="0ms"
+      <mat-tab-group [selectedIndex]="selected.value" animationDuration="0ms"
                      (selectedIndexChange)="selected.setValue($event)">
         <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}">
           <ng-template mat-tab-label>
@@ -79,8 +45,17 @@
       <a (click)="addTab(true)" mat-mini-fab color="accent">
         <mat-icon>add</mat-icon>
       </a>
+      <a [matMenuTriggerFor]="menu" class="mx-lg-4" mat-mini-fab color="accent">
+        <mat-icon>menu</mat-icon>
+      </a>
+      <mat-menu #menu="matMenu" class="w-auto">
+        <a class="nav-link" mat-menu-item>
+          <i class="material-icons">work_history</i>Lịch sử mua hàng
+        </a>
+      </mat-menu>
     </div>
   </div>
+  <!--    Hóa đơn bên trái -->
   <div class="row mx-auto mt-3" style="height: 700px">
     <div class="col-7" style="border-radius: 10px;">
       <div class="orders mb-3" *ngFor="let product of products;let index = index">
@@ -90,93 +65,88 @@
           <mat-grid-tile>{{product.price}}</mat-grid-tile>
           <mat-grid-tile><input type="number"
                                 min="1" required
-                                class="border-radius-10 form-control form-control-sm border-0 text-center mx-2" value="{{product.quantity}}">
+                                class="border-radius-10 form-control form-control-sm border-0 text-center mx-2"
+                                value="{{product.quantity}}">
           </mat-grid-tile>
           <mat-grid-tile>{{product.price}}</mat-grid-tile>
           <mat-grid-tile>
-            <button mat-icon-button color="warn">
+            <a mat-icon-button color="warn">
               <i class="fa-sharp fa-solid fa-trash"></i>
-            </button>
+            </a>
           </mat-grid-tile>
         </mat-grid-list>
       </div>
     </div>
+    <!-- end -->
+
+    <!--    Thanh toán bên phải-->
     <div class="col-5" style="border-radius: 10px; box-shadow: 0px 0px 5px 5px #dadada">
       <div class="row">
-        <p class="col-6">Thieu Quang Vinh</p>
-        <p class="col-6">10/10/2022 | 11:30</p>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-        <!--    Thanh toán bên phải-->
-        <div class="col-5" style="border-radius: 10px; box-shadow: 0px 0px 5px 5px #dadada">
-            <div class="row">
-                <div class="col-9 pt-3 my-2">
-                    <mat-form-field appearance="outline" class="w-60">
-                        <mat-label>Tên khách hàng</mat-label>
-                        <select matNativeControl required>
+        <div class="col-9 pt-3 my-2">
+          <mat-form-field appearance="outline" class="w-60">
+            <mat-label>Tên khách hàng</mat-label>
+            <select matNativeControl required>
               <option>Do Tat Hoa</option>
               <option>Nguyen Viet Hien</option>
               <option>Thieu Quang Vinh</option>
               <option>Pham Tu Anh</option>
             </select>
-                    </mat-form-field>
-                </div>
+          </mat-form-field>
+        </div>
 
-                <div class="col-3">
-                    <p class="pt-5">25-09-2022 19:30</p>
-                </div>
+        <div class="col-3">
+          <p class="pt-5">25-09-2022 19:30</p>
+        </div>
 
-                <div class="col-11 py-0">
-                    <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Tìm kiếm khách hàng</mat-label>
-                        <input matInput placeholder="Tìm kiếm" #input>
-                    </mat-form-field>
-                </div>
+        <div class="col-11 py-0">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Tìm kiếm khách hàng</mat-label>
+            <input matInput placeholder="Tìm kiếm" #input>
+          </mat-form-field>
+        </div>
 
-                <div class="justify-content-between ml-2">
-                    <button class="btn btn-sm btn-outline-success px-2" type="button" title="Thêm khách hàng">
+        <div class="justify-content-between ml-2">
+          <button class="btn btn-sm btn-outline-success px-2" type="button" title="Thêm khách hàng">
             <i class="fa-solid fa-plus"></i>
           </button>
-                </div>
-            </div>
+        </div>
+      </div>
 
 
-            <div class="p-30 mb-5 pt-3  ">
-                <div class="border-top pt-2">
-                    <div class="d-flex justify-content-between mb-2 pt-2">
-                        <h4>Tổng tiền hàng</h4>
-                        <h4>0 VND</h4>
-                    </div>
+      <div class="p-30 mb-5 pt-3  ">
+        <div class="border-top pt-2">
+          <div class="d-flex justify-content-between mb-2 pt-2">
+            <h4>Tổng tiền hàng</h4>
+            <h4>0 VND</h4>
+          </div>
 
-                    <div class="d-flex justify-content-between mb-2">
-                        <h4 class="font-weight-medium">Giảm Giá</h4>
-                        <h4 class="font-weight-medium">0 VND</h4>
-                    </div>
-                </div>
-                <div class="border-top pt-2">
-                    <div class="d-flex justify-content-between mb-2 pt-3">
-                        <h4>Tổng tiền thanh toán</h4>
-                        <h4>0 VND</h4>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Ghi chú</mat-label>
-                            <textarea formControlName="description" rows="5" matInput></textarea>
-                        </mat-form-field>
-                    </div>
-                </div>
-            </div>
+          <div class="d-flex justify-content-between mb-2">
+            <h4 class="font-weight-medium">Giảm Giá</h4>
+            <h4 class="font-weight-medium">0 VND</h4>
+          </div>
+        </div>
+        <div class="border-top pt-2">
+          <div class="d-flex justify-content-between mb-2 pt-3">
+            <h4>Tổng tiền thanh toán</h4>
+            <h4>0 VND</h4>
+          </div>
+          <div class="d-flex justify-content-between">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Ghi chú</mat-label>
+              <textarea formControlName="description" rows="5" matInput></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
 
-            <div class="pb-3 pt-5">
-                <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">
+      <div class="pb-3 pt-5">
+        <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">
           Thanh toán
         </button>
-            </div>
-        </div>
-        <!--    end-->
+      </div>
     </div>
+    <!--    end-->
+
+  </div>
 </div>
+
