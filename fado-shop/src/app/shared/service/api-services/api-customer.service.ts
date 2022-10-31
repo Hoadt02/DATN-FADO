@@ -14,7 +14,7 @@ export class ApiCustomerService {
   }
 
   findByid(id: number) {
-    return this.http.get(ApiConstant.customer + `/${id}`, httpOptions)
+    return this.http.get(ApiConstant.customer + `/${id}`)
   }
 
 }

@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {CategoryService} from "../../shared/service/api-service-impl/category.service";
-import {ProductService} from "../../shared/service/api-service-impl/product.service";
 import {CartService} from "../../shared/service/api-service-impl/cart.service";
+import {StorageService} from "../../shared/service/jwt/storage.service";
+import {AuthService} from "../../shared/service/jwt/auth.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-header',
@@ -11,8 +12,13 @@ import {CartService} from "../../shared/service/api-service-impl/cart.service";
 export class HeaderComponent implements OnInit {
 
   numberPrdInCart: number = 0;
+  full_name!:string;
 
-  constructor(private apiCart: CartService) {
+  constructor(private apiCart: CartService,
+              private storageService: StorageService,
+              private authService: AuthService,
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -20,6 +26,7 @@ export class HeaderComponent implements OnInit {
     this.apiCart.numberPrdInCart$.subscribe(data => {
       this.numberPrdInCart = data;
     });
+    this.full_name = this.storageService.getFullNameFromToken();
     //
     // this.apiCart.listProductInCart$.subscribe(data => {
     //   console.log('header: ', data);
@@ -37,5 +44,21 @@ export class HeaderComponent implements OnInit {
         // this.apiCart.listProductInCart$.next(data);
       }
     });
+  }
+
+  isLogin(): boolean{
+    return this.storageService.isLoggedIn();
+  }
+
+  logout(){
+    this.authService.logout();
+  }
+
+  redirectLogin(){
+    let params = this.route.snapshot.queryParams;
+    if (params.redirectURL){
+      return;
+    }
+    void this.router.navigate(['/auth/login'],{queryParams:{redirectURL:this.router.url}});
   }
 }

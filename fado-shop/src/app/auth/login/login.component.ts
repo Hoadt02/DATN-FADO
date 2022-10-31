@@ -20,10 +20,12 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService,
               private storageService: StorageService,
               private fb: FormBuilder,
-              private router: Router,
-              private state: ActivatedRoute) { }
+              private router: Router) { }
 
   ngOnInit(): void {
+    if (this.storageService.isLoggedIn()) {
+      void this.router.navigate(['']);
+    }
   }
 
   login(){
