@@ -14,7 +14,11 @@ export class OrderHistoryListComponent implements OnInit {
   orders: any[] = [];
   orderDetails: any[] = [];
   daMua = 0;
+  daNhan = 0;
   daHuy = 0;
+  dangGiao = 0;
+  choXacNhan = 0;
+  choLayHang = 0;
 
   constructor(
     private apiOrder: OrderService,
@@ -26,12 +30,33 @@ export class OrderHistoryListComponent implements OnInit {
     this.findAllByCustomerId();
   }
 
+  getSoLuong() {
+    for (const x of this.orders) {
+      this.daMua++;
+      if (x.status == 0) {
+        this.choXacNhan++;
+      }
+      if (x.status == 1) {
+        this.choLayHang++;
+      }
+      if (x.status == 2) {
+        this.dangGiao++;
+      }
+      if (x.status == 3) {
+        this.daNhan++;
+      }
+      if (x.status == 4) {
+        this.daHuy++;
+      }
+    }
+  }
+
   findAllByCustomerId() {
     this.apiOrder.findAllByCustomerId(164).subscribe({
       next: (data: any) => {
         this.orders = data as any[];
         this.getAllOrderDetail();
-        this.daMua = this.orders.length;
+        this.getSoLuong();
       }
     })
   }
