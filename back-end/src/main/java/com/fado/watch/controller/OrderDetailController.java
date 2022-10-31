@@ -37,4 +37,9 @@ public class OrderDetailController {
     public void save(@RequestBody CartResponse response) {
         this.orderDetailService.save(response);
     }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Integer id) {
+        this.orderDetailService.delete(id);
+    }
 }

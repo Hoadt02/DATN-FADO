@@ -14,6 +14,7 @@ import { AppRoutes } from './app.routing';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import {HttpClientModule} from "@angular/common/http";
 import {httpInterceptorProviders} from "./shared/helpers/http.interceptor";
+import {MatTableModule} from "@angular/material/table";
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {httpInterceptorProviders} from "./shared/helpers/http.interceptor";
     ToastrModule.forRoot(),
     FooterModule,
     FixedPluginModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTableModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

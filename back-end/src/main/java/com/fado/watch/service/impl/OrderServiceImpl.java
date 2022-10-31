@@ -31,4 +31,9 @@ public class OrderServiceImpl implements IOrderService {
         return this.orderRepository.save(order);
     }
 
+    @Override
+    public void delete(Integer id) {
+        orderRepository.deleteById(id);
+    }
+
 }

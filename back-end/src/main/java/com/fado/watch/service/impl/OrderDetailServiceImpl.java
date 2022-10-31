@@ -53,4 +53,9 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
             this.productDetailRepository.save(productDetail);
         }
     }
+
+    @Override
+    public void delete(Integer id) {
+        orderDetailRepository.deleteById(id);
+    }
 }
