@@ -41,6 +41,8 @@
 .product-detail #title {
   font-size: 15px;
   font-weight: bold;
+  text-transform: uppercase;
+  color: black;
 }
 
 .total-payment {

@@ -52,10 +52,12 @@
                 <ng-template *ngFor="let odt of orderDetails" [ngIf]="odt.order.id == o.id">
                   <div class="row w-100 product-detail">
                     <div class="col-2 col-md-2 col-lg-2 image">
-                      <img src="../../../assets/img/avtProduct/{{odt.productDetail.avatar}}" alt="Ảnh sản phẩm">
+                      <a routerLink="/product-detail/{{odt.productDetail.id}}">
+                        <img src="../../../assets/img/avtProduct/{{odt.productDetail.avatar}}" alt="Ảnh sản phẩm">
+                      </a>
                     </div>
                     <div class="col-8 col-md-8 col-lg-8">
-                      <p class="title">{{odt.productDetail.name}}</p>
+                      <a routerLink="/product-detail/{{odt.productDetail.id}}" id="title">{{odt.productDetail.name}}</a>
                       <p>Chất liệu: {{odt.productDetail.material.name}}</p>
                       <p>Nhãn hiệu: {{odt.productDetail.brand.name}}</p>
                       <p>Số lượng: {{odt.quantity}}</p>
@@ -72,14 +74,17 @@
               </div>
 
               <div class="button-confirm d-flex justify-content-end">
-                <ng-template [ngIf]="o.status == 0 || o.status == 1">
-                  <button>Huỷ đơn hàng</button>
+                <ng-template [ngIf]="o.status == 0"><!--                  || o.status == 1-->
+                  <button (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.Cancel,o.id)">Huỷ đơn hàng
+                  </button>
                 </ng-template>
                 <ng-template [ngIf]="o.status == 2">
-                  <button>Đã nhận hàng</button>
+                  <button (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.HasReceivedTheGoods,o.id)">Đã nhận hàng
+                  </button>
                 </ng-template>
                 <ng-template [ngIf]="o.status == 3 || o.status == 4">
-                  <button>Mua lại</button>
+                  <button (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.Repurchase,o.id)">Mua lại
+                  </button>
                 </ng-template>
               </div>
 
@@ -120,15 +125,10 @@
                 </div>
 
                 <div class="button-confirm d-flex justify-content-end">
-                  <ng-template [ngIf]="o.status == 0 || o.status == 1">
-                    <button>Huỷ đơn hàng</button>
-                  </ng-template>
-                  <ng-template [ngIf]="o.status == 2">
-                    <button>Đã nhận hàng</button>
-                  </ng-template>
-                  <ng-template [ngIf]="o.status == 3 || o.status == 4">
-                    <button>Mua lại</button>
-                  </ng-template>
+                  <!--                  <ng-template [ngIf]="o.status == 0 || o.status == 1">-->
+                  <button (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.Cancel,o.id)">Huỷ đơn hàng
+                  </button>
+                  <!--                  </ng-template>-->
                 </div>
               </div>
             </ng-template>
@@ -167,15 +167,10 @@
                 </div>
 
                 <div class="button-confirm d-flex justify-content-end">
-                  <ng-template [ngIf]="o.status == 0 || o.status == 1">
-                    <button>Huỷ đơn hàng</button>
-                  </ng-template>
-                  <ng-template [ngIf]="o.status == 2">
-                    <button>Đã nhận hàng</button>
-                  </ng-template>
-                  <ng-template [ngIf]="o.status == 3 || o.status == 4">
-                    <button>Mua lại</button>
-                  </ng-template>
+                  <!--                  <ng-template [ngIf]="o.status == 0 || o.status == 1">-->
+                  <!--                  <button (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.Cancel,o.id)">Huỷ đơn hàng-->
+                  <!--                  </button>-->
+                  <!--                  </ng-template>-->
                 </div>
               </div>
             </ng-template>
@@ -214,15 +209,10 @@
                 </div>
 
                 <div class="button-confirm d-flex justify-content-end">
-                  <ng-template [ngIf]="o.status == 0 || o.status == 1">
-                    <button>Huỷ đơn hàng</button>
-                  </ng-template>
-                  <ng-template [ngIf]="o.status == 2">
-                    <button>Đã nhận hàng</button>
-                  </ng-template>
-                  <ng-template [ngIf]="o.status == 3 || o.status == 4">
-                    <button>Mua lại</button>
-                  </ng-template>
+                  <!--                  <ng-template [ngIf]="o.status == 2">-->
+                  <button (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.HasReceivedTheGoods,o.id)">Đã nhận hàng
+                  </button>
+                  <!--                  </ng-template>-->
                 </div>
               </div>
             </ng-template>
@@ -261,15 +251,10 @@
                 </div>
 
                 <div class="button-confirm d-flex justify-content-end">
-                  <ng-template [ngIf]="o.status == 0 || o.status == 1">
-                    <button>Huỷ đơn hàng</button>
-                  </ng-template>
-                  <ng-template [ngIf]="o.status == 2">
-                    <button>Đã nhận hàng</button>
-                  </ng-template>
-                  <ng-template [ngIf]="o.status == 3 || o.status == 4">
-                    <button>Mua lại</button>
-                  </ng-template>
+                  <!--                  <ng-template [ngIf]="o.status == 3 || o.status == 4">-->
+                  <button (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.Repurchase,o.id)">Mua lại
+                  </button>
+                  <!--                  </ng-template>-->
                 </div>
               </div>
             </ng-template>
@@ -308,15 +293,10 @@
                 </div>
 
                 <div class="button-confirm d-flex justify-content-end">
-                  <ng-template [ngIf]="o.status == 0 || o.status == 1">
-                    <button>Huỷ đơn hàng</button>
-                  </ng-template>
-                  <ng-template [ngIf]="o.status == 2">
-                    <button>Đã nhận hàng</button>
-                  </ng-template>
-                  <ng-template [ngIf]="o.status == 3 || o.status == 4">
-                    <button>Mua lại</button>
-                  </ng-template>
+                  <!--                  <ng-template [ngIf]="o.status == 3 || o.status == 4">-->
+                  <button (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.Repurchase,o.id)">Mua lại
+                  </button>
+                  <!--                  </ng-template>-->
                 </div>
               </div>
             </ng-template>

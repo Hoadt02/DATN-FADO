@@ -14,4 +14,7 @@ public interface IOrderService {
 
     void delete(Integer id);
 
+    void updateStatus(Integer status, Integer id);
+
+
 }

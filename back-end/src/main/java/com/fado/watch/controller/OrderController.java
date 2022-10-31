@@ -38,5 +38,10 @@ public class OrderController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Integer id) {
         this.iOrderService.delete(id);
+
+    @GetMapping("/updateStatus")
+    public void updateStatus(@RequestParam("status") Integer status, @RequestParam("id") Integer id) {
+        this.iOrderService.updateStatus(status, id);
+
     }
 }
