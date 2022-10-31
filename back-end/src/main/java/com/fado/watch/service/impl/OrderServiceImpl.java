@@ -34,8 +34,12 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
+    public void delete(Integer id) {
+        orderRepository.deleteById(id);
+
     public void updateStatus(Integer status, Integer id) {
         this.orderRepository.updateStatus(status, id);
+
     }
 
 }
