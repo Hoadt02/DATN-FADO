@@ -5,6 +5,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 import {Contants} from "../../../shared/Contants";
 import {ToastrService} from "ngx-toastr";
 import {checkSpace} from "../../../shared/validator/validate";
+import {StorageService} from "../../../shared/service/jwt/storage.service";
 
 @Component({
   selector: 'app-edit-address-form',
@@ -16,7 +17,7 @@ export class EditAddressFormComponent implements OnInit {
   formGroup = this.fb.group({
     id: [],
     customer: this.fb.group({
-      id: [164]
+      id: [this.storageService.getIdFromToken()]
     }),
     province: ['',[Validators.required]],
     district: ['',[Validators.required]],
@@ -35,6 +36,7 @@ export class EditAddressFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private apiAddress: AddressService,
+    private storageService: StorageService,
     private matDialogRef: MatDialogRef<EditAddressFormComponent>,
     @Inject(MAT_DIALOG_DATA) private matDiaLogData: any,
     private toastrService: ToastrService,
@@ -82,7 +84,7 @@ export class EditAddressFormComponent implements OnInit {
   // lưu địa chỉ
   saveAddress() {
     if (this.formGroup.getRawValue().defaultAddress == 1) {
-      this.apiAddress.findByCustomerIdAndDefaultAddress(164).subscribe((data: any) => {
+      this.apiAddress.findByCustomerIdAndDefaultAddress(this.storageService.getIdFromToken()).subscribe((data: any) => {
         data.defaultAddress = 0;
         this.apiAddress.save(data).subscribe({
           next: () => {

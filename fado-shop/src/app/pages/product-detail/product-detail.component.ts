@@ -88,7 +88,7 @@ export class ProductDetailComponent implements OnInit {
           id: idPrd,
         },
         customer: {
-          id: 164,
+          id: this.storageService.getIdFromToken(),
         },
         quantity: this.slSP,
       };
@@ -105,7 +105,7 @@ export class ProductDetailComponent implements OnInit {
 
   getAllPrdInCart() {
     let slPrd = 0;
-    this.apiCart.findAllByCustomerId(164).subscribe({
+    this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         this.items = data as any;
         for (const x of data) {

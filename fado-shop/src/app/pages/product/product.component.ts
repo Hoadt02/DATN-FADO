@@ -71,7 +71,9 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllPrdInCart();
+    if (this.storageService.getIdFromToken()) {
+      this.getAllPrdInCart();
+    }
     this.loadByProductDetail();
     this.loadByCategory();
     this.loadByBrand();
@@ -241,7 +243,7 @@ export class ProductComponent implements OnInit {
     // end check
 
     console.log(raw);
-    if (this.items != null){
+    if (this.items != null) {
       for (const x of this.items) {
         if (x.productDetail.id == raw.id && x.quantity == raw.quantity) {
           this.toastrService.warning('Số lượng trong rỏ hàng đã bằng số lượng trong kho');
@@ -255,7 +257,7 @@ export class ProductComponent implements OnInit {
         id: raw.id,
       },
       customer: {
-        id: 164,
+        id: this.storageService.getIdFromToken(),
       },
       quantity: 1,
     };
@@ -271,7 +273,7 @@ export class ProductComponent implements OnInit {
 
   getAllPrdInCart() {
     let slPrd = 0;
-    this.apiCart.findAllByCustomerId(164).subscribe({
+    this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         for (const x of data) {
           this.items = data as any[];
@@ -283,9 +285,9 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  checkIsLogin(): boolean{
-    if (!this.storageService.isLoggedIn()){
-      void this.router.navigate(['/auth/login'], {queryParams:{redirectURL:this.router.url}});
+  checkIsLogin(): boolean {
+    if (!this.storageService.isLoggedIn()) {
+      void this.router.navigate(['/auth/login'], {queryParams: {redirectURL: this.router.url}});
       return true;
     }
     return false;

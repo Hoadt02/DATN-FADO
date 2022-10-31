@@ -17,7 +17,7 @@
   <!-- Cart Start -->
   <div class="container-fluid">
     <div class="row px-xl-5">
-      <div class="col-lg-8 table-responsive mb-5 scroll-bar" style="overflow: auto;height: 449px;">
+      <div class="col-lg-9 table-responsive mb-5 scroll-bar" style="overflow: auto;height: 449px;">
 
         <ng-template [ngIf]="items.length == 0">
           <div class="text-center">
@@ -39,12 +39,15 @@
           </tr>
           </thead>
           <tbody class="align-middle">
-          <tr *ngFor="let i of items">
+          <tr *ngFor="let i of items"
+              [style]="i.quantity > i.productDetail.quantity ? 'background-color: red':''">
             <td class="align-middle td-w-35">
               <div class="row">
                 <div class="col-3 d-flex justify-content-center align-items-center pr-0">
-                  <img class="w-100" src="../../../assets/img/avtProduct/{{i.productDetail.avatar}}"
-                       alt="" style="width: 50px;"> {{i.name}}
+                  <a class="text-uppercase" routerLink="/product-detail/{{i.productDetail.id}}">
+                    <img class="w-100" src="../../../assets/img/avtProduct/{{i.productDetail.avatar}}"
+                         alt="" style="width: 50px;"> {{i.name}}
+                  </a>
                 </div>
                 <div class="col-9 info-prd">
                   <div class="name">
@@ -87,7 +90,7 @@
           </tbody>
         </table>
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-3">
         <form class="mb-30" action="">
           <div class="input-group">
             <input type="text" class="form-control border-0 p-4" placeholder="Mã voucher" name="voucher"
@@ -107,7 +110,7 @@
             </div>
             <div class="d-flex justify-content-between mb-3">
               <h6>Tổng tiền khuyến mại</h6>
-<!--              <h6>{{subtotal | number}} VND</h6>-->
+              <!--              <h6>{{subtotal | number}} VND</h6>-->
             </div>
             <div class="d-flex justify-content-between">
               <h6 class="font-weight-medium">Giảm giá voucher</h6>

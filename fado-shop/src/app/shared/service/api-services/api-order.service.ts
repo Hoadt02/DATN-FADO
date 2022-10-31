@@ -23,4 +23,8 @@ export class ApiOrderService {
   save(data: any) {
     return this.http.post(ApiConstant.order, data);
   }
+
+  updateStatus(status: number, id: number) {
+    return this.http.get(`${ApiConstant.order}/updateStatus?status=${status}&id=${id}`)
+  }
 }

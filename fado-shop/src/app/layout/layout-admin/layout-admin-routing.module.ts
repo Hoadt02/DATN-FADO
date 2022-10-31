@@ -45,7 +45,7 @@ const routes: Routes = [
       import('../../auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'check-out',
+    path: 'cart',
     loadChildren: () =>
       import('../../pages/check-out/check-out.module').then(
         (m) => m.CheckOutModule

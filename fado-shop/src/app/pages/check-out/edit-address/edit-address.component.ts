@@ -8,6 +8,7 @@ import * as Constants from "constants";
 import {Contants} from "../../../shared/Contants";
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 import {ToastrService} from "ngx-toastr";
+import {StorageService} from "../../../shared/service/jwt/storage.service";
 
 @Component({
   selector: 'app-edit-address',
@@ -25,6 +26,7 @@ export class EditAddressComponent implements OnInit {
   constructor(
     private apiAddress: AddressService,
     private matDiaLog: MatDialog,
+    private storageService: StorageService,
     private matDiaLogRef: MatDialogRef<EditAddressComponent>,
     @Inject(MAT_DIALOG_DATA) private matDiaLogData: any,
     private toastrService: ToastrService,
@@ -38,7 +40,7 @@ export class EditAddressComponent implements OnInit {
 
   //lấy ra danh sách địa chỉ của người dùng
   findAddressByCustomerId() {
-    this.apiAddress.findByCustomerId(164).subscribe({
+    this.apiAddress.findByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         this.addressList = data as any;
         console.log(data);

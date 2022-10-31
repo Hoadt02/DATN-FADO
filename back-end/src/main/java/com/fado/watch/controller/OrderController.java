@@ -34,4 +34,9 @@ public class OrderController {
     public ResponseEntity<Order> save(@RequestBody Order order) {
         return ResponseEntity.ok(this.iOrderService.save(order));
     }
+
+    @GetMapping("/updateStatus")
+    public void updateStatus(@RequestParam("status") Integer status, @RequestParam("id") Integer id) {
+        this.iOrderService.updateStatus(status, id);
+    }
 }
