@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ProductDetailsService} from "../../../shared/services/api-service-impl/product-details.service";
+import {StorageService} from '../../../shared/services/jwt/storage.service';
 
 @Component({
   selector: 'app-sell-at-store',
@@ -16,9 +17,11 @@ export class SellAtStoreComponent implements OnInit {
   filterProduct;
 
   formGroup: FormGroup;
-
+  full_name:string;
   constructor(private productDetailService: ProductDetailsService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private storageService: StorageService) {
+    this.full_name = this.storageService.getFullNameFromToken();
   }
 
   ngOnInit(): void {
