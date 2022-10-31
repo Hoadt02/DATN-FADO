@@ -1,11 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ProductDetailsService} from "../../../shared/services/api-service-impl/product-details.service";
+
+import {StorageService} from '../../../shared/services/jwt/storage.service';
+
 import {OrderService} from "../../../shared/services/api-service-impl/order.service";
 import {OrderDetailService} from "../../../shared/services/api-service-impl/orderDetail.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 import {Constants} from "../../../shared/Constants";
+
 
 @Component({
   selector: 'app-sell-at-store',
@@ -26,12 +30,15 @@ export class SellAtStoreComponent implements OnInit {
   filterProduct;
 
   formGroup: FormGroup;
-
+  full_name:string;
   constructor(private productDetailService: ProductDetailsService,
               private fb: FormBuilder,
-              private orderService: OrderService,
+private orderService: OrderService,
               private orderDetailService: OrderDetailService,
-              private matDiaLog: MatDialog,) {
+              private matDiaLog: MatDialog,
+              private storageService: StorageService) {
+    this.full_name = this.storageService.getFullNameFromToken();
+
   }
 
   ngOnInit(): void {
