@@ -1,0 +1,75 @@
+<h5 class="section-title position-relative text-uppercase mb-3"><span
+  class="bg-secondary pr-3">{{title}}</span></h5>
+
+<form [formGroup]="formGroup" class="fs-11">
+
+  <div class="row">
+    <div class="col-12 col-md-12 col-lg-12">
+      <div class="address-select">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Tỉnh thành</mat-label>
+          <mat-select required formControlName="province">
+            <mat-option (onSelectionChange)="getDistricts(p.code)" (click)="getDistricts(p.code)"
+                        *ngFor="let p of provinces" [value]="p.name">
+              {{p.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formGroup.get('province')?.hasError('required') &&
+          formGroup.get('province')?.touched">Vui lòng chọn Tỉnh - Thành phố.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class=" col-12 col-md-12 col-lg-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Quận - Huyện</mat-label>
+        <mat-select required formControlName="district">
+          <mat-option (onSelectionChange)="getWards(d.code)" (click)="getWards(d.code)" *ngFor="let d of districts"
+                      [value]="d.name">
+            {{d.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('district')?.hasError('required') &&
+          formGroup.get('district')?.touched">Vui lòng chọn Quận - Huyện.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-12 col-md-12 col-lg-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Xã - Phường</mat-label>
+        <mat-select required formControlName="commune">
+          <mat-option *ngFor="let w of wards" [value]="w.name">
+            {{w.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('commune')?.hasError('required') &&
+          formGroup.get('commune')?.touched">Vui lòng chọn Phường - Xã.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-md-12 col-lg-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Chi tiết</mat-label>
+        <textarea required formControlName="other" matInput placeholder="Vd. Thôn cao thọ"></textarea>
+        <mat-error *ngIf="formGroup.get('other')?.hasError('isSpace') &&
+          formGroup.get('other')?.touched">Vui lòng nhập địa chỉ chi tiết.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-md-12 col-lg-12">
+      <mat-radio-group aria-label="Select an option" formControlName="defaultAddress">
+        <mat-radio-button [value]="1">Đặt làm địa chỉ mặc định.</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+  <div class="text-center">
+    <button (click)="saveAddress()" class="editBtnSubmit">
+      Save
+    </button>
+    <button (click)="onClose()" class="editBtnClose">
+      Close
+    </button>
+  </div>
+</form>

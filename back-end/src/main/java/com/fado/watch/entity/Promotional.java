@@ -46,7 +46,7 @@ public class Promotional implements Serializable {
     private String name;
 
     @Column(nullable = false, length = 16777215)
-    private String discount;
+    private Integer discount;
 
     @Column(length = 255)
     private String description;

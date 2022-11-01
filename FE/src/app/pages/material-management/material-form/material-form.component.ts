@@ -9,7 +9,7 @@ import {checkSpace} from '../../../shared/validator/validatorForm';
 import {Regex} from '../../../shared/validator/regex';
 
 @Component({
-  selector: 'app-customer-form',
+  selector: 'app-material-form',
   templateUrl: './material-form.component.html',
   styleUrls: ['./material-form.component.scss']
 })

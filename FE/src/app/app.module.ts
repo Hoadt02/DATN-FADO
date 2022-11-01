@@ -12,8 +12,9 @@ import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-import {HttpClient, HttpClientModule} from "@angular/common/http";
-import {ProductViewComponent} from "./pages/product-management/product-view/product-view.component";
+import {HttpClientModule} from "@angular/common/http";
+import {httpInterceptorProviders} from "./shared/helpers/http.interceptor";
+import {MatTableModule} from "@angular/material/table";
 
 
 @NgModule({
@@ -31,9 +32,10 @@ import {ProductViewComponent} from "./pages/product-management/product-view/prod
     ToastrModule.forRoot(),
     FooterModule,
     FixedPluginModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTableModule
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

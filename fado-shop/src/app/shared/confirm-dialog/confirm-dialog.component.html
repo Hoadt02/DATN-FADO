@@ -1,0 +1,18 @@
+<div>
+  <h4 class="font-weight-bold">{{ title }}</h4>
+  <span class="fe fe-x icon-close" (click)="onDismiss()"></span>
+</div>
+
+<div class="my-4 d-flex justify-content-sm-center">
+  <label>{{message}}</label>
+</div>
+
+<div class="text-center">
+  <button (click)="onConfirm()" class="editBtnSubmit mr-2">
+    <span><i class="fa-solid fa-check"></i> Xác nhận</span>
+  </button>
+  <button (click)="onDismiss()" class="editBtnClose">
+    <span><i class="fa-solid fa-xmark"></i> Đóng</span>
+  </button>
+</div>
+

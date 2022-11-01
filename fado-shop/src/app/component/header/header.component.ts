@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {CategoryService} from "../../shared/service/api-service-impl/category.service";
-import {ProductService} from "../../shared/service/api-service-impl/product.service";
+import {Component, OnInit} from '@angular/core';
+import {CartService} from "../../shared/service/api-service-impl/cart.service";
+import {StorageService} from "../../shared/service/jwt/storage.service";
+import {AuthService} from "../../shared/service/jwt/auth.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-header',
@@ -9,18 +11,56 @@ import {ProductService} from "../../shared/service/api-service-impl/product.serv
 })
 export class HeaderComponent implements OnInit {
 
-  categories: any[] = [];
+  numberPrdInCart: number = 0;
+  full_name!:string;
 
-  constructor(private categoryService: CategoryService) {
+  constructor(private apiCart: CartService,
+              private storageService: StorageService,
+              private authService: AuthService,
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.getCategory();
+    if (this.storageService.getIdFromToken()){
+      this.getAllPrdInCart();
+      this.apiCart.numberPrdInCart$.subscribe(data => {
+        this.numberPrdInCart = data;
+      });
+    }
+    this.full_name = this.storageService.getFullNameFromToken();
+    //
+    // this.apiCart.listProductInCart$.subscribe(data => {
+    //   console.log('header: ', data);
+    // });
   }
 
-  getCategory() {
-    this.categoryService.getAll().subscribe((data: any) => {
-      this.categories = data as any[];
+  getAllPrdInCart() {
+    let slPrd = 0;
+    this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
+      next: (data: any) => {
+        for (const x of data) {
+          slPrd += x.quantity
+        }
+        this.apiCart.numberPrdInCart$.next(slPrd);
+        // this.apiCart.listProductInCart$.next(data);
+      }
     });
+  }
+
+  isLogin(): boolean{
+    return this.storageService.isLoggedIn();
+  }
+
+  logout(){
+    this.authService.logout();
+  }
+
+  redirectLogin(){
+    let params = this.route.snapshot.queryParams;
+    if (params.redirectURL){
+      return;
+    }
+    void this.router.navigate(['/auth/login'],{queryParams:{redirectURL:this.router.url}});
   }
 }

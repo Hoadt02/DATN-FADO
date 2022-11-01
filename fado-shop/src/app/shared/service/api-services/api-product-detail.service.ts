@@ -3,16 +3,6 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ApiConstant} from "../../constants/api-constant";
 import {Observable} from "rxjs";
 
-let httpOptions: any = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
-  })
-};
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -22,18 +12,18 @@ export class ApiProductDetailService{
   }
 
   getAllProductDetail(): Observable<any>{
-    return this.httpClient.get(ApiConstant.productDetail, httpOptions);
+    return this.httpClient.get(ApiConstant.productDetail);
   }
 
   findProductDetail(id:number): Observable<any>{
-    return this.httpClient.get(`${ApiConstant.productDetail}/${id}`, httpOptions);
+    return this.httpClient.get(`${ApiConstant.productDetail}/${id}`);
   }
 
-  // getProductDetailByFilter(data:any):Observable<any>{
-  //   return this.httpClient.post(`${ApiConstant.productDetail}/filter`, data, httpOptions);
-  // }
-
   getProductDetailByFilter(url_param:string):Observable<any>{
-    return this.httpClient.get(`${ApiConstant.productDetail}/filter?${url_param}`, httpOptions);
+    return this.httpClient.get(`${ApiConstant.productDetail}/filter?${url_param}`);
+  }
+
+  getSimilarProduct(id:number):Observable<any>{
+    return this.httpClient.get(`${ApiConstant.productDetail}/similar/${id}`);
   }
 }

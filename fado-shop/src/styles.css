@@ -1,1 +1,62 @@
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #fafafa;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(-45deg, #FFD333, #FFD333);
+  /*border-radius: 50px;*/
+}
+
+.scroll-bar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scroll-bar::-webkit-scrollbar-track {
+  background-color: #fafafa;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(-45deg, #FFD333, #FFD333);
+  /*border-radius: 50px;*/
+}
+
 /* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.loading {
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+
+.spinner-center {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

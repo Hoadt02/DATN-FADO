@@ -1,7 +1,8 @@
 import {Injectable, ViewChild} from '@angular/core';
 import {ApiProductDetailService} from '../api-services/api-product-detail.service';
 import {ToastrService} from 'ngx-toastr';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, map, Observable} from 'rxjs';
+import {ApiConstant} from "../../constants/api-constant";
 
 @Injectable({
   providedIn: 'root'
@@ -69,19 +70,20 @@ export class ProductDetailsService {
   }
 
   activeOrInActiveProductDetail(data: any, id: number, type:number) {
+    const old_status = data.status;
     data.status = type;
     this.apiService.updateProductDetail(data, id).subscribe({
-      next: (data) => {
-        console.log(data);
+      next: (res) => {
+        console.log(res);
         if (type == 1){
           this.toatService.success('Kích hoạt sản phẩm thành công!');
         }else {
           this.toatService.success('Vô hiệu hóa sản phẩm thành công!');
         }
-        this.isCloseDialog.next(true);
       },
       error: (error) => {
         console.log(error);
+        data.status = old_status;
         if (type == 1){
           this.toatService.error('Kích hoạt sản phẩm thất bại!');
         } else {
@@ -89,5 +91,16 @@ export class ProductDetailsService {
         }
       }
     });
+  }
+
+  findProductByName(data: string) {
+    return this.apiService.findProductByName(data);
+  }
+
+  getNameProductDetail() {
+    return this.apiService.getAllProductDetail()
+      .pipe(
+        map((data: any[]) => data.map(item => item['name']))
+      );
   }
 }

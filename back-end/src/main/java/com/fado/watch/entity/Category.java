@@ -36,11 +36,11 @@ public class Category implements Serializable {
     @Column(nullable=false, length= 255, unique = true)
     private String name;
 
-    @Column(length= 255)
-    private String image;
-    
     @Column(precision=10)
     private Integer status;
+
+    @Column
+    private String image;
     
     @OneToMany(mappedBy="category")
     @JsonIgnore

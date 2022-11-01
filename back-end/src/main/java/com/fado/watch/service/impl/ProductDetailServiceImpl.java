@@ -1,6 +1,5 @@
 package com.fado.watch.service.impl;
 
-import com.fado.watch.dto.request.FilterModel;
 import com.fado.watch.entity.ProductDetail;
 import com.fado.watch.exception.ResourceNotFoundException;
 import com.fado.watch.repository.*;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -90,26 +88,13 @@ public class ProductDetailServiceImpl implements IProductDetailService {
         return repository.getProductDetailByFilter(category_id, brand_id, material_id, origin_id, gender, startPrice, endPrice);
     }
 
-//        @Override
-//    public List<ProductDetail> getProductDetailByFilter(FilterModel filterModel) {
-//        if (filterModel.getGender().length < 1){
-//            filterModel.setGender(new Boolean[]{true, false});
-//        }
-//
-//        if (filterModel.getStartPrice() == null && filterModel.getEndPrice() == null) {
-//            List<ProductDetail> productDetails = getAll();
-//            Integer max = productDetails.get(0).getPrice();
-//            for (ProductDetail productDetail: productDetails) {
-//                if (max < productDetail.getPrice()){
-//                    max = productDetail.getPrice();
-//                }
-//            }
-//
-//            filterModel.setStartPrice(0);
-//            filterModel.setEndPrice(max);
-//        }
-//        return repository.getProductDetailByFilter(filterModel.getCategory_id(),
-//                filterModel.getBrand_id(), filterModel.getMaterial_id(), filterModel.getOrigin_id(),
-//                filterModel.getGender(), filterModel.getStartPrice(), filterModel.getStartPrice());
-//    }
+    @Override
+    public List<ProductDetail> getSimilarProduct(Integer id) {
+        return repository.getSimilarProduct(id);
+    }
+
+    @Override
+    public List<ProductDetail> findProductByName(String name) {
+        return repository.getProductByName(name);
+    }
 }

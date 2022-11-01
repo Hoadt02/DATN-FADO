@@ -1,0 +1,161 @@
+<!-- Checkout Start -->
+<div class="container-fluid daddy-cancel">
+
+  <div id="cancel">
+    <p (click)="onClose()" class="fa-solid fa-xmark"></p>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-8">
+      <h5 class="section-title position-relative text-uppercase mb-3"><span
+        class="bg-secondary pr-3">Địa chỉ thanh toán</span></h5>
+      <div class="bg-light">
+
+        <div class="checkAndNew mb-3">
+          <mat-checkbox [(ngModel)]="disableSelect" class="fs-11">Sử dụng thông tin của tài khoản</mat-checkbox>
+        </div>
+        <hr>
+        <h5 class="section-title position-relative text-uppercase mb-3"><span
+          class="bg-secondary pr-3">Thông tin đặt hàng</span></h5>
+        <div class="fs-11 address-default row">
+          <div class="name col-9 col-md-9 col-lg-9">
+            <ng-template [ngIf]="addressDefault">
+              <b>Gửi tới:</b>
+              <span>
+            {{customer.phoneNumber}} - {{addressDefault.province}} - {{addressDefault.district}}
+                - {{addressDefault.commune}}
+                - {{addressDefault.other}}
+            </span>
+            </ng-template>
+          </div>
+          <div class="edit col-3 col-md-3 col-lg-3 d-flex justify-content-end">
+            <button [disabled]="!disableSelect" (click)="editAddress()">Chỉnh sửa</button>
+          </div>
+        </div>
+        <!--          <div class="address-select">-->
+        <!--            <select [disabled]="disableSelect" [(ngModel)]="idAddress"-->
+        <!--                    class="form-select w-100 custom-select-checkout"-->
+        <!--                    aria-label="Default select example">-->
+        <!--              <option selected *ngFor="let ad of address" [value]="ad.id">-->
+        <!--                {{customer.phoneNumber}} - {{ad.province}} - {{ad.district}} - {{ad.commune}} - {{ad.other}}-->
+        <!--              </option>-->
+        <!--            </select>-->
+        <!--            {{idAddress}}-->
+        <!--          </div>-->
+        <hr>
+        <h5 class="section-title position-relative text-uppercase mb-3"><span
+          class="bg-secondary pr-3">Nhập địa chỉ mới</span></h5>
+        <form [formGroup]="formGroup" class="row">
+
+          <mat-form-field appearance="outline" class="col-4 col-md-4 col-lg-4">
+            <mat-label>Tỉnh thành</mat-label>
+            <mat-select required formControlName="province" [disabled]="disableSelect">
+              <mat-option (click)="getDistricts(p.code)" *ngFor="let p of provinces" [value]="p.name">
+                {{p.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('province')?.hasError('required') &&
+          formGroup.get('province')?.touched">Vui lòng chọn Tỉnh - Thành phố.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-4 col-md-4 col-lg-4">
+            <mat-label>Quận - Huyện</mat-label>
+            <mat-select required formControlName="district" [disabled]="disableSelect">
+              <mat-option (click)="getWards(d.code)" *ngFor="let d of districts" [value]="d.name">
+                {{d.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('district')?.hasError('required') &&
+          formGroup.get('district')?.touched">Vui lòng chọn Quận - Huyện.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="col-4 col-md-4 col-lg-4">
+            <mat-label>Xã - Phường</mat-label>
+            <mat-select required formControlName="ward" [disabled]="disableSelect">
+              <mat-option *ngFor="let w of wards" [value]="w.name">
+                {{w.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="formGroup.get('ward')?.hasError('required') &&
+          formGroup.get('ward')?.touched">Vui lòng chọn Phường - Xã.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-12 col-md-12 col-lg-12" appearance="outline">
+            <mat-label>Chi tiết</mat-label>
+            <input formControlName="other" [readonly]="disableSelect" matInput required type="text">
+            <mat-error *ngIf="formGroup.get('other')?.hasError('isSpace') &&
+          formGroup.get('other')?.touched">Vui lòng nhập địa chỉ chi tiết.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-6 col-md-6 col-lg-6" appearance="outline">
+            <mat-label>Họ và Tên</mat-label>
+            <input formControlName="fullname" [readonly]="disableSelect" matInput required type="text">
+            <mat-error
+              *ngIf="formGroup.get('fullname')?.hasError('isSpace') &&
+            formGroup.get('fullname')?.touched">Họ và Tên không được để trống.
+            </mat-error>
+            <mat-error
+              *ngIf="formGroup.get('fullname')?.hasError('pattern') &&
+            formGroup.get('fullname')?.touched">Họ và Tên không được chứa số và ký tự đặc biệt
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="col-6 col-md-6 col-lg-6" appearance="outline">
+            <mat-label>Số điện thoại</mat-label>
+            <input formControlName="phoneNumber" [readonly]="disableSelect" matInput required type="text">
+            <mat-error *ngIf="formGroup.get('phoneNumber')?.hasError('isSpace') &&
+          formGroup.get('phoneNumber')?.touched">Vui lòng nhập số điện thoại.
+            </mat-error>
+            <mat-error *ngIf="formGroup.get('phoneNumber')?.hasError('pattern') &&
+          formGroup.get('phoneNumber')?.touched">Số điện thoại không đúng định dạng.
+            </mat-error>
+          </mat-form-field>
+
+        </form>
+
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <h5 class="section-title position-relative text-uppercase mb-3"><span
+        class="bg-secondary pr-3">Tổng hoá đơn</span>
+      </h5>
+      <div class="bg-light">
+        <div class="border-bottom pr-2 scroll-bar" style="height: 195px; overflow: auto">
+          <h6 class="mb-3">Danh sách sản phẩm</h6>
+          <div *ngFor="let i of items" class="d-flex justify-content-between product">
+            <p>{{i.productDetail.name}}</p>
+            <p>{{i.productDetail.price | number}} VND x {{i.quantity}}</p>
+          </div>
+        </div>
+        <div class="border-bottom pt-3 pb-2">
+          <div class="d-flex justify-content-between">
+            <h6>Tổng tiền hàng</h6>
+            <h6>{{subtotal | number}} VND</h6>
+          </div>
+          <div class="d-flex justify-content-between">
+            <h6>Tổng tiền khuyến mại</h6>
+            <!--            <h6>{{subtotal | number}} VND</h6>-->
+          </div>
+          <div class="d-flex justify-content-between">
+            <h6 class="font-weight-medium">Giảm giá voucher</h6>
+            <h6 class="font-weight-medium">{{discount | number}} VND</h6>
+          </div>
+        </div>
+        <div class="pt-2">
+          <div class="d-flex justify-content-between mt-2">
+            <h5>Thành tiền</h5>
+            <h5>{{total | number}} VND</h5>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" (click)="order()">
+        Đặt hàng
+      </button>
+    </div>
+  </div>
+</div>
+<!-- Checkout End -->

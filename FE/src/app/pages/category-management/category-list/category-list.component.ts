@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Injectable, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {Constants} from '../../../shared/Constants';
@@ -15,11 +15,16 @@ import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dia
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.scss']
 })
+
+@Injectable({
+  providedIn: 'root'
+})
+
 export class CategoryListComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
   isLoading: boolean = true;
-  displayedColumns: string[] = ['index', 'name', 'status', 'thaoTac'];
+  displayedColumns: string[] = ['index', 'image', 'name', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
   RESULT_CLOSE_DIALOG = Constants.RESULT_CLOSE_DIALOG;
 
@@ -104,7 +109,6 @@ export class CategoryListComponent implements OnInit {
               console.log(data);
               this.toastService.success('Đã chuyển thành kinh doanh')
             },
-            // tslint:disable-next-line:no-shadowed-variable
             error: (error) => {
               console.log(error);
               this.toastService.success('Lỗi !!!')
@@ -117,7 +121,6 @@ export class CategoryListComponent implements OnInit {
               console.log(data);
               this.toastService.success('Đã chuyển thành ngừng kinh doanh')
             },
-            // tslint:disable-next-line:no-shadowed-variable
             error: (error) => {
               console.log(error);
               this.toastService.success('Lỗi !!!')

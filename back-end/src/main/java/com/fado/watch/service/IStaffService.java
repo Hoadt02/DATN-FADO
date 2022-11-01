@@ -13,6 +13,5 @@ public interface IStaffService {
     Staff create(Staff staff);
 
     Staff update(Staff staff);
-
 //    void deleteStaff(Integer id);
 }

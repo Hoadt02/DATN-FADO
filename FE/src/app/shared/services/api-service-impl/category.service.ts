@@ -12,7 +12,7 @@ export class CategoryService {
 
   constructor(
     private readonly apiCategory: ApiCategoryService,
-    private toastService: ToastrService,
+    private toastService: ToastrService
   ) {
   }
 

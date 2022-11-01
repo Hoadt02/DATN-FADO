@@ -15,7 +15,9 @@ export const ApiConstant = {
   sendMailWithAttachment: `${environment.service.localhost}/api/v1/sendMailWithAttachment`,
   promotional : `${environment.service.localhost}/api/v1/promotional`,
   promotionalProduct : `${environment.service.localhost}/api/v1/product-promotional`,
-
+  voucher: `${environment.service.localhost}/api/v1/voucher`,
+  auth: `${environment.service.localhost}/api/auth`,
+  order: `${environment.service.localhost}/api/v1/order`,
+  orderDetail: `${environment.service.localhost}/api/v1/order-detail`,
 }
-// Vinh là một con lợn, xấu trai, xấu hơn hòa, hòa đẹp trai hơn vinh
-// hoà đẹp trai cu to vinh bú cho hòa sướng, xong hòa bắn tinh vào lỗ tai vinh, vinh rên ứ ừ ư phe lòi :))))
+

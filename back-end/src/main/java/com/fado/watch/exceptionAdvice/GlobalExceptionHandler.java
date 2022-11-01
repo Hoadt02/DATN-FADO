@@ -24,4 +24,5 @@ public class GlobalExceptionHandler {
         ErrorMessage errorMessage = new ErrorMessage("NOT_FOUND", exception.getMessage(), new Date());
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
+
 }

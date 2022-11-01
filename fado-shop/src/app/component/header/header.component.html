@@ -7,12 +7,12 @@
           <span
             class="h1 text-uppercase text-primary px-2"
             style="border: 3px solid #ffd333"
-            >fado</span
+          >fado</span
           >
           <span
             class="h1 text-uppercase bg-primary px-2 ml-n1"
             style="color: #212120; border: 3px solid #ffd333"
-            >Shop</span
+          >Shop</span
           >
         </a>
       </div>
@@ -23,12 +23,12 @@
           <span
             class="h1 text-uppercase text-primary px-2"
             style="border: 3px solid #ffd333"
-            >fado</span
+          >fado</span
           >
           <span
             class="h1 text-uppercase bg-primary px-2 ml-n1"
             style="color: #212120; border: 3px solid #ffd333"
-            >shop</span
+          >shop</span
           >
         </a>
         <button
@@ -45,16 +45,16 @@
         >
           <div class="navbar-nav mr-auto py-0">
             <a routerLink="/" class="nav-item nav-link">Home</a>
-            <a routerLink="/product" class="nav-item nav-link">Shop</a>
-            <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
+            <a routerLink="/product" class="nav-item nav-link">Sản phẩm</a>
+            <a routerLink="/product-detail" class="nav-item nav-link">Sản phẩm chi tiết</a>
             <div class="nav-item dropdown">
               <a
                 href="#"
                 class="nav-link dropdown-toggle"
                 data-toggle="dropdown"
-                >Pages <i class="fa fa-angle-down mt-1"></i
+              >Pages <i class="fa fa-angle-down mt-1"></i
               ></a>
-              <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
+              <div class="dropdown-menu rounded-0 border-0 m-0">
                 <a routerLink="/cart" class="dropdown-item">Shopping Cart</a>
                 <a href="checkout.html" class="dropdown-item">Checkout</a>
               </div>
@@ -79,22 +79,36 @@
             </form>
           </div>
 
-          <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
+          <div class="navbar-nav ml-auto py-0 d-none d-lg-block" *ngIf="isLogin()">
+            <div class="btn-group">
+              <button type="button" class="btn dropdown-toggle text-primary" data-toggle="dropdown" aria-expanded="false">
+                <b><i class="fa-solid fa-user"></i> {{full_name}}</b>
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="javascript:void(0)"><i class="fa-solid fa-user"></i> Thông tin cá nhân</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="javascript:void(0)" (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+              </div>
+            </div>
             <a href="" class="btn px-0">
               <i class="fas fa-heart text-primary"></i>
               <span
                 class="badge text-secondary border border-secondary rounded-circle"
                 style="padding-bottom: 2px"
-                >0</span
-              >
+              >0</span>
             </a>
             <a routerLink="/cart" class="btn px-0 ml-3">
               <i class="fas fa-shopping-cart text-primary"></i>
               <span
                 class="badge text-secondary border border-secondary rounded-circle"
                 style="padding-bottom: 2px"
-                >0</span
-              >
+                >{{numberPrdInCart}}</span>
+            </a>
+          </div>
+
+          <div class="navbar-nav ml-auto py-0 d-none d-lg-block" *ngIf="!isLogin()">
+            <a (click)="redirectLogin()" class="btn p-2 text-primary" style="border: 2px solid #FFD333; border-radius: 10px;">
+              <i class="fa-regular fa-user"></i> Đăng nhập
             </a>
           </div>
         </div>
