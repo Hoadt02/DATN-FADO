@@ -33,6 +33,11 @@ public class ProductPromotionalServiceImpl implements IProductPromotionalService
     }
 
     @Override
+    public List<ProductPromotional> findAllProductPromotionalInCart(Integer idCtm) {
+        return this.productPromotionalRepository.findAllProductPromotionalInCart(idCtm);
+    }
+
+    @Override
     public ProductPromotional getById(Integer id) {
         return this.productPromotionalRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Không tìm thấy sản phẩm này trong khuyến mại!")
