@@ -15,10 +15,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
-import {MatNativeDateModule} from "@angular/material/core";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {MatIconModule} from "@angular/material/icon";
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({

@@ -1,14 +1,21 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {ProductDetailsService} from "../../../shared/services/api-service-impl/product-details.service";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {ProductDetailsService} from '../../../shared/services/api-service-impl/product-details.service';
 
 import {StorageService} from '../../../shared/services/jwt/storage.service';
 
-import {OrderService} from "../../../shared/services/api-service-impl/order.service";
-import {OrderDetailService} from "../../../shared/services/api-service-impl/orderDetail.service";
-import {MatDialog} from "@angular/material/dialog";
-import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
-import {Constants} from "../../../shared/Constants";
+import {OrderService} from '../../../shared/services/api-service-impl/order.service';
+import {OrderDetailService} from '../../../shared/services/api-service-impl/orderDetail.service';
+import {MatDialog} from '@angular/material/dialog';
+import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dialog.component';
+import {Constants} from '../../../shared/Constants';
+import {CustomerFormComponent} from '../../customer-management/customer-form/customer-form.component';
+import {CustomerService} from '../../../shared/services/api-service-impl/customer.service';
+import {MatTableDataSource} from '@angular/material/table';
+import {ToastrService} from 'ngx-toastr';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {CategoryFormComponent} from '../../category-management/category-form/category-form.component';
 
 
 @Component({
@@ -17,8 +24,10 @@ import {Constants} from "../../../shared/Constants";
   styleUrls: ['./sell-at-store.component.scss']
 })
 export class SellAtStoreComponent implements OnInit {
-
+  isLoading = true;
   RESULT_CLOSE_DIALOG = Constants.RESULT_CLOSE_DIALOG;
+  TYPE_DIALOG = Constants.TYPE_DIALOG;
+
 
   tabs = ['Hóa đơn 1'];
   selectedTab: any;
@@ -30,10 +39,14 @@ export class SellAtStoreComponent implements OnInit {
   filterProduct;
 
   formGroup: FormGroup;
-  full_name:string;
+  full_name: string;
+  listCustomer: any[] = [];
+  datetime = new Date();
+
   constructor(private productDetailService: ProductDetailsService,
+              private customerService: CustomerService,
               private fb: FormBuilder,
-private orderService: OrderService,
+              private orderService: OrderService,
               private orderDetailService: OrderDetailService,
               private matDiaLog: MatDialog,
               private storageService: StorageService) {
@@ -47,6 +60,7 @@ private orderService: OrderService,
     this.getAllOrder();
     this.getAllOrderDetail();
     this.getAllNameProduct();
+    this.getCustomerForCombobox();
   }
 
   getAllNameProduct() {
@@ -99,6 +113,7 @@ private orderService: OrderService,
       }
     });
     diaLogRef.afterClosed().subscribe((data: any) => {
+      // tslint:disable-next-line:triple-equals
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
         this.tabs.push(`Hoá đơn ${this.tabs.length + 1}`);
         this.selected.setValue(this.tabs.length - 1);
@@ -118,6 +133,7 @@ private orderService: OrderService,
       }
     });
     diaLogRef.afterClosed().subscribe((data: any) => {
+      // tslint:disable-next-line:triple-equals
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
         if (this.tabs.length > 1) {
           this.tabs.splice(index, 1);
@@ -137,9 +153,34 @@ private orderService: OrderService,
       }
     });
     diaLogRef.afterClosed().subscribe((data: any) => {
+      // tslint:disable-next-line:triple-equals
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
         this.productDetailService.findProductDetail(id);
       }
     })
+  }
+
+  openSave(type: any, row?: any) {
+    const dialogRef = this.matDiaLog.open(CustomerFormComponent, {
+      width: '780px',
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        type, row
+      }
+    });
+    dialogRef.afterClosed().subscribe(rs => {
+      // tslint:disable-next-line:triple-equals
+      if (rs == Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
+         this.getCustomerForCombobox();
+      }
+    })
+  }
+  getCustomerForCombobox() {
+    this.customerService.getAll().subscribe((data: any) => {
+      if (data) {
+        this.listCustomer = data;
+      }
+    });
   }
 }
