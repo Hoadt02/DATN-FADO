@@ -18,8 +18,6 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {CategoryFormComponent} from '../../category-management/category-form/category-form.component';
 
-
-
 @Component({
   selector: 'app-sell-at-store',
   templateUrl: './sell-at-store.component.html',
@@ -44,11 +42,14 @@ export class SellAtStoreComponent implements OnInit {
   dataOrder: any;
   dataOrderDetail: any;
   checkQuantity = false;
+  createOrder: any;
 
   formGroup: FormGroup;
   full_name: string;
+
   listCustomer: any[] = [];
   datetime = new Date();
+
 
   constructor(private productDetailService: ProductDetailsService,
               private customerService: CustomerService,
@@ -59,7 +60,6 @@ export class SellAtStoreComponent implements OnInit {
               private matDiaLog: MatDialog,
               private toastService: ToastrService,
               private storageService: StorageService,) {
-) {
     this.full_name = this.storageService.getFullNameFromToken();
 
   }
@@ -123,30 +123,31 @@ export class SellAtStoreComponent implements OnInit {
     diaLogRef.afterClosed().subscribe((data: any) => {
       // tslint:disable-next-line:triple-equals
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
-        this.tabs.push(`Hoá đơn ${this.tabs.length + 1}`);
-        this.selected.setValue(this.tabs.length - 1);
-
-        const createOrder = {
+        this.createOrder = {
           customer: {
             id: 194
           },
           staff: {
             id: this.storageService.getIdFromToken()
           },
-          shipAdress: "",
+          shipAddress: 'Tai quay',
           createDate: new Date(),
           paymentType: 0,
           status: 1,
           total: 0,
           discount: 0,
           totalPayment: 0,
-          fullName: "",
-          phoneNumber: ""
         }
 
-        this.orderDetailService.saveOrderDetail(createOrder).subscribe((data: any) => {
+        this.orderService.save(this.createOrder).subscribe((data: any) => {
           console.log(data)
+          this.tabs.push(`Hoá đơn ${this.tabs.length + 1}`);
+          this.selected.setValue(this.tabs.length - 1);
           this.toastService.success('Tạo hóa đơn thành công !');
+        }, error => {
+          this.toastService.error('Tạo hóa đơn thất bại !')
+          console.log(error)
+          return;
         })
       }
     })

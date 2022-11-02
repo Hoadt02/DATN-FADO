@@ -1,5 +1,4 @@
 <div class="">
-
   <div class="row p-0 m-0" style="background-color: #ffd333">
     <div class="col-0">
       <div class="example-button-container d-flex justify-content-center align-items-center"
@@ -31,7 +30,6 @@
     </div>
 
     <div class="col-6">
-
       <mat-tab-group [selectedIndex]="selected.value" animationDuration="100ms"
                      (selectedIndexChange)="selected.setValue($event)">
         <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}">
@@ -59,23 +57,19 @@
       </mat-menu>
     </div>
   </div>
+
   <!--    Hóa đơn bên trái -->
-  <div class="row mx-auto mt-3" style="height: 700px">
-
-
+  <div class="row mx-auto mt-3">
     <div class="col-7" style="border-radius: 10px;">
       <div class="orders mb-3" *ngFor="let order of orderDetails;let index = index">
-        <mat-grid-list cols="6" rowHeight="3:1" >
-
+        <mat-grid-list cols="6" rowHeight="3:1">
           <mat-grid-tile>{{index + 1}}</mat-grid-tile>
           <mat-grid-tile>{{order.productDetail.name}}</mat-grid-tile>
           <mat-grid-tile>{{order.price | currency:'VND'}}</mat-grid-tile>
           <mat-grid-tile><input type="number"
                                 min="1" required
                                 class="border-radius-10 form-control form-control-sm border-0 text-center mx-2"
-
                                 value="{{order.quantity}}">
-
           </mat-grid-tile>
           <mat-grid-tile>{{order.price * order.quantity | currency:'VND'}}</mat-grid-tile>
           <mat-grid-tile>
@@ -100,7 +94,6 @@
           <label class="pt-4">{{ datetime | date: 'dd-MM-yyyy hh:mm' }}</label>
 
         </div>
-
         <div class="col-11 py-0">
           <mat-form-field appearance="outline" class="w-100">
 
@@ -111,6 +104,7 @@
           </mat-form-field>
         </div>
         <div class="justify-content-between mr-1 pt-1">
+
           <button class="btn btn-sm btn-outline-warning px-2" type="button" title="Thêm khách hàng" (click)="openSave(TYPE_DIALOG.NEW)">
             <i class="fa-solid fa-plus"></i>
           </button>
@@ -139,7 +133,6 @@
 
         </div>
         <div class="border-top pt-2">
-
 
           <div class="d-flex justify-content-between pt-3">
             <h4>Tiền khách cần trả</h4>
@@ -177,7 +170,6 @@
           </div>
         </div>
       </div>
-
       <div>
         <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">
           Thanh toán

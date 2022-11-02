@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IOrderDetailService {
 
-//    List<OrderDetail> getAll();
+    List<OrderDetail> getAll();
 
     List<OrderDetail> findAllDetailByCustomerId(Integer id);
 

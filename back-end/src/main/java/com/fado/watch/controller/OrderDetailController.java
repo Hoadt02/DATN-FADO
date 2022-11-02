@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/v1/order-detail")
 public class OrderDetailController {
 
@@ -24,10 +24,10 @@ public class OrderDetailController {
         this.orderDetailService = orderDetailService;
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<OrderDetail>> getAll() {
-//        return ResponseEntity.ok(this.orderDetailService.getAll());
-//    }
+    @GetMapping
+    public ResponseEntity<List<OrderDetail>> getAll() {
+        return ResponseEntity.ok(this.orderDetailService.getAll());
+    }
 
     @GetMapping("findAllDetailByCustomerId/{id}")
     public ResponseEntity<List<OrderDetail>> findAllByCustomerId(@PathVariable("id") Integer id) {

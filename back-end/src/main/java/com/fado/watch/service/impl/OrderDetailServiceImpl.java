@@ -28,11 +28,10 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         this.productDetailRepository = productDetailRepository;
     }
 
-
-//    @Override
-//    public List<OrderDetail> getAll() {
-//        return this.orderDetailRepository.findAll();
-//    }
+    @Override
+    public List<OrderDetail> getAll() {
+        return this.orderDetailRepository.findAll();
+    }
 
     @Override
     public List<OrderDetail> findAllDetailByCustomerId(Integer id) {
