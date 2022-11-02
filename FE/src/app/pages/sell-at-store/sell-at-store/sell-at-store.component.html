@@ -1,3 +1,5 @@
+
+
 <div class="">
   <div class="row p-0 m-0" style="background-color: #ffd333">
     <div class="col-0">
@@ -60,7 +62,7 @@
 
   <!--    Hóa đơn bên trái -->
   <div class="row mx-auto mt-3">
-    <div class="col-7" style="border-radius: 10px;">
+    <div class="col-8" style="border-radius: 10px;">
       <div class="orders mb-3" *ngFor="let order of orderDetails;let index = index">
         <mat-grid-list cols="6" rowHeight="3:1">
           <mat-grid-tile>{{index + 1}}</mat-grid-tile>
@@ -90,21 +92,17 @@
         </div>
 
         <div class="col-4">
-
           <label class="pt-4">{{ datetime | date: 'dd-MM-yyyy hh:mm' }}</label>
-
         </div>
         <div class="col-11 py-0">
-          <mat-form-field appearance="outline" class="w-100">
-
+          <mat-form-field appearance="outline" class="w-100" >
             <mat-label>Tên khách hàng</mat-label>
-            <mat-select disableRipple formControlName="customer">
+            <mat-select disableRipple formControlName="customer" >
               <mat-option *ngFor="let c of listCustomer" [value]="c.id">{{c.firstname}} {{c.lastname}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
         <div class="justify-content-between mr-1 pt-1">
-
           <button class="btn btn-sm btn-outline-warning px-2" type="button" title="Thêm khách hàng" (click)="openSave(TYPE_DIALOG.NEW)">
             <i class="fa-solid fa-plus"></i>
           </button>
@@ -122,7 +120,6 @@
             <div class="col-9 pt-3 my-2">
               <h4>Giảm giá</h4>
             </div>
-
 
             <div class="col-3 my-2">
               <mat-form-field class="w-100">
@@ -152,7 +149,7 @@
 
           <div class="d-flex justify-content-between">
             <h4>Tổng tiền thanh toán</h4>
-            <h4>0 VND</h4>
+            <h4>0 VND </h4>
           </div>
 
           <div class="d-flex justify-content-between pt-2">
