@@ -14,5 +14,7 @@ public interface IOrderDetailService {
 
     void save(CartResponse response);
 
+    OrderDetail saveOrderDetail(OrderDetail orderDetail);
+
     void delete(Integer id);
 }
