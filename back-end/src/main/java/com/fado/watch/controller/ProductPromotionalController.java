@@ -31,6 +31,11 @@ public class ProductPromotionalController {
         return ResponseEntity.ok(this.iProductPromotionalService.getProductNotInPromotional());
     }
 
+    @GetMapping("/findAllProductPromotionalInCart/{idCtm}")
+    public ResponseEntity<List<ProductPromotional>> findAllProductPromotionalInCart(@PathVariable("idCtm") Integer idCtm) {
+        return ResponseEntity.ok(this.iProductPromotionalService.findAllProductPromotionalInCart(idCtm));
+    }
+
     @GetMapping({"{id}"})
     public ResponseEntity<ProductPromotional> getById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(this.iProductPromotionalService.getById(id));

@@ -4,6 +4,7 @@ import {ProductDetailsService} from '../../../shared/services/api-service-impl/p
 
 import {StorageService} from '../../../shared/services/jwt/storage.service';
 
+
 import {OrderService} from '../../../shared/services/api-service-impl/order.service';
 import {OrderDetailService} from '../../../shared/services/api-service-impl/orderDetail.service';
 import {MatDialog} from '@angular/material/dialog';
@@ -16,6 +17,7 @@ import {ToastrService} from 'ngx-toastr';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {CategoryFormComponent} from '../../category-management/category-form/category-form.component';
+
 
 
 @Component({
@@ -33,10 +35,15 @@ export class SellAtStoreComponent implements OnInit {
   selectedTab: any;
   selected = new FormControl(0);
 
-  products = [];
-  orders = [];
-  orderDetails = [];
-  filterProduct;
+  products: any[] = [];
+  findByIdOrder: any[] = []
+  orders: any[] = [];
+  orderDetails: any[] = [];
+  carts: any[] = [];
+  filterProduct: any;
+  dataOrder: any;
+  dataOrderDetail: any;
+  checkQuantity = false;
 
   formGroup: FormGroup;
   full_name: string;
@@ -48,8 +55,11 @@ export class SellAtStoreComponent implements OnInit {
               private fb: FormBuilder,
               private orderService: OrderService,
               private orderDetailService: OrderDetailService,
+              private cartService: CartService,
               private matDiaLog: MatDialog,
-              private storageService: StorageService) {
+              private toastService: ToastrService,
+              private storageService: StorageService,) {
+) {
     this.full_name = this.storageService.getFullNameFromToken();
 
   }
@@ -73,14 +83,12 @@ export class SellAtStoreComponent implements OnInit {
   getAllOrder() {
     this.orderService.getALl().subscribe((data: any) => {
       this.orders = data;
-      console.log(data);
     })
   }
 
   getAllOrderDetail() {
     this.orderDetailService.getAll().subscribe((data: any) => {
       this.orderDetails = data;
-      console.log(data);
     })
   }
 
@@ -118,6 +126,28 @@ export class SellAtStoreComponent implements OnInit {
         this.tabs.push(`Hoá đơn ${this.tabs.length + 1}`);
         this.selected.setValue(this.tabs.length - 1);
 
+        const createOrder = {
+          customer: {
+            id: 194
+          },
+          staff: {
+            id: this.storageService.getIdFromToken()
+          },
+          shipAdress: "",
+          createDate: new Date(),
+          paymentType: 0,
+          status: 1,
+          total: 0,
+          discount: 0,
+          totalPayment: 0,
+          fullName: "",
+          phoneNumber: ""
+        }
+
+        this.orderDetailService.saveOrderDetail(createOrder).subscribe((data: any) => {
+          console.log(data)
+          this.toastService.success('Tạo hóa đơn thành công !');
+        })
       }
     })
   }
@@ -137,12 +167,15 @@ export class SellAtStoreComponent implements OnInit {
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
         if (this.tabs.length > 1) {
           this.tabs.splice(index, 1);
+        } else {
+          this.toastService.warning('Không thể xóa hóa đơn mặc định !');
+          return;
         }
       }
     })
   }
 
-  addOrder(id: any) {
+  addOrder(idProduct: any) {
     const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
       width: '500px',
       disableClose: true,
@@ -155,10 +188,36 @@ export class SellAtStoreComponent implements OnInit {
     diaLogRef.afterClosed().subscribe((data: any) => {
       // tslint:disable-next-line:triple-equals
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
-        this.productDetailService.findProductDetail(id);
+        const quantityProduct = 1;
+        if (quantityProduct > this.filterProduct.quantity) {
+          this.checkQuantity = true;
+        } else {
+          for (const c of this.carts) {
+            if (c.filterProduct.id == idProduct && (c.quantity + quantityProduct) > this.filterProduct.quantity) {
+              this.toastService.warning('Sắp hết hàng !');
+              return;
+            }
+          }
+          const createCart = {
+            productDetail: {
+              id: idProduct
+            },
+            customer: {
+              id: 194
+            },
+            quantity: quantityProduct,
+          };
+          this.cartService.addToCart(createCart);
+          this.cartService.isReLoading.subscribe((data) => {
+            if (data) {
+              this.cartService.isReLoading.next(false)
+            }
+          })
+        }
       }
     })
   }
+
 
   openSave(type: any, row?: any) {
     const dialogRef = this.matDiaLog.open(CustomerFormComponent, {
@@ -183,4 +242,5 @@ export class SellAtStoreComponent implements OnInit {
       }
     });
   }
+
 }

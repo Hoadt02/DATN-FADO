@@ -10,6 +10,7 @@ import {ToastrService} from "ngx-toastr";
 import {VoucherService} from "../../shared/service/api-service-impl/voucher.service";
 import {CheckOutComponent} from "../check-out/check-out.component";
 import {StorageService} from "../../shared/service/jwt/storage.service";
+import {ProductPromotionalService} from "../../shared/service/api-service-impl/product-promotional.service";
 
 @Component({
   selector: 'app-cart',
@@ -21,6 +22,7 @@ export class CartComponent implements OnInit {
   vouchers: any = [];
   voucherInput: any = null;
   discount: number = 0;
+  productPromotional: any;
 
   TYPE_UPDATE_NUMBER_PRD = Contants.TYPE_UPDATE_NUMBER_PRD;
   RESULT_CLOSE_DIALOG = Contants.RESULT_CLOSE_DIALOG;
@@ -31,6 +33,7 @@ export class CartComponent implements OnInit {
   constructor(
     private readonly apiCart: CartService,
     private readonly apiVoucher: VoucherService,
+    private readonly apiProductPromotional: ProductPromotionalService,
     private storageService: StorageService,
     private matDiaLog: MatDialog,
     private toastrService: ToastrService,
@@ -74,28 +77,49 @@ export class CartComponent implements OnInit {
 
   //Lấy ra tất cả sản phẩm trong rỏ hàng(láy ra các sản phẩm trong cart theo id người dùng)
   getAllPrdInCart() {
-    let slPrd = 0;
-    this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
+    this.apiProductPromotional.findAllProductPromotionalInCart(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
-        this.items = data as any;
-        this.subtotal = 0;
-        this.discount = 0;
-        for (const x of data) {
-          slPrd += x.quantity
-          this.subtotal += (x.productDetail.price * x.quantity);
-        }
-        this.total = this.subtotal - this.discount;
-        if (this.total < 0) {
-          this.total = 0;
-        }
-        this.apiCart.numberPrdInCart$.next(slPrd);
-        // this.apiCart.listProductInCart$.next(data);
+        this.productPromotional = data;
+        let slPrd = 0;
+        let price = 0;
+        this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
+          next: (data: any) => {
+            this.subtotal = 0;
+            this.discount = 0;
+            if (null != this.productPromotional) {
+              this.items = [];
+              for (const x of data) {
+                slPrd += x.quantity
+                price = x.productDetail.price
+                for (const x1 of this.productPromotional) {
+                  if (x.productDetail.id == x1.productDetail.id) {
+                    if (true == x1.promotional.type) {
+                      price = price - (price * x1.promotional.discount / 100);
+                    } else {
+                      price = price - x1.promotional.discount;
+                    }
+                  }
+                }
+                this.subtotal += Math.round((price * x.quantity));
+                this.items.push({
+                  id: x.id,
+                  customer: x.customer,
+                  productDetail: x.productDetail,
+                  quantity: x.quantity,
+                  price: Math.round(price),
+                })
+              }
+            }
+            this.total = Math.round(this.subtotal - this.discount);
+            if (this.total < 0) {
+              this.total = 0;
+            }
+            this.apiCart.numberPrdInCart$.next(slPrd);
+          }
+        });
       }
-    });
+    })
   }
-
-  // term$ = new Subject<string>();
-
 
   // sửa số lượng sản phẩm
   updateQuantity(type: any, raw: any, event?: any) {
@@ -112,11 +136,7 @@ export class CartComponent implements OnInit {
     }
     this.dataCreate(raw.productDetail.id, parseInt(slSP));
     this.apiCart.updateQuantity(this.dataAddToCart);
-    this.apiCart.isReLoading.subscribe(data => {
-      if (data) {
-        this.getAllPrdInCart();
-      }
-    })
+    this.getAllPrdInCart();
   }
 
   // xoá sản phẩm khỏi rỏ hàng
@@ -143,7 +163,6 @@ export class CartComponent implements OnInit {
     })
   }
 
-
   //Thêm voucher
   applyVoucher() {
     let checkVoucher = false;
@@ -167,10 +186,6 @@ export class CartComponent implements OnInit {
     }
   }
 
-  checkQuantityCheckout() {
-
-  }
-
   // mở checkout
   openCheckout() {
     // this.checkQuantityCheckout();
@@ -184,21 +199,21 @@ export class CartComponent implements OnInit {
           this.toastrService.warning(`sản phẩm ${x.productDetail.name.toUpperCase()} chỉ còn ${x.productDetail.quantity} sản phẩm.`);
           return;
         }
-        const discount = this.discount;
-        const items = this.items;
-        this.matDiaLog.open(CheckOutComponent, {
-          width: '1000px',
-          hasBackdrop: true,
-          disableClose: true,
-          data: {
-            discount, items
-          }
-        }).afterClosed().subscribe(data => {
-          if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
-            this.getAllPrdInCart();
-          }
-        })
       }
+      const discount = this.discount;
+      const items = this.items;
+      this.matDiaLog.open(CheckOutComponent, {
+        width: '1000px',
+        hasBackdrop: true,
+        disableClose: true,
+        data: {
+          discount, items
+        }
+      }).afterClosed().subscribe(data => {
+        if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
+          this.getAllPrdInCart();
+        }
+      })
     })
   }
 }

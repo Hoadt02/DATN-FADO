@@ -6,6 +6,7 @@ import com.fado.watch.exception.ResourceNotFoundException;
 import com.fado.watch.repository.OrderDetailRepository;
 import com.fado.watch.repository.OrderRepository;
 import com.fado.watch.repository.ProductDetailRepository;
+import com.fado.watch.repository.ProductPromotionalRepository;
 import com.fado.watch.service.IOrderDetailService;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,9 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
 
     private final ProductDetailRepository productDetailRepository;
 
-    public OrderDetailServiceImpl(OrderDetailRepository orderDetailRepository, OrderRepository orderRepository, ProductDetailRepository productDetailRepository) {
+    public OrderDetailServiceImpl(OrderDetailRepository orderDetailRepository,
+                                  OrderRepository orderRepository,
+                                  ProductDetailRepository productDetailRepository) {
         this.orderDetailRepository = orderDetailRepository;
         this.orderRepository = orderRepository;
         this.productDetailRepository = productDetailRepository;
@@ -36,10 +39,10 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         return this.orderDetailRepository.findAllDetailByCustomerId(id);
     }
 
-//    @Override
-//    public List<OrderDetail> getAllOrderDetailInOrder(Integer id) {
-//        return this.orderDetailRepository.findAllByOrderId(id);
-//    }
+    @Override
+    public List<OrderDetail> getAllOrderDetailInOrder(Integer id) {
+        return this.orderDetailRepository.findAllByOrderId(id);
+    }
 
     @Override
     public void save(CartResponse response) {
@@ -49,7 +52,7 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrder(order);
             orderDetail.setProductDetail(x.getProductDetail());
-            orderDetail.setPrice(x.getProductDetail().getPrice());
+            orderDetail.setPrice(x.getPrice());
             orderDetail.setQuantity(x.getQuantity());
             this.orderDetailRepository.save(orderDetail);
 
@@ -57,6 +60,11 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
             productDetail.setQuantity(productDetail.getQuantity() - x.getQuantity());
             this.productDetailRepository.save(productDetail);
         }
+    }
+
+    @Override
+    public OrderDetail saveOrderDetail(OrderDetail orderDetail) {
+        return this.orderDetailRepository.save(orderDetail);
     }
 
     @Override
