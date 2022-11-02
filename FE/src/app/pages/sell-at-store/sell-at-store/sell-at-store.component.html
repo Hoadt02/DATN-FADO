@@ -1,5 +1,4 @@
 <div class="">
-
   <div class="row p-0 m-0" style="background-color: #ffd333">
     <div class="col-0">
       <div class="example-button-container d-flex justify-content-center align-items-center"
@@ -31,7 +30,6 @@
     </div>
 
     <div class="col-6">
-
       <mat-tab-group [selectedIndex]="selected.value" animationDuration="100ms"
                      (selectedIndexChange)="selected.setValue($event)">
         <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}">
@@ -59,21 +57,19 @@
       </mat-menu>
     </div>
   </div>
-  <!--    Hóa đơn bên trái -->
-  <div class="row mx-auto mt-3" style="height: 700px">
 
+  <!--    Hóa đơn bên trái -->
+  <div class="row mx-auto mt-3">
     <div class="col-7" style="border-radius: 10px;">
       <div class="orders mb-3" *ngFor="let order of orderDetails;let index = index">
-        <mat-grid-list cols="6" rowHeight="3:1" >
+        <mat-grid-list cols="6" rowHeight="3:1">
           <mat-grid-tile>{{index + 1}}</mat-grid-tile>
           <mat-grid-tile>{{order.productDetail.name}}</mat-grid-tile>
           <mat-grid-tile>{{order.price | currency:'VND'}}</mat-grid-tile>
           <mat-grid-tile><input type="number"
                                 min="1" required
                                 class="border-radius-10 form-control form-control-sm border-0 text-center mx-2"
-
                                 value="{{order.quantity}}">
-
           </mat-grid-tile>
           <mat-grid-tile>{{order.price * order.quantity | currency:'VND'}}</mat-grid-tile>
           <mat-grid-tile>
@@ -85,18 +81,6 @@
       </div>
     </div>
 
-    <!--    Thanh toán bên phải-->
-    <div class="col-4" style="border-radius: 10px; box-shadow: 0px 0px 5px 5px #dadada">
-      <div class="row">
-        <div class="name col-8 pt-3 my-2">
-          <i class="fa-regular fa-user"></i>
-          <span > {{full_name}} </span>
-        </div>
-
-        <div class="col-4">
-          <p class="pt-4">25-09-2022 19:30</p>
-
-    <!-- end -->
 
     <!-- Thanh toán bên phải -->
     <div class="col-5" style="border-radius: 10px; box-shadow: 0px 0px 2px 2px #dadada">
@@ -112,12 +96,10 @@
             </select>
           </mat-form-field>
         </div>
-
         <div class="col-3">
           <p class="pt-5">25-09-2022 19:30</p>
 
         </div>
-
         <div class="col-11 py-0">
           <mat-form-field appearance="outline" class="w-100">
 
@@ -131,7 +113,6 @@
 
         <div class="justify-content-between mr-1 pt-1">
           <button class="btn btn-sm btn-outline-warning px-2" type="button" title="Thêm khách hàng">
-
             <i class="fa-solid fa-plus"></i>
           </button>
         </div>
@@ -161,7 +142,6 @@
         </div>
         <div class="border-top pt-2">
 
-
           <div class="d-flex justify-content-between pt-3">
             <h4>Tiền khách cần trả</h4>
             <h4>0 VND</h4>
@@ -190,9 +170,7 @@
           </div>
         </div>
       </div>
-
       <div class="pt-2">
-
         <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">
           Thanh toán
         </button>

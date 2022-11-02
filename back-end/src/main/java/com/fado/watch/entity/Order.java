@@ -57,10 +57,10 @@ public class Order implements Serializable {
     @Column(name="total_payment", nullable=false, length=16777215)
     private Integer totalPayment;
 
-    @Column(nullable=false, length=60)
+    @Column(nullable=true, length=60)
     private String fullname;
 
-    @Column(nullable=false, length=10)
+    @Column(nullable=true, length=10)
     private String phoneNumber;
 
     @OneToMany(mappedBy="order")

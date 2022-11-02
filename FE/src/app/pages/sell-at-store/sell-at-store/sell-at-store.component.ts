@@ -1,18 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ProductDetailsService} from "../../../shared/services/api-service-impl/product-details.service";
-
 import {StorageService} from '../../../shared/services/jwt/storage.service';
-
 import {OrderService} from "../../../shared/services/api-service-impl/order.service";
 import {OrderDetailService} from "../../../shared/services/api-service-impl/orderDetail.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 import {Constants} from "../../../shared/Constants";
 import {ToastrService} from "ngx-toastr";
-import {StorageService} from "../../../shared/services/jwt/storage.service";
 import {CartService} from "../../../shared/services/api-service-impl/cart.service";
-
 
 @Component({
   selector: 'app-sell-at-store',
@@ -36,18 +32,19 @@ export class SellAtStoreComponent implements OnInit {
   dataOrder: any;
   dataOrderDetail: any;
   checkQuantity = false;
+  createOrder: any;
 
   formGroup: FormGroup;
-  full_name:string;
+  full_name: string;
+
   constructor(private productDetailService: ProductDetailsService,
               private fb: FormBuilder,
-private orderService: OrderService,
+              private orderService: OrderService,
               private orderDetailService: OrderDetailService,
               private cartService: CartService,
               private matDiaLog: MatDialog,
               private toastService: ToastrService,
               private storageService: StorageService,) {
-) {
     this.full_name = this.storageService.getFullNameFromToken();
 
   }
@@ -109,30 +106,31 @@ private orderService: OrderService,
     });
     diaLogRef.afterClosed().subscribe((data: any) => {
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
-        this.tabs.push(`Hoá đơn ${this.tabs.length + 1}`);
-        this.selected.setValue(this.tabs.length - 1);
-
-        const createOrder = {
+        this.createOrder = {
           customer: {
             id: 194
           },
           staff: {
             id: this.storageService.getIdFromToken()
           },
-          shipAdress: "",
+          shipAddress: 'Tai quay',
           createDate: new Date(),
           paymentType: 0,
           status: 1,
           total: 0,
           discount: 0,
           totalPayment: 0,
-          fullName: "",
-          phoneNumber: ""
         }
 
-        this.orderDetailService.saveOrderDetail(createOrder).subscribe((data: any) => {
+        this.orderService.save(this.createOrder).subscribe((data: any) => {
           console.log(data)
+          this.tabs.push(`Hoá đơn ${this.tabs.length + 1}`);
+          this.selected.setValue(this.tabs.length - 1);
           this.toastService.success('Tạo hóa đơn thành công !');
+        }, error => {
+          this.toastService.error('Tạo hóa đơn thất bại !')
+          console.log(error)
+          return;
         })
       }
     })
