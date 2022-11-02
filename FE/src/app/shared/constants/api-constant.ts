@@ -19,5 +19,6 @@ export const ApiConstant = {
   auth: `${environment.service.localhost}/api/auth`,
   order: `${environment.service.localhost}/api/v1/order`,
   orderDetail: `${environment.service.localhost}/api/v1/order-detail`,
+  cart: `${environment.service.localhost}/api/v1/cart`,
 }
 

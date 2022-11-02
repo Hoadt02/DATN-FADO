@@ -24,6 +24,10 @@ export class OrderDetailService {
     return this.api.findAllByOrderId(id);
   }
 
+  saveOrderDetail(data: any) {
+    return this.api.saveOrderDetail(data);
+  }
+
   save(data: any) {
     return this.api.save(data)
   }

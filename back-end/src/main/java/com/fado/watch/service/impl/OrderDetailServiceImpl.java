@@ -63,6 +63,11 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     }
 
     @Override
+    public OrderDetail saveOrderDetail(OrderDetail orderDetail) {
+        return this.orderDetailRepository.save(orderDetail);
+    }
+
+    @Override
     public void delete(Integer id) {
         orderDetailRepository.deleteById(id);
     }

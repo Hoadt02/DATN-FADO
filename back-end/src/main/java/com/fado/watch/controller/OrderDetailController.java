@@ -6,6 +6,7 @@ import com.fado.watch.entity.Order;
 import com.fado.watch.entity.OrderDetail;
 import com.fado.watch.service.IOrderDetailService;
 import com.fado.watch.service.IOrderService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +42,11 @@ public class OrderDetailController {
     @PostMapping()
     public void save(@RequestBody CartResponse response) {
         this.orderDetailService.save(response);
+    }
+
+    @PostMapping("/admin")
+    public ResponseEntity<OrderDetail> save(@RequestBody OrderDetail orderDetail) {
+        return new ResponseEntity<>(this.orderDetailService.saveOrderDetail(orderDetail), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
