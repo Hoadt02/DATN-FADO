@@ -33,10 +33,10 @@ public class OrderDetailController {
         return ResponseEntity.ok(this.orderDetailService.findAllDetailByCustomerId(id));
     }
 
-//    @GetMapping("findAllByOrderId/{id}")
-//    public ResponseEntity<List<OrderDetail>> findAllByOrderId(@PathVariable("id") Integer id) {
-//        return ResponseEntity.ok(this.orderDetailService.getAllOrderDetailInOrder(id));
-//    }
+    @GetMapping("findAllByOrderId/{id}")
+    public ResponseEntity<List<OrderDetail>> findAllByOrderId(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(this.orderDetailService.getAllOrderDetailInOrder(id));
+    }
 
     @PostMapping()
     public void save(@RequestBody CartResponse response) {

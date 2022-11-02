@@ -12,7 +12,7 @@ public interface IOrderDetailService {
 
     List<OrderDetail> findAllDetailByCustomerId(Integer id);
 
-//    List<OrderDetail> getAllOrderDetailInOrder(Integer id);
+    List<OrderDetail> getAllOrderDetailInOrder(Integer id);
 
     void save(CartResponse response);
 

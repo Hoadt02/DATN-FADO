@@ -32,16 +32,6 @@
             <button [disabled]="!disableSelect" (click)="editAddress()">Chỉnh sửa</button>
           </div>
         </div>
-        <!--          <div class="address-select">-->
-        <!--            <select [disabled]="disableSelect" [(ngModel)]="idAddress"-->
-        <!--                    class="form-select w-100 custom-select-checkout"-->
-        <!--                    aria-label="Default select example">-->
-        <!--              <option selected *ngFor="let ad of address" [value]="ad.id">-->
-        <!--                {{customer.phoneNumber}} - {{ad.province}} - {{ad.district}} - {{ad.commune}} - {{ad.other}}-->
-        <!--              </option>-->
-        <!--            </select>-->
-        <!--            {{idAddress}}-->
-        <!--          </div>-->
         <hr>
         <h5 class="section-title position-relative text-uppercase mb-3"><span
           class="bg-secondary pr-3">Nhập địa chỉ mới</span></h5>
@@ -128,25 +118,25 @@
           <h6 class="mb-3">Danh sách sản phẩm</h6>
           <div *ngFor="let i of items" class="d-flex justify-content-between product">
             <p>{{i.productDetail.name}}</p>
-            <p>{{i.productDetail.price | number}} VND x {{i.quantity}}</p>
+            <p>{{i.price | number}} VND x {{i.quantity}}</p>
           </div>
         </div>
         <div class="border-bottom pt-3 pb-2">
-          <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-between mb-2">
             <h6>Tổng tiền hàng</h6>
             <h6>{{subtotal | number}} VND</h6>
           </div>
-          <div class="d-flex justify-content-between">
-            <h6>Tổng tiền khuyến mại</h6>
+<!--          <div class="d-flex justify-content-between">-->
+<!--            <h6>Tổng tiền khuyến mại</h6>-->
             <!--            <h6>{{subtotal | number}} VND</h6>-->
-          </div>
-          <div class="d-flex justify-content-between">
+<!--          </div>-->
+          <div class="d-flex justify-content-between mb-4">
             <h6 class="font-weight-medium">Giảm giá voucher</h6>
             <h6 class="font-weight-medium">{{discount | number}} VND</h6>
           </div>
         </div>
         <div class="pt-2">
-          <div class="d-flex justify-content-between mt-2">
+          <div class="d-flex justify-content-between mt-2 mb-2">
             <h5>Thành tiền</h5>
             <h5>{{total | number}} VND</h5>
           </div>

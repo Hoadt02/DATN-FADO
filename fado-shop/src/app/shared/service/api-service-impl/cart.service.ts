@@ -25,8 +25,7 @@ export class CartService {
 
   addToCart(data: any) {
     return this.apiCartService.addToCart(data).subscribe({
-      next: (rs: any) => {
-        console.log(rs);
+      next: (_: any) => {
         this.toastrService.success('Thêm sản phẩm vào giỏ hàng thành công!');
         this.isReLoading.next(true);
       }, error: (err) => {
