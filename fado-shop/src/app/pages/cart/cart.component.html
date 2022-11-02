@@ -64,24 +64,26 @@
                 </div>
               </div>
             </td>
-            <td class="align-middle">{{i.productDetail.price | number}} VND</td>
+            <td class="align-middle">
+              <p *ngIf="i.productDetail.price != i.price">{{i.price | number}} VND</p>
+              <p
+                [style]="i.productDetail.price != i.price?'color: red;text-decoration: line-through;':''">
+                {{i.productDetail.price | number}} VND</p>
+            </td>
+
             <td class="align-middle">
               <div class="input-group quantity mx-auto" style="width: 80px;">
-                <!--                <button class="btn btn-sm btn-primary btn-minus"-->
-                <!--                        (click)="updateQuantity(TYPE_UPDATE_NUMBER_PRD.MINUS,i.id)">-->
-                <!--                  <i class="fa fa-minus"></i>-->
-                <!--                </button>-->
                 <input (change)="updateQuantity(TYPE_UPDATE_NUMBER_PRD.INPUT,i,$event)" type="number"
                        min="1" required
                        class="border-radius-10 form-control form-control-sm bg-secondary border-0 text-center mx-2"
                        [value]="i.quantity">
-                <!--                <button class="btn btn-sm btn-primary btn-plus"-->
-                <!--                        (click)="updateQuantity(TYPE_UPDATE_NUMBER_PRD.PLUS,i.id)">-->
-                <!--                  <i class="fa fa-plus"></i>-->
-                <!--                </button>-->
               </div>
             </td>
-            <td class="align-middle">{{(i.productDetail.price * i.quantity) | number}} VND</td>
+            <td class="align-middle">
+              <p *ngIf="i.productDetail.price != i.price">{{i.price * i.quantity | number}} VND</p>
+              <p *ngIf="i.productDetail.price == i.price">{{i.productDetail.price * i.quantity | number}}
+                VND</p>
+            </td>
             <td class="align-middle">
               <a href="javascript:void(0)" class="fa-regular fa-trash-can p-4" (click)="deletePrd(i.id)">
               </a>
@@ -109,7 +111,7 @@
               <h6>{{subtotal | number}} VND</h6>
             </div>
             <div class="d-flex justify-content-between mb-3">
-              <h6>Tổng tiền khuyến mại</h6>
+              <!--              <h6>Tổng tiền khuyến mại</h6>-->
               <!--              <h6>{{subtotal | number}} VND</h6>-->
             </div>
             <div class="d-flex justify-content-between">

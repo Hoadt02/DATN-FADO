@@ -12,13 +12,17 @@ export class ApiOrderDetailService {
   ) {
   }
 
-  getAll() {
-    return this.http.get(ApiConstant.orderDetail);
+  // getAll() {
+  //   return this.http.get(ApiConstant.orderDetail);
+  // }
+
+  findAllDetailByCustomerId(id: number) {
+    return this.http.get(`${ApiConstant.orderDetail}/findAllDetailByCustomerId/${id}`);
   }
 
-  findAllByOrderId(id: number) {
-    return this.http.get(`${ApiConstant.orderDetail}/findAllByOrderId/${id}`);
-  }
+  // findAllByOrderId(id: number) {
+  //   return this.http.get(`${ApiConstant.orderDetail}/findAllByOrderId/${id}`);
+  // }
 
   save(data: any) {
     return this.http.post(ApiConstant.orderDetail, data);

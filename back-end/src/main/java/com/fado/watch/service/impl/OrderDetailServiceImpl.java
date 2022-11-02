@@ -6,6 +6,7 @@ import com.fado.watch.exception.ResourceNotFoundException;
 import com.fado.watch.repository.OrderDetailRepository;
 import com.fado.watch.repository.OrderRepository;
 import com.fado.watch.repository.ProductDetailRepository;
+import com.fado.watch.repository.ProductPromotionalRepository;
 import com.fado.watch.service.IOrderDetailService;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +20,23 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
 
     private final ProductDetailRepository productDetailRepository;
 
-    public OrderDetailServiceImpl(OrderDetailRepository orderDetailRepository, OrderRepository orderRepository, ProductDetailRepository productDetailRepository) {
+    public OrderDetailServiceImpl(OrderDetailRepository orderDetailRepository,
+                                  OrderRepository orderRepository,
+                                  ProductDetailRepository productDetailRepository) {
         this.orderDetailRepository = orderDetailRepository;
         this.orderRepository = orderRepository;
         this.productDetailRepository = productDetailRepository;
     }
 
 
+//    @Override
+//    public List<OrderDetail> getAll() {
+//        return this.orderDetailRepository.findAll();
+//    }
+
     @Override
-    public List<OrderDetail> getAll() {
-        return this.orderDetailRepository.findAll();
+    public List<OrderDetail> findAllDetailByCustomerId(Integer id) {
+        return this.orderDetailRepository.findAllDetailByCustomerId(id);
     }
 
     @Override
@@ -44,7 +52,7 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrder(order);
             orderDetail.setProductDetail(x.getProductDetail());
-            orderDetail.setPrice(x.getProductDetail().getPrice());
+            orderDetail.setPrice(x.getPrice());
             orderDetail.setQuantity(x.getQuantity());
             this.orderDetailRepository.save(orderDetail);
 

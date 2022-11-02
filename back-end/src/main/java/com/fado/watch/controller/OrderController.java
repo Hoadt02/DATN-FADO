@@ -43,6 +43,5 @@ public class OrderController {
     @GetMapping("/updateStatus")
     public void updateStatus(@RequestParam("status") Integer status, @RequestParam("id") Integer id) {
         this.iOrderService.updateStatus(status, id);
-
     }
 }

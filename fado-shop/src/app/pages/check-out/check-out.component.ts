@@ -105,7 +105,7 @@ export class CheckOutComponent implements OnInit {
     this.discount = this.matDiaLogData.discount;
     this.subtotal = 0;
     for (const x of this.items) {
-      this.subtotal += (x.productDetail.price * x.quantity);
+      this.subtotal += (x.price * x.quantity);
     }
     this.total = this.subtotal - this.discount;
     if (this.total < 0) {
@@ -212,7 +212,6 @@ export class CheckOutComponent implements OnInit {
 
     this.apiOrder.save(this.dataCreateOrder).subscribe({
       next: (data: any) => {
-        console.log('order: ', data);
         this.dataCraeteOrderDetail = {
           orderId: data.id,
           cartList: this.items,

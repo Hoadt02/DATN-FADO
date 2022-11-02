@@ -114,7 +114,6 @@ export class ProductDetailComponent implements OnInit {
         this.apiCart.numberPrdInCart$.next(slPrd);
       },
     });
-    console.log('aaaaaaâ: ', slPrd);
   }
 
   checkIsLogin(): boolean{
