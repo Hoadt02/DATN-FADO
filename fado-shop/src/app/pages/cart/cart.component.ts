@@ -19,10 +19,10 @@ import {ProductPromotionalService} from "../../shared/service/api-service-impl/p
 })
 export class CartComponent implements OnInit {
   items: any = [];
-  vouchers: any = [];
   voucherInput: any = null;
   discount: number = 0;
-  productPromotional: any;
+
+  phanTramDiscount = 0;
 
   TYPE_UPDATE_NUMBER_PRD = Contants.TYPE_UPDATE_NUMBER_PRD;
   RESULT_CLOSE_DIALOG = Contants.RESULT_CLOSE_DIALOG;
@@ -42,7 +42,6 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllPrdInCart();
-    this.getAllVoucher();
   }
 
   //data thêm vào cart
@@ -59,15 +58,24 @@ export class CartComponent implements OnInit {
   }
 
   // lấy ra danh sách voucher
-  getAllVoucher() {
-    this.apiVoucher.getAll().subscribe({
+  checkVoucher() {
+    this.discount = 0;
+    this.apiVoucher.checkVoucher(this.voucherInput).subscribe({
       next: (data: any) => {
-        for (const x of data) {
-          this.vouchers.push({
-            code: x.code,
-            discount: x.discount,
-            status: x.status,
-          });
+        if (data != null) {
+          this.toastrService.success("Áp mã giảm giá thành công!");
+          if (data.type) {
+            this.phanTramDiscount = data.discount; // lấy % discount để check sl sp thay đổi thì tính lại giảm giá
+            this.discount = Math.round(this.subtotal * data.discount / 100);
+          } else {
+            this.discount = Math.round(data.discount);
+          }
+          this.total = this.subtotal - this.discount;
+          if (this.total < 0) {
+            this.total = 0;
+          }
+        } else {
+          this.toastrService.error("Áp mã giảm giá thất bại!");
         }
       }, error: err => {
         console.log(err);
@@ -81,11 +89,15 @@ export class CartComponent implements OnInit {
     this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         this.subtotal = 0;
-        this.discount = 0;
+        // this.discount = 0;
         this.items = data;
         for (const x of data) {
           this.subtotal += Math.round((x.price * x.quantity));
           slPrd += x.quantity
+        }
+        // cái này để check nếu % lớn hơn 0, nghĩa là mã đang km theo % thì nó sẽ tính lại
+        if (this.phanTramDiscount > 0) {
+          this.discount = Math.round(this.subtotal * this.phanTramDiscount / 100);
         }
         this.total = Math.round(this.subtotal - this.discount);
         if (this.total < 0) {
@@ -111,7 +123,12 @@ export class CartComponent implements OnInit {
     }
     this.dataCreate(raw.productDetail.id, parseInt(slSP));
     this.apiCart.updateQuantity(this.dataAddToCart);
-    this.getAllPrdInCart();
+    this.apiCart.isReLoading.subscribe(data => {
+      if (data) {
+        this.getAllPrdInCart();
+        this.apiCart.isReLoading.next(false);
+      }
+    })
   }
 
   // xoá sản phẩm khỏi rỏ hàng
@@ -136,29 +153,6 @@ export class CartComponent implements OnInit {
         })
       }
     })
-  }
-
-  //Thêm voucher
-  applyVoucher() {
-    let checkVoucher = false;
-    for (const x of this.vouchers) {
-      if (x.code == this.voucherInput && x.status == 1) {
-        this.discount = x.discount;
-        this.total = this.subtotal - this.discount;
-        if (this.total < 0) {
-          this.total = 0;
-        }
-        this.apiCart.discount$.next(this.discount);
-        localStorage.setItem('discount', String(this.discount));
-        checkVoucher = true;
-      }
-    }
-    if (checkVoucher) {
-      this.toastrService.success('Áp voucher thành công. Đơn hàng được giảm: ' + this.discount);
-      console.log("Voucher khớp, được giảm: ", this.discount);
-    } else {
-      this.toastrService.warning('Voucher không hợp lệ!');
-    }
   }
 
   // mở checkout
