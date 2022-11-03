@@ -17,6 +17,7 @@ import {ToastrService} from 'ngx-toastr';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {CategoryFormComponent} from '../../category-management/category-form/category-form.component';
+import {CartService} from '../../../shared/services/api-service-impl/cart.service';
 
 @Component({
   selector: 'app-sell-at-store',
@@ -59,7 +60,7 @@ export class SellAtStoreComponent implements OnInit {
               private cartService: CartService,
               private matDiaLog: MatDialog,
               private toastService: ToastrService,
-              private storageService: StorageService,) {
+              private storageService: StorageService) {
     this.full_name = this.storageService.getFullNameFromToken();
 
   }
