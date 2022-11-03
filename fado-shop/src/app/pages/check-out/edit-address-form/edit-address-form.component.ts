@@ -83,6 +83,10 @@ export class EditAddressFormComponent implements OnInit {
 
   // lưu địa chỉ
   saveAddress() {
+    if (this.formGroup.invalid){
+      this.formGroup.markAllAsTouched();
+      return;
+    }
     if (this.formGroup.getRawValue().defaultAddress == 1) {
       this.apiAddress.findByCustomerIdAndDefaultAddress(this.storageService.getIdFromToken()).subscribe((data: any) => {
         data.defaultAddress = 0;

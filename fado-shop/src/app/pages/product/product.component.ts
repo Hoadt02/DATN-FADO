@@ -11,6 +11,7 @@ import {checkCheckPrice} from '../../shared/validator/validate';
 import {ToastrService} from "ngx-toastr";
 import {StorageService} from "../../shared/service/jwt/storage.service";
 import {Router} from "@angular/router";
+import {ProductPromotionalService} from "../../shared/service/api-service-impl/product-promotional.service";
 
 @Component({
   selector: 'app-product',
@@ -43,6 +44,7 @@ export class ProductComponent implements OnInit {
   //-------------------------------
   dataAddToCart: any;
   items: any;
+  productPromotionals: any;
 
   //-------------------------------
 
@@ -63,6 +65,7 @@ export class ProductComponent implements OnInit {
     private originService: OriginService,
     private productDetailService: ProductDetailsService,
     private readonly apiCart: CartService,
+    private readonly apiProductPromotional: ProductPromotionalService,
     private toastrService: ToastrService,
     private fb: FormBuilder,
     private storageService: StorageService,
@@ -71,6 +74,7 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getAllProductPromotional();
     if (this.storageService.getIdFromToken()) {
       this.getAllPrdInCart();
     }
@@ -242,7 +246,6 @@ export class ProductComponent implements OnInit {
 
     // end check
 
-    console.log(raw);
     if (this.items != null) {
       for (const x of this.items) {
         if (x.productDetail.id == raw.id && x.quantity == raw.quantity) {
@@ -283,6 +286,14 @@ export class ProductComponent implements OnInit {
         // this.apiCart.listProductInCart$.next(data);
       },
     });
+  }
+
+  getAllProductPromotional() {
+    this.apiProductPromotional.getAllProductPromotional().subscribe({
+      next: (data: any) => {
+        this.productPromotionals = data as any;
+      }
+    })
   }
 
   checkIsLogin(): boolean {

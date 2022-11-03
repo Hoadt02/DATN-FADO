@@ -8,13 +8,15 @@ import java.util.List;
 
 public interface IOrderDetailService {
 
-//    List<OrderDetail> getAll();
+    List<OrderDetail> getAll();
 
     List<OrderDetail> findAllDetailByCustomerId(Integer id);
 
-//    List<OrderDetail> getAllOrderDetailInOrder(Integer id);
+    List<OrderDetail> getAllOrderDetailInOrder(Integer id);
 
     void save(CartResponse response);
+
+    OrderDetail saveOrderDetail(OrderDetail orderDetail);
 
     void delete(Integer id);
 }

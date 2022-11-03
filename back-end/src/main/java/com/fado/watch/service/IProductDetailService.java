@@ -18,4 +18,6 @@ public interface IProductDetailService {
     List<ProductDetail> getSimilarProduct(Integer id);
 
     List<ProductDetail> findProductByName(String name);
+
+    List<ProductDetail> findAllProductInOrder(Integer id);
 }

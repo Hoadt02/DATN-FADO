@@ -24,6 +24,10 @@ export class ApiOrderDetailService {
     return this.http.post(ApiConstant.orderDetail, data);
   }
 
+  saveOrderDetail(data: any) {
+    return this.http.post(`${ApiConstant.orderDetail}/admin`, data);
+  }
+
   delete(id: number) {
     return this.http.delete(`${ApiConstant.orderDetail}/${id}`);
   }

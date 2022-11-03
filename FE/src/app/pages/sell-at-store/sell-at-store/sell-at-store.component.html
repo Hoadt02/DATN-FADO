@@ -1,5 +1,4 @@
 <div class="">
-
   <div class="row p-0 m-0" style="background-color: #ffd333">
     <div class="col-0">
       <div class="example-button-container d-flex justify-content-center align-items-center"
@@ -16,14 +15,12 @@
           <mat-label><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm sản phẩm</mat-label>
           <input matInput type="text" [matAutocomplete]="auto" formControlName="name">
           <mat-autocomplete #auto="matAutocomplete">
-
             <mat-option (click)="addOrder(item.id)" class="divAll" *ngFor="let item of filterProduct"
                         [value]="item.name">
-
               <div class="divImage">
                 <img width="90" class="img-fluid " src="/assets/img/avtProduct/{{item.avatar}}">
               </div>
-              <div class="divPhai">
+              <div class="divPhai" (click)="addOrder(item.id)">
                 <b>{{item.name}}</b><br> Số lượng: {{item.quantity}}
               </div>
             </mat-option>
@@ -33,13 +30,11 @@
     </div>
 
     <div class="col-6">
-
       <mat-tab-group [selectedIndex]="selected.value" animationDuration="100ms"
-
                      (selectedIndexChange)="selected.setValue($event)">
         <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}">
           <ng-template mat-tab-label>
-            <div> Hóa đơn {{index + 1}}
+            <div> Hóa đơn {{index + 1 }}
               <a mat-icon-button class="text-black-50" (click)="removeTab(index)">
                 <i class="fas fa-times"></i>
               </a>
@@ -62,22 +57,19 @@
       </mat-menu>
     </div>
   </div>
+
   <!--    Hóa đơn bên trái -->
-  <div class="row mx-auto mt-3" style="height: 700px">
-
-    <div class="col-7" style="border-radius: 10px;">
-      <div class="orders mb-3" >
-        <mat-grid-list cols="6" rowHeight="3:1" *ngFor="let order of orderDetails;let index = index">
-
+  <div class="row mx-auto mt-3">
+    <div class="col-8" style="border-radius: 10px;">
+      <div class="orders mb-3" *ngFor="let order of orderDetails;let index = index">
+        <mat-grid-list cols="6" rowHeight="3:1">
           <mat-grid-tile>{{index + 1}}</mat-grid-tile>
           <mat-grid-tile>{{order.productDetail.name}}</mat-grid-tile>
           <mat-grid-tile>{{order.price | currency:'VND'}}</mat-grid-tile>
           <mat-grid-tile><input type="number"
                                 min="1" required
                                 class="border-radius-10 form-control form-control-sm border-0 text-center mx-2"
-
                                 value="{{order.quantity}}">
-
           </mat-grid-tile>
           <mat-grid-tile>{{order.price * order.quantity | currency:'VND'}}</mat-grid-tile>
           <mat-grid-tile>
@@ -94,53 +86,30 @@
       <div class="row">
         <div class="name col-8 pt-3 my-2">
           <i class="fa-regular fa-user"></i>
-          <span > {{full_name}} </span>
+          <span> {{full_name}} </span>
         </div>
 
         <div class="col-4">
-          <p class="pt-4">25-09-2022 19:30</p>
 
-    <!-- end -->
-
-    <!-- Thanh toán bên phải -->
-    <div class="col-5" style="border-radius: 10px; box-shadow: 0px 0px 5px 5px #dadada">
-      <div class="row">
-        <div class="col-9 pt-3 my-2">
-          <mat-form-field appearance="outline" class="w-60">
-            <mat-label>Tên khách hàng</mat-label>
-            <select matNativeControl required>
-              <option>Do Tat Hoa</option>
-              <option>Nguyen Viet Hien</option>
-              <option>Thieu Quang Vinh</option>
-              <option>Pham Tu Anh</option>
-            </select>
-          </mat-form-field>
-        </div>
-
-        <div class="col-3">
-          <p class="pt-5">25-09-2022 19:30</p>
+          <label class="pt-4">{{ datetime | date: 'dd-MM-yyyy hh:mm' }}</label>
 
         </div>
-
         <div class="col-11 py-0">
           <mat-form-field appearance="outline" class="w-100">
 
             <mat-label>Tên khách hàng</mat-label>
-            <mat-select>
-              <mat-option>Đỗ Tất Hòa</mat-option>
-              <mat-option>Nguyễn Viết Hiên</mat-option>
+            <mat-select disableRipple formControlName="customer">
+              <mat-option *ngFor="let c of listCustomer" [value]="c.id">{{c.firstname}} {{c.lastname}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-
         <div class="justify-content-between mr-1 pt-1">
-          <button class="btn btn-sm btn-outline-warning px-2" type="button" title="Thêm khách hàng">
 
+          <button class="btn btn-sm btn-outline-warning px-2" type="button" title="Thêm khách hàng" (click)="openSave(TYPE_DIALOG.NEW)">
             <i class="fa-solid fa-plus"></i>
           </button>
         </div>
       </div>
-
 
       <div class="p-30 mb-3">
         <div class="border-top pt-1">
@@ -165,7 +134,6 @@
         </div>
         <div class="border-top pt-2">
 
-
           <div class="d-flex justify-content-between pt-3">
             <h4>Tiền khách cần trả</h4>
             <h4>0 VND</h4>
@@ -186,6 +154,14 @@
             <h4>Tổng tiền thanh toán</h4>
             <h4>0 VND</h4>
           </div>
+
+          <div class="d-flex justify-content-between pt-2">
+            <h4>Hình thức thanh toán</h4>
+            <mat-radio-group>
+              <mat-radio-button class="mx-3" [value]="1">Tiền mặt</mat-radio-button>
+              <mat-radio-button [value]="0">Chuyển khoản</mat-radio-button>
+            </mat-radio-group>
+          </div>
           <div class="d-flex justify-content-between">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Ghi chú</mat-label>
@@ -194,16 +170,12 @@
           </div>
         </div>
       </div>
-
-      <div class="pt-2">
-
+      <div>
         <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">
           Thanh toán
         </button>
       </div>
-    </div>
-    <!--    end-->
 
+    </div>
   </div>
 </div>
-

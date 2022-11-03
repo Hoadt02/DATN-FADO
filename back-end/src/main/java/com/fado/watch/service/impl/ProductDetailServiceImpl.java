@@ -28,6 +28,13 @@ public class ProductDetailServiceImpl implements IProductDetailService {
     @Autowired
     OriginRepository originRepository;
 
+    // hiên///
+    private final ProductDetailRepository productDetailRepository;
+
+    public ProductDetailServiceImpl(ProductDetailRepository productDetailRepository) {
+        this.productDetailRepository = productDetailRepository;
+    }
+
     @Override
     public List<ProductDetail> getAll() {
         return repository.findAll();
@@ -35,7 +42,7 @@ public class ProductDetailServiceImpl implements IProductDetailService {
 
     @Override
     public ProductDetail findProductDetails(Integer id) {
-        return repository.findById(id).orElseThrow(()->
+        return repository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Không tìm thấy sản phẩm bạn mong muốn trong Database!")
         );
     }
@@ -45,7 +52,7 @@ public class ProductDetailServiceImpl implements IProductDetailService {
         Random random = new Random();
         Long number = Math.abs(random.nextLong());
         for (int i = 0; i < getAll().size(); i++) {
-            if (getAll().get(i).getImei().equals(number.toString().substring(0,15))){
+            if (getAll().get(i).getImei().equals(number.toString().substring(0, 15))) {
                 number = Math.abs(random.nextLong());
             }
         }
@@ -63,21 +70,21 @@ public class ProductDetailServiceImpl implements IProductDetailService {
     public List<ProductDetail> getProductDetailByFilter(Integer[] category_id, Integer[] brand_id, Integer[] material_id, Integer[] origin_id, Boolean[] gender, Integer startPrice, Integer endPrice) {
 
         if (category_id.length < 1 && brand_id.length < 1 && material_id.length < 1 && origin_id.length < 1) {
-           category_id = categoryRepository.getAllIdCategory();
-           brand_id = brandRepository.getAllIdBrand();
-           material_id = materialRepository.getAllIdMaterial();
-           origin_id = originRepository.getAllIdOrigin();
+            category_id = categoryRepository.getAllIdCategory();
+            brand_id = brandRepository.getAllIdBrand();
+            material_id = materialRepository.getAllIdMaterial();
+            origin_id = originRepository.getAllIdOrigin();
         }
 
-        if (gender.length < 1){
+        if (gender.length < 1) {
             gender = new Boolean[]{true, false};
         }
 
         if (startPrice == null && endPrice == null) {
             List<ProductDetail> productDetails = getAll();
             Integer max = productDetails.get(0).getPrice();
-            for (ProductDetail productDetail: productDetails) {
-                if (max < productDetail.getPrice()){
+            for (ProductDetail productDetail : productDetails) {
+                if (max < productDetail.getPrice()) {
                     max = productDetail.getPrice();
                 }
             }
@@ -96,5 +103,10 @@ public class ProductDetailServiceImpl implements IProductDetailService {
     @Override
     public List<ProductDetail> findProductByName(String name) {
         return repository.getProductByName(name);
+    }
+
+    @Override
+    public List<ProductDetail> findAllProductInOrder(Integer id) {
+        return this.productDetailRepository.findAllProductInOrder(id);
     }
 }

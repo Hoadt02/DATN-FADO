@@ -11,6 +11,8 @@ public interface IProductPromotionalService {
 
     List<ProductDetail> getProductNotInPromotional();
 
+    List<ProductPromotional> findAllProductPromotionalInCart(Integer idCtm);
+
     ProductPromotional getById(Integer id);
 
     ProductPromotional[] create(ProductPromotional[] promotional);
