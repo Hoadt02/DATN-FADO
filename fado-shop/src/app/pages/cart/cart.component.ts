@@ -19,10 +19,10 @@ import {ProductPromotionalService} from "../../shared/service/api-service-impl/p
 })
 export class CartComponent implements OnInit {
   items: any = [];
-  vouchers: any = [];
   voucherInput: any = null;
   discount: number = 0;
-  productPromotional: any;
+
+  phanTramDiscount = 0;
 
   TYPE_UPDATE_NUMBER_PRD = Contants.TYPE_UPDATE_NUMBER_PRD;
   RESULT_CLOSE_DIALOG = Contants.RESULT_CLOSE_DIALOG;
@@ -42,7 +42,6 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllPrdInCart();
-    this.getAllVoucher();
   }
 
   //data thêm vào cart
@@ -59,15 +58,24 @@ export class CartComponent implements OnInit {
   }
 
   // lấy ra danh sách voucher
-  getAllVoucher() {
-    this.apiVoucher.getAll().subscribe({
+  checkVoucher() {
+    this.discount = 0;
+    this.apiVoucher.checkVoucher(this.voucherInput).subscribe({
       next: (data: any) => {
-        for (const x of data) {
-          this.vouchers.push({
-            code: x.code,
-            discount: x.discount,
-            status: x.status,
-          });
+        if (data != null) {
+          this.toastrService.success("Áp mã giảm giá thành công!");
+          if (data.type) {
+            this.phanTramDiscount = data.discount; // lấy % discount để check sl sp thay đổi thì tính lại giảm giá
+            this.discount = Math.round(this.subtotal * data.discount / 100);
+          } else {
+            this.discount = Math.round(data.discount);
+          }
+          this.total = this.subtotal - this.discount;
+          if (this.total < 0) {
+            this.total = 0;
+          }
+        } else {
+          this.toastrService.error("Áp mã giảm giá thất bại!");
         }
       }, error: err => {
         console.log(err);
@@ -77,48 +85,27 @@ export class CartComponent implements OnInit {
 
   //Lấy ra tất cả sản phẩm trong rỏ hàng(láy ra các sản phẩm trong cart theo id người dùng)
   getAllPrdInCart() {
-    this.apiProductPromotional.findAllProductPromotionalInCart(this.storageService.getIdFromToken()).subscribe({
+    let slPrd = 0;
+    this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
-        this.productPromotional = data;
-        let slPrd = 0;
-        let price = 0;
-        this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
-          next: (data: any) => {
-            this.subtotal = 0;
-            this.discount = 0;
-            if (null != this.productPromotional) {
-              this.items = [];
-              for (const x of data) {
-                slPrd += x.quantity
-                price = x.productDetail.price
-                for (const x1 of this.productPromotional) {
-                  if (x.productDetail.id == x1.productDetail.id) {
-                    if (true == x1.promotional.type) {
-                      price = price - (price * x1.promotional.discount / 100);
-                    } else {
-                      price = price - x1.promotional.discount;
-                    }
-                  }
-                }
-                this.subtotal += Math.round((price * x.quantity));
-                this.items.push({
-                  id: x.id,
-                  customer: x.customer,
-                  productDetail: x.productDetail,
-                  quantity: x.quantity,
-                  price: Math.round(price),
-                })
-              }
-            }
-            this.total = Math.round(this.subtotal - this.discount);
-            if (this.total < 0) {
-              this.total = 0;
-            }
-            this.apiCart.numberPrdInCart$.next(slPrd);
-          }
-        });
+        this.subtotal = 0;
+        // this.discount = 0;
+        this.items = data;
+        for (const x of data) {
+          this.subtotal += Math.round((x.price * x.quantity));
+          slPrd += x.quantity
+        }
+        // cái này để check nếu % lớn hơn 0, nghĩa là mã đang km theo % thì nó sẽ tính lại
+        if (this.phanTramDiscount > 0) {
+          this.discount = Math.round(this.subtotal * this.phanTramDiscount / 100);
+        }
+        this.total = Math.round(this.subtotal - this.discount);
+        if (this.total < 0) {
+          this.total = 0;
+        }
+        this.apiCart.numberPrdInCart$.next(slPrd);
       }
-    })
+    });
   }
 
   // sửa số lượng sản phẩm
@@ -136,7 +123,12 @@ export class CartComponent implements OnInit {
     }
     this.dataCreate(raw.productDetail.id, parseInt(slSP));
     this.apiCart.updateQuantity(this.dataAddToCart);
-    this.getAllPrdInCart();
+    this.apiCart.isReLoading.subscribe(data => {
+      if (data) {
+        this.getAllPrdInCart();
+        this.apiCart.isReLoading.next(false);
+      }
+    })
   }
 
   // xoá sản phẩm khỏi rỏ hàng
@@ -163,32 +155,8 @@ export class CartComponent implements OnInit {
     })
   }
 
-  //Thêm voucher
-  applyVoucher() {
-    let checkVoucher = false;
-    for (const x of this.vouchers) {
-      if (x.code == this.voucherInput && x.status == 1) {
-        this.discount = x.discount;
-        this.total = this.subtotal - this.discount;
-        if (this.total < 0) {
-          this.total = 0;
-        }
-        this.apiCart.discount$.next(this.discount);
-        localStorage.setItem('discount', String(this.discount));
-        checkVoucher = true;
-      }
-    }
-    if (checkVoucher) {
-      this.toastrService.success('Áp voucher thành công. Đơn hàng được giảm: ' + this.discount);
-      console.log("Voucher khớp, được giảm: ", this.discount);
-    } else {
-      this.toastrService.warning('Voucher không hợp lệ!');
-    }
-  }
-
   // mở checkout
   openCheckout() {
-    // this.checkQuantityCheckout();
     if (this.items.length == 0) {
       this.toastrService.warning('Giỏ hàng của bạn đang trống, vui lòng thêm sản phẩm rồi tiến hành đặt hàng!');
       return;

@@ -23,9 +23,6 @@ public class Cart implements Serializable {
     @Column(nullable = false, precision = 1)
     private Integer quantity;
 
-    @Column(nullable = true, precision = 1)
-    private Integer price;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "product_detail_id", nullable = false)
     private ProductDetail productDetail;
