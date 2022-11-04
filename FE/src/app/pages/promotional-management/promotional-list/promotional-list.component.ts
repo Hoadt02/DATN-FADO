@@ -187,19 +187,25 @@ export class PromotionalListComponent implements OnInit {
         if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
           this.isLoading = true;
           row.status = 1;
-          this.apiPromotional.update(row.id, row);
+          this.apiPromotional.updateStatus(row.id, row).subscribe(_ => {
+            this.toastrService.success("Cập nhật trạng thái thành công!")
+            this.isLoading = false;
+          }, _ => {
+            this.toastrService.error("Cập nhật trạng thái thất bại!");
+            this.isLoading = false;
+          });
         } else {
           this.isLoading = true;
           row.status = 0;
-          this.apiPromotional.update(row.id, row);
+          this.apiPromotional.updateStatus(row.id, row).subscribe(_ => {
+            this.toastrService.success("Cập nhật trạng thái thành công!")
+            this.isLoading = false;
+          }, _ => {
+            this.toastrService.error("Cập nhật trạng thái thất bại!");
+            this.isLoading = false;
+          });
         }
       }
-      this.apiPromotional.isCloseDialog.subscribe((data) => {
-        if (data) {
-          this.apiPromotional.isCloseDialog.next(false);
-          this.isLoading = false;
-        }
-      });
     })
   }
 
