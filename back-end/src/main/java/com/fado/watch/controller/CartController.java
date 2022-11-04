@@ -2,6 +2,7 @@ package com.fado.watch.controller;
 
 
 import com.fado.watch.dto.response.CartDto;
+import com.fado.watch.dto.response.StatusCheckPromotionalDto;
 import com.fado.watch.entity.Cart;
 import com.fado.watch.service.ICartService;
 import org.springframework.http.ResponseEntity;
@@ -43,5 +44,10 @@ public class CartController {
     @DeleteMapping("/deleteByCustomer/{id}")
     public void deleteByCustomer(@PathVariable("id") Integer id) {
         this.cartService.deleteAllByCustomerId(id);
+    }
+
+    @GetMapping("checkStatusById")
+    public boolean checkStatusById() {
+        return this.cartService.checkStatusById();
     }
 }
