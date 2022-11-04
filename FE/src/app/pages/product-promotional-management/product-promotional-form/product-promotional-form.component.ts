@@ -75,7 +75,7 @@ export class ProductPromotionalFormComponent implements OnInit {
   getAllCategory() {
     this.categoryService.getAll().subscribe({
       next: (data: any) => {
-        this.categories = data as any[];
+        this.categories = data.filter(c => c.status == 1);
       }, error: err => {
         console.log(err);
       }
@@ -85,7 +85,7 @@ export class ProductPromotionalFormComponent implements OnInit {
   getAllProduct() {
     this.productService.getAll().subscribe({
       next: (data: any) => {
-        this.products = data as any[];
+        this.products = data.filter(p => p.status == 1);
       }, error: err => {
         console.log(err);
       }
@@ -172,6 +172,10 @@ export class ProductPromotionalFormComponent implements OnInit {
   }
 
   save() {
+    if (this.selection.selected.length <= 0) {
+      this.toastrService.warning('Vui lòng chọn sản phẩm để thêm!');
+      return;
+    }
 
     if (this.idPromotional == undefined) {
       this.toastrService.warning('Vui lòng chọn chương trình khuyến mại!');

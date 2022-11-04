@@ -20,6 +20,10 @@
         && formGroup.get('name')?.touched">
           Vui lòng điền tên chương trình khuyến mại!
         </mat-error>
+        <mat-error *ngIf="formGroup.get('name')?.hasError('maxlength')
+        && formGroup.get('name')?.touched">
+          Tên chương trình khuyến mại tối đa 255 ký tự.
+        </mat-error>
       </mat-form-field>
     </div>
 

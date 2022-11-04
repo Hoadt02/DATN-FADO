@@ -21,7 +21,7 @@ export class PromotionalFormComponent implements OnInit {
 
   formGroup = this.fb.group({
     id: [''],
-    name: ['', [checkSpace]],
+    name: ['', [checkSpace, Validators.maxLength(255)]],
     discount: ['', [Validators.required, Validators.min(1)]],
     type: [false],
     startDate: [new Date()],
