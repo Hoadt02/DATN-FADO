@@ -47,8 +47,7 @@ export class StaffService {
   create(data: any) {
     this.dataInput(data);
     return this.apiStaff.create(data).subscribe({
-      next: (data: any) => {
-        console.log(data);
+      next: (_: any) => {
         this.toastrService.success('Thêm nhân viên thành công!');
         this.isCloseDialog.next(true);
       }, error: err => {
@@ -65,8 +64,7 @@ export class StaffService {
   update(id: number, data: any) {
     this.dataInput(data);
     return this.apiStaff.update(id, data).subscribe({
-      next: (data: any) => {
-        console.log('update: ', data);
+      next: (_: any) => {
         this.toastrService.success('Sửa nhân viên thành công!');
         this.isCloseDialog.next(true);
       }, error: err => {

@@ -32,8 +32,8 @@ export class StaffFormComponent implements OnInit {
       [
         Validators.required,
         Validators.minLength(8),
-        Validators.maxLength(24),
-        Validators.pattern(Regex.password),
+        // Validators.maxLength(24),
+        // Validators.pattern(Regex.password),
       ],
     ],
     email: ["", [Validators.required, Validators.pattern(Regex.email)]],
@@ -65,6 +65,7 @@ export class StaffFormComponent implements OnInit {
     if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
       this.title = "Thêm mới nhân viên";
     } else {
+      // console.log('ta đã ở đây')
       this.title = "Chỉnh sửa nhân viên";
       this.hidePassword = false;
       if (this.dataDiaLog.row) {
