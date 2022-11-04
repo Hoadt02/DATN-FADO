@@ -61,6 +61,8 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         }
     }
 
+
+    // Day la` pha`n toi nha' ba.n hien da.u da.u
     @Override
     public OrderDetail saveOrderDetail(OrderDetail orderDetail) {
         return this.orderDetailRepository.save(orderDetail);
@@ -69,5 +71,10 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     @Override
     public void delete(Integer id) {
         orderDetailRepository.deleteById(id);
+    }
+
+    @Override
+    public List<OrderDetail> findOrderDetailByOrder(Integer id) {
+        return this.orderDetailRepository.findOrderDetailByOrder(id);
     }
 }

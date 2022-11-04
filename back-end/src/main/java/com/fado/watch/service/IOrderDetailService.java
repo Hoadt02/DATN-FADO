@@ -16,7 +16,11 @@ public interface IOrderDetailService {
 
     void save(CartResponse response);
 
+
+    // Day la` pha`n toi nha' ba.n hien da.u da.u
     OrderDetail saveOrderDetail(OrderDetail orderDetail);
 
     void delete(Integer id);
+
+    List<OrderDetail> findOrderDetailByOrder(Integer id);
 }

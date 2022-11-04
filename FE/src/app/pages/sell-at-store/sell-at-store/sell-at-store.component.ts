@@ -37,6 +37,7 @@ export class SellAtStoreComponent implements OnInit {
   dataOrderDetail: any;
   checkQuantity = false;
   createOrder: any;
+  idOrder: any;
 
   formGroup: FormGroup;
   full_name: string;
@@ -58,6 +59,7 @@ export class SellAtStoreComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setDataOrder();
     this.selectedTab = this.tabs;
     this.initForm();
     this.getAllNameProduct();
@@ -101,24 +103,9 @@ export class SellAtStoreComponent implements OnInit {
     });
     diaLogRef.afterClosed().subscribe((data: any) => {
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
-        this.createOrder = {
-          customer: {
-            id: 195
-          },
-          staff: {
-            id: this.storageService.getIdFromToken()
-          },
-          shipAddress: 'Tai quay',
-          createDate: new Date(),
-          paymentType: 0,
-          status: 1,
-          total: 0,
-          discount: 0,
-          totalPayment: 0,
-        }
-
         this.orderService.save(this.createOrder).subscribe((data: any) => {
-          console.log(data);
+          this.idOrder = data.id;
+          this.getOrderDetailByOrder(this.idOrder);
           this.tabs.push(`Hoá đơn ${this.tabs.length + 1}`);
           this.selected.setValue(this.tabs.length - 1);
           this.toastService.success('Tạo hóa đơn thành công !');
@@ -142,7 +129,6 @@ export class SellAtStoreComponent implements OnInit {
       }
     });
     diaLogRef.afterClosed().subscribe((data: any) => {
-      // tslint:disable-next-line:triple-equals
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
         this.tabs.splice(index, 1);
         this.toastService.success('Xóa hóa đơn thành công !');
@@ -163,10 +149,11 @@ export class SellAtStoreComponent implements OnInit {
       }
     });
     diaLogRef.afterClosed().subscribe((data: any) => {
-      // tslint:disable-next-line:triple-equals
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
         if (this.tabs.length == 0) {
           this.toastService.warning('Vui lòng tạo hóa đơn trước !');
+        } else {
+
         }
       }
     })
@@ -183,7 +170,6 @@ export class SellAtStoreComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(rs => {
-      // tslint:disable-next-line:triple-equals
       if (rs == Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
         this.getCustomerForCombobox();
       }
@@ -198,4 +184,40 @@ export class SellAtStoreComponent implements OnInit {
     });
   }
 
+  setDataOrder() {
+    this.createOrder = {
+      customer: {
+        id: 195
+      },
+      staff: {
+        id: this.storageService.getIdFromToken()
+      },
+      shipAddress: 'Tai quay',
+      createDate: new Date(),
+      paymentType: 0,
+      status: 1,
+      total: 0,
+      discount: 0,
+      totalPayment: 0,
+    }
+  }
+
+  createOrderDetail(idProductDetail: number, idOrder: number, quantity: number, price: number) {
+    this.dataOrderDetail = {
+      productDetail: {
+        id: idProductDetail
+      },
+      order: {
+        id: idOrder
+      },
+      quantity: quantity,
+      price: price
+    }
+  }
+
+  getOrderDetailByOrder(id: number) {
+    this.orderDetailService.findOrderDetailByOrder(id).subscribe((data: any) => {
+      console.log(data);
+    })
+  }
 }
