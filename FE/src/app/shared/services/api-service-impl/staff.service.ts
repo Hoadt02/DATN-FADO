@@ -46,36 +46,12 @@ export class StaffService {
 
   create(data: any) {
     this.dataInput(data);
-    return this.apiStaff.create(data).subscribe({
-      next: (_: any) => {
-        this.toastrService.success('Thêm nhân viên thành công!');
-        this.isCloseDialog.next(true);
-      }, error: err => {
-        console.log(err);
-        if (err.error.code == 'UNIQUE') {
-          this.toastrService.warning(err.error.message);
-          return;
-        }
-        this.toastrService.error('Thêm nhân viên thất bại!');
-      }
-    })
+    return this.apiStaff.create(data);
   }
 
   update(id: number, data: any) {
     this.dataInput(data);
-    return this.apiStaff.update(id, data).subscribe({
-      next: (_: any) => {
-        this.toastrService.success('Sửa nhân viên thành công!');
-        this.isCloseDialog.next(true);
-      }, error: err => {
-        console.log(err);
-        if (err.error.code == 'UNIQUE') {
-          this.toastrService.warning(err.error.message);
-          return;
-        }
-        this.toastrService.error('Sửa nhân viên thất bại!');
-      }
-    })
+    return this.apiStaff.update(id, data);
   }
 
   findStaffByEmailAndSendOTP(email:any) {
