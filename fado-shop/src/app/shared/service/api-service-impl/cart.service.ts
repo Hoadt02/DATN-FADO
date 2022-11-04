@@ -61,12 +61,9 @@ export class CartService {
 
   deleteByCustomer(id: number) {
     return this.apiCartService.deleteByCustomer(id)
-    //   .subscribe({
-    //   next: (_: any) => {
-    //   }, error: (err) => {
-    //     console.log(err);
-    //   }
-    // });
   }
 
+  checkStatusById() {
+    return this.apiCartService.checkStatusById();
+  }
 }

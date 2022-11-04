@@ -40,6 +40,7 @@ export class ProductComponent implements OnInit {
   endPrice: any = null;
 
   url_param: string = '';
+  showFiller = false;
 
   //-------------------------------
   dataAddToCart: any;

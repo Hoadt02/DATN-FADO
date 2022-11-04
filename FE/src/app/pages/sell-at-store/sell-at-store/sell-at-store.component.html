@@ -1,3 +1,5 @@
+
+
 <div class="">
   <div class="row p-0 m-0" style="background-color: #ffd333">
     <div class="col-0">
@@ -82,7 +84,7 @@
     </div>
 
     <!--    Thanh toán bên phải-->
-    <div class="col-4" style="border-radius: 10px; box-shadow: 0px 0px 5px 5px #dadada">
+    <div class="col-4" style="border-radius: 10px; box-shadow: 0px 0px 2px 2px #dadada" >
       <div class="row">
         <div class="name col-8 pt-3 my-2">
           <i class="fa-regular fa-user"></i>
@@ -90,21 +92,17 @@
         </div>
 
         <div class="col-4">
-
-          <label class="pt-4">{{ datetime | date: 'dd-MM-yyyy hh:mm' }}</label>
-
+          <label class="pt-4">{{ createOrder.createDate | date: 'dd-MM-yyyy hh:mm' }}</label>
         </div>
         <div class="col-11 py-0">
-          <mat-form-field appearance="outline" class="w-100">
-
+          <mat-form-field appearance="outline" class="w-100" >
             <mat-label>Tên khách hàng</mat-label>
-            <mat-select disableRipple formControlName="customer">
+            <mat-select disableRipple formControlName="customer" >
               <mat-option *ngFor="let c of listCustomer" [value]="c.id">{{c.firstname}} {{c.lastname}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
         <div class="justify-content-between mr-1 pt-1">
-
           <button class="btn btn-sm btn-outline-warning px-2" type="button" title="Thêm khách hàng" (click)="openSave(TYPE_DIALOG.NEW)">
             <i class="fa-solid fa-plus"></i>
           </button>
@@ -115,7 +113,7 @@
         <div class="border-top pt-1">
           <div class="d-flex justify-content-between mb-1 pt-3">
             <h4>Tổng tiền hàng</h4>
-            <h4>0 VND</h4>
+            <h4>{{createOrder.total}} VND</h4>
           </div>
 
           <div class="row">
@@ -123,10 +121,9 @@
               <h4>Giảm giá</h4>
             </div>
 
-
             <div class="col-3 my-2">
               <mat-form-field class="w-100">
-                <input class="giamgia" matInput #input>
+                <input class="giamgia" matInput [(ngModel)]="createOrder.discount" >
               </mat-form-field>
             </div>
           </div>
@@ -145,20 +142,20 @@
             </div>
             <div class="col-3">
               <mat-form-field class="w-100">
-                <input class="giamgia" matInput #input>
+                <input class="giamgia" matInput >
               </mat-form-field>
             </div>
           </div>
 
           <div class="d-flex justify-content-between">
             <h4>Tổng tiền thanh toán</h4>
-            <h4>0 VND</h4>
+            <h4>{{createOrder.totalPayment}} VND </h4>
           </div>
 
           <div class="d-flex justify-content-between pt-2">
             <h4>Hình thức thanh toán</h4>
             <mat-radio-group>
-              <mat-radio-button class="mx-3" [value]="1">Tiền mặt</mat-radio-button>
+              <mat-radio-button class="mx-3" [value]="1" [checked]="true">Tiền mặt</mat-radio-button>
               <mat-radio-button [value]="0">Chuyển khoản</mat-radio-button>
             </mat-radio-group>
           </div>

@@ -1,7 +1,8 @@
 package com.fado.watch.controller;
 
 
-import com.fado.watch.dto.response.DeleteProductPromotional;
+import com.fado.watch.dto.response.CartDto;
+import com.fado.watch.dto.response.StatusCheckPromotionalDto;
 import com.fado.watch.entity.Cart;
 import com.fado.watch.service.ICartService;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class CartController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Cart>> findAllByCustomerId(@RequestParam("id") Integer id) {
+    public ResponseEntity<List<CartDto>> findAllByCustomerId(@RequestParam("id") Integer id) {
         return ResponseEntity.ok(this.cartService.findAllByCustomerId(id));
     }
 
@@ -43,5 +44,10 @@ public class CartController {
     @DeleteMapping("/deleteByCustomer/{id}")
     public void deleteByCustomer(@PathVariable("id") Integer id) {
         this.cartService.deleteAllByCustomerId(id);
+    }
+
+    @GetMapping("checkStatusById")
+    public boolean checkStatusById() {
+        return this.cartService.checkStatusById();
     }
 }

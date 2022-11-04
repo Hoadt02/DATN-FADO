@@ -9,6 +9,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {ReactiveFormsModule} from "@angular/forms";
+import {CodeInputModule} from "angular-code-input";
 
 
 @NgModule({
@@ -23,7 +24,12 @@ import {ReactiveFormsModule} from "@angular/forms";
         MatInputModule,
         MatButtonModule,
         MatIconModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        CodeInputModule.forRoot({
+        codeLength: 6,
+        isCharsCode: false,
+        code: ''
+      }),
     ]
 })
 export class AuthModule { }

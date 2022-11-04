@@ -16,6 +16,10 @@ import {MaterialService} from '../../../shared/services/api-service-impl/materia
 import {ProductService} from "../../../shared/services/api-service-impl/product.service";
 import {OriginService} from "../../../shared/services/api-service-impl/origin.service";
 import {StorageService} from "../../../shared/services/jwt/storage.service";
+import {CustomerFormComponent} from "../../customer-management/customer-form/customer-form.component";
+import {StaffFormComponent} from "../../staff-management/staff-form/staff-form.component";
+import {CategoryService} from "../../../shared/services/api-service-impl/category.service";
+import {CategoryFormComponent} from "../../category-management/category-form/category-form.component";
 
 
 @Component({
@@ -210,5 +214,4 @@ export class ProductListComponent implements OnInit {
       }
     });
   }
-
 }

@@ -41,12 +41,15 @@
           <mat-tab label="Tất cả ({{daMua}})">
 
             <div class="product" *ngFor="let o of orders">
-              <div class="status-order text-uppercase d-flex justify-content-end" [ngSwitch]="o.status">
-                <p *ngSwitchCase="0">Chờ xác nhận</p>
-                <p *ngSwitchCase="1">Chờ lấy hàng</p>
-                <p *ngSwitchCase="2">Đang giao</p>
-                <p *ngSwitchCase="3">Đã giao</p>
-                <p *ngSwitchCase="4">Đã huỷ</p>
+              <div class="createDate d-flex justify-content-between">
+                <b>Ngày mua hàng: {{o.createDate}}</b>
+                <div class="status-order text-uppercase" [ngSwitch]="o.status">
+                  <p *ngSwitchCase="0">Chờ xác nhận</p>
+                  <p *ngSwitchCase="1">Chờ lấy hàng</p>
+                  <p *ngSwitchCase="2">Đang giao</p>
+                  <p *ngSwitchCase="3">Đã giao</p>
+                  <p *ngSwitchCase="4">Đã huỷ</p>
+                </div>
               </div>
               <div class="max-height scroll-bar">
                 <ng-template *ngFor="let odt of orderDetails" [ngIf]="odt.order.id == o.id">
@@ -64,12 +67,23 @@
                       <p>Số lượng: {{odt.quantity}}</p>
                     </div>
                     <div class="col-2 col-md-2 col-lg-2 price">
-                      <p class="center">{{odt.price | number}} VND</p>
+                      <div class="center">
+                        <p *ngIf="odt.price != odt.productDetail.price" class="center">{{odt.price | number}} VND</p>
+                        <p
+                          [style]="odt.price != odt.productDetail.price ? 'text-decoration:line-through;color:red':''">
+                          {{odt.productDetail.price | number}} VND
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </ng-template>
               </div>
               <div class="total-payment d-flex justify-content-end">
+                <ng-template [ngIf]="o.discount > 0">
+                  <b>Giảm giá: </b><span
+                  style="color: red; font-size: 20px; padding-left: 5px; margin-right: 20px">{{o.discount | number}}
+                  VND</span>
+                </ng-template>
                 <b>Tổng tiền thanh toán: </b><span
                 style="color: red; font-size: 20px; padding-left: 5px">{{o.totalPayment | number}} VND</span>
               </div>
@@ -95,12 +109,15 @@
           <mat-tab label="{{x.lable}} ({{x.sl}})" *ngFor="let x of listMatTab">
             <ng-template *ngFor="let o of orders" [ngIf]="o.status == x.status">
               <div class="product">
-                <div class="status-order text-uppercase d-flex justify-content-end" [ngSwitch]="o.status">
-                  <p *ngSwitchCase="0">Chờ xác nhận</p>
-                  <p *ngSwitchCase="1">Chờ lấy hàng</p>
-                  <p *ngSwitchCase="2">Đang giao</p>
-                  <p *ngSwitchCase="3">Đã giao</p>
-                  <p *ngSwitchCase="4">Đã huỷ</p>
+                <div class="createDate d-flex justify-content-between">
+                  <b>Ngày mua hàng: {{o.createDate}}</b>
+                  <div class="status-order text-uppercase" [ngSwitch]="o.status">
+                    <p *ngSwitchCase="0">Chờ xác nhận</p>
+                    <p *ngSwitchCase="1">Chờ lấy hàng</p>
+                    <p *ngSwitchCase="2">Đang giao</p>
+                    <p *ngSwitchCase="3">Đã giao</p>
+                    <p *ngSwitchCase="4">Đã huỷ</p>
+                  </div>
                 </div>
                 <div class="max-height scroll-bar">
                   <ng-template *ngFor="let odt of orderDetails" [ngIf]="odt.order.id == o.id">
@@ -115,12 +132,23 @@
                         <p>Số lượng: {{odt.quantity}}</p>
                       </div>
                       <div class="col-2 col-md-2 col-lg-2 price">
-                        <p class="center">{{odt.price | number}} VND</p>
+                        <div class="center">
+                          <p *ngIf="odt.price != odt.productDetail.price" class="center">{{odt.price | number}} VND</p>
+                          <p
+                            [style]="odt.price != odt.productDetail.price ? 'text-decoration:line-through;color:red':''">
+                            {{odt.productDetail.price | number}} VND
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </ng-template>
                 </div>
                 <div class="total-payment d-flex justify-content-end">
+                  <ng-template [ngIf]="o.discount > 0">
+                    <b>Giảm giá: </b><span
+                    style="color: red; font-size: 20px; padding-left: 5px; margin-right: 20px">{{o.discount | number}}
+                    VND</span>
+                  </ng-template>
                   <b>Tổng tiền thanh toán: </b><span
                   style="color: red; font-size: 20px; padding-left: 5px">{{o.totalPayment | number}} VND</span>
                 </div>

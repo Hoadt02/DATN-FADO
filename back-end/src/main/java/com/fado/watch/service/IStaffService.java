@@ -14,4 +14,10 @@ public interface IStaffService {
 
     Staff update(Staff staff);
 //    void deleteStaff(Integer id);
+
+    Staff findByUsername(String username);
+
+    Staff findStaffByEmail(String email);
+
+    Boolean existsByEmail(String email);
 }

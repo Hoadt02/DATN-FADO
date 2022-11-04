@@ -1,5 +1,7 @@
 package com.fado.watch.service;
 
+import com.fado.watch.dto.response.CartDto;
+import com.fado.watch.dto.response.StatusCheckPromotionalDto;
 import com.fado.watch.entity.Cart;
 
 import java.util.List;
@@ -10,10 +12,11 @@ public interface ICartService {
 
     Cart updateQuantity(Cart cart);
 
-    List<Cart> findAllByCustomerId(Integer id);
+    List<CartDto> findAllByCustomerId(Integer id);
 
     void delete(Integer id);
 
     void deleteAllByCustomerId(Integer id);
 
+    boolean checkStatusById();
 }

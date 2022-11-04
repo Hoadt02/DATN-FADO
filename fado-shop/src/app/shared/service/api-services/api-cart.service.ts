@@ -29,4 +29,7 @@ export class ApiCartService {
     return this.http.delete(ApiConstant.cart + `/deleteByCustomer/${id}`);
   }
 
+  checkStatusById() {
+    return this.http.get(ApiConstant.cart + `/checkStatusById`);
+  }
 }

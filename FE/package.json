@@ -30,6 +30,7 @@
     "@ngui/map": "0.30.3",
     "@popperjs/core": "^2.11.4",
     "@types/googlemaps": "3.39.14",
+    "angular-code-input": "^1.6.0",
     "angular-ng-autocomplete": "^2.0.12",
     "arrive": "2.4.1",
     "bootstrap": "4.5.2",
