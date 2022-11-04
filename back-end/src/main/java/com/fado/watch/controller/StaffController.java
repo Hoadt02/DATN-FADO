@@ -1,6 +1,7 @@
 package com.fado.watch.controller;
 
 
+import com.fado.watch.dto.response.StaffDto;
 import com.fado.watch.entity.Customer;
 import com.fado.watch.entity.Staff;
 import com.fado.watch.service.ISendEmailService;
@@ -31,7 +32,7 @@ public class StaffController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Staff> findById(@PathVariable("id") Integer id) {
+    public ResponseEntity<StaffDto> findById(@PathVariable("id") Integer id) {
         return new ResponseEntity<>(this.iStaffService.findById(id), HttpStatus.OK);
     }
 
