@@ -1,6 +1,6 @@
 package com.fado.watch.repository;
 
-import com.fado.watch.entity.Origin;
+import com.fado.watch.dto.response.StatusCheckPromotionalDto;
 import com.fado.watch.entity.Promotional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +16,7 @@ public interface PromotionalRepository extends JpaRepository<Promotional, Intege
 
     @Query("select p from promotionals p where p.status = 1")
     List<Promotional> findAllByStatusTrue();
+
+    @Query("select new StatusCheckPromotionalDto (c.status) from promotionals c where c.id in (:id)")
+    List<StatusCheckPromotionalDto> checkStatusById(List<Integer> id);
 }

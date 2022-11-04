@@ -157,30 +157,38 @@ export class CartComponent implements OnInit {
 
   // mở checkout
   openCheckout() {
-    if (this.items.length == 0) {
-      this.toastrService.warning('Giỏ hàng của bạn đang trống, vui lòng thêm sản phẩm rồi tiến hành đặt hàng!');
-      return;
-    }
-    this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe((data: any) => {
-      for (const x of data) {
-        if (x.quantity > x.productDetail.quantity) {
-          this.toastrService.warning(`sản phẩm ${x.productDetail.name.toUpperCase()} chỉ còn ${x.productDetail.quantity} sản phẩm.`);
-          return;
-        }
+    this.apiCart.checkStatusById().subscribe(data => {
+      console.log(data);
+      if (data) {
+        this.toastrService.warning("Dữ liệu không trùng khớp, mời bạn tải lại trang!");
+        return;
       }
-      const discount = this.discount;
-      const items = this.items;
-      this.matDiaLog.open(CheckOutComponent, {
-        width: '1000px',
-        hasBackdrop: true,
-        disableClose: true,
-        data: {
-          discount, items
+
+      if (this.items.length == 0) {
+        this.toastrService.warning('Giỏ hàng của bạn đang trống, vui lòng thêm sản phẩm rồi tiến hành đặt hàng!');
+        return;
+      }
+      this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe((data: any) => {
+        for (const x of data) {
+          if (x.quantity > x.productDetail.quantity) {
+            this.toastrService.warning(`sản phẩm ${x.productDetail.name.toUpperCase()} chỉ còn ${x.productDetail.quantity} sản phẩm.`);
+            return;
+          }
         }
-      }).afterClosed().subscribe(data => {
-        if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
-          this.getAllPrdInCart();
-        }
+        const discount = this.discount;
+        const items = this.items;
+        this.matDiaLog.open(CheckOutComponent, {
+          width: '1000px',
+          hasBackdrop: true,
+          disableClose: true,
+          data: {
+            discount, items
+          }
+        }).afterClosed().subscribe(data => {
+          if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
+            this.getAllPrdInCart();
+          }
+        })
       })
     })
   }

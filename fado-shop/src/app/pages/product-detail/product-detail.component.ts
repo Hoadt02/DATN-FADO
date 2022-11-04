@@ -37,7 +37,9 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProductDetailAndAnyInfomation();
-    this.getAllPrdInCart();
+    if (this.storageService.getIdFromToken()) {
+      this.getAllPrdInCart();
+    }
   }
 
   getProductDetailAndAnyInfomation() {
@@ -71,7 +73,7 @@ export class ProductDetailComponent implements OnInit {
 
   addToCart(idPrd: number) {
     // tôi check đăng nhập ở đây nhé
-      if (this.checkIsLogin()) return;
+    if (this.checkIsLogin()) return;
     // end check
 
     if (this.slSP > this.productDetail.quantity) {
@@ -116,9 +118,9 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  checkIsLogin(): boolean{
-    if (!this.storageService.isLoggedIn()){
-      void this.router.navigate(['/auth/login'], {queryParams:{redirectURL:this.router.url}});
+  checkIsLogin(): boolean {
+    if (!this.storageService.isLoggedIn()) {
+      void this.router.navigate(['/auth/login'], {queryParams: {redirectURL: this.router.url}});
       return true;
     }
     return false;

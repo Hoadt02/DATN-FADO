@@ -19,10 +19,10 @@ export class EditAddressFormComponent implements OnInit {
     customer: this.fb.group({
       id: [this.storageService.getIdFromToken()]
     }),
-    province: ['',[Validators.required]],
-    district: ['',[Validators.required]],
-    commune: ['',[Validators.required]],
-    other: ['',[checkSpace]],
+    province: ['', [Validators.required]],
+    district: ['', [Validators.required]],
+    commune: ['', [Validators.required]],
+    other: ['', [checkSpace]],
     defaultAddress: [0],
   })
 
@@ -83,10 +83,12 @@ export class EditAddressFormComponent implements OnInit {
 
   // lưu địa chỉ
   saveAddress() {
-    if (this.formGroup.invalid){
+    if (this.formGroup.invalid) {
       this.formGroup.markAllAsTouched();
       return;
     }
+
+    // nếu lúc thêm mà set điạ chỉ mặc định thì sẽ tìm ra địa chỉ măc định hiện tại rồi tắt mặc định đi sau đó thêm mới
     if (this.formGroup.getRawValue().defaultAddress == 1) {
       this.apiAddress.findByCustomerIdAndDefaultAddress(this.storageService.getIdFromToken()).subscribe((data: any) => {
         data.defaultAddress = 0;
