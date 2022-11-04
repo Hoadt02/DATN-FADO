@@ -14,6 +14,7 @@ import {Contants} from "../../shared/Contants";
 import {checkSpace, formatDate} from "../../shared/validator/validate";
 import {Regex} from "../../shared/validator/regex";
 import {Router} from "@angular/router";
+import {StorageService} from "../../shared/service/jwt/storage.service";
 
 @Component({
   selector: 'app-check-out',
@@ -52,6 +53,7 @@ export class CheckOutComponent implements OnInit {
     private apiCustomer: CustomerService,
     private apiCart: CartService,
     private apiOrder: OrderService,
+    private storageService: StorageService,
     private apiOrderDetail: OrderDetailService,
     private fb: FormBuilder,
     private apiAddress: AddressService,
@@ -59,7 +61,7 @@ export class CheckOutComponent implements OnInit {
     private toastrService: ToastrService,
     private matDialogRef: MatDialogRef<CheckOutComponent>,
     @Inject(MAT_DIALOG_DATA) private matDiaLogData: any,
-    private router : Router
+    private router: Router
   ) {
   }
 
@@ -71,13 +73,13 @@ export class CheckOutComponent implements OnInit {
   }
 
   findById() {
-    this.apiCustomer.findById(164).subscribe(data => {
+    this.apiCustomer.findById(this.storageService.getIdFromToken()).subscribe(data => {
       this.customer = data;
     })
   }
 
   // findAddressByCustomerId() {
-  //   this.apiAddress.findByCustomerId(164).subscribe({
+  //   this.apiAddress.findByCustomerId(this.storageService.getIdFromToken()).subscribe({
   //     next: (data: any) => {
   //       this.address = data as any;
   //       this.firstAddress = this.address[0];
@@ -89,7 +91,7 @@ export class CheckOutComponent implements OnInit {
   // }
 
   findByCustomerIdAndDefaultAddress() {
-    this.apiAddress.findByCustomerIdAndDefaultAddress(164).subscribe({
+    this.apiAddress.findByCustomerIdAndDefaultAddress(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         this.addressDefault = data;
       }, error: err => {
@@ -103,7 +105,7 @@ export class CheckOutComponent implements OnInit {
     this.discount = this.matDiaLogData.discount;
     this.subtotal = 0;
     for (const x of this.items) {
-      this.subtotal += (x.productDetail.price * x.quantity);
+      this.subtotal += (x.price * x.quantity);
     }
     this.total = this.subtotal - this.discount;
     if (this.total < 0) {
@@ -140,7 +142,10 @@ export class CheckOutComponent implements OnInit {
 
   // mở lên form chọn địa chỉ
   editAddress() {
-    let idAddressSelect = this.addressDefault.id;
+    let idAddressSelect;
+    if (this.addressDefault) {
+      idAddressSelect = this.addressDefault.id;
+    }
     this.matDiaLog.open(EditAddressComponent, {
       width: '1000px',
       disableClose: true,
@@ -189,7 +194,7 @@ export class CheckOutComponent implements OnInit {
 
     this.dataCreateOrder = {
       customer: {
-        id: 164
+        id: this.storageService.getIdFromToken()
       },
       staff: {
         id: 34
@@ -207,7 +212,6 @@ export class CheckOutComponent implements OnInit {
 
     this.apiOrder.save(this.dataCreateOrder).subscribe({
       next: (data: any) => {
-        console.log('order: ', data);
         this.dataCraeteOrderDetail = {
           orderId: data.id,
           cartList: this.items,
@@ -216,7 +220,7 @@ export class CheckOutComponent implements OnInit {
         this.apiOrderDetail.save(this.dataCraeteOrderDetail).subscribe(() => {
           this.dataCreateOrder = [];
 
-          this.apiCart.deleteByCustomer(164).subscribe(() => {
+          this.apiCart.deleteByCustomer(this.storageService.getIdFromToken()).subscribe(() => {
             this.toastrService.success('Đặt hàng thành công!');
             this.matDialogRef.close(this.RESULT_CLOSE_DIALOG.CONFIRM);
             this.router.navigate(['/order-history']);

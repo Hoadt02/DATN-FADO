@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit {
 
   getAllPrdInCart() {
     let slPrd = 0;
-    this.apiCart.findAllByCustomerId(164).subscribe({
+    this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         for (const x of data) {
           slPrd += x.quantity

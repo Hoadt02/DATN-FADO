@@ -12,9 +12,9 @@ export class ApiOrderService {
   ) {
   }
 
-  // getALl() {
-  //   return this.http.get(ApiConstant.order);
-  // }
+  getALl() {
+    return this.http.get(ApiConstant.order);
+  }
 
   findAllByCustomerId(id: number) {
     return this.http.get(`${ApiConstant.order}/findAllByCustomerId/${id}`);
@@ -24,7 +24,7 @@ export class ApiOrderService {
     return this.http.post(ApiConstant.order, data);
   }
 
-  updateStatus(status: number, id: number) {
-    return this.http.get(`${ApiConstant.order}/updateStatus?status=${status}&id=${id}`)
+  delete(id: number) {
+    return this.http.delete(`${ApiConstant.order}/${id}`);
   }
 }

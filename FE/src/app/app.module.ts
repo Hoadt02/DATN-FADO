@@ -14,7 +14,7 @@ import { AppRoutes } from './app.routing';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import {HttpClientModule} from "@angular/common/http";
 import {httpInterceptorProviders} from "./shared/helpers/http.interceptor";
-import {CustomerFormComponent} from "./pages/customer-management/customer-form/customer-form.component";
+import {MatTableModule} from "@angular/material/table";
 
 
 @NgModule({
@@ -32,7 +32,8 @@ import {CustomerFormComponent} from "./pages/customer-management/customer-form/c
     ToastrModule.forRoot(),
     FooterModule,
     FixedPluginModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTableModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

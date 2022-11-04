@@ -20,4 +20,5 @@ export const ApiConstant = {
   address: `${environment.service.localhost}/api/v1/address`,
   order: `${environment.service.localhost}/api/v1/order`,
   orderDetail: `${environment.service.localhost}/api/v1/order-detail`,
+  productPromotional: `${environment.service.localhost}/api/v1/product-promotional`,
 }

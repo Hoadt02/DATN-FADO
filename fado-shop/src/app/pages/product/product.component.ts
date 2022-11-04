@@ -11,6 +11,7 @@ import {checkCheckPrice} from '../../shared/validator/validate';
 import {ToastrService} from "ngx-toastr";
 import {StorageService} from "../../shared/service/jwt/storage.service";
 import {Router} from "@angular/router";
+import {ProductPromotionalService} from "../../shared/service/api-service-impl/product-promotional.service";
 
 @Component({
   selector: 'app-product',
@@ -44,6 +45,7 @@ export class ProductComponent implements OnInit {
   //-------------------------------
   dataAddToCart: any;
   items: any;
+  productPromotionals: any;
 
   //-------------------------------
 
@@ -64,6 +66,7 @@ export class ProductComponent implements OnInit {
     private originService: OriginService,
     private productDetailService: ProductDetailsService,
     private readonly apiCart: CartService,
+    private readonly apiProductPromotional: ProductPromotionalService,
     private toastrService: ToastrService,
     private fb: FormBuilder,
     private storageService: StorageService,
@@ -72,7 +75,10 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllPrdInCart();
+    this.getAllProductPromotional();
+    if (this.storageService.getIdFromToken()) {
+      this.getAllPrdInCart();
+    }
     this.loadByProductDetail();
     this.loadByCategory();
     this.loadByBrand();
@@ -241,8 +247,7 @@ export class ProductComponent implements OnInit {
 
     // end check
 
-    console.log(raw);
-    if (this.items != null){
+    if (this.items != null) {
       for (const x of this.items) {
         if (x.productDetail.id == raw.id && x.quantity == raw.quantity) {
           this.toastrService.warning('Số lượng trong rỏ hàng đã bằng số lượng trong kho');
@@ -256,7 +261,7 @@ export class ProductComponent implements OnInit {
         id: raw.id,
       },
       customer: {
-        id: 164,
+        id: this.storageService.getIdFromToken(),
       },
       quantity: 1,
     };
@@ -272,7 +277,7 @@ export class ProductComponent implements OnInit {
 
   getAllPrdInCart() {
     let slPrd = 0;
-    this.apiCart.findAllByCustomerId(164).subscribe({
+    this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         for (const x of data) {
           this.items = data as any[];
@@ -284,9 +289,17 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  checkIsLogin(): boolean{
-    if (!this.storageService.isLoggedIn()){
-      void this.router.navigate(['/auth/login'], {queryParams:{redirectURL:this.router.url}});
+  getAllProductPromotional() {
+    this.apiProductPromotional.getAllProductPromotional().subscribe({
+      next: (data: any) => {
+        this.productPromotionals = data as any;
+      }
+    })
+  }
+
+  checkIsLogin(): boolean {
+    if (!this.storageService.isLoggedIn()) {
+      void this.router.navigate(['/auth/login'], {queryParams: {redirectURL: this.router.url}});
       return true;
     }
     return false;
