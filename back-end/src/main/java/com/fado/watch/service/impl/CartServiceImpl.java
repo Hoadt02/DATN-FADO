@@ -14,14 +14,18 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
 @AllArgsConstructor
 public class CartServiceImpl implements ICartService {
 
+    static Integer idCtm;
     static List<Integer> listId = new ArrayList<>();
-    static List<StatusCheckPromotionalDto> listStatusCu = new ArrayList<>();
+
+    static List<ProductPromotional> listPrmCu;
+    static List<StatusCheckPromotionalDto> listStatusCu;
 
     private final CartRepository cartRepository;
     private final ProductPromotionalRepository productPromotionalRepository;
@@ -63,8 +67,13 @@ public class CartServiceImpl implements ICartService {
     // load lai rỏ hàng nếu có km sẽ tính tiền, ko thì sẽ trả ra rỏ hàng bth ko km
     @Override
     public List<CartDto> findAllByCustomerId(Integer id) {
+        idCtm = id;
+        listPrmCu = new ArrayList<>();
         listStatusCu = new ArrayList<>();
+
+
         List<ProductPromotional> productPromotionals = this.productPromotionalRepository.findAllProductPromotionalInCart(id);
+        listPrmCu = productPromotionals;
         List<CartDto> cartList = this.cartRepository.findAllByCustomerId(id);
         if (null == productPromotionals) {
             return cartList;
@@ -84,19 +93,38 @@ public class CartServiceImpl implements ICartService {
             }
         }
         listStatusCu = this.promotionalRepository.checkStatusById(listId);
-
         listId.stream().distinct().forEach(System.out::println);
         return cartList;
     }
 
     @Override
     public boolean checkStatusById() {
+        List<ProductPromotional> listPrmMoi = this.productPromotionalRepository.findAllProductPromotionalInCart(idCtm);
+
+        //---------------------------------------------------------
+
         List<StatusCheckPromotionalDto> listStatusMoi = this.promotionalRepository.checkStatusById(listId);
-        if (listStatusCu.size() < listStatusMoi.size() || listStatusCu.size() > listStatusMoi.size()) {
+        if (listPrmMoi.size() < listPrmCu.size() || listPrmMoi.size() > listPrmCu.size()) {
+            System.out.println("1");
             return true;
         }
+        if (listStatusCu.size() < listStatusMoi.size() || listStatusCu.size() > listStatusMoi.size()) {
+            System.out.println("2");
+            return true;
+        }
+        //---------------------------------------------------------
+        for (int i = 0; i < listPrmCu.size(); i++) {
+            System.out.println(listPrmCu.get(i).getProductDetail().getId() + " - " + listPrmMoi.get(i).getProductDetail().getId());
+            System.out.println(listPrmCu.get(i).getPromotional().getId() + " - " + listPrmMoi.get(i).getPromotional().getId());
+            if (!(Objects.equals(listPrmCu.get(i).getProductDetail().getId(), listPrmMoi.get(i).getProductDetail().getId())
+                    && Objects.equals(listPrmCu.get(i).getPromotional().getId(), listPrmMoi.get(i).getPromotional().getId()))) {
+                return true;
+            }
+        }
+        //---------------------------------------------------------
         for (int i = 0; i < listStatusCu.size(); i++) {
-            if (listStatusCu.get(i).getStatus() != listStatusMoi.get(i).getStatus()) {
+            if (!Objects.equals(listStatusCu.get(i).getStatus(), listStatusMoi.get(i).getStatus())) {
+                System.out.println("4");
                 return true;
             }
         }
