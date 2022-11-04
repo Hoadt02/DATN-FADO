@@ -26,13 +26,16 @@ export class StaffFormComponent implements OnInit {
     image: [
       "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png",
     ],
-    username: ["", [Validators.required, Validators.pattern(Regex.username), Validators.minLength(8),]],
+    username: ["", [
+      Validators.required,
+      Validators.pattern(Regex.username),
+      Validators.minLength(8),
+      Validators.maxLength(24)]],
     password: [
-      "",
-      [
+      "", [
         Validators.required,
         Validators.minLength(8),
-        // Validators.maxLength(24),
+        Validators.maxLength(60),
         // Validators.pattern(Regex.password),
       ],
     ],

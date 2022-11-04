@@ -1,24 +1,27 @@
 package com.fado.watch.service.impl;
 
+import com.fado.watch.dto.response.StaffDto;
 import com.fado.watch.entity.Staff;
 import com.fado.watch.exception.ResourceNotFoundException;
 import com.fado.watch.exception.UniqueException;
 import com.fado.watch.repository.StaffRepository;
 import com.fado.watch.service.IStaffService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.rmi.NotBoundException;
 import java.util.List;
 import java.util.Objects;
 
 @Service
 public class StaffServiceImpl implements IStaffService {
 
+    private final ModelMapper mapper;
     private final StaffRepository staffRepository;
 
-    public StaffServiceImpl(StaffRepository staffRepository) {
+    public StaffServiceImpl(ModelMapper mapper, StaffRepository staffRepository) {
+        this.mapper = mapper;
         this.staffRepository = staffRepository;
     }
 
@@ -31,9 +34,10 @@ public class StaffServiceImpl implements IStaffService {
     }
 
     @Override
-    public Staff findById(Integer id) {
-        return this.staffRepository.findById(id).orElseThrow(
+    public StaffDto findById(Integer id) {
+        Staff staff = this.staffRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Không tìm thấy nhân viên"));
+        return mapper.map(staff, StaffDto.class);
     }
 
     @Override
@@ -66,7 +70,7 @@ public class StaffServiceImpl implements IStaffService {
             throw new UniqueException("Email đã tồn tại ở tài khoản khác");
         }
 
-        if (!staff.getPassword().equals(staff.getPassword())){
+        if (!staff.getPassword().equals(staff.getPassword())) {
             staff.setPassword(passwordEncoder.encode(staff.getPassword()));
         }
         return this.staffRepository.save(staff);

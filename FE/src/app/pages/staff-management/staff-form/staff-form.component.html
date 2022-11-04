@@ -64,7 +64,7 @@
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Tài khoản</mat-label>
         <input formControlName="username" type="text"
-               id="exampleInputUsername1" required minlength="8" maxlength="50"
+               id="exampleInputUsername1" required minlength="8"
                matInput>
         <mat-error
           *ngIf="formGroup.get('username')?.hasError('required') &&
@@ -72,7 +72,11 @@
         </mat-error>
         <mat-error
           *ngIf="formGroup.get('username')?.hasError('minlength') &&
-            formGroup.get('username')?.touched">Mật khẩu tối thiểu 8 ký tự
+            formGroup.get('username')?.touched">Tài khoản tối thiểu 8 ký tự
+        </mat-error>
+        <mat-error
+          *ngIf="formGroup.get('username')?.hasError('maxlength') &&
+            formGroup.get('username')?.touched">Tài khoản tối đa 24 ký tự
         </mat-error>
         <mat-error
           *ngIf="formGroup.get('username')?.hasError('pattern') &&
@@ -84,7 +88,7 @@
     <div class="col-md-6" *ngIf="hidePassword">
       <mat-form-field class="w-100" appearance="outline">
         <mat-label>Mật khẩu</mat-label>
-        <input formControlName="password" matInput [type]="hide ? 'password' : 'text'">
+        <input formControlName="password" matInput [type]="hide ? 'password' : 'text'" minlength="8">
         <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                 [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -99,7 +103,7 @@
         </mat-error>
         <mat-error
           *ngIf="formGroup.get('password')?.hasError('maxlength') &&
-            formGroup.get('password')?.touched">Mật khẩu tối đa 24 ký tự
+            formGroup.get('password')?.touched">Mật khẩu tối đa 60 ký tự
         </mat-error>
         <mat-error
           *ngIf="formGroup.get('password')?.hasError('pattern') &&
