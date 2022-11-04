@@ -5,6 +5,7 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {Constants} from "../../../shared/Constants";
 import {checkSpace} from "../../../shared/validator/validatorForm";
 import {Regex} from "../../../shared/validator/regex";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: "app-staff-form",
@@ -55,6 +56,7 @@ export class StaffFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private staffService: StaffService,
+    private toastrService: ToastrService,
     private matDialogRef: MatDialogRef<StaffFormComponent>,
     @Inject(MAT_DIALOG_DATA) private dataDiaLog?: any
   ) {
@@ -84,23 +86,42 @@ export class StaffFormComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
     if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
-      this.isLoading = true;
-      this.staffService.create(this.formGroup.getRawValue());
+      this.staffService.create(this.formGroup.getRawValue()).subscribe({
+        next: (_: any) => {
+          this.toastrService.success('Thêm nhân viên thành công!');
+          this.isLoading = false;
+          this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
+        }, error: err => {
+          console.log(err);
+          if (err.error.code == 'UNIQUE') {
+            this.toastrService.warning(err.error.message);
+            this.isLoading = false;
+            return;
+          }
+          this.toastrService.error('Thêm nhân viên thất bại!');
+          this.isLoading = false;
+        }
+      });
     } else {
-      this.isLoading = true;
-      this.staffService.update(
-        this.dataDiaLog.row.id,
-        this.formGroup.getRawValue()
-      );
+      this.staffService.update(this.dataDiaLog.row.id, this.formGroup.getRawValue()).subscribe({
+        next: (_: any) => {
+          this.toastrService.success('Sửa nhân viên thành công!');
+          this.isLoading = false;
+          this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
+        }, error: err => {
+          console.log(err);
+          if (err.error.code == 'UNIQUE') {
+            this.toastrService.warning(err.error.message);
+            this.isLoading = false;
+            return;
+          }
+          this.toastrService.error('Sửa nhân viên thất bại!');
+          this.isLoading = false;
+        }
+      });
     }
-    this.staffService.isCloseDialog.subscribe((data) => {
-      if (data) {
-        this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
-        this.staffService.isCloseDialog.next(false);
-        this.isLoading = false;
-      }
-    });
   }
 
   close() {
