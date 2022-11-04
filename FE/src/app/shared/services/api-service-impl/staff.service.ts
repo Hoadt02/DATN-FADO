@@ -3,6 +3,7 @@ import {ApiStaffService} from '../api-services/api-staff.service';
 import {BehaviorSubject} from 'rxjs';
 import {ToastrService} from 'ngx-toastr';
 import {formatDate} from "../../format/formatData";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class StaffService {
   constructor(
     private readonly apiStaff: ApiStaffService,
     private toastrService: ToastrService,
+    private router: Router
   ) {
   }
 
@@ -74,6 +76,24 @@ export class StaffService {
           return;
         }
         this.toastrService.error('Sửa nhân viên thất bại!');
+      }
+    })
+  }
+
+  findStaffByEmailAndSendOTP(email:any) {
+    return this.apiStaff.findStaffByEmailAndSendOTP(email);
+  }
+
+  updatePass(id: number, data: any) {
+    data.dateOfBirth = formatDate(data.dateOfBirth);
+    return this.apiStaff.update(id, data).subscribe({
+      next: (_) => {
+        void this.router.navigate(['/auth/login']);
+        this.toastrService.success('Cập nhật mật khẩu thành công!');
+      }, error: err => {
+        console.log(err);
+        void this.router.navigate(['/auth/login']);
+        this.toastrService.error('Cập nhật mật khẩu thất bại!');
       }
     })
   }

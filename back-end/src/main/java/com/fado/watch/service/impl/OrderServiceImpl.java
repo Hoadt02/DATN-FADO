@@ -52,19 +52,10 @@ public class OrderServiceImpl implements IOrderService {
     public void updateStatus(Integer status, Integer id) {
         if (4 == status) {
             List<OrderDetail> orderDetails = this.orderDetailService.getAllOrderDetailInOrder(id);
-            List<ProductDetail> productDetails = this.productDetailService.findAllProductInOrder(id);
             for (OrderDetail o : orderDetails) {
-                for (ProductDetail p : productDetails) {
-                    if (Objects.equals(o.getProductDetail().getId(), p.getId())) {
-                        System.out.println("sjạdhạdj");
-                        System.out.println("Tên sp: " + p.getName());
-                        System.out.println("Sl còn lại: " + p.getQuantity());
-                        System.out.println("Sl sp ở đơn hàng: " + o.getQuantity());
-                        p.setQuantity(p.getQuantity() + o.getQuantity());
-                        this.productDetailService.update(p);
-                        break;
-                    }
-                }
+                o.getProductDetail().setQuantity(o.getQuantity() + o.getProductDetail().getQuantity());
+                this.productDetailService.update(o.getProductDetail());
+                break;
             }
         }
         this.orderRepository.updateStatus(status, id);

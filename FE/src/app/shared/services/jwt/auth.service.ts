@@ -19,7 +19,20 @@ export class AuthService {
         this.storageService.reloadPage();
       },
       error: err => {
-        this.toast.error(err.error.message);
+        if (err.error.code == 'NOT_FOUND'){
+          this.toast.error(err.error.message);
+          return;
+        }
+
+        if (err.error.code == 'LOGIN_FAILED'){
+          this.toast.error(err.error.message);
+          return;
+        }
+
+        if (err.error.code == 'USER_DISABLE'){
+          this.toast.error(err.error.message);
+          return;
+        }
       }
     });
   }

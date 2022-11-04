@@ -13,4 +13,6 @@ public interface ICustomerService {
     Customer update(Customer customer);
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
+    Customer findCustomerByEmail(String email);
+    Customer findByUsername(String username);
 }

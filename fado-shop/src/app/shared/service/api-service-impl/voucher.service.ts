@@ -11,7 +11,11 @@ export class VoucherService {
   ) {
   }
 
-  getAll() {
-    return this.apiVoucherService.getAll();
+  // getAll() {
+  //   return this.apiVoucherService.getAll();
+  // }
+
+  checkVoucher(code: string) {
+    return this.apiVoucherService.checkVoucher(code);
   }
 }

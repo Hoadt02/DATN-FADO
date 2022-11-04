@@ -19,19 +19,29 @@ public class VoucherController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Voucher>> getALl(){
+    public ResponseEntity<List<Voucher>> getALl() {
         return ResponseEntity.ok(this.iVoucherService.getAll());
     }
+
     @GetMapping("{id}")
-    public ResponseEntity<Voucher> getById(@PathVariable("id") Integer id){
-        return  ResponseEntity.ok(this.iVoucherService.getById(id));
+    public ResponseEntity<Voucher> getById(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(this.iVoucherService.getById(id));
     }
+
+    //---------------------------------------------------------------------------------------
+    @GetMapping("code/{code}")
+    public ResponseEntity<Voucher> findByCode(@PathVariable("code") String code) {
+        return ResponseEntity.ok(this.iVoucherService.findByCode(code));
+    }
+    //---------------------------------------------------------------------------------------
+
     @PostMapping
-    public ResponseEntity<Voucher> create(@RequestBody Voucher voucher){
+    public ResponseEntity<Voucher> create(@RequestBody Voucher voucher) {
         return ResponseEntity.ok(this.iVoucherService.create(voucher));
     }
+
     @PutMapping("{id}")
-    public ResponseEntity<Voucher> updatEntity(@RequestBody Voucher voucher){
+    public ResponseEntity<Voucher> updatEntity(@RequestBody Voucher voucher) {
         return ResponseEntity.ok(this.iVoucherService.update(voucher));
     }
 }

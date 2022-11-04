@@ -10,7 +10,6 @@ import {Constants} from '../../../shared/Constants';
 import {CustomerFormComponent} from '../../customer-management/customer-form/customer-form.component';
 import {CustomerService} from '../../../shared/services/api-service-impl/customer.service';
 import {ToastrService} from 'ngx-toastr';
-import {CartService} from "../../../shared/services/api-service-impl/cart.service";
 
 @Component({
   selector: 'app-sell-at-store',
@@ -54,7 +53,7 @@ export class SellAtStoreComponent implements OnInit {
               private cartService: CartService,
               private matDiaLog: MatDialog,
               private toastService: ToastrService,
-              private storageService: StorageService,) {
+              private storageService: StorageService) {
     this.full_name = this.storageService.getFullNameFromToken();
   }
 
