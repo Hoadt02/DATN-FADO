@@ -31,4 +31,8 @@ export class ApiOrderDetailService {
   delete(id: number) {
     return this.http.delete(`${ApiConstant.orderDetail}/${id}`);
   }
+
+  findOrderDetailByOrder(id: number) {
+    return this.http.get(`${ApiConstant.orderDetail}/findOrderDetailByOrder/${id}`);
+  }
 }
