@@ -4,7 +4,7 @@ import {CommonModule} from '@angular/common';
 import {ProductRoutingModule} from './product-routing.module';
 import {ProductComponent} from "./product.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {ToastrModule} from "ngx-toastr";
+import {MatAccordion, MatExpansionModule} from "@angular/material/expansion";
 
 
 @NgModule({
@@ -13,7 +13,8 @@ import {ToastrModule} from "ngx-toastr";
     CommonModule,
     ProductRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatExpansionModule,
   ]
 })
 export class ProductModule {

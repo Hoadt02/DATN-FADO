@@ -12,6 +12,8 @@ import {checkSpace} from "../../shared/validator/validate";
 })
 export class LoginComponent implements OnInit {
 
+  hide = true;
+
   formGroup = this.fb.group({
     username: ['', [checkSpace]],
     password: ['', [checkSpace]]

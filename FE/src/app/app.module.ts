@@ -14,6 +14,7 @@ import { AppRoutes } from './app.routing';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import {HttpClientModule} from "@angular/common/http";
 import {httpInterceptorProviders} from "./shared/helpers/http.interceptor";
+import {CustomerFormComponent} from "./pages/customer-management/customer-form/customer-form.component";
 
 
 @NgModule({

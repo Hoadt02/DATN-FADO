@@ -27,20 +27,6 @@
         </div>
 
         <div class="col-6">
-            <<<<<<< HEAD <!-- <mat-tab-group [selectedIndex]="selected.value" -->
-                <!--                     animationDuration="0ms"-->
-                <!--                     (selectedIndexChange)="selected.setValue($event)">-->
-                <!--        <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}" >-->
-                <!--          <ng-template mat-tab-label >-->
-                <!--            <div> Hóa đơn {{index + 1}}-->
-                <!--              <a mat-icon-button class="text-green" (click)="removeTab(index)">-->
-                <!--                <i class="fas fa-times"></i>-->
-                <!--              </a>-->
-                <!--            </div>-->
-                <!--          </ng-template>-->
-                <!--        </mat-tab>-->
-                <!--      </mat-tab-group>-->
-                =======
                 <mat-tab-group [selectedIndex]="selected.value" animationDuration="0ms" (selectedIndexChange)="selected.setValue($event)">
                     <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}">
                         <ng-template mat-tab-label>
@@ -52,7 +38,6 @@
                         </ng-template>
                     </mat-tab>
                 </mat-tab-group>
-                >>>>>>> main
         </div>
         <div class="example-button-container d-flex justify-content-center align-items-center">
             <a (click)="addTab(true)" mat-mini-fab color="accent">

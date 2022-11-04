@@ -54,7 +54,7 @@ export class ProductDetailComponent implements OnInit {
 
         //Get similar product
         this.productDetailService.getSimilarProduct(data.product.id).subscribe(res2 => {
-          this.listSimilarProduct = res2;
+          this.listSimilarProduct = res2.filter((n:any) => n.id != this.productDetail.id);
         })
       },
       error: (error) => {
@@ -124,4 +124,12 @@ export class ProductDetailComponent implements OnInit {
     }
     return false;
   }
+
+  slideConfig = {
+    slidesToShow: 6,
+    slidesToScroll:1,
+    swipeToSlide:true,
+    autoplay:true ,
+    autoplaySpeed: 3000
+  };
 }

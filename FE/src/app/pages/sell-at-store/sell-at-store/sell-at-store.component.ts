@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ProductDetailsService} from "../../../shared/services/api-service-impl/product-details.service";
+import {MatDialog} from "@angular/material/dialog";
+import {CustomerFormComponent} from "../../customer-management/customer-form/customer-form.component";
+import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-sell-at-store',
@@ -18,7 +21,8 @@ export class SellAtStoreComponent implements OnInit {
   formGroup: FormGroup;
 
   constructor(private productDetailService: ProductDetailsService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private matDiaLog: MatDialog) {
   }
 
   ngOnInit(): void {

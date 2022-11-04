@@ -12,10 +12,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class HeaderComponent implements OnInit {
 
   numberPrdInCart: number = 0;
-  full_name!:string;
 
   constructor(private apiCart: CartService,
-              private storageService: StorageService,
+              public storageService: StorageService,
               private authService: AuthService,
               private router: Router,
               private route: ActivatedRoute) {
@@ -26,7 +25,7 @@ export class HeaderComponent implements OnInit {
     this.apiCart.numberPrdInCart$.subscribe(data => {
       this.numberPrdInCart = data;
     });
-    this.full_name = this.storageService.getFullNameFromToken();
+    this.storageService.getFullNameFromToken();
     //
     // this.apiCart.listProductInCart$.subscribe(data => {
     //   console.log('header: ', data);
@@ -46,19 +45,19 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  isLogin(): boolean{
-    return this.storageService.isLoggedIn();
-  }
-
   logout(){
     this.authService.logout();
   }
 
   redirectLogin(){
-    let params = this.route.snapshot.queryParams;
-    if (params.redirectURL){
+    if (this.router.url === '/auth/login'){
       return;
+    }else if (this.router.url === '/auth/register'){
+      void this.router.navigate(['/auth/login']);
+    }else {
+      let params = this.route.snapshot.queryParams;
+      if (params.redirectURL) return;
+      void this.router.navigate(['/auth/login'],{queryParams:{redirectURL:this.router.url}});
     }
-    void this.router.navigate(['/auth/login'],{queryParams:{redirectURL:this.router.url}});
   }
 }
