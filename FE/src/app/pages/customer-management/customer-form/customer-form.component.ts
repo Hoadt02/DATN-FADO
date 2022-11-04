@@ -14,6 +14,7 @@ import {checkSpace} from '../../../shared/validator/validatorForm';
 export class CustomerFormComponent implements OnInit {
   title: string;
   isLoading = false;
+  hidePassword = true;
 
   formGroup = this.fb.group({
     id: [''],
@@ -57,7 +58,10 @@ export class CustomerFormComponent implements OnInit {
       this.title = 'Thêm mới khách hàng';
     } else {
       this.title = 'Chỉnh sửa khách hàng';
-      this.formGroup.patchValue(this.dataDiaLog.row)
+      this.hidePassword = false;
+      if (this.dataDiaLog.row) {
+        this.formGroup.patchValue(this.dataDiaLog.row)
+      }
     }
   }
 
