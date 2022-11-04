@@ -2,6 +2,7 @@ package com.fado.watch.controller;
 
 import com.fado.watch.entity.Customer;
 import com.fado.watch.service.ICustomerService;
+import com.fado.watch.service.ISendEmailService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +16,11 @@ public class CustomerController {
 
     private final ICustomerService iCustomerService;
 
-    public CustomerController(ICustomerService iCustomerService) {
+    private final ISendEmailService sendEmailService;
+
+    public CustomerController(ICustomerService iCustomerService, ISendEmailService iSendEmailService) {
         this.iCustomerService = iCustomerService;
+        this.sendEmailService = iSendEmailService;
     }
 
 
@@ -38,5 +42,13 @@ public class CustomerController {
     @PutMapping("{id}")
     public ResponseEntity<Customer> update(@RequestBody Customer customer) {
         return new ResponseEntity<>(this.iCustomerService.update(customer), HttpStatus.OK);
+    }
+
+    @PostMapping("/findCustomerByEmailAndSendOTP")
+    public ResponseEntity<Customer> findCustomerByEmailAndSendOTP(@RequestBody String email) {
+        if (iCustomerService.existsByEmail(email)){
+            sendEmailService.sendMailOTP(email);
+        }
+        return new ResponseEntity<>(this.iCustomerService.findCustomerByEmail(email), HttpStatus.OK);
     }
 }

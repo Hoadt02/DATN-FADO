@@ -2,7 +2,7 @@ package com.fado.watch.controller;
 
 
 import com.fado.watch.dto.request.EmailDetails;
-import com.fado.watch.service.SendEmailService;
+import com.fado.watch.service.ISendEmailService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1")
 public class SendEmailController {
 
-    private final SendEmailService emailService;
+    private final ISendEmailService emailService;
 
-    public SendEmailController(SendEmailService emailService) {
+    public SendEmailController(ISendEmailService emailService) {
         this.emailService = emailService;
     }
 
     @PostMapping("/sendMail")
-    public String sendMail(@RequestBody EmailDetails details) {
+    public String sendMailOTP(@RequestBody EmailDetails details) {
         return emailService.sendSimpleMail(details);
     }
 
@@ -25,5 +25,13 @@ public class SendEmailController {
     public String sendMailWithAttachment(@RequestBody EmailDetails details) {
         return emailService.sendMailWithAttachment(details);
     }
+    @GetMapping("/sendMail/{code}")
+    public boolean verificationOTP(@PathVariable("code") String code){
+        return emailService.verificationOTP(code);
+    }
 
+    @PostMapping("/sendMailAgain")
+    public void sendMailAgain(@RequestBody String email){
+        emailService.sendMailOTP(email);
+    }
 }

@@ -2,7 +2,7 @@
 <div class="container-fluid">
   <div class="row px-xl-5">
     <div class="col-12">
-      <nav class="breadcrumb bg-light mb-30">
+      <nav class="breadcrumb bg-light mb-30 shadow-sm" style="border-radius: 5px;">
         <a class="breadcrumb-item text-dark" href="#">Home</a>
         <a class="breadcrumb-item text-dark" href="#">Shop</a>
         <span class="breadcrumb-item active">Shop Detail</span>
@@ -18,7 +18,7 @@
   <div class="row px-xl-5">
     <div class="col-lg-5 mb-30">
       <div id="product-carousel" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner bg-light">
+        <div class="carousel-inner bg-light shadow-sm" style="border-radius: 5px;">
           <div class="carousel-item active">
             <img class="w-100 h-100" src="../../../assets/img/avtProduct/{{productDetail?.avatar}}" alt="Image">
           </div>
@@ -36,8 +36,8 @@
     </div>
 
     <div class="col-lg-7 h-auto mb-30">
-      <div class="h-100 bg-light p-30">
-        <h3>{{productDetail?.name}}</h3>
+      <div class="h-100 bg-light p-30 shadow-sm" style="border-radius: 5px;">
+        <h1><b>{{productDetail?.name}}</b></h1>
         <div class="d-flex mb-3">
           <div class="text-primary mr-2">
             <small class="fas fa-star"></small>
@@ -106,18 +106,18 @@
   </div>
   <div class="row px-xl-5">
     <div class="col">
-      <div class="bg-light p-30">
+      <div class="bg-light p-30 shadow-sm" style="border-radius: 5px;">
         <div class="nav nav-tabs mb-4">
           <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Mô tả dòng sản phẩm</a>
           <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Mô tả sản phẩm</a>
         </div>
         <div class="tab-content">
           <div class="tab-pane fade show active" id="tab-pane-1">
-            <h4 class="mb-3">Mô tả dòng sản phẩm</h4>
+            <h4 class="mb-3"><b>Mô tả dòng sản phẩm</b></h4>
             <p>{{productDetail?.product.description}}</p>
           </div>
           <div class="tab-pane fade" id="tab-pane-2">
-            <h4 class="mb-3">Mô tả sản phẩm</h4>
+            <h4 class="mb-3"><b>Mô tả sản phẩm</b></h4>
             <p>{{productDetail?.description}}</p>
           </div>
         </div>
@@ -131,151 +131,43 @@
 <div class="container-fluid py-5">
   <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Sản phẩm liên quan</span>
   </h2>
-  <div class="row px-xl-5">
-    <div class="col">
-      <div class="owl-carousel related-carousel-2">
-        <div class="product-item bg-light">
-          <div class="product-img position-relative overflow-hidden">
-            <img class="img-fluid w-100" src="assets/img/product-1.jpg" alt="">
-            <div class="product-action">
-              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-              <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
+  <div class="container-fluid" style="width: 96%">
+    <ngx-slick-carousel class="carousel p-0 position-relative" #slickModal="slick-carousel" [config]="slideConfig">
+      <div ngxSlickItem class="mx-2" *ngFor="let p of listSimilarProduct">
+          <div class="product-item bg-light mb-4 shadow-sm" style="border-radius: 5px">
+            <div class="product-img position-relative overflow-hidden" style="border-radius: 5px">
+              <img class="img-fluid w-100" src="../../../assets/img/avtProduct/{{ p.avatar }}" alt=""/>
+              <div class="product-action">
+                <a class="btn btn-outline-dark btn-square" (click)="addToCart(p)"><i class="fa fa-shopping-cart"></i></a>
+                <a class="btn btn-outline-dark btn-square" [routerLink]="['/product-detail']">
+                  <i class="far fa-heart"></i></a>
+                <a class="btn btn-outline-dark btn-square" href="/product-detail/{{p.id}}"><i
+                  class="fa-regular fa-eye"></i></a>
+              </div>
+            </div>
+            <div class="text-center py-4">
+              <a class="h6 text-decoration-none text-truncate" [routerLink]="['/product-detail',p.id]">{{ p.name }}</a>
+              <div class="d-flex align-items-center justify-content-center mt-2">
+                <h5>{{ p.price | number }}₫</h5>
+                <h5 class="text-muted ml-2">
+                  <del>{{ p.price | number }}₫</del>
+                </h5>
+              </div>
+              <div
+                class="d-flex align-items-center justify-content-center mb-1"
+              >
+                <small class="fa fa-star text-primary mr-1"></small>
+                <small class="fa fa-star text-primary mr-1"></small>
+                <small class="fa fa-star text-primary mr-1"></small>
+                <small class="fa fa-star text-primary mr-1"></small>
+                <small class="fa fa-star text-primary mr-1"></small>
+                <small>(99)</small>
+              </div>
             </div>
           </div>
-          <div class="text-center py-4">
-            <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-            <div class="d-flex align-items-center justify-content-center mt-2">
-              <h5>$123.00</h5>
-              <h6 class="text-muted ml-2">
-                <del>$123.00</del>
-              </h6>
-            </div>
-            <div class="d-flex align-items-center justify-content-center mb-1">
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small>(99)</small>
-            </div>
-          </div>
-        </div>
-        <div class="product-item bg-light">
-          <div class="product-img position-relative overflow-hidden">
-            <img class="img-fluid w-100" src="assets/img/product-2.jpg" alt="">
-            <div class="product-action">
-              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-              <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-            </div>
-          </div>
-          <div class="text-center py-4">
-            <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-            <div class="d-flex align-items-center justify-content-center mt-2">
-              <h5>$123.00</h5>
-              <h6 class="text-muted ml-2">
-                <del>$123.00</del>
-              </h6>
-            </div>
-            <div class="d-flex align-items-center justify-content-center mb-1">
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small>(99)</small>
-            </div>
-          </div>
-        </div>
-        <div class="product-item bg-light">
-          <div class="product-img position-relative overflow-hidden">
-            <img class="img-fluid w-100" src="assets/img/product-3.jpg" alt="">
-            <div class="product-action">
-              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-              <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-            </div>
-          </div>
-          <div class="text-center py-4">
-            <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-            <div class="d-flex align-items-center justify-content-center mt-2">
-              <h5>$123.00</h5>
-              <h6 class="text-muted ml-2">
-                <del>$123.00</del>
-              </h6>
-            </div>
-            <div class="d-flex align-items-center justify-content-center mb-1">
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small>(99)</small>
-            </div>
-          </div>
-        </div>
-        <div class="product-item bg-light">
-          <div class="product-img position-relative overflow-hidden">
-            <img class="img-fluid w-100" src="assets/img/product-4.jpg" alt="">
-            <div class="product-action">
-              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-              <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-            </div>
-          </div>
-          <div class="text-center py-4">
-            <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-            <div class="d-flex align-items-center justify-content-center mt-2">
-              <h5>$123.00</h5>
-              <h6 class="text-muted ml-2">
-                <del>$123.00</del>
-              </h6>
-            </div>
-            <div class="d-flex align-items-center justify-content-center mb-1">
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small>(99)</small>
-            </div>
-          </div>
-        </div>
-        <div class="product-item bg-light">
-          <div class="product-img position-relative overflow-hidden">
-            <img class="img-fluid w-100" src="assets/img/product-5.jpg" alt="">
-            <div class="product-action">
-              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
-              <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
-              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-sync-alt"></i></a>
-              <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
-            </div>
-          </div>
-          <div class="text-center py-4">
-            <a class="h6 text-decoration-none text-truncate" href="">Product Name Goes Here</a>
-            <div class="d-flex align-items-center justify-content-center mt-2">
-              <h5>$123.00</h5>
-              <h6 class="text-muted ml-2">
-                <del>$123.00</del>
-              </h6>
-            </div>
-            <div class="d-flex align-items-center justify-content-center mb-1">
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small class="fa fa-star text-primary mr-1"></small>
-              <small>(99)</small>
-            </div>
-          </div>
-        </div>
       </div>
-    </div>
+    </ngx-slick-carousel>
   </div>
 </div>
-<!-- Products End -->
+  <!-- Products End -->
+

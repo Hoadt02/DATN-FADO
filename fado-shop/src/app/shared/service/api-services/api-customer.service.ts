@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {ApiConstant} from '../../constants/api-constant';
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -17,4 +18,15 @@ export class ApiCustomerService {
     return this.http.get(ApiConstant.customer + `/${id}`)
   }
 
+  findCustomerByEmailAndSendOTP(email:any):Observable<any>{
+    return this.http.post(`${ApiConstant.customer}/findCustomerByEmailAndSendOTP`, email);
+  }
+
+  create(data: any):Observable<any> {
+    return this.http.post(ApiConstant.customer, data);
+  }
+
+  update(id: number, data: any):Observable<any> {
+    return this.http.put(`${ApiConstant.customer}/${id}`, data);
+  }
 }
