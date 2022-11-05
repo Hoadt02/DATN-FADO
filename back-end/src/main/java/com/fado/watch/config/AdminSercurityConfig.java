@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
-@Order(1)
+@Order(2)
 public class AdminSercurityConfig extends WebSecurityConfigurerAdapter {
     private static final String SU = "SUPER_ADMIN";
     private static final String AD = "ADMIN";
@@ -38,7 +38,7 @@ public class AdminSercurityConfig extends WebSecurityConfigurerAdapter {
         authenticationManagerBuilder.userDetailsService(staffUserDetailService).passwordEncoder(passwordEncoder);
     }
 
-    @Bean(name = "authenticationManager1")
+    @Bean(name = "authenticationManager2")
     @Override
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();

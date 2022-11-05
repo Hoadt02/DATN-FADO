@@ -1,12 +1,12 @@
 export class Contants {
   public static TYPE_FILTER = {
-    CATEGORY: 'category',
-    BRAND: 'brand',
-    MATERIAL: 'material',
-    ORIGIN: 'origin',
+    CATEGORY: 'category_id',
+    BRAND: 'brand_id',
+    MATERIAL: 'material_id',
+    ORIGIN: 'origin_id',
     GENDER: 'gender',
-    START_PRICE: 'start_price',
-    END_PRICE: 'end_price',
+    START_PRICE: 'startPrice',
+    END_PRICE: 'endPrice',
   };
 
   public static TYPE_UPDATE_NUMBER_PRD = {
@@ -31,9 +31,17 @@ export class Contants {
   };
 
   public static TYPE_SORT = {
-    PRICE_UP: 1,
-    PRICE_DOWN: 2,
+    PRICE_UP: 'price_up',
+    PRICE_DOWN: 'price_down',
   };
+
+  public static TYPE_SHOW = {
+    SHOW_8: 'show_8',
+    SHOW_12: 'show_12',
+    SHOW_20: 'show+20'
+  };
+
+
   public static TYPE_DIALOG = {
     NEW: 'new',
     UPDATE: 'update'
