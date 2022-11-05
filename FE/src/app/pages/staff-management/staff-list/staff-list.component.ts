@@ -79,7 +79,7 @@ export class StaffListComponent implements OnInit {
   }
 
   openSave(type: any, row?: any) {
-    console.log(type,row);
+    console.log(type, row);
     const diaLogRef = this.matDialog.open(StaffFormComponent, {
       width: '800px',
       disableClose: true,
@@ -119,12 +119,14 @@ export class StaffListComponent implements OnInit {
         if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
           this.isLoading = true;
           row.status = 1;
-          this.apiStaff.update(row.id, row);
         } else {
           this.isLoading = true;
           row.status = 0;
-          this.apiStaff.update(row.id, row);
         }
+        this.apiStaff.update(row.id, row).subscribe(() => {
+          this.toastrService.success("Cập nhật trạng thái thành công");
+          this.isLoading = false;
+        });
       }
     })
     this.apiStaff.isCloseDialog.subscribe(data => {
