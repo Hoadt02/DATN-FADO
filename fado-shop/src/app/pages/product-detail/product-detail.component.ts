@@ -129,6 +129,23 @@ export class ProductDetailComponent implements OnInit {
     slidesToScroll:1,
     swipeToSlide:true,
     autoplay:true ,
-    autoplaySpeed: 3000
+    autoplaySpeed: 3000,
+    responsive: [{
+        breakpoint: 768,
+        settings: {
+          arrows: false,
+          centerMode: true,
+          centerPadding: '40px',
+          slidesToShow: 3
+        }
+      },{
+      breakpoint: 600,
+      settings: {
+        arrows: false,
+        centerMode: true,
+        centerPadding: '40px',
+        slidesToShow: 2
+      }
+    }]
   };
 }

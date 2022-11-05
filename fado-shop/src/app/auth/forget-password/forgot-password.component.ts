@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {Regex} from "../../shared/validator/regex";
 import {CustomerService} from "../../shared/service/api-service-impl/customer.service";
-import {error} from "protractor";
 import {ToastrService} from "ngx-toastr";
 import {SendMailService} from "../../shared/service/api-service-impl/send-mail.service";
 

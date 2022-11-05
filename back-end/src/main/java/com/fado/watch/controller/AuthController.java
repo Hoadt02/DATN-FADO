@@ -53,7 +53,7 @@ public class AuthController {
         }else if (staff.getStatus() == 0) {
             throw new UserDisableException("Tài khoản của bạn đã bị vô hiệu hóa, vui lòng liên hệ quản trị viên để kích hoạt lại!");
         }else {
-            Authentication authentication = authenticationManager1.authenticate(
+            Authentication authentication = authenticationManager2.authenticate(
                     new UsernamePasswordAuthenticationToken(signInForm.getUsername(), signInForm.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -71,7 +71,7 @@ public class AuthController {
         }else if (customer.getStatus() == 0) {
             throw new UserDisableException("Tài khoản của bạn đã bị vô hiệu hóa!");
         }else {
-            Authentication authentication = authenticationManager2.authenticate(
+            Authentication authentication = authenticationManager1.authenticate(
                     new UsernamePasswordAuthenticationToken(signInForm.getUsername(), signInForm.getPassword())
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
