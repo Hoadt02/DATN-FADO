@@ -97,6 +97,8 @@ export class StaffListComponent implements OnInit {
   }
 
   active(type: any, row: any) {
+    let message = '';
+
     if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
       this.title = 'Kích hoạt nhân viên!';
       this.message = 'Bạn có chắc chắn muốn kích hoạt nhân viên này?'
@@ -119,12 +121,14 @@ export class StaffListComponent implements OnInit {
         if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
           this.isLoading = true;
           row.status = 1;
+          message = "Kích hoạt nhân viên thành công!";
         } else {
           this.isLoading = true;
           row.status = 0;
+          message = "Vô hiệu hoá nhân viên thành công!";
         }
         this.apiStaff.update(row.id, row).subscribe(() => {
-          this.toastrService.success("Cập nhật trạng thái thành công");
+          this.toastrService.success(message);
           this.isLoading = false;
         });
       }
