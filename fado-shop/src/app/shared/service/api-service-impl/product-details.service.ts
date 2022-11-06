@@ -22,7 +22,7 @@ export class ProductDetailsService {
     return this.apiService.getSimilarProduct(id);
   }
 
-  findProductsWithPaginationAndSortingAndFilter(page:number, size:number, sort:number, url_param:string){
-    return this.apiService.findProductsWithPaginationAndSortingAndFilter(page,size,sort,url_param);
+  findProductsWithPaginationAndSortingAndFilter(data:any){
+    return this.apiService.findProductsWithPaginationAndSortingAndFilter(data);
   }
 }

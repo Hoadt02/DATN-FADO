@@ -103,4 +103,8 @@ export class ProductDetailsService {
         map((data: any[]) => data.map(item => item['name']))
       );
   }
+
+  findProductWithFilter(data:any){
+    return this.apiService.findProductWithFilter(data);
+  }
 }

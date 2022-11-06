@@ -76,7 +76,7 @@ export class ForgotPasswordComponent implements OnInit {
     if (this.formGroup.getRawValue().password != this.formGroup.getRawValue().confirm_password) return;
 
     this.staffChangePass.password = this.formGroup.getRawValue().password;
-    this.staffService.updatePass(this.staffChangePass.id, this.staffService);
+    this.staffService.updatePass(this.staffChangePass.id, this.staffChangePass);
   }
 
   findCustomerByEmailAndSendOTP() {

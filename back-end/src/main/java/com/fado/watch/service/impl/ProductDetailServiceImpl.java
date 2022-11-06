@@ -1,6 +1,7 @@
 package com.fado.watch.service.impl;
 
-import com.fado.watch.entity.Product;
+import com.fado.watch.dto.request.FilterAndPagingAndSortingModel;
+import com.fado.watch.dto.request.FilterModel;
 import com.fado.watch.entity.ProductDetail;
 import com.fado.watch.exception.ResourceNotFoundException;
 import com.fado.watch.repository.*;
@@ -8,7 +9,6 @@ import com.fado.watch.service.IProductDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -87,18 +87,15 @@ public class ProductDetailServiceImpl implements IProductDetailService {
     }
 
     @Override
-    public Page<ProductDetail> findProductsWithPaginationAndSortingAndFilter(Integer page, Integer size, Integer sort,
-                                                                    Integer[] category_id, Integer[] brand_id,
-                                                                    Integer[] material_id, Integer[] origin_id,
-                                                                    Boolean[] gender, Integer startPrice, Integer endPrice) {
-        if (category_id.length < 1 && brand_id.length < 1 && material_id.length < 1 && origin_id.length < 1) {
-            category_id = categoryRepository.getAllIdCategory();
-            brand_id = brandRepository.getAllIdBrand();
-            material_id = materialRepository.getAllIdMaterial();
-            origin_id = originRepository.getAllIdOrigin();
+    public Page<ProductDetail> findProductsWithPaginationAndSortingAndFilter(FilterAndPagingAndSortingModel model) {
+        if (model.getCategory_id().length < 1 && model.getBrand_id().length < 1 && model.getMaterial_id().length < 1 && model.getOrigin_id().length < 1) {
+            model.setCategory_id(categoryRepository.getAllIdCategory());
+            model.setBrand_id(brandRepository.getAllIdBrand());
+            model.setMaterial_id( materialRepository.getAllIdMaterial());
+            model.setOrigin_id(originRepository.getAllIdOrigin());
         }
-        if (gender.length < 1) gender = new Boolean[]{true, false};
-        if (startPrice == null && endPrice == null) {
+        if (model.getGender().length < 1) model.setGender(new Boolean[]{true, false});
+        if (model.getStartPrice() == null && model.getEndPrice() == null) {
             List<ProductDetail> productDetails = getAll();
             Integer max = productDetails.get(0).getPrice();
             for (ProductDetail productDetail : productDetails) {
@@ -106,21 +103,30 @@ public class ProductDetailServiceImpl implements IProductDetailService {
                     max = productDetail.getPrice();
                 }
             }
-            startPrice = 0;
-            endPrice = max;
+            model.setStartPrice(0);
+            model.setEndPrice(max);
         }
 
         Page<ProductDetail> productDetails;
-        if (sort == 1) {
-            productDetails = repository.findAll(PageRequest.of(page, size, Sort.by("price").ascending()),
-                    category_id, brand_id, material_id, origin_id, gender, startPrice, endPrice);
-        } else if (sort == 2){
-            productDetails = repository.findAll(PageRequest.of(page, size, Sort.by("price").descending()),
-                    category_id, brand_id, material_id, origin_id, gender, startPrice, endPrice);
+        if (model.getSort() == 1) {
+            productDetails = repository.findAll(PageRequest.of(model.getPage(), model.getSize(), Sort.by("price").ascending()),
+                    model.getCategory_id(), model.getBrand_id(), model.getMaterial_id(), model.getOrigin_id(),
+                    model.getGender(), model.getStartPrice(), model.getEndPrice());
+        } else if (model.getSort() == 2){
+            productDetails = repository.findAll(PageRequest.of(model.getPage(), model.getSize(), Sort.by("price").descending()),
+                    model.getCategory_id(), model.getBrand_id(), model.getMaterial_id(), model.getOrigin_id(),
+                    model.getGender(), model.getStartPrice(), model.getEndPrice());
         }else {
-            productDetails = repository.findAll(PageRequest.of(page, size),
-                    category_id, brand_id, material_id, origin_id, gender, startPrice, endPrice);
+            productDetails = repository.findAll(PageRequest.of(model.getPage(), model.getSize()),
+                    model.getCategory_id(), model.getBrand_id(), model.getMaterial_id(), model.getOrigin_id(),
+                    model.getGender(), model.getStartPrice(), model.getEndPrice());
         }
         return productDetails;
+    }
+
+    @Override
+    public List<ProductDetail> findProductWithFilter(FilterModel filterModel) {
+        return repository.findProductWithFilter(filterModel.getProduct_id(), filterModel.getBrand_id(),
+                filterModel.getMaterial_id(), filterModel.getOrigin_id(), filterModel.getStatus(), filterModel.getGender());
     }
 }

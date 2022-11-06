@@ -70,7 +70,7 @@ public class StaffServiceImpl implements IStaffService {
             throw new UniqueException("Email đã tồn tại ở tài khoản khác");
         }
 
-        if (!staff.getPassword().equals(staff.getPassword())) {
+        if (!staffBefore.getPassword().equals(staff.getPassword())){
             staff.setPassword(passwordEncoder.encode(staff.getPassword()));
         }
         return this.staffRepository.save(staff);
