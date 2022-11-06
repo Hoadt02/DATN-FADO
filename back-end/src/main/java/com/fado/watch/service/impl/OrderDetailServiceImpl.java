@@ -1,7 +1,7 @@
 package com.fado.watch.service.impl;
 
-import com.fado.watch.dto.response.CartDto;
-import com.fado.watch.dto.response.CartResponse;
+import com.fado.watch.dto.response.CartPriceResponse;
+import com.fado.watch.dto.request.CartRequest;
 import com.fado.watch.entity.*;
 import com.fado.watch.exception.ResourceNotFoundException;
 import com.fado.watch.repository.OrderDetailRepository;
@@ -44,10 +44,10 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     }
 
     @Override
-    public void save(CartResponse response) {
+    public void save(CartRequest response) {
         Order order = this.orderRepository.findById(response.getOrderId()).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy đối tượng này"));
 
-        for (CartDto x : response.getCartList()) {
+        for (CartPriceResponse x : response.getCartList()) {
             OrderDetail orderDetail = new OrderDetail();
             System.out.println(x.getPrice());
             orderDetail.setOrder(order);

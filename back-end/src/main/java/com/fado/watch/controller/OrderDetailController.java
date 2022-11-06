@@ -1,11 +1,9 @@
 package com.fado.watch.controller;
 
 
-import com.fado.watch.dto.response.CartResponse;
-import com.fado.watch.entity.Order;
+import com.fado.watch.dto.request.CartRequest;
 import com.fado.watch.entity.OrderDetail;
 import com.fado.watch.service.IOrderDetailService;
-import com.fado.watch.service.IOrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +38,7 @@ public class OrderDetailController {
     }
 
     @PostMapping()
-    public void save(@RequestBody CartResponse response) {
+    public void save(@RequestBody CartRequest response) {
         this.orderDetailService.save(response);
     }
 
