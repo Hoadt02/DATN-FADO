@@ -23,7 +23,7 @@ export class ApiProductDetailService{
     return this.httpClient.get(`${ApiConstant.productDetail}/similar/${id}`);
   }
 
-  findProductsWithPaginationAndSortingAndFilter(page:number, size:number, sort:number, url_param:string):Observable<any>{
-    return this.httpClient.get(`${ApiConstant.productDetail}/findProductsWithPaginationAndSortingAndFilter?page=${page}&size=${size}&sort=${sort}&${url_param}`)
+  findProductsWithPaginationAndSortingAndFilter(data:any):Observable<any>{
+    return this.httpClient.post(`${ApiConstant.productDetail}/findProductsWithPaginationAndSortingAndFilter`, data);
   }
 }

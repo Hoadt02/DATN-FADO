@@ -10,7 +10,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatSortModule} from "@angular/material/sort";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialogModule} from "@angular/material/dialog";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatSelectModule} from "@angular/material/select";
@@ -27,25 +27,26 @@ import {NgxDropzoneModule} from "ngx-dropzone";
     ProductFormComponent,
     ProductViewComponent,
   ],
-  imports: [
-    CommonModule,
-    ProductManagementRoutingModule,
-    MatFormFieldModule,
-    MatPaginatorModule,
-    MatTableModule,
-    MatInputModule,
-    MatSortModule,
-    MatButtonModule,
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatRadioModule,
-    MatDatepickerModule,
-    MatSelectModule,
-    MatStepperModule,
-    MatTabsModule,
-    MatMenuModule,
-    NgxDropzoneModule
-  ],
+    imports: [
+        CommonModule,
+        ProductManagementRoutingModule,
+        MatFormFieldModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatInputModule,
+        MatSortModule,
+        MatButtonModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatRadioModule,
+        MatDatepickerModule,
+        MatSelectModule,
+        MatStepperModule,
+        MatTabsModule,
+        MatMenuModule,
+        NgxDropzoneModule,
+        FormsModule
+    ],
   entryComponents: [ProductFormComponent]
 })
 export class ProductManagementModule { }

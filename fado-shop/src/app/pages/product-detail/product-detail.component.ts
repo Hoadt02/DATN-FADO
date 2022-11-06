@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router, RouterModule} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ProductDetailsService} from "../../shared/service/api-service-impl/product-details.service";
 import {ImageService} from "../../shared/service/api-service-impl/image.service";
 import {CartService} from "../../shared/service/api-service-impl/cart.service";
@@ -54,7 +54,7 @@ export class ProductDetailComponent implements OnInit {
 
         //Get similar product
         this.productDetailService.getSimilarProduct(data.product.id).subscribe(res2 => {
-          this.listSimilarProduct = res2.filter((n:any) => n.id != this.productDetail.id);
+          this.listSimilarProduct = res2.filter((n: any) => n.id != this.productDetail.id);
         })
       },
       error: (error) => {
@@ -71,7 +71,7 @@ export class ProductDetailComponent implements OnInit {
 
   addToCart(idPrd: number) {
     // tôi check đăng nhập ở đây nhé
-      if (this.checkIsLogin()) return;
+    if (this.checkIsLogin()) return;
     // end check
 
     if (this.slSP > this.productDetail.quantity) {
@@ -116,9 +116,9 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  checkIsLogin(): boolean{
-    if (!this.storageService.isLoggedIn()){
-      void this.router.navigate(['/auth/login'], {queryParams:{redirectURL:this.router.url}});
+  checkIsLogin(): boolean {
+    if (!this.storageService.isLoggedIn()) {
+      void this.router.navigate(['/auth/login'], {queryParams: {redirectURL: this.router.url}});
       return true;
     }
     return false;
@@ -126,26 +126,34 @@ export class ProductDetailComponent implements OnInit {
 
   slideConfig = {
     slidesToShow: 6,
-    slidesToScroll:1,
-    swipeToSlide:true,
-    autoplay:true ,
+    slidesToScroll: 1,
+    swipeToSlide: true,
+    autoplay: true,
     autoplaySpeed: 3000,
     responsive: [{
+      breakpoint: 1216,
+      settings: {
+        arrows: false,
+        slidesToShow: 5
+      }
+    }, {
+        breakpoint: 992,
+        settings: {
+          arrows: false,
+          slidesToShow: 4
+        }
+      }, {
         breakpoint: 768,
         settings: {
           arrows: false,
-          centerMode: true,
-          centerPadding: '40px',
           slidesToShow: 3
         }
-      },{
-      breakpoint: 600,
-      settings: {
-        arrows: false,
-        centerMode: true,
-        centerPadding: '40px',
-        slidesToShow: 2
-      }
-    }]
+      }, {
+        breakpoint: 544,
+        settings: {
+          arrows: false,
+          slidesToShow: 2
+        }
+      }]
   };
 }

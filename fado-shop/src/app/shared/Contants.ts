@@ -1,12 +1,10 @@
 export class Contants {
   public static TYPE_FILTER = {
-    CATEGORY: 'category_id',
-    BRAND: 'brand_id',
-    MATERIAL: 'material_id',
-    ORIGIN: 'origin_id',
+    CATEGORY: 'category',
+    BRAND: 'brand',
+    MATERIAL: 'material',
+    ORIGIN: 'origin',
     GENDER: 'gender',
-    START_PRICE: 'startPrice',
-    END_PRICE: 'endPrice',
   };
 
   public static TYPE_UPDATE_NUMBER_PRD = {

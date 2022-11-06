@@ -46,8 +46,7 @@ export class ProductComponent implements OnInit {
   material_id: any[] = [];
   origin_id: any[] = [];
   gender: any[] = [];
-  startPrice: any = null;
-  endPrice: any = null;
+
 
   // url filter
   url_param: string = '';
@@ -59,7 +58,7 @@ export class ProductComponent implements OnInit {
 
   //-------------------------------
 
-  formGroup: FormGroup = this.fb.group(
+  formGroup = this.fb.group(
     {
       startPrice: [null, [Validators.required]],
       endPrice: [null, [Validators.required]],
@@ -98,8 +97,7 @@ export class ProductComponent implements OnInit {
 
   // Start get value oninit
   loadByProductDetail() {
-    this.setUrlParam();
-    this.productDetailService.findProductsWithPaginationAndSortingAndFilter(this.page, this.size, this.sort, this.url_param).subscribe((data: any) => {
+    this.productDetailService.findProductsWithPaginationAndSortingAndFilter(this.setData()).subscribe((data: any) => {
       this.products = data.content;
       this.totalPages = [];
       for (let i = 0; i < data.totalPages; i++) {
@@ -157,27 +155,25 @@ export class ProductComponent implements OnInit {
     else if (type == this.TYPE_FILTER.MATERIAL) this.addValueFilter(this.material_id, value);
     else if (type == this.TYPE_FILTER.ORIGIN) this.addValueFilter(this.origin_id, value);
     else if (type == this.TYPE_FILTER.GENDER) this.addValueFilter(this.gender, value);
-    else if (type == this.TYPE_FILTER.START_PRICE) this.startPrice = value;
-    else if (type == this.TYPE_FILTER.END_PRICE) this.endPrice = value;
     this.loadByProductDetail();
   }
   // End
 
-  // Start set url param
-  assembleUrlParam(data:any,type:string){
-    for (const param of data){
-      this.url_param += type + '=' + param + '&'
+  // Start set data using load list product
+  setData(){
+    const data = {
+      page: this.page,
+      size: this.size,
+      sort: this.sort,
+      category_id: this.category_id,
+      brand_id: this.brand_id,
+      material_id: this.brand_id,
+      origin_id: this.origin_id,
+      gender: this.gender,
+      startPrice: this.formGroup.getRawValue().startPrice,
+      endPrice: this.formGroup.getRawValue().endPrice
     }
-  }
-
-  setUrlParam() {
-    this.url_param = '';
-    if (this.category_id.length > 0) this.assembleUrlParam(this.category_id,this.TYPE_FILTER.CATEGORY);
-    if (this.brand_id.length > 0) this.assembleUrlParam(this.brand_id,this.TYPE_FILTER.BRAND);
-    if (this.material_id.length > 0) this.assembleUrlParam(this.material_id,this.TYPE_FILTER.MATERIAL);
-    if (this.origin_id.length > 0) this.assembleUrlParam(this.origin_id,this.TYPE_FILTER.ORIGIN);
-    if (this.gender.length > 0) this.assembleUrlParam(this.gender,this.TYPE_FILTER.GENDER);
-    if (this.startPrice != null && this.endPrice != null) this.url_param += 'startPrice=' + this.startPrice + '&endPrice=' + this.endPrice;
+    return data;
   }
   // End
 
@@ -185,9 +181,6 @@ export class ProductComponent implements OnInit {
   onSubmitFilterPrice() {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.invalid) return;
-
-    this.startPrice = this.formGroup.getRawValue().startPrice;
-    this.endPrice = this.formGroup.getRawValue().endPrice;
 
     this.loadByProductDetail();
   }

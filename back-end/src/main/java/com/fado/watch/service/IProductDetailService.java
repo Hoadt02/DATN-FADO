@@ -1,5 +1,7 @@
 package com.fado.watch.service;
 
+import com.fado.watch.dto.request.FilterAndPagingAndSortingModel;
+import com.fado.watch.dto.request.FilterModel;
 import com.fado.watch.entity.ProductDetail;
 import org.springframework.data.domain.Page;
 
@@ -20,8 +22,6 @@ public interface IProductDetailService {
 
     List<ProductDetail> findAllProductInOrder(Integer id);
 
-    Page<ProductDetail> findProductsWithPaginationAndSortingAndFilter(Integer page, Integer size, Integer sort,
-                                                             Integer[] category_id, Integer[] brand_id,
-                                                             Integer[] material_id, Integer[] origin_id,
-                                                             Boolean[] gender, Integer startPrice, Integer endPrice);
+    Page<ProductDetail> findProductsWithPaginationAndSortingAndFilter(FilterAndPagingAndSortingModel model);
+    List<ProductDetail> findProductWithFilter(FilterModel filterModel);
 }
