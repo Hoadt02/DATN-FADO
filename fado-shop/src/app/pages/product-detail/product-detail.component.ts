@@ -37,7 +37,9 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProductDetailAndAnyInfomation();
-    this.getAllPrdInCart();
+    if (this.storageService.getIdFromToken()) {
+      this.getAllPrdInCart();
+    }
   }
 
   getProductDetailAndAnyInfomation() {

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 
+//thằng này để thêm giá
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

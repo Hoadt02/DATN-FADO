@@ -165,6 +165,10 @@ export class PromotionalListComponent implements OnInit {
 
   /**Xoá mềm*/
   active(type: any, row: any) {
+    if (formatDate(row.endDate) < formatDate(new Date())) {
+      this.toastrService.warning("Khuyến mại đã hết hạn!");
+      return;
+    }
     if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
       this.title = 'Kích hoạt khuyến mại!';
       this.message = 'Bạn có chắc chắn muốn kích hoạt khuyến mại này?'
@@ -187,30 +191,37 @@ export class PromotionalListComponent implements OnInit {
         if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
           this.isLoading = true;
           row.status = 1;
-          this.apiPromotional.update(row.id, row);
+          this.apiPromotional.updateStatus(row.id, row).subscribe(_ => {
+            this.toastrService.success("Cập nhật trạng thái thành công!")
+            this.isLoading = false;
+          }, _ => {
+            this.toastrService.error("Cập nhật trạng thái thất bại!");
+            this.isLoading = false;
+          });
         } else {
           this.isLoading = true;
           row.status = 0;
-          this.apiPromotional.update(row.id, row);
+          this.apiPromotional.updateStatus(row.id, row).subscribe(_ => {
+            this.toastrService.success("Cập nhật trạng thái thành công!")
+            this.isLoading = false;
+          }, _ => {
+            this.toastrService.error("Cập nhật trạng thái thất bại!");
+            this.isLoading = false;
+          });
         }
       }
-      this.apiPromotional.isCloseDialog.subscribe((data) => {
-        if (data) {
-          this.apiPromotional.isCloseDialog.next(false);
-          this.isLoading = false;
-        }
-      });
     })
   }
 
   checkStatus() {
     console.log(this.listData);
     for (const x of this.listData) {
-      console.log(x);
-      if (x.endDate < formatDate(new Date()) && x.status == 1) {
+      if (x.endDate < formatDate(new Date()) && x.status == 1 || x.startDate <= formatDate(new Date()) && x.status == 2) {
         this.isLoading = true;
-        x.status = 0;
-        this.apiPromotional.update(x.id, x);
+        this.apiPromotional.updateCheckIn(x.id, x).subscribe(_ => {
+          this.toastrService.success("Cập nhật lại trạng thái thành công");
+        });
+        this.isLoading = false;
       }
     }
     this.apiPromotional.isCloseDialog.subscribe(data => {

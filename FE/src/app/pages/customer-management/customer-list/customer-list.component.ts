@@ -21,7 +21,7 @@ export class CustomerListComponent implements OnInit {
   isLoading = true;
   title: string
   message: string
-  displayedColumns: string[] = ['index', 'image', 'firstname', 'lastname', 'username', 'email', 'dateOfBirth', 'phoneNumber', 'gender', 'status', 'thaoTac'];
+  displayedColumns: string[] = ['index', 'image', 'firstname', 'lastname', 'dateOfBirth', 'gender', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -59,18 +59,6 @@ export class CustomerListComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
-// openDiaLog(type: string, row?: any) {
-//   this.dialogService.open(VoucherFormComponent,
-//     {
-//       width: '900px',
-//       data: {type, row}
-//     }).afterClosed().subscribe(result => {
-//     if (result === Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
-//       this.getAll();
-//     };
-//   });
-// }
 
   openSave(type: any, row?: any
   ) {

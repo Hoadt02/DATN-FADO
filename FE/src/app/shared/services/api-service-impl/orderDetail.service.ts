@@ -35,4 +35,8 @@ export class OrderDetailService {
   delete(id: number) {
     return this.api.delete(id);
   }
+
+  findOrderDetailByOrder(id: number) {
+    return this.api.findOrderDetailByOrder(id);
+  }
 }
