@@ -151,22 +151,6 @@ export class ProductPromotionalFormComponent implements OnInit {
     })
   }
 
-  // getAll() {
-  //   this.productDetailsService.getAllProductDetail().subscribe({
-  //     next: (data: any) => {
-  //       this.dataSource = new MatTableDataSource<any>(data);
-  //       this.dataSource.paginator = this.paginator;
-  //       console.log(data);
-  //       this.isLoading = false;
-  //     }, error: (err => {
-  //       this.toastrService.error('Lỗi tải dữ liệu');
-  //       this.isLoading = false;
-  //       console.log(err);
-  //       return;
-  //     })
-  //   })
-  // }
-
   getIdPromotional(id: any) {
     this.idPromotional = id;
   }

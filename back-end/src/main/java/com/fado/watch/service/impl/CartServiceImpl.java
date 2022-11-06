@@ -1,6 +1,6 @@
 package com.fado.watch.service.impl;
 
-import com.fado.watch.dto.response.CartDto;
+import com.fado.watch.dto.response.CartPriceResponse;
 import com.fado.watch.dto.response.StatusCheckPromotionalDto;
 import com.fado.watch.entity.Cart;
 import com.fado.watch.entity.ProductPromotional;
@@ -66,7 +66,7 @@ public class CartServiceImpl implements ICartService {
 
     // load lai rỏ hàng nếu có km sẽ tính tiền, ko thì sẽ trả ra rỏ hàng bth ko km
     @Override
-    public List<CartDto> findAllByCustomerId(Integer id) {
+    public List<CartPriceResponse> findAllByCustomerId(Integer id) {
         idCtm = id;
         listPrmCu = new ArrayList<>();
         listStatusCu = new ArrayList<>();
@@ -74,11 +74,11 @@ public class CartServiceImpl implements ICartService {
 
         List<ProductPromotional> productPromotionals = this.productPromotionalRepository.findAllProductPromotionalInCart(id);
         listPrmCu = productPromotionals;
-        List<CartDto> cartList = this.cartRepository.findAllByCustomerId(id);
+        List<CartPriceResponse> cartList = this.cartRepository.findAllByCustomerId(id);
         if (null == productPromotionals) {
             return cartList;
         }
-        for (CartDto x : cartList) {
+        for (CartPriceResponse x : cartList) {
             for (ProductPromotional y : productPromotionals) {
                 if (x.getProductDetail().getId() == y.getProductDetail().getId()) {
                     listId.add(y.getPromotional().getId());
