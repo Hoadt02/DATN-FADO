@@ -10,7 +10,7 @@
         <form [formGroup]="formGroup">
           <div class="form-group mb-3">
             <mat-form-field appearance="standard" class="w-100">
-              <mat-label><i class="fa-solid fa-envelope"></i> Username</mat-label>
+              <mat-label><i class="fa-solid fa-user"></i> Username</mat-label>
               <input type="text" matInput formControlName="username">
               <mat-error *ngIf="formGroup.get('username')?.hasError('isSpace') && formGroup.get('username')?.touched">
                 Vui lòng không bỏ trống username!
@@ -31,7 +31,7 @@
             </mat-form-field>
           </div>
           <div class="form-group d-flex justify-content-end mb-3">
-            <a href="" style="color: rebeccapurple">Quên mật khẩu?</a>
+            <a routerLink="/auth/forgot-password" style="color: rebeccapurple">Quên mật khẩu?</a>
           </div>
           <div class="form-group mb-3">
             <button mat-raised-button type="button" style="background-color: black;" class="w-100 text-warning" (click)="login()">Đăng nhập

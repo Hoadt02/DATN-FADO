@@ -8,8 +8,7 @@ import {StorageService} from "../service/jwt/storage.service";
 })
 export class HasRoleGuard implements CanActivate{
 
-  constructor(private storageService: StorageService,
-              private router: Router) {
+  constructor(private storageService: StorageService,) {
   }
 
   canActivate(route: ActivatedRouteSnapshot,

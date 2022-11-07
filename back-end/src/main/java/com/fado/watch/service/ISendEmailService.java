@@ -3,9 +3,13 @@ package com.fado.watch.service;
 
 import com.fado.watch.dto.request.EmailDetails;
 
-public interface SendEmailService {
+public interface ISendEmailService {
 
     String sendSimpleMail(EmailDetails details);
 
     String sendMailWithAttachment(EmailDetails details);
+
+    void sendMailOTP(String email);
+
+    boolean verificationOTP(String code);
 }

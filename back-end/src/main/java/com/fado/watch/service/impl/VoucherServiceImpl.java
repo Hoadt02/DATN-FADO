@@ -28,12 +28,19 @@ public class VoucherServiceImpl implements IVoucherService {
         return this.voucherRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy voucher"));
     }
 
+    // hiên viết, tìm theo code và đang hoạt động
+    @Override
+    public Voucher findByCode(String code) {
+        return this.voucherRepository.findByCode(code);
+    }
+    //--------------------------------------------------------------
+
     @Override
     public Voucher create(Voucher voucher) {
         Random random = new Random();
         Long number = Math.abs(random.nextLong());
         for (int i = 0; i < getAll().size(); i++) {
-            if (getAll().get(i).getCode().equals(number.toString().substring(0,13))){
+            if (getAll().get(i).getCode().equals(number.toString().substring(0, 13))) {
                 number = Math.abs(random.nextLong());
             }
         }

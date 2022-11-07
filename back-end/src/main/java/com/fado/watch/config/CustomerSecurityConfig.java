@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,7 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
 @Order(2)
@@ -56,12 +55,8 @@ public class CustomerSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.GET,"/api/v1/brand").permitAll()
 //                .antMatchers(HttpMethod.GET,"/api/v1/material").permitAll()
 //                .antMatchers(HttpMethod.GET,"/api/v1/origin").permitAll()
-//                .antMatchers(HttpMethod.GET,"/api/v1/staff/**").hasAnyRole(SU, AD)
-//                .antMatchers(HttpMethod.PUT,"/api/v1/staff/**").hasAnyRole(SU, AD)
-//                .antMatchers(HttpMethod.GET,"/api/v1/customer").hasAnyRole(SU, AD)
-//                .antMatchers(HttpMethod.GET,"/api/v1/customer/**").hasAnyRole(SU, AD,CU)
-//                .antMatchers(HttpMethod.POST,"/api/v1/customer").hasAnyRole(SU, AD)
-//                .antMatchers(HttpMethod.PUT,"/api/v1/customer/**").hasAnyRole(SU, AD, CU)
+//                .antMatchers(HttpMethod.GET,"/api/v1/customer/**").hasAnyRole(CU)
+//                .antMatchers(HttpMethod.PUT,"/api/v1/customer/**").hasAnyRole(CU)
 //                .anyRequest().hasRole(SU)
                 .and().exceptionHandling()
                 .authenticationEntryPoint(jwtEntryPoint)

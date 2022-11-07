@@ -46,7 +46,6 @@
           <div class="navbar-nav mr-auto py-0">
             <a routerLink="/" class="nav-item nav-link">Home</a>
             <a routerLink="/product" class="nav-item nav-link">Sản phẩm</a>
-            <a routerLink="/product-detail" class="nav-item nav-link">Sản phẩm chi tiết</a>
             <div class="nav-item dropdown">
               <a
                 href="#"
@@ -79,12 +78,12 @@
             </form>
           </div>
 
-          <div class="navbar-nav ml-auto py-0 d-none d-lg-block" *ngIf="isLogin()">
+          <div class="navbar-nav ml-auto py-0 d-none d-lg-block" *ngIf="storageService.isLoggedIn()">
             <div class="btn-group">
               <button type="button" class="btn dropdown-toggle text-primary" data-toggle="dropdown" aria-expanded="false">
-                <b><i class="fa-solid fa-user"></i> {{full_name}}</b>
+                <b><i class="fa-solid fa-user"></i> {{storageService.getFullNameFromToken()}}</b>
               </button>
-              <div class="dropdown-menu">
+              <div class="dropdown-menu" style="border-radius: 10px">
                 <a class="dropdown-item" href="javascript:void(0)"><i class="fa-solid fa-user"></i> Thông tin cá nhân</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="javascript:void(0)" (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
@@ -106,8 +105,8 @@
             </a>
           </div>
 
-          <div class="navbar-nav ml-auto py-0 d-none d-lg-block" *ngIf="!isLogin()">
-            <a (click)="redirectLogin()" class="btn p-2 text-primary" style="border: 2px solid #FFD333; border-radius: 10px;">
+          <div class="navbar-nav ml-auto py-0 d-none d-lg-block" *ngIf="!storageService.isLoggedIn()">
+            <a (click)="redirectLogin()" class="btn p-2 text-primary" style="border: 2px solid #FFD333; border-radius: 5px;">
               <i class="fa-regular fa-user"></i> Đăng nhập
             </a>
           </div>

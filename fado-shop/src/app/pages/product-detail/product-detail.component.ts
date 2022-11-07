@@ -37,7 +37,9 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProductDetailAndAnyInfomation();
-    this.getAllPrdInCart();
+    if (this.storageService.getIdFromToken()) {
+      this.getAllPrdInCart();
+    }
   }
 
   getProductDetailAndAnyInfomation() {
@@ -54,7 +56,7 @@ export class ProductDetailComponent implements OnInit {
 
         //Get similar product
         this.productDetailService.getSimilarProduct(data.product.id).subscribe(res2 => {
-          this.listSimilarProduct = res2;
+          this.listSimilarProduct = res2.filter((n:any) => n.id != this.productDetail.id);
         })
       },
       error: (error) => {
@@ -71,7 +73,7 @@ export class ProductDetailComponent implements OnInit {
 
   addToCart(idPrd: number) {
     // tôi check đăng nhập ở đây nhé
-      if (this.checkIsLogin()) return;
+    if (this.checkIsLogin()) return;
     // end check
 
     if (this.slSP > this.productDetail.quantity) {
@@ -116,11 +118,19 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  checkIsLogin(): boolean{
-    if (!this.storageService.isLoggedIn()){
-      void this.router.navigate(['/auth/login'], {queryParams:{redirectURL:this.router.url}});
+  checkIsLogin(): boolean {
+    if (!this.storageService.isLoggedIn()) {
+      void this.router.navigate(['/auth/login'], {queryParams: {redirectURL: this.router.url}});
       return true;
     }
     return false;
   }
+
+  slideConfig = {
+    slidesToShow: 6,
+    slidesToScroll:1,
+    swipeToSlide:true,
+    autoplay:true ,
+    autoplaySpeed: 3000
+  };
 }

@@ -12,7 +12,11 @@ export class ApiVoucherService {
   ) {
   }
 
-  getAll() {
-    return this.http.get(ApiConstant.voucher);
+  // getAll() {
+  //   return this.http.get(ApiConstant.voucher);
+  // }
+
+  checkVoucher(code: string) {
+    return this.http.get(`${ApiConstant.voucher}/code/${code}`);
   }
 }

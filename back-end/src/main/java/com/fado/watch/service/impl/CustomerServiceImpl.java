@@ -2,9 +2,13 @@ package com.fado.watch.service.impl;
 
 import com.fado.watch.entity.Customer;
 import com.fado.watch.entity.Staff;
+import com.fado.watch.exception.ResourceNotFoundException;
 import com.fado.watch.exception.UniqueException;
 import com.fado.watch.repository.CustomerRepository;
+import com.fado.watch.repository.RoleRepository;
 import com.fado.watch.service.ICustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +23,12 @@ private final CustomerRepository customerRepository;
         this.customerRepository = customerRepository;
     }
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    RoleRepository roleRepository;
+
     @Override
     public List<Customer> findAll() {
         return this.customerRepository.findAll();
@@ -31,16 +41,17 @@ private final CustomerRepository customerRepository;
 
     @Override
     public Customer create(Customer customer) {
-
         if (this.customerRepository.findByUsername(customer.getUsername()).isPresent()) {
-            throw new UniqueException("Username đã tồn tại");
+            throw new UniqueException("Username đã tồn tại!");
         }
         if (this.customerRepository.findByPhoneNumber(customer.getPhoneNumber()).isPresent()) {
-            throw new UniqueException("Số điện thoại đã tồn tại");
+            throw new UniqueException("Số điện thoại đã tồn tại!");
         }
         if (this.customerRepository.findByEmail(customer.getEmail()).isPresent()) {
-            throw new UniqueException("Email đã tồn tại");
+            throw new UniqueException("Email đã tồn tại!");
         }
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+        customer.setRole(roleRepository.getRoleCustomer());
         return this.customerRepository.save(customer);
     }
 
@@ -59,6 +70,10 @@ private final CustomerRepository customerRepository;
                 && !Objects.equals(customer.getEmail(), customerBefore.getEmail())) {
             throw new UniqueException("Email đã tồn tại");
         }
+        if (!customerBefore.getPassword().equals(customer.getPassword())){
+            customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+        }
+        customer.setRole(roleRepository.getRoleCustomer());
         return this.customerRepository.save(customer);
     }
 
@@ -70,5 +85,15 @@ private final CustomerRepository customerRepository;
     @Override
     public Boolean existsByEmail(String email) {
         return customerRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Customer findCustomerByEmail(String email) {
+        return customerRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Email không tồn tại!"));
+    }
+
+    @Override
+    public Customer findByUsername(String username) {
+        return customerRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("Username không tồn tại!"));
     }
 }

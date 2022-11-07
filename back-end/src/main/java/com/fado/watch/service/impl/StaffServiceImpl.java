@@ -5,6 +5,8 @@ import com.fado.watch.exception.ResourceNotFoundException;
 import com.fado.watch.exception.UniqueException;
 import com.fado.watch.repository.StaffRepository;
 import com.fado.watch.service.IStaffService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.rmi.NotBoundException;
@@ -19,6 +21,9 @@ public class StaffServiceImpl implements IStaffService {
     public StaffServiceImpl(StaffRepository staffRepository) {
         this.staffRepository = staffRepository;
     }
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     public List<Staff> findAll() {
@@ -43,6 +48,7 @@ public class StaffServiceImpl implements IStaffService {
         if (this.staffRepository.findByEmail(staff.getEmail()).isPresent()) {
             throw new UniqueException("Email đã tồn tại");
         }
+        staff.setPassword(passwordEncoder.encode(staff.getPassword()));
         return this.staffRepository.save(staff);
     }
 
@@ -59,7 +65,26 @@ public class StaffServiceImpl implements IStaffService {
         if (this.staffRepository.findByEmail(staff.getEmail()).isPresent() && !Objects.equals(staff.getEmail(), staffBefore.getEmail())) {
             throw new UniqueException("Email đã tồn tại ở tài khoản khác");
         }
+
+        if (!staff.getPassword().equals(staff.getPassword())){
+            staff.setPassword(passwordEncoder.encode(staff.getPassword()));
+        }
         return this.staffRepository.save(staff);
+    }
+
+    @Override
+    public Staff findByUsername(String username) {
+        return staffRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("Username không tồn tại!"));
+    }
+
+    @Override
+    public Staff findStaffByEmail(String email) {
+        return staffRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("Email không tồn tại!"));
+    }
+
+    @Override
+    public Boolean existsByEmail(String email) {
+        return staffRepository.existsByEmail(email);
     }
 
 //    @Override

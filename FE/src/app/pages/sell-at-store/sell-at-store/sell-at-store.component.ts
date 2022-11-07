@@ -55,7 +55,7 @@ export class SellAtStoreComponent implements OnInit {
               private orderDetailService: OrderDetailService,
               private matDiaLog: MatDialog,
               private toastService: ToastrService,
-              private storageService: StorageService,) {
+              private storageService: StorageService) {
     this.full_name = this.storageService.getFullNameFromToken();
   }
 

@@ -14,12 +14,12 @@ export class StorageService {
   }
 
   public saveUserToken(userToken: any): void {
-    window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(userToken));
+    window.localStorage.removeItem(USER_KEY);
+    window.localStorage.setItem(USER_KEY, JSON.stringify(userToken));
   }
 
   public getUserToken(): any {
-    const userToken = window.sessionStorage.getItem(USER_KEY);
+    const userToken = window.localStorage.getItem(USER_KEY);
     if (userToken) {
       return JSON.parse(userToken);
     }
@@ -37,7 +37,7 @@ export class StorageService {
   }
 
   clearToken() {
-    window.sessionStorage.removeItem(USER_KEY);
+    window.localStorage.removeItem(USER_KEY);
   }
 
   reloadPage(): void {

@@ -24,6 +24,9 @@
   border-bottom: 0.5px solid #9a9fa2;
 }
 
+.createDate b {
+  margin: 10px 0 10px 10px;
+}
 .status-order p {
   color: red;
   margin-top: 10px;
@@ -77,14 +80,14 @@
   object-fit: cover;
 }
 
-.price {
-  position: relative;
-}
+/*.price {*/
+/*  position: relative;*/
+/*}*/
 
 .price .center {
-  position: absolute;
-  top: 37%;
-  left: 30%;
+  /*position: absolute;*/
+  margin-top: 37%;
+  /*left: 30%;*/
 }
 
 .max-height {

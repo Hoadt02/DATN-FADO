@@ -12,6 +12,7 @@ export const ApiConstant = {
   customer: `${environment.service.localhost}/api/v1/customer`,
   image: `${environment.service.localhost}/api/v1/image`,
   sendMail: `${environment.service.localhost}/api/v1/sendMail`,
+  sendMailAgain: `${environment.service.localhost}/api/v1/sendMailAgain`,
   sendMailWithAttachment: `${environment.service.localhost}/api/v1/sendMailWithAttachment`,
   promotional : `${environment.service.localhost}/api/v1/promotional`,
   promotionalProduct : `${environment.service.localhost}/api/v1/product-promotional`,
