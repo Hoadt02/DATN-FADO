@@ -27,4 +27,8 @@ export class OrderService {
   delete(id: number) {
     return this.api.delete(id);
   }
+
+  getOrderByStaff(id: number) {
+    return this.api.getOrderByStaff(id);
+  }
 }

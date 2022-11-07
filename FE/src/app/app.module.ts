@@ -29,7 +29,12 @@ import {MatTableModule} from "@angular/material/table";
     }),
     SidebarModule,
     NavbarModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-left', timeOut: 1500,
+      closeButton: true,
+      maxOpened: 1,
+      autoDismiss: true,
+    }),
     FooterModule,
     FixedPluginModule,
     HttpClientModule,

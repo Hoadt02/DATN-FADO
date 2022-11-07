@@ -10,7 +10,6 @@ import {Constants} from '../../../shared/Constants';
 import {CustomerFormComponent} from '../../customer-management/customer-form/customer-form.component';
 import {CustomerService} from '../../../shared/services/api-service-impl/customer.service';
 import {ToastrService} from 'ngx-toastr';
-import {CartService} from "../../../shared/services/api-service-impl/cart.service";
 
 @Component({
   selector: 'app-sell-at-store',
@@ -21,7 +20,6 @@ export class SellAtStoreComponent implements OnInit {
   isLoading = true;
   RESULT_CLOSE_DIALOG = Constants.RESULT_CLOSE_DIALOG;
   TYPE_DIALOG = Constants.TYPE_DIALOG;
-
 
   tabs = [];
   selectedTab: any;
@@ -38,6 +36,10 @@ export class SellAtStoreComponent implements OnInit {
   checkQuantity = false;
   createOrder: any;
   idOrder: any;
+  soHoaDon = 0;
+  idHoaDon: any[] = [];
+  price: number;
+  tienKhachDua = 0;
 
   formGroup: FormGroup;
   full_name: string;
@@ -51,7 +53,6 @@ export class SellAtStoreComponent implements OnInit {
               private fb: FormBuilder,
               private orderService: OrderService,
               private orderDetailService: OrderDetailService,
-              private cartService: CartService,
               private matDiaLog: MatDialog,
               private toastService: ToastrService,
               private storageService: StorageService,) {
@@ -64,102 +65,11 @@ export class SellAtStoreComponent implements OnInit {
     this.initForm();
     this.getAllNameProduct();
     this.getCustomerForCombobox();
+    this.getOrderByStaff(this.storageService.getIdFromToken());
+    this.getPayment();
   }
 
-  getAllNameProduct() {
-    this.productDetailService.getAllProductDetail().subscribe((data: any) => {
-      this.products = data;
-      this.filterProduct = data;
-    })
-  }
-
-  initForm() {
-    this.formGroup = this.fb.group({
-      name: [''],
-    })
-    this.formGroup.get('name').valueChanges.subscribe((data: any) => {
-      this.onChangeSearch(data);
-    })
-  }
-
-  onChangeSearch(search) {
-    // this.filterProduct = this.products.filter(item => {
-    //   return item.toString().toLowerCase().indexOf(search.toLowerCase()) > -1;
-    // })
-    this.productDetailService.findProductByName(search).subscribe((data: any) => {
-      this.filterProduct = data;
-    })
-  }
-
-  addTab(selectAfterAdding: boolean) {
-    const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
-      width: '500px',
-      disableClose: true,
-      hasBackdrop: true,
-      data: {
-        title: 'Tạo hóa đơn',
-        message: 'Bạn có muốn tạo hóa đơn không ?',
-      }
-    });
-    diaLogRef.afterClosed().subscribe((data: any) => {
-      if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
-        this.orderService.save(this.createOrder).subscribe((data: any) => {
-          this.idOrder = data.id;
-          this.getOrderDetailByOrder(this.idOrder);
-          this.tabs.push(`Hoá đơn ${this.tabs.length + 1}`);
-          this.selected.setValue(this.tabs.length - 1);
-          this.toastService.success('Tạo hóa đơn thành công !');
-        }, error => {
-          this.toastService.error('Tạo hóa đơn thất bại !')
-          console.log(error)
-          return;
-        })
-      }
-    })
-  }
-
-  removeTab(index: number) {
-    const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
-      width: '500px',
-      disableClose: true,
-      hasBackdrop: true,
-      data: {
-        title: 'Xóa hóa đơn',
-        message: 'Bạn có muốn xóa hóa đơn không ?',
-      }
-    });
-    diaLogRef.afterClosed().subscribe((data: any) => {
-      if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
-        this.tabs.splice(index, 1);
-        this.toastService.success('Xóa hóa đơn thành công !');
-      }
-    }, error => {
-      this.toastService.warning('Xóa hóa đơn thất bại !')
-    })
-  }
-
-  addOrder(idProduct: any) {
-    const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
-      width: '500px',
-      disableClose: true,
-      hasBackdrop: true,
-      data: {
-        title: 'Chọn sản phẩm',
-        message: 'Bạn có muốn thêm sản phẩm vào hóa đơn không ?',
-      }
-    });
-    diaLogRef.afterClosed().subscribe((data: any) => {
-      if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
-        if (this.tabs.length == 0) {
-          this.toastService.warning('Vui lòng tạo hóa đơn trước !');
-        } else {
-
-        }
-      }
-    })
-  }
-
-
+  // Phần của sơn
   openSave(type: any, row?: any) {
     const dialogRef = this.matDiaLog.open(CustomerFormComponent, {
       width: '780px',
@@ -184,6 +94,118 @@ export class SellAtStoreComponent implements OnInit {
     });
   }
 
+  //----------------------------------------------------------------------
+
+  // Phần của vinh
+  getAllNameProduct() {
+    this.productDetailService.getAllProductDetail().subscribe((data: any) => {
+      this.products = data;
+      this.filterProduct = data;
+    })
+  }
+
+  initForm() {
+    this.formGroup = this.fb.group({
+      name: [''],
+    })
+    this.formGroup.get('name').valueChanges.subscribe((data: any) => {
+      this.onChangeSearch(data);
+    })
+  }
+
+  onChangeSearch(search) {
+    this.productDetailService.findProductByName(search).subscribe((data: any) => {
+      this.filterProduct = data;
+    })
+  }
+
+  addTab(selectAfterAdding: boolean) {
+    const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
+      width: '400px',
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        title: 'Tạo hóa đơn',
+        message: 'Bạn có muốn tạo hóa đơn không ?',
+      }
+    });
+    diaLogRef.afterClosed().subscribe((data: any) => {
+      if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
+        this.orderService.save(this.createOrder).subscribe((data: any) => {
+          this.idOrder = data.id;
+          console.log(this.idOrder)
+
+          this.soHoaDon++;
+          this.idHoaDon.push({
+            name: this.soHoaDon,
+            value: data.id
+          })
+          this.orderDetailService.findOrderDetailByOrder(data.id).subscribe((data2: any) => {
+            this.orderDetails = data2;
+          })
+
+          this.tabs.push(`Hoá đơn ${this.tabs.length + 1}`);
+          this.selected.setValue(this.tabs.length - 1);
+          this.toastService.success('Tạo hóa đơn thành công !');
+          this.getOrderByStaff(this.storageService.getIdFromToken());
+        }, error => {
+          this.toastService.error('Tạo hóa đơn thất bại !')
+          console.log(error)
+          return;
+        })
+      }
+    })
+  }
+
+  removeTab(index: number) {
+    const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
+      width: '400px',
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        title: 'Xóa hóa đơn',
+        message: 'Bạn có muốn xóa hóa đơn không ?',
+      }
+    });
+    diaLogRef.afterClosed().subscribe((data: any) => {
+      if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
+        this.tabs.splice(index, 1);
+        this.toastService.success('Xóa hóa đơn thành công !');
+      }
+    }, error => {
+      this.toastService.warning('Xóa hóa đơn thất bại !')
+    })
+  }
+
+  addOrder(idProduct: any) {
+    const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
+      width: '400px',
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        title: 'Chọn sản phẩm',
+        message: 'Bạn có muốn thêm sản phẩm vào hóa đơn không ?',
+      }
+    });
+    diaLogRef.afterClosed().subscribe((data: any) => {
+      if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
+        if (this.tabs.length == 0) {
+          this.toastService.warning('Vui lòng tạo hóa đơn trước !');
+        } else {
+          this.productDetailService.findPriceProductDetail(idProduct).subscribe((data: any) => {
+            this.orderDetailService.saveOrderDetail(this.createProductAtOrderDetail(idProduct, this.idOrder, data.price)).subscribe((data2: any) => {
+              this.getOrderDetail();
+              this.toastService.success('Thêm sản phẩm thành công !');
+            }, error => {
+              this.toastService.error('Thêm sản phẩm thất bại !');
+              console.log(error)
+            })
+          })
+        }
+      }
+    })
+  }
+
   setDataOrder() {
     this.createOrder = {
       customer: {
@@ -195,29 +217,51 @@ export class SellAtStoreComponent implements OnInit {
       shipAddress: 'Tai quay',
       createDate: new Date(),
       paymentType: 0,
-      status: 1,
+      status: 0,
       total: 0,
       discount: 0,
       totalPayment: 0,
     }
   }
 
-  createOrderDetail(idProductDetail: number, idOrder: number, quantity: number, price: number) {
-    this.dataOrderDetail = {
+  createProductAtOrderDetail(idProduct: number, idOrder: number, price: number) {
+    const addProduct = {
       productDetail: {
-        id: idProductDetail
+        id: idProduct
       },
       order: {
         id: idOrder
       },
-      quantity: quantity,
+      quantity: 1,
       price: price
-    }
+    };
+    return addProduct;
   }
 
-  getOrderDetailByOrder(id: number) {
+  getOrderDetailByOrder(name: number) {
+    let id = this.idHoaDon.filter(n => n.name == name)[0].value;
     this.orderDetailService.findOrderDetailByOrder(id).subscribe((data: any) => {
+      this.orderDetails = data;
+    })
+  }
+
+  getOrderDetail() {
+    this.orderDetailService.findOrderDetailByOrder(this.idOrder).subscribe((data: any) => {
+      this.orderDetails = data;
+    })
+  }
+
+  getOrderByStaff(id: number) {
+    this.orderService.getOrderByStaff(id).subscribe((data: any) => {
       console.log(data);
     })
+  }
+
+  getPayment() {
+
+  }
+
+  payment() {
+    this.toastService.warning('Đã làm gì đâu mà đòi thanh toán :))))))')
   }
 }

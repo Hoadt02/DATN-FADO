@@ -9,6 +9,7 @@ import {ApiConstant} from "../../constants/api-constant";
 })
 export class ProductDetailsService {
 
+  price$ = new BehaviorSubject<any>(0);
   isCloseDialog: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   idProductDetail: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
@@ -103,4 +104,9 @@ export class ProductDetailsService {
         map((data: any[]) => data.map(item => item['name']))
       );
   }
+
+  findPriceProductDetail(id: number) {
+    return this.apiService.findProductDetail(id);
+  }
+
 }

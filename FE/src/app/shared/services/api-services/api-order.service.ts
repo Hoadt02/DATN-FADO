@@ -27,4 +27,8 @@ export class ApiOrderService {
   delete(id: number) {
     return this.http.delete(`${ApiConstant.order}/${id}`);
   }
+
+  getOrderByStaff(id: number) {
+    return this.http.get(`${ApiConstant.order}/getOrderByStaff/${id}`)
+  }
 }
