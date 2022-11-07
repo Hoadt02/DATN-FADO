@@ -28,6 +28,10 @@ export class ApiOrderDetailService {
     return this.http.post(`${ApiConstant.orderDetail}/admin`, data);
   }
 
+  updateQuantityOrderDetail(data: any) {
+    return this.http.put(`${ApiConstant.orderDetail}/updateQuantityOrderDetail`, data)
+  }
+
   delete(id: number) {
     return this.http.delete(`${ApiConstant.orderDetail}/${id}`);
   }

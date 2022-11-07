@@ -44,10 +44,10 @@ public class OrderServiceImpl implements IOrderService {
         return this.orderRepository.save(order);
     }
 
-    @Override
-    public void delete(Integer id) {
-        orderRepository.deleteById(id);
-    }
+//    @Override
+//    public void delete(Integer id) {
+//        orderRepository.deleteById(id);
+//    }
 
     public void updateStatus(Integer status, Integer id) {
         if (4 == status) {
@@ -59,6 +59,14 @@ public class OrderServiceImpl implements IOrderService {
             }
         }
         this.orderRepository.updateStatus(status, id);
+    }
+
+
+
+    // Day la` pha`n toi nha' ba.n hien da.u da.u
+    @Override
+    public List<Order> getOrderByStaff(Integer id) {
+        return this.orderRepository.getOrderByStaff(id);
     }
 
 }

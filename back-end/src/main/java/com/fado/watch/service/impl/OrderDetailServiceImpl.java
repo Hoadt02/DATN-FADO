@@ -66,7 +66,25 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     // Day la` pha`n toi nha' ba.n hien da.u da.u
     @Override
     public OrderDetail saveOrderDetail(OrderDetail orderDetail) {
-        return this.orderDetailRepository.save(orderDetail);
+        OrderDetail orderDetailNew = this.orderDetailRepository.checkTrungSP(orderDetail.getProductDetail().getId(), orderDetail.getOrder().getId());
+        if (orderDetailNew == null) {
+            orderDetailNew = new OrderDetail();
+            orderDetailNew.setProductDetail(orderDetail.getProductDetail());
+            orderDetailNew.setOrder(orderDetail.getOrder());
+            orderDetailNew.setQuantity(orderDetail.getQuantity());
+            orderDetailNew.setPrice(orderDetail.getPrice());
+        } else {
+            orderDetailNew.setQuantity(orderDetailNew.getQuantity() + orderDetail.getQuantity());
+        }
+
+        return this.orderDetailRepository.save(orderDetailNew);
+    }
+
+    @Override
+    public OrderDetail updateQuantityOrderDetail(OrderDetail orderDetail) {
+        OrderDetail orderDetailNew = this.orderDetailRepository.checkTrungSP(orderDetail.getProductDetail().getId(), orderDetail.getOrder().getId());
+        orderDetailNew.setQuantity(orderDetail.getQuantity());
+        return this.orderDetailRepository.save(orderDetailNew);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.fado.watch.controller;
 
-
 import com.fado.watch.dto.request.CartRequest;
 import com.fado.watch.entity.OrderDetail;
 import com.fado.watch.service.IOrderDetailService;
@@ -46,7 +45,12 @@ public class OrderDetailController {
     // Day la` pha`n toi nha' ba.n hien da.u da.u
     @PostMapping("/admin")
     public ResponseEntity<OrderDetail> save(@RequestBody OrderDetail orderDetail) {
-        return new ResponseEntity<>(this.orderDetailService.saveOrderDetail(orderDetail), HttpStatus.OK);
+        return ResponseEntity.ok(this.orderDetailService.saveOrderDetail(orderDetail));
+    }
+
+    @PutMapping("updateQuantityOrderDetail")
+    public ResponseEntity<OrderDetail> updateQuantity(@RequestBody OrderDetail orderDetail) {
+        return ResponseEntity.ok(this.orderDetailService.updateQuantityOrderDetail(orderDetail));
     }
 
     @DeleteMapping("/{id}")

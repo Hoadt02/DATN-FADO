@@ -12,9 +12,10 @@ public interface IOrderService {
 
     Order save(Order order);
 
-    void delete(Integer id);
+//    void delete(Integer id);
 
     void updateStatus(Integer status, Integer id);
 
-
+    // Day la` pha`n toi nha' ba.n hien da.u da.u
+    List<Order> getOrderByStaff(Integer id);
 }
