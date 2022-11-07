@@ -56,48 +56,51 @@ export class PromotionalService {
     data.description = data.description.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
     data.startDate = formatDate(data.startDate);
     data.endDate = formatDate(data.endDate);
-    if (data.status == 1 && formatDate(data.startDate) > formatDate(new Date())) {
+    if (formatDate(data.startDate) > formatDate(new Date())) {
       data.status = 2;
-    } else if (data.status == 1 && formatDate(data.endDate) < formatDate(new Date())) {
+    } else if (formatDate(data.endDate) < formatDate(new Date())) {
       data.status = 0;
-    } else if (data.status == 1 && formatDate(data.endDate) > formatDate(new Date())) {
+    } else if (formatDate(data.endDate) > formatDate(new Date())) {
+      data.status = 1;
+    }
+
+  }
+
+  dataInputUpdateStatus(data: any) {
+    if (formatDate(data.startDate) > formatDate(new Date()) && data.status == 1) {
+      data.status = 2;
+    }
+  }
+
+  dataInputUpdateCheckIn(data: any) {
+    data.name = data.name.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+    data.description = data.description.replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+    data.startDate = formatDate(data.startDate);
+    data.endDate = formatDate(data.endDate);
+    if (formatDate(data.endDate) < formatDate(new Date()) && data.status == 1) {
+      data.status = 0;
+    } else if (formatDate(data.startDate) <= formatDate(new Date()) && data.status == 2) {
       data.status = 1;
     }
   }
 
   create(data: any) {
     this.dataInput(data);
-    return this.apiPromotional.create(data).subscribe({
-      next: (data: any) => {
-        console.log(data);
-        this.toastrService.success('Thêm khuyến mại thành công!');
-        this.isCloseDialog.next(true);
-      }, error: err => {
-        console.log(err);
-        if (err.error.code == 'UNIQUE') {
-          this.toastrService.warning(err.error.message);
-          return;
-        }
-        this.toastrService.error('Thêm khuyến mại thất bại!');
-      }
-    })
+    return this.apiPromotional.create(data);
   }
 
   update(id: number, data: any) {
     this.dataInputUpdate(data);
-    return this.apiPromotional.update(id, data).subscribe({
-      next: (data: any) => {
-        console.log(data);
-        this.toastrService.success('Sửa khuyến mại thành công!');
-        this.isCloseDialog.next(true);
-      }, error: err => {
-        console.log(err);
-        if (err.error.code == 'UNIQUE') {
-          this.toastrService.warning(err.error.message);
-          return;
-        }
-        this.toastrService.error('Sửa khuyến mại thất bại!');
-      }
-    })
+    return this.apiPromotional.update(id, data);
+  }
+
+  updateStatus(id: number, data: any) {
+    this.dataInputUpdateStatus(data);
+    return this.apiPromotional.update(id, data);
+  }
+
+  updateCheckIn(id: number, data: any) {
+    this.dataInputUpdateCheckIn(data);
+    return this.apiPromotional.update(id, data);
   }
 }

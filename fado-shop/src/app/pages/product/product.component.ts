@@ -20,27 +20,36 @@ import {ProductPromotionalService} from "../../shared/service/api-service-impl/p
 })
 export class ProductComponent implements OnInit {
   readonly TYPE_SORT = Contants.TYPE_SORT;
+  readonly TYPE_SHOW = Contants.TYPE_SHOW;
   readonly TYPE_FILTER = Contants.TYPE_FILTER;
 
+  // name sort product and show many product
   sort_name = 'Sắp xếp';
-  sort_value = 0;
+  show_name = 'Hiển thị: 12';
 
+  // params sorting and paging
+  page = 0;
+  size = 12;
+  sort = 0;
+  totalPages: any[] = [];
+
+  // get value oninit
   categories: any[] = [];
   brands: any[] = [];
   materials: any[] = [];
   origins: any[] = [];
   products: any[] = [];
 
+  // params filter
   category_id: any[] = [];
   brand_id: any[] = [];
   material_id: any[] = [];
   origin_id: any[] = [];
   gender: any[] = [];
-  startPrice: any = null;
-  endPrice: any = null;
 
+
+  // url filter
   url_param: string = '';
-  showFiller = false;
 
   //-------------------------------
   dataAddToCart: any;
@@ -49,7 +58,7 @@ export class ProductComponent implements OnInit {
 
   //-------------------------------
 
-  formGroup: FormGroup = this.fb.group(
+  formGroup = this.fb.group(
     {
       startPrice: [null, [Validators.required]],
       endPrice: [null, [Validators.required]],
@@ -86,94 +95,13 @@ export class ProductComponent implements OnInit {
     this.loadByOrigin();
   }
 
-  loadProductDetailByFilter(type: string, value: any) {
-    this.setValueFilter(type, value);
-    this.setUrlParam();
-    if (this.url_param == '') {
-      this.loadByProductDetail();
-    } else {
-      this.productDetailService
-        .getProductDetailByFilter(this.url_param)
-        .subscribe((data) => {
-          if (data) {
-            this.products = data;
-            this.setSortProduct(this.sort_value);
-          }
-        });
-    }
-  }
-
-  setValueFilter(type: string, value: any) {
-    if (type == this.TYPE_FILTER.CATEGORY) {
-      const index = this.category_id.findIndex((n) => n == value);
-      if (index > -1) {
-        this.category_id.splice(index, 1);
-      } else {
-        this.category_id.push(value);
-      }
-    } else if (type == this.TYPE_FILTER.BRAND) {
-      const index = this.brand_id.findIndex((n) => n == value);
-      if (index > -1) {
-        this.brand_id.splice(index, 1);
-      } else {
-        this.brand_id.push(value);
-      }
-    } else if (type == this.TYPE_FILTER.MATERIAL) {
-      const index = this.material_id.findIndex((n) => n == value);
-      if (index > -1) {
-        this.material_id.splice(index, 1);
-      } else {
-        this.material_id.push(value);
-      }
-    } else if (type == this.TYPE_FILTER.ORIGIN) {
-      const index = this.origin_id.findIndex((n) => n == value);
-      if (index > -1) {
-        this.origin_id.splice(index, 1);
-      } else {
-        this.origin_id.push(value);
-      }
-    } else if (type == this.TYPE_FILTER.GENDER) {
-      const index = this.gender.findIndex((n) => n == value);
-      if (index > -1) {
-        this.gender.splice(index, 1);
-      } else {
-        this.gender.push(value);
-      }
-    } else if (type == this.TYPE_FILTER.START_PRICE) {
-      this.startPrice = value;
-    } else if (type == this.TYPE_FILTER.END_PRICE) {
-      this.endPrice = value;
-    }
-  }
-
-  setUrlParam() {
-    this.url_param = '';
-    for (const c of this.category_id) {
-      this.url_param += 'category_id=' + c + '&';
-    }
-    for (const b of this.brand_id) {
-      this.url_param += 'brand_id=' + b + '&';
-    }
-    for (const m of this.material_id) {
-      this.url_param += 'material_id=' + m + '&';
-    }
-    for (const o of this.origin_id) {
-      this.url_param += 'origin_id=' + o + '&';
-    }
-    for (const g of this.gender) {
-      this.url_param += 'gender=' + g + '&';
-    }
-    if (this.startPrice != null && this.endPrice != null) {
-      this.url_param +=
-        'startPrice=' + this.startPrice + '&endPrice=' + this.endPrice;
-    }
-  }
-
+  // Start get value oninit
   loadByProductDetail() {
-    this.productDetailService.getAllProductDetail().subscribe((data: any) => {
-      if (data) {
-        data = data.filter((n: { status: number }) => n.status == 1);
-        this.products = data;
+    this.productDetailService.findProductsWithPaginationAndSortingAndFilter(this.setData()).subscribe((data: any) => {
+      this.products = data.content;
+      this.totalPages = [];
+      for (let i = 0; i < data.totalPages; i++) {
+        this.totalPages.push(i + 1);
       }
     });
   }
@@ -209,36 +137,98 @@ export class ProductComponent implements OnInit {
       }
     });
   }
+  // End
 
+  // Start set filter with click checkbox
+  addValueFilter(data:any, value:any){
+    const index = data.findIndex((n:any) => n == value);
+    if (index > -1) {
+      data.splice(index, 1);
+    } else {
+      data.push(value);
+    }
+  }
+
+  setValueFilter(type: string, value: any) {
+    if (type == this.TYPE_FILTER.CATEGORY) this.addValueFilter(this.category_id,value);
+    else if (type == this.TYPE_FILTER.BRAND) this.addValueFilter(this.brand_id,value);
+    else if (type == this.TYPE_FILTER.MATERIAL) this.addValueFilter(this.material_id, value);
+    else if (type == this.TYPE_FILTER.ORIGIN) this.addValueFilter(this.origin_id, value);
+    else if (type == this.TYPE_FILTER.GENDER) this.addValueFilter(this.gender, value);
+    this.loadByProductDetail();
+  }
+  // End
+
+  // Start set data using load list product
+  setData(){
+    const data = {
+      page: this.page,
+      size: this.size,
+      sort: this.sort,
+      category_id: this.category_id,
+      brand_id: this.brand_id,
+      material_id: this.brand_id,
+      origin_id: this.origin_id,
+      gender: this.gender,
+      startPrice: this.formGroup.getRawValue().startPrice,
+      endPrice: this.formGroup.getRawValue().endPrice
+    }
+    return data;
+  }
+  // End
+
+  // submit filter price
   onSubmitFilterPrice() {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.invalid) return;
 
-    this.startPrice = this.formGroup.getRawValue().startPrice;
-    this.endPrice = this.formGroup.getRawValue().endPrice;
-
-    this.setUrlParam();
-    this.productDetailService
-      .getProductDetailByFilter(this.url_param)
-      .subscribe((data) => {
-        if (data) {
-          this.products = data;
-          console.log(data);
-        }
-      });
+    this.loadByProductDetail();
   }
 
-  setSortProduct(type: number) {
+  // Start sorting and paging
+  setSortProduct(type: string) {
     if (type == this.TYPE_SORT.PRICE_DOWN) {
       this.sort_name = 'Giá: từ thấp đến cao';
-      this.sort_value = this.TYPE_SORT.PRICE_DOWN;
-      this.products.sort((a, b) => (a.price < b.price ? -1 : 1));
+      this.page = 0;
+      this.sort = 1;
+      this.loadByProductDetail();
     } else if (type == this.TYPE_SORT.PRICE_UP) {
       this.sort_name = 'Giá: từ cao đến thấp';
-      this.sort_value = this.TYPE_SORT.PRICE_UP;
-      this.products.sort((a, b) => (a.price > b.price ? -1 : 1));
+      this.page = 0;
+      this.sort = 2;
+      this.loadByProductDetail();
     }
   }
+
+  setShowProduct(type: string) {
+    if (type == this.TYPE_SHOW.SHOW_8) {
+      if (this.size == 8) return;
+      this.show_name = 'Hiển thị: 8';
+      this.page = 0;
+      this.size = 8;
+      this.loadByProductDetail();
+    } else if (type == this.TYPE_SHOW.SHOW_12) {
+      if (this.size == 12) return;
+      this.show_name = 'Hiển thị: 12';
+      this.page = 0;
+      this.size = 12;
+      this.loadByProductDetail();
+    } else if (type == this.TYPE_SHOW.SHOW_20) {
+      if (this.size == 20) return;
+      this.show_name = 'Hiển thị: 20';
+      this.page = 0;
+      this.size = 20;
+      this.loadByProductDetail();
+    }
+  }
+
+  changePage(page: number) {
+    if (page - 1 == this.page) return;
+    this.page = page - 1;
+    this.loadByProductDetail();
+  }
+  // End
+
 
   //----------------------------------------------------------
   addToCart(raw: any) {

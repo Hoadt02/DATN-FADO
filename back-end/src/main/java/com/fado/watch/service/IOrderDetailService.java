@@ -1,7 +1,6 @@
 package com.fado.watch.service;
 
-import com.fado.watch.dto.response.CartResponse;
-import com.fado.watch.entity.Order;
+import com.fado.watch.dto.request.CartRequest;
 import com.fado.watch.entity.OrderDetail;
 
 import java.util.List;
@@ -14,7 +13,7 @@ public interface IOrderDetailService {
 
     List<OrderDetail> getAllOrderDetailInOrder(Integer id);
 
-    void save(CartResponse response);
+    void save(CartRequest response);
 
 
     // Day la` pha`n toi nha' ba.n hien da.u da.u

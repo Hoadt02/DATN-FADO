@@ -109,4 +109,8 @@ export class ProductDetailsService {
     return this.apiService.findProductDetail(id);
   }
 
+  findProductWithFilter(data:any){
+    return this.apiService.findProductWithFilter(data);
+  }
+
 }

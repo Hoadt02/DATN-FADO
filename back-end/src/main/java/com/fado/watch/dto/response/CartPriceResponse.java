@@ -11,11 +11,12 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 
+//thằng này để thêm giá
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class CartDto implements Serializable {
+public class CartPriceResponse implements Serializable {
 
     @Id
     private Integer id;

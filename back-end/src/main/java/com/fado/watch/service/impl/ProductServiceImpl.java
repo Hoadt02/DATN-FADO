@@ -5,6 +5,9 @@ import com.fado.watch.exception.UniqueException;
 import com.fado.watch.repository.ProductRepository;
 import com.fado.watch.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,4 +39,5 @@ public class ProductServiceImpl implements IProductService {
     public Product update(Product product) {
         return repository.save(product);
     }
+
 }

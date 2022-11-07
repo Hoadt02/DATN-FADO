@@ -5,8 +5,6 @@ export class Contants {
     MATERIAL: 'material',
     ORIGIN: 'origin',
     GENDER: 'gender',
-    START_PRICE: 'start_price',
-    END_PRICE: 'end_price',
   };
 
   public static TYPE_UPDATE_NUMBER_PRD = {
@@ -31,9 +29,17 @@ export class Contants {
   };
 
   public static TYPE_SORT = {
-    PRICE_UP: 1,
-    PRICE_DOWN: 2,
+    PRICE_UP: 'price_up',
+    PRICE_DOWN: 'price_down',
   };
+
+  public static TYPE_SHOW = {
+    SHOW_8: 'show_8',
+    SHOW_12: 'show_12',
+    SHOW_20: 'show+20'
+  };
+
+
   public static TYPE_DIALOG = {
     NEW: 'new',
     UPDATE: 'update'

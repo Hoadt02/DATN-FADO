@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {StaffService} from "../../shared/services/api-service-impl/staff.service";
 import {ToastrService} from "ngx-toastr";
-import {SendMailService} from "../../shared/services/api-service-impl/send-mail.service";
 import {Regex} from "../../shared/validator/regex";
+import {SendMailService} from "../../shared/services/api-service-impl/send-mail.service";
 
 @Component({
   selector: 'app-forget-password',
@@ -76,7 +76,7 @@ export class ForgotPasswordComponent implements OnInit {
     if (this.formGroup.getRawValue().password != this.formGroup.getRawValue().confirm_password) return;
 
     this.staffChangePass.password = this.formGroup.getRawValue().password;
-    this.staffService.updatePass(this.staffChangePass.id, this.staffService);
+    this.staffService.updatePass(this.staffChangePass.id, this.staffChangePass);
   }
 
   findCustomerByEmailAndSendOTP() {

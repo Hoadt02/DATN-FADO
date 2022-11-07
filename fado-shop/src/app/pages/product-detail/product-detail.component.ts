@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router, RouterModule} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ProductDetailsService} from "../../shared/service/api-service-impl/product-details.service";
 import {ImageService} from "../../shared/service/api-service-impl/image.service";
 import {CartService} from "../../shared/service/api-service-impl/cart.service";
@@ -56,7 +56,7 @@ export class ProductDetailComponent implements OnInit {
 
         //Get similar product
         this.productDetailService.getSimilarProduct(data.product.id).subscribe(res2 => {
-          this.listSimilarProduct = res2.filter((n:any) => n.id != this.productDetail.id);
+          this.listSimilarProduct = res2.filter((n: any) => n.id != this.productDetail.id);
         })
       },
       error: (error) => {
@@ -128,9 +128,34 @@ export class ProductDetailComponent implements OnInit {
 
   slideConfig = {
     slidesToShow: 6,
-    slidesToScroll:1,
-    swipeToSlide:true,
-    autoplay:true ,
-    autoplaySpeed: 3000
+    slidesToScroll: 1,
+    swipeToSlide: true,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    responsive: [{
+      breakpoint: 1216,
+      settings: {
+        arrows: false,
+        slidesToShow: 5
+      }
+    }, {
+        breakpoint: 992,
+        settings: {
+          arrows: false,
+          slidesToShow: 4
+        }
+      }, {
+        breakpoint: 768,
+        settings: {
+          arrows: false,
+          slidesToShow: 3
+        }
+      }, {
+        breakpoint: 544,
+        settings: {
+          arrows: false,
+          slidesToShow: 2
+        }
+      }]
   };
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+//thằng này nhận list status để check khuyến mại
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

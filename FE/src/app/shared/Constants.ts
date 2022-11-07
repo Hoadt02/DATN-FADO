@@ -13,15 +13,6 @@ export class Constants {
     NOT_ACTIVE: 'not_active'
   }
 
-  public static TYPE_FILTER = {
-    PRODUCT: 'product',
-    BRAND: 'brand',
-    MATERIAL: 'material',
-    ORIGIN: 'origin',
-    GENDER: 'gender',
-    STATUS: 'status'
-  }
-
   public static TYPE_AUTH = {
     SUPER_ADMIN: 'ROLE_SUPER_ADMIN',
     ADMIN: 'ROLE_ADMIN'

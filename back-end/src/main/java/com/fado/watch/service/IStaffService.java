@@ -1,5 +1,6 @@
 package com.fado.watch.service;
 
+import com.fado.watch.dto.response.StaffDto;
 import com.fado.watch.entity.Staff;
 
 import java.util.List;
@@ -8,7 +9,7 @@ public interface IStaffService {
 
     List<Staff> findAll();
 
-    Staff findById(Integer id);
+    StaffDto findById(Integer id);
 
     Staff create(Staff staff);
 

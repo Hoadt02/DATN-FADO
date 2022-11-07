@@ -22,9 +22,12 @@
             <ng-template [ngIf]="addressDefault">
               <b>Gửi tới:</b>
               <span>
-            {{customer.phoneNumber}} - {{addressDefault.province}} - {{addressDefault.district}}
-                - {{addressDefault.commune}}
+                  {{customer.phoneNumber}}
+                - {{customer.firstname}} {{customer.lastname}}
                 - {{addressDefault.other}}
+                - {{addressDefault.commune}}
+                - {{addressDefault.district}}
+                - {{addressDefault.province}}
             </span>
             </ng-template>
           </div>
@@ -126,10 +129,10 @@
             <h6>Tổng tiền hàng</h6>
             <h6>{{subtotal | number}} VND</h6>
           </div>
-<!--          <div class="d-flex justify-content-between">-->
-<!--            <h6>Tổng tiền khuyến mại</h6>-->
-            <!--            <h6>{{subtotal | number}} VND</h6>-->
-<!--          </div>-->
+          <!--          <div class="d-flex justify-content-between">-->
+          <!--            <h6>Tổng tiền khuyến mại</h6>-->
+          <!--            <h6>{{subtotal | number}} VND</h6>-->
+          <!--          </div>-->
           <div class="d-flex justify-content-between mb-4">
             <h6 class="font-weight-medium">Giảm giá voucher</h6>
             <h6 class="font-weight-medium">{{discount | number}} VND</h6>

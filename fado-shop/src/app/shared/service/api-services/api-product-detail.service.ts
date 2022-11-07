@@ -19,11 +19,11 @@ export class ApiProductDetailService{
     return this.httpClient.get(`${ApiConstant.productDetail}/${id}`);
   }
 
-  getProductDetailByFilter(url_param:string):Observable<any>{
-    return this.httpClient.get(`${ApiConstant.productDetail}/filter?${url_param}`);
-  }
-
   getSimilarProduct(id:number):Observable<any>{
     return this.httpClient.get(`${ApiConstant.productDetail}/similar/${id}`);
+  }
+
+  findProductsWithPaginationAndSortingAndFilter(data:any):Observable<any>{
+    return this.httpClient.post(`${ApiConstant.productDetail}/findProductsWithPaginationAndSortingAndFilter`, data);
   }
 }
