@@ -30,17 +30,32 @@ public class Address implements Serializable {
     @Column(unique = true, nullable = false, precision = 10)
     private Integer id;
 
+    @JoinColumn(name = "province_id")
+    private Integer provinceId;
+
     @Column(nullable = false, length = 50)
     private String province;
+
+    @JoinColumn(nullable = false, name = "district_id")
+    private Integer districtId;
 
     @Column(nullable = false, length = 50)
     private String district;
 
-    @Column(nullable = false, length = 50)
-    private String commune;
+    @JoinColumn(nullable = false, name = "ward_id")
+    private String wardId;
 
-    @Column(length = 100)
+    @Column(nullable = false, length = 50)
+    private String ward;
+
+    @Column(nullable = false, length = 100)
     private String other;
+
+    @Column(nullable = false, length = 54)
+    private String fullname;
+
+    @JoinColumn(nullable = false, name = "phone_number")
+    private String phoneNumber;
 
     @Column()
     private Integer defaultAddress;
@@ -48,6 +63,5 @@ public class Address implements Serializable {
     @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
-
 
 }

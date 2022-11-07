@@ -52,7 +52,7 @@
                 </div>
               </div>
               <div class="createDate d-flex justify-content-start">
-                <b>Thông tin giao hàng: {{o.fullname}} - {{o.phoneNumber}} - {{o.shipAddress}}</b>
+                <b>Thông tin giao hàng: {{o.phoneNumber}} - {{o.fullname}} - {{o.shipAddress}}</b>
               </div>
               <div class="max-height scroll-bar">
                 <ng-template *ngFor="let odt of orderDetails" [ngIf]="odt.order.id == o.id">
