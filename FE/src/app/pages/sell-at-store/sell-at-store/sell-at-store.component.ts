@@ -402,4 +402,8 @@ export class SellAtStoreComponent implements OnInit {
       }
     })
   }
+
+
+
+
 }
