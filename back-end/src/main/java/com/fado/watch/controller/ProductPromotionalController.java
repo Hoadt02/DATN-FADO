@@ -55,4 +55,9 @@ public class ProductPromotionalController {
     public void delete(@RequestBody DeleteProductPromotional deleteProductPromotional) {
         this.iProductPromotionalService.delete(deleteProductPromotional.getId());
     }
+
+    @GetMapping("/getPromotional")
+    public ResponseEntity<List<ProductPromotional>> getPromotional(@RequestParam("idO") Integer idOder) {
+        return ResponseEntity.ok(this.iProductPromotionalService.getPromotional(idOder));
+    }
 }

@@ -24,11 +24,23 @@ export class ApiOrderService {
     return this.http.post(ApiConstant.order, data);
   }
 
+  update(idOrder: any,data: any) {
+    return this.http.put(`${ApiConstant.order}/${idOrder}`, data);
+  }
+
   delete(id: number) {
     return this.http.delete(`${ApiConstant.order}/${id}`);
   }
 
   getOrderByStaff(id: number) {
     return this.http.get(`${ApiConstant.order}/getOrderByStaff/${id}`)
+  }
+
+  payment(id: number) {
+    return this.http.get(`${ApiConstant.order}/payment?payment=${id}`)
+  }
+
+  cancelOrder(id: number) {
+    return this.http.get(`${ApiConstant.order}/payment?cancel=${id}`)
   }
 }

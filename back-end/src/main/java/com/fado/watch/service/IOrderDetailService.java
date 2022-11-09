@@ -21,7 +21,7 @@ public interface IOrderDetailService {
 
     OrderDetail updateQuantityOrderDetail(OrderDetail orderDetail);
 
-    void delete(Integer id);
+    void delete(Integer idPro);
 
     List<OrderDetail> findOrderDetailByOrder(Integer id);
 }

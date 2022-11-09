@@ -53,9 +53,9 @@ public class OrderDetailController {
         return ResponseEntity.ok(this.orderDetailService.updateQuantityOrderDetail(orderDetail));
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Integer id) {
-        this.orderDetailService.delete(id);
+    @DeleteMapping
+    public void delete(@RequestParam("idPro") Integer idPro) {
+        this.orderDetailService.delete(idPro);
     }
 
     @GetMapping("findOrderDetailByOrder/{id}")

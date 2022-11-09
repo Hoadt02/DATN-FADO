@@ -10,7 +10,8 @@ import {ToastrService} from "ngx-toastr";
 })
 export class OrderDetailService {
 
-  isReLoad = new BehaviorSubject<boolean>(false);
+  isReLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  quantityPrd$ = new BehaviorSubject<number>(0);
 
   constructor(
     private api: ApiOrderDetailService,
@@ -27,8 +28,6 @@ export class OrderDetailService {
   }
 
 
-
-
   saveOrderDetail(data: any) {
     return this.api.saveOrderDetail(data);
   }
@@ -37,20 +36,28 @@ export class OrderDetailService {
     return this.api.updateQuantityOrderDetail(data).subscribe({
       next: (rs: any) => {
         console.log(rs);
-        this.isReLoad.next(true);
+        this.isReLoading.next(true);
       }, error: (err) => {
         console.log(err);
         this.toastrService.error('Cập nhật số lượng thất bại!');
       }
-    });;
+    });
   }
 
   save(data: any) {
     return this.api.save(data)
   }
 
-  delete(id: number) {
-    return this.api.delete(id);
+  delete(idPro: number) {
+    return this.api.deleteByIdProduct(idPro).subscribe({
+      next:(_: any) => {
+        this.toastrService.success('Đã xóa sản phẩm khỏi hóa đơn !');
+        this.isReLoading.next(true);
+      }, error: (err) => {
+        console.log(err);
+        this.toastrService.error('Đã xóa sản phẩm thất bại !');
+      }
+    });
   }
 
   findOrderDetailByOrder(id: number) {

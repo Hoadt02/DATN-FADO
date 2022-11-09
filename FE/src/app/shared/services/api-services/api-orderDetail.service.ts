@@ -29,11 +29,11 @@ export class ApiOrderDetailService {
   }
 
   updateQuantityOrderDetail(data: any) {
-    return this.http.put(`${ApiConstant.orderDetail}/updateQuantityOrderDetail`, data)
+    return this.http.put(ApiConstant.orderDetail + "/updateQuantityOrderDetail", data)
   }
 
-  delete(id: number) {
-    return this.http.delete(`${ApiConstant.orderDetail}/${id}`);
+  deleteByIdProduct(idPro: number) {
+    return this.http.delete(`${ApiConstant.orderDetail}?idPro=${idPro}`);
   }
 
   findOrderDetailByOrder(id: number) {
