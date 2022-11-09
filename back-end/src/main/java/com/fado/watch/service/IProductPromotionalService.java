@@ -21,4 +21,5 @@ public interface IProductPromotionalService {
 
     void delete(List<Integer> id);
 
+    List<ProductPromotional> getPromotional(Integer idOrder);
 }

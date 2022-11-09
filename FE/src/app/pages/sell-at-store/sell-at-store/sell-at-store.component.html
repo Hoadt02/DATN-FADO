@@ -66,14 +66,14 @@
           <mat-grid-tile>{{index + 1}}</mat-grid-tile>
           <mat-grid-tile>{{order.productDetail.name}}</mat-grid-tile>
           <mat-grid-tile>{{order.price | currency:'VND'}}</mat-grid-tile>
-          <mat-grid-tile><input type="number"
+          <mat-grid-tile><input (change)="updateOrderDetail(TYPE_UPDATE_NUMBER_PRD, order, $event)" type="number"
                                 min="1" required
                                 class="border-radius-10 form-control form-control-sm border-0 text-center mx-2"
                                 value="{{order.quantity}}">
           </mat-grid-tile>
           <mat-grid-tile>{{order.price * order.quantity | currency:'VND'}}</mat-grid-tile>
           <mat-grid-tile>
-            <a mat-icon-button color="warn">
+            <a mat-icon-button color="warn" (click)="deleteOrderDetail(order.productDetail.id)">
               <i class="fa-sharp fa-solid fa-trash"></i>
             </a>
           </mat-grid-tile>
@@ -92,14 +92,16 @@
         <div class="col-4">
           <label class="pt-4">{{ createOrder.createDate | date: 'dd-MM-yyyy hh:mm' }}</label>
         </div>
-        <div class="col-11 py-0">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Tên khách hàng</mat-label>
-            <mat-select disableRipple formControlName="customer">
-              <mat-option *ngFor="let c of listCustomer" [value]="c.id">{{c.firstname}} {{c.lastname}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+        <form [formGroup]="formGroupCustomer" style="width: 90%">
+          <div class="col-11 py-0">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Tên khách hàng</mat-label>
+              <mat-select formControlName="customer">
+                <mat-option *ngFor="let c of listCustomer" [value]="c.id">{{c.firstname}} {{c.lastname}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </form>
         <div class="justify-content-between mr-1 pt-1">
           <button class="btn btn-sm btn-outline-warning px-2" type="button" title="Thêm khách hàng"
                   (click)="openSave(TYPE_DIALOG.NEW)">
@@ -112,16 +114,16 @@
         <div class="border-top pt-1">
           <div class="d-flex justify-content-between mb-1 pt-3">
             <h4>Tổng tiền hàng</h4>
-            <h4>{{createOrder.total}} VND</h4>
+            <h4>{{tongTienHang | currency:'VND'}} VND</h4>
           </div>
           <div class="d-flex justify-content-between mb-1 pt-3">
             <h4>Giảm giá</h4>
-            <h4>{{createOrder.discount}} VND</h4>
+            <h4>{{giamGia | currency:'VND'}} VND</h4>
           </div>
           <div class="border-top pt-2">
             <div class="d-flex justify-content-between pt-3">
               <h4>Tiền khách cần trả</h4>
-              <h4>{{createOrder.total - createOrder.discount}} VND</h4>
+              <h4>{{tienKhachCanTra | currency:'VND'}} VND</h4>
             </div>
 
             <div class="row">
@@ -137,7 +139,7 @@
 
             <div class="d-flex justify-content-between">
               <h4>Tiền thừa trả khách</h4>
-              <h4>{{tienKhachDua - (createOrder.total - createOrder.discount)}} VND </h4>
+              <h4>{{tienKhachDua - tienKhachCanTra | currency:'VND'}} VND </h4>
             </div>
 
             <div class="d-flex justify-content-between pt-2">
@@ -163,3 +165,5 @@
       </div>
     </div>
   </div>
+</div>
+

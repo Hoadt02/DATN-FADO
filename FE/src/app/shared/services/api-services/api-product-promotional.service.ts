@@ -25,4 +25,8 @@ export class ApiProductPromotionalService {
   delete(data: any) {
     return this.http.post(ApiConstant.promotionalProduct + '/delete', data);
   }
+
+  getPromotional(idOrder: number) {
+    return this.http.get(`${ApiConstant.promotionalProduct}/getPromotional?idO=${idOrder}`);
+  }
 }

@@ -88,8 +88,8 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     }
 
     @Override
-    public void delete(Integer id) {
-        orderDetailRepository.deleteById(id);
+    public void delete(Integer idPro) {
+        orderDetailRepository.deleteByIdProduct(idPro);
     }
 
     @Override
