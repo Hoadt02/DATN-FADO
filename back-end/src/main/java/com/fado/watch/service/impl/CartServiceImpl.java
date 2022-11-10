@@ -80,7 +80,7 @@ public class CartServiceImpl implements ICartService {
         }
         for (CartPriceResponse x : cartList) {
             for (ProductPromotional y : productPromotionals) {
-                if (x.getProductDetail().getId() == y.getProductDetail().getId()) {
+                if (Objects.equals(x.getProductDetail().getId(), y.getProductDetail().getId())) {
                     listId.add(y.getPromotional().getId());
                     if (y.getPromotional().isType()) {
                         x.setPrice(x.getProductDetail().getPrice() - (x.getProductDetail().getPrice() * y.getPromotional().getDiscount() / 100));
@@ -101,18 +101,14 @@ public class CartServiceImpl implements ICartService {
     public boolean checkStatusById() {
         List<ProductPromotional> listPrmMoi = this.productPromotionalRepository.findAllProductPromotionalInCart(idCtm);
 
-        //---------------------------------------------------------
 
         List<StatusCheckPromotionalDto> listStatusMoi = this.promotionalRepository.checkStatusById(listId);
         if (listPrmMoi.size() < listPrmCu.size() || listPrmMoi.size() > listPrmCu.size()) {
-            System.out.println("1");
             return true;
         }
         if (listStatusCu.size() < listStatusMoi.size() || listStatusCu.size() > listStatusMoi.size()) {
-            System.out.println("2");
             return true;
         }
-        //---------------------------------------------------------
         for (int i = 0; i < listPrmCu.size(); i++) {
             System.out.println(listPrmCu.get(i).getProductDetail().getId() + " - " + listPrmMoi.get(i).getProductDetail().getId());
             System.out.println(listPrmCu.get(i).getPromotional().getId() + " - " + listPrmMoi.get(i).getPromotional().getId());
@@ -121,10 +117,8 @@ public class CartServiceImpl implements ICartService {
                 return true;
             }
         }
-        //---------------------------------------------------------
         for (int i = 0; i < listStatusCu.size(); i++) {
             if (!Objects.equals(listStatusCu.get(i).getStatus(), listStatusMoi.get(i).getStatus())) {
-                System.out.println("4");
                 return true;
             }
         }
