@@ -31,11 +31,16 @@ export class CheckOutComponent implements OnInit {
   customer: any;
   addressDefault: any;
   idAddress: any;
-  // firstAddress: any;
+  totalFeeShipping: number = 0;
   disableSelect = true;
   provinces!: any[];
   districts!: any[];
   wards!: any[];
+
+  districtName!: string;
+  provinceName!: string;
+  wardName!: string;
+
   formGroup = this.fb.group({
     id: [null],
     province: ['', [Validators.required]],
@@ -78,17 +83,38 @@ export class CheckOutComponent implements OnInit {
     })
   }
 
-  // findAddressByCustomerId() {
-  //   this.apiAddress.findByCustomerId(this.storageService.getIdFromToken()).subscribe({
-  //     next: (data: any) => {
-  //       this.address = data as any;
-  //       this.firstAddress = this.address[0];
-  //       console.log(this.address);
-  //     }, error: err => {
-  //       console.log("loi get addresss: ", err);
-  //     }
-  //   })
-  // }
+  getFeeShipping(districtId: any) {
+    console.log('Địa chỉ: ', this.addressDefault);
+
+    let service_id;
+
+    const infoService = {
+      shop_id: 1034510,
+      from_district: 1734, // từ quận nào
+      to_district: districtId // đến quận nào
+    }
+
+    this.apiAddress.getInfoService(infoService).subscribe((data: any) => {
+      service_id = data.data[0].service_id
+    })
+    const feeShipping = {
+      service_id: service_id, // data trả về t bên trên
+      service_type_id: 2, // đường bộ
+      insurance_value: this.subtotal, // tổng tiền đơn hàng
+      // coupon: null, // giảm giá của nhà vận chuyển
+      from_district_id: 1766, // gửi từ quận nào
+      to_district_id: districtId, // đến quận nào
+      // to_ward_code: 190713,// xã nào
+      weight: 200 // trọng lượng đơn hàng
+    }
+
+    this.apiAddress.feeShipping(feeShipping).subscribe((data: any) => {
+      this.totalFeeShipping = data.data.total
+      this.total += this.totalFeeShipping;
+      console.log("Phí vận chuyển: ", this.totalFeeShipping);
+    })
+
+  }
 
   findByCustomerIdAndDefaultAddress() {
     this.apiAddress.findByCustomerIdAndDefaultAddress(this.storageService.getIdFromToken()).subscribe({
@@ -115,29 +141,45 @@ export class CheckOutComponent implements OnInit {
 
   getProvinces() {
     this.apiAddress.getProvinces().subscribe({
-      next: (data) => {
-        this.provinces = data as any[];
+      next: (data: any) => {
+        this.provinces = data.data;
         this.districts = [];
         this.wards = [];
       },
     });
   }
 
-  getDistricts(code: any) {
-    this.apiAddress.getDistricts(code).subscribe({
+  resetDistrictAndWard() {
+    this.formGroup.patchValue({district: ''});
+    this.formGroup.patchValue({ward: ''});
+  }
+
+  getDistricts(id: any, name: string) {
+    this.provinceName = name
+    this.apiAddress.getDistricts(id).subscribe({
       next: (data: any) => {
-        this.districts = data.districts as any[];
+        this.districts = data.data;
         this.wards = [];
       },
     });
   }
 
-  getWards(code: any) {
-    this.apiAddress.getWards(code).subscribe({
+  getWards(id: any, name: string) {
+    this.districtName = name;
+    this.apiAddress.getWards(id).subscribe({
       next: (data: any) => {
-        this.wards = data.wards as any[];
+        this.wards = data.data;
       },
     });
+    this.getFeeShipping(id);
+  }
+
+  getWardsName(name: any) {
+    this.wardName = name;
+  }
+
+  resetWard() {
+    this.formGroup.patchValue({ward: ''});
   }
 
   // mở lên form chọn địa chỉ
@@ -154,16 +196,16 @@ export class CheckOutComponent implements OnInit {
         idAddressSelect
       }
     }).afterClosed().subscribe(data => {
-      if (data != null) {
-        this.idAddress = data;
-        this.addressFindById();
+      if (null != data && 0 != data) {
+        // this.idAddress = data;
+        this.addressFindById(data);
       }
     })
   }
 
   //tìm kiếm đi chỉ dựa theo id được trả ra lúc chọn khi đóng form
-  addressFindById() {
-    this.apiAddress.findById(this.idAddress).subscribe(data => {
+  addressFindById(id: number) {
+    this.apiAddress.findById(id).subscribe(data => {
       this.addressDefault = data;
     })
   }
@@ -173,24 +215,28 @@ export class CheckOutComponent implements OnInit {
   }
 
   order() {
+    console.log(this.formGroup.getRawValue());
+
     let address = [];
     let fullname;
     let phoneNumber;
     if (this.disableSelect) {
-      address.push(this.addressDefault.other, this.addressDefault.commune
+      address.push(this.addressDefault.other, this.addressDefault.ward
         , this.addressDefault.district, this.addressDefault.province);
-      fullname = this.addressDefault.customer.firstname + ' ' + this.addressDefault.customer.lastname;
-      phoneNumber = this.addressDefault.customer.phoneNumber;
+      fullname = this.addressDefault.fullname;
+      phoneNumber = this.addressDefault.phoneNumber;
     } else {
       if (this.formGroup.invalid) {
         this.toastrService.warning('Vui lòng nhập đầy đủ thông tin giao hàng mới!');
+        this.formGroup.markAllAsTouched();
         return;
       }
-      address.push(this.formGroup.getRawValue().other, this.formGroup.getRawValue().ward
-        , this.formGroup.getRawValue().district, this.formGroup.getRawValue().province);
+      address.push(this.formGroup.getRawValue().other, this.wardName, this.districtName, this.provinceName);
       fullname = this.formGroup.getRawValue().fullname;
       phoneNumber = this.formGroup.getRawValue().phoneNumber;
     }
+
+    console.log(address);
 
     this.dataCreateOrder = {
       customer: {

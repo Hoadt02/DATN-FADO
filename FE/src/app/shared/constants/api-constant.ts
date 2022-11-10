@@ -21,5 +21,6 @@ export const ApiConstant = {
   order: `${environment.service.localhost}/api/v1/order`,
   orderDetail: `${environment.service.localhost}/api/v1/order-detail`,
   cart: `${environment.service.localhost}/api/v1/cart`,
+  uploadImageToHost: `${environment.service.localhost}/api/v1/upload-to-host`,
 }
 

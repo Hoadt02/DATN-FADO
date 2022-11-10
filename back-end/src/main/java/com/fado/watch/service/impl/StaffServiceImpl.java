@@ -34,10 +34,9 @@ public class StaffServiceImpl implements IStaffService {
     }
 
     @Override
-    public StaffDto findById(Integer id) {
-        Staff staff = this.staffRepository.findById(id).orElseThrow(
+    public Staff findById(Integer id) {
+        return this.staffRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Không tìm thấy nhân viên"));
-        return mapper.map(staff, StaffDto.class);
     }
 
     @Override

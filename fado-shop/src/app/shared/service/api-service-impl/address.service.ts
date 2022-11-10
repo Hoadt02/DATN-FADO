@@ -18,14 +18,21 @@ export class AddressService {
     return this.apiAddress.getProvinces();
   }
 
-  getDistricts(code: any) {
-    return this.apiAddress.getDistricts(code);
+  getDistricts(id: any) {
+    return this.apiAddress.getDistricts(id);
   }
 
-  getWards(code: any) {
-    return this.apiAddress.getWards(code);
+  getWards(id: any) {
+    return this.apiAddress.getWards(id);
   }
 
+  getInfoService(data: any) {
+    return this.apiAddress.getInfoService(data);
+  }
+
+  feeShipping(data: any) {
+    return this.apiAddress.feeShipping(data);
+  }
 
   findById(id: number) {
     return this.apiAddress.findById(id);

@@ -4,6 +4,8 @@ import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {AuthService} from "../../shared/services/jwt/auth.service";
 import {StorageService} from "../../shared/services/jwt/storage.service";
+import {MatDialog} from "@angular/material/dialog";
+import {ChangeInfoLoginComponent} from "../../pages/change-info-login/change-info-login.component";
 
 @Component({
   moduleId: module.id,
@@ -18,7 +20,7 @@ export class NavbarComponent implements OnInit {
   private toggleButton;
   private sidebarVisible: boolean;
 
-  full_name:string;
+  full_name: string;
 
   public isCollapsed = true;
   @ViewChild("navbar-cmp", {static: false}) button;
@@ -28,6 +30,7 @@ export class NavbarComponent implements OnInit {
               private element: ElementRef,
               private router: Router,
               private authService: AuthService,
+              private matDiaLog: MatDialog,
               private storageService: StorageService) {
     this.location = location;
     this.nativeElement = element.nativeElement;
@@ -107,7 +110,14 @@ export class NavbarComponent implements OnInit {
 
   }
 
-  logout(){
+  logout() {
     this.authService.logout();
+  }
+
+  openChageInfoLogin() {
+    this.matDiaLog.open(ChangeInfoLoginComponent, {
+      width: '800px',
+      // height: '800px',
+    })
   }
 }
