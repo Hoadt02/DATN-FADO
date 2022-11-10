@@ -55,7 +55,6 @@ public class OrderServiceImpl implements IOrderService {
             for (OrderDetail o : orderDetails) {
                 o.getProductDetail().setQuantity(o.getQuantity() + o.getProductDetail().getQuantity());
                 this.productDetailService.update(o.getProductDetail());
-                break;
             }
         }
         this.orderRepository.updateStatus(status, id);
