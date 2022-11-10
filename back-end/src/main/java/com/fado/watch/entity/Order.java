@@ -28,51 +28,54 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name="orders")
+@Entity(name = "orders")
 public class Order implements Serializable {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(unique=true, nullable=false, precision=10)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false, precision = 10)
     private Integer id;
 
-    @Column(name="ship_address", nullable=false, length=255)
+    @Column(name = "ship_address", nullable = false, length = 255)
     private String shipAddress;
 
-    @Column(name="create_date")
+    @Column(name = "create_date")
     private LocalDate createDate;
 
-    @Column(name="payment_type", nullable=false, precision=10)
+    @Column(name = "payment_type", nullable = false, precision = 10)
     private Integer paymentType;
 
-    @Column(nullable=false, precision=10)
+    @Column(nullable = false, precision = 10)
     private Integer status;
 
-    @Column(nullable=false, length=16777215)
+    @Column(nullable = false)
     private Integer total;
 
-    @Column(nullable=false, length=16777215)
+    @Column(nullable = false)
     private Integer discount;
 
-    @Column(name="total_payment", nullable=false, length=16777215)
+    @Column(name = "total_payment", nullable = false)
     private Integer totalPayment;
 
-    @Column(nullable=true, length=60)
+    @Column(name = "fee_shipping", nullable = false)
+    private Integer feeShipping;
+
+    @Column(nullable = true, length = 60)
     private String fullname;
 
-    @Column(nullable=true, length=10)
+    @Column(nullable = true, length = 10)
     private String phoneNumber;
 
-    @OneToMany(mappedBy="order")
+    @OneToMany(mappedBy = "order")
     @JsonIgnore
     private List<OrderDetail> orderDetailList;
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name="customer_id", nullable=false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name="staff_id", nullable=false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "staff_id", nullable = false)
     private Staff staff;
 
 }
