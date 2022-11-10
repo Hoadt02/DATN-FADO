@@ -61,4 +61,9 @@ public class ProductPromotionalServiceImpl implements IProductPromotionalService
     public void delete(List<Integer> id) {
         this.productPromotionalRepository.deleteAllById(id);
     }
+
+    @Override
+    public List<ProductPromotional> findProductPromotionalByIdProductDetail(Integer[] id) {
+        return this.productPromotionalRepository.findProductPromotionalByIdProductDetail(id);
+    }
 }

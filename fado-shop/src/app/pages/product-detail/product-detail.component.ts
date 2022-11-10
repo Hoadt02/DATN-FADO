@@ -5,6 +5,7 @@ import {ImageService} from "../../shared/service/api-service-impl/image.service"
 import {CartService} from "../../shared/service/api-service-impl/cart.service";
 import {ToastrService} from "ngx-toastr";
 import {StorageService} from "../../shared/service/jwt/storage.service";
+import {ProductPromotionalService} from "../../shared/service/api-service-impl/product-promotional.service";
 
 @Component({
   selector: 'app-product-detail',
@@ -16,6 +17,7 @@ export class ProductDetailComponent implements OnInit {
   productDetail: any;
   listImg: any[] = [];
   listSimilarProduct: any[] = [];
+  productPromotionalCurrent: any[] = [];
 
   //-------------------------------
   dataAddToCart: any;
@@ -32,6 +34,7 @@ export class ProductDetailComponent implements OnInit {
               private apiCart: CartService,
               private toastrService: ToastrService,
               private storageService: StorageService,
+              private apiProductPromotional: ProductPromotionalService
   ) {
   }
 
@@ -58,6 +61,11 @@ export class ProductDetailComponent implements OnInit {
         this.productDetailService.getSimilarProduct(data.product.id).subscribe(res2 => {
           this.listSimilarProduct = res2.filter((n: any) => n.id != this.productDetail.id);
         })
+
+        //Get discount product
+        this.apiProductPromotional.findProductPromotionalByIdProductDetail([data.id]).subscribe(data => {
+          this.productPromotionalCurrent = data;
+        })
       },
       error: (error) => {
         console.log(error);
@@ -67,8 +75,18 @@ export class ProductDetailComponent implements OnInit {
         void this.router.navigate(['/product']);
       }
     });
+  }
 
-
+  loadDiscountProduct(){
+    let discount = 0;
+    if (this.productPromotionalCurrent.length  > 0){
+      if (this.productPromotionalCurrent[0].promotional.type == true){
+        discount = (100 - this.productPromotionalCurrent[0].promotional.discount) / 100 * this.productPromotionalCurrent[0].productDetail.price;
+      }else {
+        discount = this.productPromotionalCurrent[0].productDetail.price - this.productPromotionalCurrent[0].promotional.discount;
+      }
+    }
+    return discount;
   }
 
   addToCart(idPrd: number) {

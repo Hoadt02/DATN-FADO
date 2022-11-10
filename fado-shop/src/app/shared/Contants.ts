@@ -44,4 +44,6 @@ export class Contants {
     NEW: 'new',
     UPDATE: 'update'
   }
+
+  public static LIST_PREFIX = ['a','b','c']
 }

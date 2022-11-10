@@ -3,6 +3,10 @@ import {CartService} from "../../shared/service/api-service-impl/cart.service";
 import {StorageService} from "../../shared/service/jwt/storage.service";
 import {AuthService} from "../../shared/service/jwt/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmDialogComponent} from "../../shared/confirm-dialog/confirm-dialog.component";
+import {Contants} from "../../shared/Contants";
+import {ChangePasswordComponent} from "../../pages/change-password/change-password.component";
 
 @Component({
   selector: 'app-header',
@@ -17,7 +21,8 @@ export class HeaderComponent implements OnInit {
               public storageService: StorageService,
               private authService: AuthService,
               private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private matDiaLog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -46,7 +51,17 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(){
-    this.authService.logout();
+    this.matDiaLog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: {
+        title: 'Đăng xuất',
+        message: 'Bạn muốn đăng xuất tài khoản này ?'
+      }
+    }).afterClosed().subscribe(result => {
+      if (result == Contants.RESULT_CLOSE_DIALOG.CONFIRM){
+        this.authService.logout();
+      }
+    })
   }
 
   redirectLogin(){
@@ -59,5 +74,12 @@ export class HeaderComponent implements OnInit {
       if (params.redirectURL) return;
       void this.router.navigate(['/auth/login'],{queryParams:{redirectURL:this.router.url}});
     }
+  }
+
+  openChangePass() {
+    this.matDiaLog.open(ChangePasswordComponent,{
+      width: '400px',
+      disableClose: true
+    });
   }
 }

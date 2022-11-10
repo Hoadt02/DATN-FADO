@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 
 import {FormBuilder} from '@angular/forms';
 import {Constants} from '../../../shared/Constants';
@@ -26,7 +26,7 @@ export class ProductListComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
 
-  isLoading = true;
+  isLoading:boolean;
   panelOpenState = false;
 
   listProduct: any[] = [];
@@ -68,6 +68,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getAll() {
+    this.isLoading = true;
     this.service.getAllProductDetail().subscribe({
       next: (data: any) => {
         this.dataSource = new MatTableDataSource(data);
@@ -104,7 +105,6 @@ export class ProductListComponent implements OnInit {
   }
 
   onResetFilter() {
-    this.isLoading = true;
     this.formGroup.patchValue({product_id:null, brand_id:null, material_id:null, origin_id:null, status:null, gender:null});
     this.getAll();
   }
@@ -126,7 +126,6 @@ export class ProductListComponent implements OnInit {
         data: {type, row}
       }).afterClosed().subscribe(result => {
       if (result == Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
-        this.isLoading = true;
         this.getAll();
       };
     });

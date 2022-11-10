@@ -29,4 +29,6 @@ public interface ProductPromotionalRepository extends JpaRepository<ProductPromo
             "(select c.productDetail.id from carts c where c.customer.id = :idCtm)")
     List<ProductPromotional> findAllProductPromotionalInCart(Integer idCtm);
 
+    @Query("SELECT pp FROM product_promotionals pp WHERE pp.productDetail.id IN (:id) AND pp.promotional.status = 1")
+    List<ProductPromotional> findProductPromotionalByIdProductDetail(Integer[] id);
 }

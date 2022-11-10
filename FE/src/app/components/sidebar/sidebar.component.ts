@@ -22,12 +22,6 @@ export const ROUTES: RouteInfo[] = [
     class: ''
   },
   {
-    path: '/product-line',
-    title: 'Các dòng sản phẩm',
-    icon: 'nc-watch-time',
-    class: ''
-  },
-  {
     path: '/product-management',
     title: 'Quản lý sản phẩm',
     icon: 'nc-watch-time',
@@ -58,6 +52,24 @@ export const ROUTES: RouteInfo[] = [
     class: ''
   },
   {
+    path: '/category-management',
+    title: 'Quản lý danh mục',
+    icon: 'nc-bullet-list-67',
+    class: ''
+  },
+  {
+    path: '/product-line',
+    title: 'Các dòng sản phẩm',
+    icon: 'nc-watch-time',
+    class: ''
+  },
+  {
+    path: '/brand-management',
+    title: 'Quản lý thương hiệu',
+    icon: 'nc-bold',
+    class: ''
+  },
+  {
     path: '/material-management',
     title: 'Quản lý chất liệu',
     icon: 'nc-atom',
@@ -67,18 +79,6 @@ export const ROUTES: RouteInfo[] = [
     path: '/origin-management',
     title: 'Quản lý xuất xứ',
     icon: 'nc-shop',
-    class: ''
-  },
-  {
-    path: '/category-management',
-    title: 'Quản lý danh mục',
-    icon: 'nc-bullet-list-67',
-    class: ''
-  },
-  {
-    path: '/brand-management',
-    title: 'Quản lý thương hiệu',
-    icon: 'nc-bold',
     class: ''
   },
 ];

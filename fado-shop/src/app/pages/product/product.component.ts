@@ -22,6 +22,7 @@ export class ProductComponent implements OnInit {
   readonly TYPE_SORT = Contants.TYPE_SORT;
   readonly TYPE_SHOW = Contants.TYPE_SHOW;
   readonly TYPE_FILTER = Contants.TYPE_FILTER;
+  isLoading!:boolean;
 
   // name sort product and show many product
   sort_name = 'Sắp xếp';
@@ -39,6 +40,7 @@ export class ProductComponent implements OnInit {
   materials: any[] = [];
   origins: any[] = [];
   products: any[] = [];
+  productPromotionalCurrent: any[] = [];
 
   // params filter
   category_id: any[] = [];
@@ -84,6 +86,7 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(Contants.LIST_PREFIX)
     this.getAllProductPromotional();
     if (this.storageService.getIdFromToken()) {
       this.getAllPrdInCart();
@@ -97,13 +100,48 @@ export class ProductComponent implements OnInit {
 
   // Start get value oninit
   loadByProductDetail() {
-    this.productDetailService.findProductsWithPaginationAndSortingAndFilter(this.setData()).subscribe((data: any) => {
-      this.products = data.content;
-      this.totalPages = [];
-      for (let i = 0; i < data.totalPages; i++) {
-        this.totalPages.push(i + 1);
+    this.isLoading = true;
+    this.productDetailService.findProductsWithPaginationAndSortingAndFilter(this.setData()).subscribe( {
+     next:(data) => {
+       // set data to list product
+       this.products = data.content;
+
+       // set number of pages
+       this.totalPages = [];
+       for (let i = 0; i < data.totalPages; i++) {
+         this.totalPages.push(i + 1);
+       }
+
+       // set data to productPromotionalCurrent
+       const ids = [];
+       for (let i = 0; i < data.content.length; i++) {
+         ids.push(data.content[i].id);
+       }
+       this.apiProductPromotional.findProductPromotionalByIdProductDetail(ids).subscribe(data => {
+         this.productPromotionalCurrent = data;
+         this.isLoading = false;
+       })
+     },
+      error:(_) => {
+       this.isLoading = false;
       }
     });
+  }
+
+  loadDiscountProduct(id:number){
+    let discount = 0;
+    for (let i = 0; i < this.productPromotionalCurrent.length; i++) {
+      if (this.productPromotionalCurrent[i].productDetail.id == id){
+        if (this.productPromotionalCurrent[i].promotional.type == true){
+          discount = (100 - this.productPromotionalCurrent[i].promotional.discount) / 100 * this.productPromotionalCurrent[i].productDetail.price;
+          break;
+        }else {
+          discount = this.productPromotionalCurrent[i].productDetail.price - this.productPromotionalCurrent[i].promotional.discount;
+          break;
+        }
+      }
+    }
+    return discount;
   }
 
   loadByCategory() {
@@ -141,7 +179,7 @@ export class ProductComponent implements OnInit {
 
   // Start set filter with click checkbox
   addValueFilter(data:any, value:any){
-    const index = data.findIndex((n:any) => n == value);
+    let index = data.findIndex((n:any) => n == value);
     if (index > -1) {
       data.splice(index, 1);
     } else {
@@ -229,6 +267,18 @@ export class ProductComponent implements OnInit {
   }
   // End
 
+  //Reset filter
+  resetFilter(){
+    this.page = 0;
+    this.size = 12;
+    this.sort = 0;
+    this.category_id = [];
+    this.brand_id = [];
+    this.material_id = [];
+    this.origin_id = [];
+    this.formGroup.reset();
+    this.loadByProductDetail();
+  }
 
   //----------------------------------------------------------
   addToCart(raw: any) {

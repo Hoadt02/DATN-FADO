@@ -1,1 +1,16 @@
+.item-parent{
+  position: relative;
+}
 
+.item-child{
+  position: absolute;
+  z-index: 1;
+}
+
+.name-product{
+  width : 140px;
+  overflow:hidden;
+  display:inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

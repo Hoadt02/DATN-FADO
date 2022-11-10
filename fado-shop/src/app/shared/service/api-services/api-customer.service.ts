@@ -29,4 +29,8 @@ export class ApiCustomerService {
   update(id: number, data: any):Observable<any> {
     return this.http.put(`${ApiConstant.customer}/${id}`, data);
   }
+
+  accuracyPassword(data:any):Observable<any>{
+    return this.http.post(`${ApiConstant.customer}/accuracyPassword`,data);
+  }
 }
