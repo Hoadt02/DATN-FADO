@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {JwtHelperService} from "@auth0/angular-jwt";
 
-const USER_KEY = 'auth-token';
+const USER_KEY = 'admin-token';
 
 @Injectable({
   providedIn: 'root'

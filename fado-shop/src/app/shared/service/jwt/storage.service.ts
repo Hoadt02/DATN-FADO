@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {JwtHelperService} from "@auth0/angular-jwt";
-import {async} from "rxjs";
 
-const USER_KEY = 'auth-token';
+const USER_KEY = 'customer-token';
 
 @Injectable({
   providedIn: 'root'

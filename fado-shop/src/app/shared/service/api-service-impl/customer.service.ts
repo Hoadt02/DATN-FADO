@@ -47,7 +47,7 @@ export class CustomerService {
     })
   }
 
-  update(id: number, data: any) {
+  updatePass(id: number, data: any) {
     this.dataReplace(data);
     this.apiCustomer.update(id, data).subscribe({
       next: (_) => {
@@ -59,5 +59,9 @@ export class CustomerService {
         this.toastrService.error('Cập nhật mật khẩu thất bại, vui lòng thử lại!');
       }
     })
+  }
+
+  accuracyPassword(data:any){
+    return this.apiCustomer.accuracyPassword(data);
   }
 }

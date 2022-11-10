@@ -48,7 +48,19 @@
           </div>
           <small class="pt-1">(99 Reviews)</small>
         </div>
-        <h3 class="font-weight-semi-bold mb-4">{{productDetail?.price | number}} đ</h3>
+        <div class="d-flex">
+          <h2 class="font-weight-semi-bold mb-4" *ngIf="loadDiscountProduct() != 0">{{loadDiscountProduct() | number}}đ</h2>
+          <h3 class="font-weight-semi-bold mb-4 ml-3" *ngIf="loadDiscountProduct() != 0" style="color: #9b9b9b">
+            <del>{{ productDetail?.price | number }}₫</del>
+          </h3>
+          <h2 class="font-weight-semi-bold mb-4" *ngIf="loadDiscountProduct() == 0">{{productDetail?.price | number}}đ</h2>
+        </div>
+        <i class="fa-solid fa-minus"></i>
+        <i class="fa-solid fa-minus"></i>
+        <i class="fa-solid fa-minus"></i>
+        <i class="fa-solid fa-minus"></i>
+        <i class="fa-solid fa-minus"></i>
+
         <p class="mb-4"></p>
         <div class="d-flex mb-3">
           <strong class="text-dark mr-3">Số lượng còn lại:</strong>

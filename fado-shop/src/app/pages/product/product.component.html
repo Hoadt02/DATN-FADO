@@ -1,3 +1,9 @@
+<div class="container-fluid">
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner-border text-black-50 spinner-center" role="status"></div>
+  </div>
+</div>
+
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
   <div class="row px-xl-5">
@@ -25,7 +31,7 @@
         <mat-accordion>
           <mat-expansion-panel class="shadow-sm">
             <mat-expansion-panel-header>
-              <span><i class="fa-solid fa-bars-staggered"></i> Danh mục</span>
+              <span> Danh mục</span>
             </mat-expansion-panel-header>
             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let c of categories; index as i">
               <input type="checkbox" class="custom-control-input" id="category-{{ i }}" (click)="setValueFilter(TYPE_FILTER.CATEGORY, c.id)"/>
@@ -41,7 +47,7 @@
         <mat-accordion>
           <mat-expansion-panel class="shadow-sm">
             <mat-expansion-panel-header>
-              <span><i class="fa-solid fa-bars-staggered"></i> Thương hiệu</span>
+              <span> Thương hiệu</span>
             </mat-expansion-panel-header>
             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let b of brands; index as i">
               <input type="checkbox" class="custom-control-input" id="brand-{{ i }}" (click)="setValueFilter(TYPE_FILTER.BRAND, b.id)"/>
@@ -57,7 +63,7 @@
         <mat-accordion>
           <mat-expansion-panel class="shadow-sm">
             <mat-expansion-panel-header>
-              <span><i class="fa-solid fa-bars-staggered"></i> Chất liệu</span>
+              <span> Chất liệu</span>
             </mat-expansion-panel-header>
             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let m of materials; index as i">
               <input type="checkbox" class="custom-control-input" id="material-{{ i }}" (click)="setValueFilter(TYPE_FILTER.MATERIAL, m.id)"/>
@@ -73,7 +79,7 @@
         <mat-accordion>
           <mat-expansion-panel class="shadow-sm">
             <mat-expansion-panel-header>
-              <span><i class="fa-solid fa-bars-staggered"></i> Xuất xứ</span>
+              <span> Xuất xứ</span>
             </mat-expansion-panel-header>
             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let o of origins; index as i">
               <input type="checkbox" class="custom-control-input" id="origin-{{ i }}" (click)="setValueFilter(TYPE_FILTER.ORIGIN, o.id)"/>
@@ -86,7 +92,7 @@
 
       <!-- Gender Start -->
       <div class="bg-light p-4 mt-3 shadow-sm" style="border-radius: 5px">
-        <p style="color: black; font-size: 15px" class="mb-4"><i class="fa-solid fa-person-half-dress"></i> Đối tượng sử dụng</p>
+        <p style="color: black; font-size: 15px" class="mb-4"> Đối tượng sử dụng</p>
         <form>
           <div class="d-flex align-items-center justify-content-between">
             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
@@ -106,7 +112,7 @@
 
       <!-- Price Start -->
       <div class="bg-light p-4 mb-30 shadow-sm mt-3" style="border-radius: 5px">
-        <p style="color: black; font-size: 15px" class="mb-4"><i class="fa-solid fa-money-bill-1-wave"></i> Giá sản phẩm</p>
+        <p style="color: black; font-size: 15px" class="mb-4"> Giá sản phẩm</p>
         <form [formGroup]="formGroup">
           <div class="text-center">
             <div class="form-group">
@@ -116,7 +122,7 @@
               </div>
               <div class="mt-2">
                 <p class="m-0 text-danger" *ngIf="formGroup.errors?.['isCheckPrice'] && (!formGroup.get('startPrice')?.hasError('required') && !formGroup.get('endPrice')?.hasError('required'))" style="font-size: 12px">
-                  Giá bắt đầu không được lớn hơn giá kết thúc
+                  Vui lòng nhập giá phù hợp!
                 </p>
                 <p class="m-0 text-danger" *ngIf="formGroup.get('startPrice')?.hasError('required') && formGroup.get('startPrice')?.touched" style="font-size: 12px">
                   Vui lòng không bỏ trống ô giá bắt đầu!
@@ -139,7 +145,7 @@
     <!-- Shop Sidebar End -->
 
     <!-- Shop Product Start -->
-    <div class="col-lg-9 col-md-8">
+    <div class="col-lg-9 col-md-8" *ngIf="products.length > 0">
       <div class="row pb-3">
         <div class="col-12 pb-1">
           <div class="d-flex align-items-center justify-content-end mb-4">
@@ -167,7 +173,8 @@
           </div>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1" *ngFor="let p of products">
-          <div class="product-item bg-light mb-4 shadow-sm" style="border-radius: 5px">
+          <div class="product-item bg-light mb-4 shadow-sm item-parent" style="border-radius: 5px">
+            <span *ngIf="loadDiscountProduct(p.id) != 0" class="item-child badge badge-danger">Giảm giá</span>
             <div class="product-img position-relative overflow-hidden" style="border-radius: 5px">
               <img class="img-fluid w-100" src="../../../assets/img/avtProduct/{{ p.avatar }}" alt=""/>
               <div class="product-action">
@@ -179,10 +186,11 @@
               </div>
             </div>
             <div class="text-center py-4">
-              <a class="h6 text-decoration-none text-truncate" [routerLink]="['/product-detail',p.id]">{{ p.name }}</a>
+              <a class="h6 text-decoration-none text-truncate name-product" [routerLink]="['/product-detail',p.id]">{{p.name}}</a>
               <div class="d-flex align-items-center justify-content-center mt-2">
-                <h5>{{ p.price | number }}₫</h5>
-                <h5 class="text-muted ml-2">
+                <h5 *ngIf="loadDiscountProduct(p.id) == 0">{{ p.price | number }}₫</h5>
+                <h5 *ngIf="loadDiscountProduct(p.id) != 0">{{loadDiscountProduct(p.id) | number}}₫</h5>
+                <h5 *ngIf="loadDiscountProduct(p.id) != 0" class="text-muted ml-2">
                   <del>{{ p.price | number }}₫</del>
                 </h5>
               </div>
@@ -211,6 +219,18 @@
       </div>
     </div>
     <!-- Shop Product End -->
+
+<!--    Not found-->
+    <div class="col-lg-9 col-md-8" *ngIf="products.length == 0">
+      <div class="text-center">
+        <div class="alert alert-warning mt-5" role="alert">
+          <p><i class="fa-solid fa-magnifying-glass"></i> Rất tiếc, không tìm thấy kết quả nào phù hợp với yêu cầu của bạn!</p>
+        </div>
+        <button class="btn text-primary shadow-sm" style="border-radius: 5px; font-size: 15px; background-color: black" (click)="resetFilter()"><i class="fa-solid fa-rotate"></i> Xóa bộ lọc</button>
+      </div>
+    </div>
+<!--    End not found-->
   </div>
 </div>
 <!-- Shop End -->
+

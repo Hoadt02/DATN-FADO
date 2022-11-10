@@ -19,4 +19,8 @@ export class ProductPromotionalService {
   findAllProductPromotionalInCart(idCtm: number) {
     return this.apiProductPromotional.findAllProductPromotionalInCart(idCtm);
   }
+
+  findProductPromotionalByIdProductDetail(data:any){
+    return this.apiProductPromotional.findProductPromotionalByIdProductDetail(data);
+  }
 }

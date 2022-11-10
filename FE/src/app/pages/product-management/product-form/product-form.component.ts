@@ -49,10 +49,14 @@ export class ProductFormComponent implements OnInit{
     quantity: ['', [Validators.required, Validators.min(1)]],
     gender: ['', [Validators.required]],
     imei: [''],
-    avatar: [''],
+    avatar: ['',[Validators.required]],
     createDate: [''],
     description: ['', [checkSpace]],
     status: [1]
+  });
+
+  formImgDetail = this.fb.group({
+    files: [null,Validators.required]
   });
 
   files: File[] = [];
@@ -81,6 +85,7 @@ export class ProductFormComponent implements OnInit{
       this.formGroup.patchValue(this.data.row);
       this.showImage = false;
       this.showImageDetail = false;
+      this.formImgDetail.patchValue({files:true});
       this.imageService.getImagesByIdProductDetail(this.data.row.id).subscribe(data => {
         if (data) {
           this.listImageProductDetail = data;
@@ -93,23 +98,39 @@ export class ProductFormComponent implements OnInit{
     this.getOriginForCombobox();
   }
 
+  changeShowImage(){
+    this.showImage = true;
+    this.formGroup.patchValue({avatar:''});
+  }
+
+  changeShowImageDetail(){
+    this.showImageDetail = true;
+    this.formImgDetail.patchValue({files:null});
+  }
+
   onSelect(event) {
     console.log(event);
     this.files.push(...event.addedFiles);
+    this.formImgDetail.patchValue({files:true})
   }
 
   onSelectAvt(event) {
     if (this.fileAvt.length >= 1) { this.fileAvt.splice(0, this.fileAvt.length); }
     this.fileAvt = event.addedFiles;
+    this.formGroup.patchValue({avatar:event.addedFiles[0].name})
   }
 
   onRemove(event) {
     this.files.splice(this.files.indexOf(event), 1);
+    if (this.files.length == 0){
+      this.formImgDetail.patchValue({files:null});
+    }
   }
 
   onRemoveAvt() {
     console.log(this.fileAvt.length);
     this.fileAvt.splice(0, 1);
+    this.formGroup.patchValue({avatar:''});
   }
 
   onDismiss() {
@@ -137,17 +158,15 @@ export class ProductFormComponent implements OnInit{
     const avtData = new FormData();
     avtData.append('file', this.fileAvt[0]);
     this.uploadImageService.uploadImage(avtData, 'avtProduct').subscribe({
-      next: (data) => {
-        this.formGroup.patchValue({avatar: data.name});
-        // Create product detail
-        this.productDetailService.createProductDetail(this.formGroup.getRawValue());
-      },
       error: (error) => {
         console.log(error);
         this.toastrService.error('Lỗi thêm mới Avatar sản phẩm!')
         return;
       }
     });
+
+    // Create product detail
+    this.productDetailService.createProductDetail(this.formGroup.getRawValue());
 
     // Create list image product detail
     const listImg = new FormData();
@@ -186,17 +205,14 @@ export class ProductFormComponent implements OnInit{
       const avtData = new FormData();
       avtData.append('file', this.fileAvt[0]);
       this.uploadImageService.uploadImage(avtData, 'avtProduct').subscribe({
-        next: (data) => {
-          this.formGroup.patchValue({avatar: data.name});
-          // Update product detail
-          this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
-        },
         error: (error) => {
           console.log(error);
           this.toastrService.error('Lỗi cập nhật Avatar sản phẩm!')
           return;
         }
       });
+      // Update product detail
+      this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
 
     } else if (this.showImage == false && this.showImageDetail == true) {
       // Xóa ảnh chi tiết sản phẩm hiện tại
@@ -236,11 +252,6 @@ export class ProductFormComponent implements OnInit{
       const avtData = new FormData();
       avtData.append('file', this.fileAvt[0]);
       this.uploadImageService.uploadImage(avtData, 'avtProduct').subscribe({
-        next: (data) => {
-          this.formGroup.patchValue({avatar: data.name});
-          //Cập nhật sản phẩm chi tiết
-          this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
-        },
         error: (error) => {
           console.log(error);
           this.toastrService.error('Lỗi cập nhật Avatar sản phẩm!')
@@ -270,6 +281,9 @@ export class ProductFormComponent implements OnInit{
           this.toastrService.error('Thêm hình ảnh chi tiết của sản phẩm thất bại');
         }
       });
+      //Cập nhật sản phẩm chi tiết
+      this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
+
     } else {
       this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
     }
