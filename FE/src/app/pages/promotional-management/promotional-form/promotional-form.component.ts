@@ -5,6 +5,7 @@ import {Constants} from "../../../shared/Constants";
 import {PromotionalService} from "../../../shared/services/api-service-impl/promotional.service";
 import {checkDate, checkSpace, checkTypeDiscount} from "../../../shared/validator/validatorForm";
 import {ToastrService} from "ngx-toastr";
+import {StorageService} from "../../../shared/services/jwt/storage.service";
 
 @Component({
   selector: 'app-promotional-form',
@@ -28,7 +29,7 @@ export class PromotionalFormComponent implements OnInit {
     endDate: [new Date()],
     status: [1],
     staff: this.fb.group({
-      id: [164]
+      id: [this.storageService.getIdFromToken()]
     }),
     description: [''],
   }, {
@@ -44,6 +45,7 @@ export class PromotionalFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private promotionalService: PromotionalService,
+    private storageService : StorageService,
     private toastrService: ToastrService,
     private matDialogRef: MatDialogRef<PromotionalFormComponent>,
     @Inject(MAT_DIALOG_DATA) private dataDiaLog?: any,

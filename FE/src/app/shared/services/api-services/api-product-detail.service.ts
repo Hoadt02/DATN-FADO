@@ -30,7 +30,7 @@ export class ApiProductDetailService{
   findProductByName(data: string): Observable<any> {
     return this.httpClient.get(`${ApiConstant.productDetail}/find?name=${data}`);
   }
-
+ 
   findProductWithFilter(data:any):Observable<any>{
     return this.httpClient.post(`${ApiConstant.productDetail}/findProductWithFilter`, data)
   }

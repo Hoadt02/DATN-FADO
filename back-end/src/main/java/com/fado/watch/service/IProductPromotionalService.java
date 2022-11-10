@@ -23,4 +23,5 @@ public interface IProductPromotionalService {
 
     List<ProductPromotional> findProductPromotionalByIdProductDetail(Integer[] id);
 
+    List<ProductPromotional> getPromotional(Integer idOrder);
 }

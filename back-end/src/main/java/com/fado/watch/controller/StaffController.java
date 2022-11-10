@@ -32,7 +32,7 @@ public class StaffController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<StaffDto> findById(@PathVariable("id") Integer id) {
+    public ResponseEntity<Staff> findById(@PathVariable("id") Integer id) {
         return new ResponseEntity<>(this.iStaffService.findById(id), HttpStatus.OK);
     }
 

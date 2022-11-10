@@ -16,7 +16,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class CartDto implements Serializable {
+public class CartPriceResponse implements Serializable {
 
     @Id
     private Integer id;

@@ -24,7 +24,23 @@ export class OrderService {
     return this.api.save(data);
   }
 
+  update(idOrder: any,data: any) {
+    return this.api.update(idOrder,data);
+  }
+
   delete(id: number) {
     return this.api.delete(id);
+  }
+
+  getOrderByStaff(id: number) {
+    return this.api.getOrderByStaff(id);
+  }
+
+  payment(id: number) {
+    return this.api.payment(id);
+  }
+
+  cancelOrder(id: number) {
+    return this.api.cancelOrder(id);
   }
 }

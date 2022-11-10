@@ -9,7 +9,7 @@ public interface IStaffService {
 
     List<Staff> findAll();
 
-    StaffDto findById(Integer id);
+    Staff findById(Integer id);
 
     Staff create(Staff staff);
 

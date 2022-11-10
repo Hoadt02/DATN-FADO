@@ -66,4 +66,8 @@ public class ProductPromotionalServiceImpl implements IProductPromotionalService
     public List<ProductPromotional> findProductPromotionalByIdProductDetail(Integer[] id) {
         return this.productPromotionalRepository.findProductPromotionalByIdProductDetail(id);
     }
+    
+    public List<ProductPromotional> getPromotional(Integer idOrder) {
+        return productPromotionalRepository.getPromotional(idOrder);
+    }
 }

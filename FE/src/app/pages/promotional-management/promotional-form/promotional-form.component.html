@@ -15,7 +15,7 @@
     <div class="col-6">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Tên chương trình</mat-label>
-        <input formControlName="name" type="text" required matInput>
+        <input formControlName="name" type="text" required matInput maxlength="255">
         <mat-error *ngIf="formGroup.get('name')?.hasError('isSpace')
         && formGroup.get('name')?.touched">
           Vui lòng điền tên chương trình khuyến mại!

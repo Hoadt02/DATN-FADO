@@ -60,4 +60,9 @@ public class ProductPromotionalController {
     public ResponseEntity<List<ProductPromotional>> findProductPromotionalByIdProductDetail(@RequestBody Integer[] id) {
         return ResponseEntity.ok(this.iProductPromotionalService.findProductPromotionalByIdProductDetail(id));
     }
+    
+    @GetMapping("/getPromotional")
+    public ResponseEntity<List<ProductPromotional>> getPromotional(@RequestParam("idO") Integer idOder) {
+        return ResponseEntity.ok(this.iProductPromotionalService.getPromotional(idOder));
+    }
 }

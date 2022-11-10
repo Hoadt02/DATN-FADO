@@ -6,6 +6,8 @@ import com.fado.watch.service.IOrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -35,13 +37,34 @@ public class OrderController {
         return ResponseEntity.ok(this.iOrderService.save(order));
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Integer id) {
-        this.iOrderService.delete(id);
-    }
+//    @DeleteMapping("/{id}")
+//    public void delete(@PathVariable("id") Integer id) {
+//        this.iOrderService.delete(id);
+//    }
 
     @GetMapping("/updateStatus")
     public void updateStatus(@RequestParam("status") Integer status, @RequestParam("id") Integer id) {
         this.iOrderService.updateStatus(status, id);
+    }
+
+    // Day la` pha`n toi nha' ba.n hien da.u da.u
+    @GetMapping("getOrderByStaff/{id}")
+    public ResponseEntity<List<Order>> getOrderByStaff(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(this.iOrderService.getOrderByStaff(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Order> update(@RequestBody Order order) {
+        return ResponseEntity.ok(this.iOrderService.update(order));
+    }
+
+    @PutMapping("/payment")
+    public void payment(@RequestParam("payment") Integer id) {
+        this.iOrderService.payment(id);
+    }
+
+    @GetMapping("/cancelOrder")
+    public void cancelOrder(@RequestParam("cancel") Integer id) {
+        this.iOrderService.cancelOrder(id);
     }
 }

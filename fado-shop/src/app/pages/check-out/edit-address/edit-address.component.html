@@ -11,17 +11,22 @@
     <table class="example-table">
       <tr class="bg-dark">
         <th>Chọn</th>
-        <th>Địa chỉ</th>
         <th>Số điện thoại</th>
-        <th>Khác</th>
+        <th>Họ và Tên</th>
+        <th>Địa chỉ</th>
         <th colspan="2">Sửa - Xoá</th>
       </tr>
       <tr *ngFor="let row of addressList">
         <td><input [checked]="checkAddress == row.id" style="cursor: pointer" (click)="getId(row.id)"
                    type="radio" name="address" value="{{row.id}}"></td>
-        <td>{{row.province}} - {{row.district}} - {{row.commune}}</td>
-        <td>{{row.customer.phoneNumber}}</td>
-        <td>{{row.other}}</td>
+        <td>{{row.phoneNumber}}</td>
+        <td>{{row.fullname}}</td>
+        <td>
+          {{row.other}}
+          - {{row.ward}}
+          - {{row.district}}
+          - {{row.province}}
+        </td>
         <td>
           <button (click)="openNewAddress(TYPE_DIALOG.UPDATE,row)" class="btn btn-sm btn-outline-primary mr-1"
                   type="button">

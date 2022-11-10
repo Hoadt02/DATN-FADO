@@ -5,6 +5,12 @@ export class Constants {
     UPDATE: 'update'
   }
 
+  public static TYPE_UPDATE_NUMBER_PRD = {
+    PLUS: 'plus',
+    MINUS: 'minus',
+    INPUT: 'input',
+  };
+
   public static RESULT_CLOSE_DIALOG = {
     CLOSE: 'close',
     SUCCESS: 'success',
