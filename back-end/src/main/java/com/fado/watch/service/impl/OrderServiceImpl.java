@@ -74,13 +74,8 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public void payment(Integer id) {
-        this.orderRepository.payment(id);
-    }
-
-    @Override
-    public void cancelOrder(Integer id) {
-        this.orderRepository.cancelOrder(id);
+    public List<Order> getOrderById(Integer id) {
+        return orderRepository.getOrderById(id);
     }
 
 }

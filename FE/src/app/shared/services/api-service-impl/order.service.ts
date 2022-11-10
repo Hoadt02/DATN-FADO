@@ -36,11 +36,7 @@ export class OrderService {
     return this.api.getOrderByStaff(id);
   }
 
-  payment(id: number) {
-    return this.api.payment(id);
-  }
-
-  cancelOrder(id: number) {
-    return this.api.cancelOrder(id);
+  getOrderById(id: number) {
+    return this.api.getOrderById(id);
   }
 }
