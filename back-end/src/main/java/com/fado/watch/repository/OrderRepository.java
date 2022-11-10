@@ -25,13 +25,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("select o from orders o where o.staff.id =:id")
     List<Order> getOrderByStaff(Integer id);
 
-    @Modifying
-    @Transactional
-    @Query("update orders o set o.status = 3 where o.id =:id")
-    void payment(Integer id);
-
-    @Modifying
-    @Transactional
-    @Query("update orders o set o.status = 4 where o.id =:id")
-    void cancelOrder(Integer id);
+    @Query("select o from orders o where o.id =:id")
+    List<Order> getOrderById(Integer id);
 }

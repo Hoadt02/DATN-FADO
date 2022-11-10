@@ -159,6 +159,7 @@ export class SellAtStoreComponent implements OnInit {
           this.selected.setValue(this.tabs.length - 1);
           this.toastService.success('Tạo hóa đơn thành công !');
           this.getOrderByStaff(this.storageService.getIdFromToken());
+          this.getOrderDetail();
         }, error => {
           this.toastService.error('Tạo hóa đơn thất bại !')
           console.log(error)
@@ -207,11 +208,10 @@ export class SellAtStoreComponent implements OnInit {
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
         this.tabs.splice(index, 1);
         this.toastService.success('Hủy hóa đơn thành công !');
-
         this.defaultPayment();
-
         this.orderService.update(this.idOrder, this.createOrder).subscribe((data: any) => {
           console.log('Sau khi sua: ', data);
+          this.orderDetails = [];
           this.toastService.success('Hủy hóa đơn thanh công !');
         }, error => {
           this.toastService.error('Hủy hóa đơn thất bại !');
@@ -328,9 +328,12 @@ export class SellAtStoreComponent implements OnInit {
 
   getOrderDetailByOrder(name: number) {
     let id = this.idHoaDon.filter(n => n.name == name)[0].value;
+    console.log('id : ', id);
+    this.idOrder = id;
     this.orderDetailService.findOrderDetailByOrder(id).subscribe((data: any) => {
       this.orderDetails = data;
-    })
+    });
+    this.getOrderDetail();
   }
 
   getOrderByStaff(id: number) {
@@ -348,13 +351,21 @@ export class SellAtStoreComponent implements OnInit {
       }
       this.promotionDetailService.getPromotional(this.idOrder).subscribe((data2: any) => {
         for (const pp of data2) {
-          this.giamGia += pp.promotional.discount;
+          this.giamGia += Math.round(pp.promotional.discount);
         }
         this.tienKhachCanTra = Math.round(this.tongTienHang - this.giamGia);
         if (this.tienKhachCanTra < 0) {
           this.tienKhachCanTra = 0;
         }
       })
+    })
+    console.log('id order cua getOrderDetail: ',this.idOrder)
+
+  }
+
+  getOrder() {
+    this.orderService.getOrderById(this.idOrder).subscribe((data: any) => {
+      this.orders = data;
     })
   }
 
@@ -389,6 +400,8 @@ export class SellAtStoreComponent implements OnInit {
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
         if (this.tabs.length == 0) {
           this.toastService.warning('Vui lòng tạo hóa đơn để tiến hành thanh toán !');
+        } else if (this.tongTienHang == 0) {
+          this.toastService.warning('Vui lòng chọn sản phẩm trước !');
         } else {
           this.orderService.update(this.idOrder, this.createOrder).subscribe((data: any) => {
             console.log('Sau khi sua: ', data);
@@ -402,8 +415,4 @@ export class SellAtStoreComponent implements OnInit {
       }
     })
   }
-
-
-
-
 }

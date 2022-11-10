@@ -36,11 +36,7 @@ export class ApiOrderService {
     return this.http.get(`${ApiConstant.order}/getOrderByStaff/${id}`)
   }
 
-  payment(id: number) {
-    return this.http.get(`${ApiConstant.order}/payment?payment=${id}`)
-  }
-
-  cancelOrder(id: number) {
-    return this.http.get(`${ApiConstant.order}/payment?cancel=${id}`)
+  getOrderById(id: number) {
+    return this.http.get(`${ApiConstant.order}/getOrderById?id=${id}`)
   }
 }

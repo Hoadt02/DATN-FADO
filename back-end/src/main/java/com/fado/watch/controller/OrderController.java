@@ -58,13 +58,8 @@ public class OrderController {
         return ResponseEntity.ok(this.iOrderService.update(order));
     }
 
-    @PutMapping("/payment")
-    public void payment(@RequestParam("payment") Integer id) {
-        this.iOrderService.payment(id);
-    }
-
-    @GetMapping("/cancelOrder")
-    public void cancelOrder(@RequestParam("cancel") Integer id) {
-        this.iOrderService.cancelOrder(id);
+    @GetMapping("/getOrderById")
+    public ResponseEntity<List<Order>> getOrderById(@RequestParam("id") Integer id) {
+        return ResponseEntity.ok(this.iOrderService.getOrderById(id));
     }
 }
