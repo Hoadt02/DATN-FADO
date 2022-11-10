@@ -12,7 +12,7 @@
       <div class="bg-light">
 
         <div class="checkAndNew mb-3">
-          <mat-checkbox [(ngModel)]="disableSelect" class="fs-11">Sử dụng thông tin của tài khoản</mat-checkbox>
+          <mat-checkbox (change)="checkAddress()" [(ngModel)]="disableSelect" class="fs-11">Sử dụng thông tin của tài khoản</mat-checkbox>
         </div>
         <hr>
         <h5 class="section-title position-relative text-uppercase mb-3"><span
@@ -42,7 +42,7 @@
 
           <mat-form-field appearance="outline" class="col-4 col-md-4 col-lg-4">
             <mat-label>Tỉnh thành</mat-label>
-            <mat-select required formControlName="province" [disabled]="disableSelect">
+            <mat-select required formControlName="province">
               <mat-option (click)="getDistricts(p.ProvinceID,p.ProvinceName);resetDistrictAndWard()"
                           *ngFor="let p of provinces"
                           [value]="p.ProvinceID">
@@ -56,7 +56,7 @@
 
           <mat-form-field appearance="outline" class="col-4 col-md-4 col-lg-4">
             <mat-label>Quận - Huyện</mat-label>
-            <mat-select required formControlName="district" [disabled]="disableSelect">
+            <mat-select required formControlName="district">
               <mat-option (click)="getWards(d.DistrictID,d.DistrictName);resetWard()" *ngFor="let d of districts"
                           [value]="d.DistrictID">
                 {{d.DistrictName}}
@@ -69,8 +69,8 @@
 
           <mat-form-field appearance="outline" class="col-4 col-md-4 col-lg-4">
             <mat-label>Xã - Phường</mat-label>
-            <mat-select required formControlName="ward" [disabled]="disableSelect">
-              <mat-option *ngFor="let w of wards" [value]="w.WardCode" (click)="getWardsName(w.WardName)">
+            <mat-select required formControlName="ward">
+              <mat-option *ngFor="let w of wards" [value]="w.WardCode" (click)="getWardsName(w.WardId,w.WardName)">
                 {{w.WardName}}
               </mat-option>
             </mat-select>
@@ -81,7 +81,7 @@
 
           <mat-form-field class="col-12 col-md-12 col-lg-12" appearance="outline">
             <mat-label>Chi tiết</mat-label>
-            <input formControlName="other" [readonly]="disableSelect" matInput required type="text">
+            <input formControlName="other" matInput required type="text">
             <mat-error *ngIf="formGroup.get('other')?.hasError('isSpace') &&
           formGroup.get('other')?.touched">Vui lòng nhập địa chỉ chi tiết.
             </mat-error>
@@ -89,7 +89,7 @@
 
           <mat-form-field class="col-6 col-md-6 col-lg-6" appearance="outline">
             <mat-label>Họ và Tên</mat-label>
-            <input formControlName="fullname" [readonly]="disableSelect" matInput required type="text">
+            <input formControlName="fullname" matInput required type="text">
             <mat-error
               *ngIf="formGroup.get('fullname')?.hasError('isSpace') &&
             formGroup.get('fullname')?.touched">Họ và Tên không được để trống.
@@ -102,7 +102,7 @@
 
           <mat-form-field class="col-6 col-md-6 col-lg-6" appearance="outline">
             <mat-label>Số điện thoại</mat-label>
-            <input formControlName="phoneNumber" [readonly]="disableSelect" matInput required type="text">
+            <input formControlName="phoneNumber" matInput required type="text">
             <mat-error *ngIf="formGroup.get('phoneNumber')?.hasError('isSpace') &&
           formGroup.get('phoneNumber')?.touched">Vui lòng nhập số điện thoại.
             </mat-error>
@@ -144,7 +144,7 @@
         <div class="pt-2">
           <div class="d-flex justify-content-between mt-2 mb-2">
             <h5>Thành tiền</h5>
-            <h5>{{total | number}} VND</h5>
+            <h5>{{total + totalFeeShipping | number}} VND</h5>
           </div>
         </div>
       </div>

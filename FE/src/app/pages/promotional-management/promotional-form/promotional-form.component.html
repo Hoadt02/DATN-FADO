@@ -40,7 +40,7 @@
         <mat-error *ngIf="range.get('startDate')?.hasError('required')
         || range.get('startDate')?.hasError('required')
         && formGroup.get('startDate')?.touched">
-          Vui lòng chọn ngày bắt đầu vaf ngày kết thúc!
+          Vui lòng chọn ngày bắt đầu và ngày kết thúc!
         </mat-error>
         <mat-hint style="color: red"
                   *ngIf="range.errors?.isCheckDate && (range.get('startDate')?.touched || range.get('endDate')?.touched)">
