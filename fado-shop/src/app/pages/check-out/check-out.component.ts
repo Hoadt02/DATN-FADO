@@ -48,8 +48,8 @@ export class CheckOutComponent implements OnInit {
     province: ['', [Validators.required]],
     district: ['', [Validators.required]],
     ward: ['', [Validators.required]],
-    other: ['', [checkSpace]],
-    fullname: ['', [checkSpace, Validators.pattern(Regex.name)]],
+    other: ['', [checkSpace, Validators.maxLength(100)]],
+    fullname: ['', [checkSpace, Validators.maxLength(60), Validators.pattern(Regex.name)]],
     phoneNumber: ['', [checkSpace, Validators.pattern(Regex.phoneNumber)]],
   });
 
