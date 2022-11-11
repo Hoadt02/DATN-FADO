@@ -45,8 +45,8 @@ public class CartController {
         this.cartService.deleteAllByCustomerId(id);
     }
 
-    @GetMapping("checkStatusById")
-    public boolean checkStatusById() {
-        return this.cartService.checkStatusById();
+    @GetMapping("checkPromotionalInCartByIdCtm")
+    public boolean checkPromotionalInCartByIdCtm() {
+        return this.cartService.checkPromotionalInCartByIdCtm();
     }
 }
