@@ -42,7 +42,7 @@
 
             <div class="product" *ngFor="let o of orders">
               <div class="createDate d-flex justify-content-between">
-                <p>Ngày mua hàng: {{o.createDate}}</p>
+                <p style="margin-top: 10px">Ngày mua hàng: {{o.createDate}}</p>
                 <div class="status-order text-uppercase" [ngSwitch]="o.status">
                   <p *ngSwitchCase="0">Chờ xác nhận</p>
                   <p *ngSwitchCase="1">Chờ lấy hàng</p>
