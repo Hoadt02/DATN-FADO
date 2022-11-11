@@ -26,9 +26,9 @@ export class EditAddressFormComponent implements OnInit {
     districtId: ['', [Validators.required]],
     ward: [''],
     wardId: ['', [Validators.required]],
-    other: ['', [checkSpace]],
-    fullname: ['', [checkSpace]],
-    phoneNumber: ['', []], //checkSpace, Regex.phoneNumber
+    other: ['', [checkSpace, Validators.maxLength(100)]],
+    fullname: ['', [checkSpace, Validators.maxLength(60),Validators.pattern(Regex.name)]],
+    phoneNumber: ['', [checkSpace,Validators.pattern(Regex.phoneNumber)]], //checkSpace, Regex.phoneNumber
     defaultAddress: [0],
   })
 

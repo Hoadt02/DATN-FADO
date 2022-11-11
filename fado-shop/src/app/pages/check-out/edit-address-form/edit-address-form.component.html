@@ -60,6 +60,9 @@
         <mat-error *ngIf="formGroup.get('other')?.hasError('isSpace') &&
           formGroup.get('other')?.touched">Vui lòng nhập địa chỉ chi tiết.
         </mat-error>
+        <mat-error *ngIf="formGroup.get('other')?.hasError('maxlength') &&
+          formGroup.get('other')?.touched">Địa chỉ chi tiết tối đa 100 ký tự.
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="col-6 col-md-6 col-lg-6">
@@ -69,6 +72,12 @@
         <mat-error *ngIf="formGroup.get('fullname')?.hasError('isSpace') &&
           formGroup.get('fullname')?.touched">Vui lòng nhập Họ và Tên.
         </mat-error>
+        <mat-error *ngIf="formGroup.get('fullname')?.hasError('maxlength') &&
+          formGroup.get('fullname')?.touched">Họ và Tên tối đa 60 ký tự.
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('fullname')?.hasError('pattern') &&
+          formGroup.get('fullname')?.touched">Tên không được chứa số và ký tự đặc biệt.
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="col-6 col-md-6 col-lg-6">
@@ -77,6 +86,9 @@
         <input required formControlName="phoneNumber" matInput placeholder="Vd. 0987654321">
         <mat-error *ngIf="formGroup.get('phoneNumber')?.hasError('isSpace') &&
           formGroup.get('phoneNumber')?.touched">Vui lòng nhập số điện thoại.
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('phoneNumber')?.hasError('pattern') &&
+          formGroup.get('phoneNumber')?.touched">Số điện thoại không đúng định dạng!
         </mat-error>
       </mat-form-field>
     </div>

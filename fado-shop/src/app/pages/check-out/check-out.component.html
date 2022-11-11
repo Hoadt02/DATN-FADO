@@ -85,6 +85,9 @@
             <mat-error *ngIf="formGroup.get('other')?.hasError('isSpace') &&
           formGroup.get('other')?.touched">Vui lòng nhập địa chỉ chi tiết.
             </mat-error>
+            <mat-error *ngIf="formGroup.get('other')?.hasError('maxlength') &&
+          formGroup.get('other')?.touched">Địa chỉ chi tiết tối đa 100 ký tự.
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field class="col-6 col-md-6 col-lg-6" appearance="outline">
@@ -93,6 +96,9 @@
             <mat-error
               *ngIf="formGroup.get('fullname')?.hasError('isSpace') &&
             formGroup.get('fullname')?.touched">Họ và Tên không được để trống.
+            </mat-error>
+            <mat-error *ngIf="formGroup.get('fullname')?.hasError('maxlength') &&
+          formGroup.get('fullname')?.touched">Họ và Tên tối đa 60 ký tự.
             </mat-error>
             <mat-error
               *ngIf="formGroup.get('fullname')?.hasError('pattern') &&
