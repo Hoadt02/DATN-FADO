@@ -203,6 +203,11 @@ export class OrderHistoryListComponent implements OnInit {
             this.router.navigate(['/cart']);
           }
         })
+      } else {
+        for (const y of this.dataAddCart) {
+          this.apiCart.addToCart(y);
+        }
+        this.router.navigate(['/cart']);
       }
     })
   }
