@@ -158,4 +158,12 @@ export const AdminLayoutRoutes: Routes = [
       role: TYPE_AUTH.SUPER_ADMIN
     }
   },
+  {
+    path: 'order-management',
+    loadChildren: () => import('../../pages/order-management/order-management.module').then(m => m.OrderManagementModule),
+    canActivate: [HasRoleGuard],
+    data: {
+      role: TYPE_AUTH.ADMIN
+    }
+  },
 ];

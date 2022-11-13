@@ -257,6 +257,7 @@ export class CheckOutComponent implements OnInit {
       totalPayment: this.total + this.totalFeeShipping,
       fullname: fullname!.replace(/^\s+|\s+$|\s+(?=\s)/g, ""),
       phoneNumber,
+      type : 0,
     }
 
     this.apiOrder.save(this.dataCreateOrder).subscribe({
