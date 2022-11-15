@@ -25,10 +25,10 @@ export class Constants {
   }
 
   public static RESULT_CLOSE_DIALOG_ORDER = {
-    // Huỷ đơn
-    Cancel: 'cancel',
-    //Mua lại
-    Repurchase: 'repurchase',
+    // Xác nhận đơn hàng
+    CONFIRM: 'confirm',
+    //Bắt đầu giao
+    START_DELIVERY: 'startDelivery',
     //Đã nhận hàng
     HasReceivedTheGoods: 'hasReceivedTheGoods',
   };

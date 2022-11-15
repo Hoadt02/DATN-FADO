@@ -1,8 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {OrderService} from "../../../shared/services/api-service-impl/order.service";
 import {StorageService} from "../../../shared/services/jwt/storage.service";
 import {OrderDetailService} from "../../../shared/services/api-service-impl/orderDetail.service";
 import {Constants} from "../../../shared/Constants";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-order-management',
@@ -27,7 +32,9 @@ export class OrderManagementComponent implements OnInit {
 
   constructor(
     private apiOrder: OrderService,
+    private matDiaLog: MatDialog,
     private storageService: StorageService,
+    private toastrService: ToastrService,
     private apiOrderDetail: OrderDetailService,
   ) {
   }
@@ -90,7 +97,6 @@ export class OrderManagementComponent implements OnInit {
     this.choLayHang = 0;
     this.apiOrder.getALl().subscribe({
       next: (data: any) => {
-        console.log(data);
         this.orders = data as any[];
         this.findAllDetail();
         this.createTabContent();
@@ -108,6 +114,53 @@ export class OrderManagementComponent implements OnInit {
   }
 
   updateStatusOrder(type: string, id) {
+    let title = '';
+    let message = '';
+    let status = -1;
 
+    if (type == this.RESULT_CLOSE_DIALOG_ORDER.CONFIRM) {
+      title = 'Xác nhận đơn hàng';
+      message = 'Bạn có chắc chắn muốn xác nhận đơn hàng?';
+    } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.START_DELIVERY) {
+      title = 'Bắt đầu giao hàng';
+      message = 'Bạn có chắc chắn bắt đầu giao hàng?';
+    }
+    this.matDiaLog.open(ConfirmDialogComponent, {
+      width: '400px',
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        title, message
+      }
+    }).afterClosed().subscribe(data => {
+      if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
+        if (type == this.RESULT_CLOSE_DIALOG_ORDER.CONFIRM) {
+          status = 1; //  nếu ấn vào xác nhận đơn hàng sẽ chuyển sang đang chuẩn bị hàng
+          this.updateStatus(status, id);
+        } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.START_DELIVERY) {
+          status = 2; // nếu ấn vào bắt đầu giao thì sẽ chuyển sang đang giao
+          this.updateStatus(status, id);
+        } else {
+          console.log(1231231231232);
+          // this.repurchase(id);
+        }
+      }
+    })
+  }
+
+  updateStatus(status: number, id: number) {
+    this.apiOrder.updateStatus(status, id).subscribe({
+      next: (_: any) => {
+        if (status == 4) {
+          this.toastrService.success('Huỷ đơn hàng thành công!');
+        } else {
+          this.toastrService.success('Xác nhận đơn hàng thành công!');
+        }
+        this.findAllOrder();
+      }, error: (err: any) => {
+        this.toastrService.error('Đã xảy ra lỗi!');
+        console.log(err);
+      }
+    })
   }
 }
