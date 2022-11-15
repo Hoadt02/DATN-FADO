@@ -49,14 +49,20 @@
                     </div>
                   </ng-template>
                 </div>
-                <div class="total-payment d-flex justify-content-end">
-                  <ng-template [ngIf]="o.discount > 0">
-                    <b>Giảm giá: </b><span
-                    style="color: red; font-size: 20px; padding-left: 5px; margin-right: 20px">{{o.discount | number}}
-                    VND</span>
-                  </ng-template>
-                  <b>Tổng tiền thanh toán: </b><span
-                  style="color: red; font-size: 20px; padding-left: 5px">{{o.totalPayment | number}} VND</span>
+                <div class="total-payment ml-auto">
+                  <p>
+                    Giảm giá:
+                    <span style="padding-left: 5px; margin-right: 20px"
+                    >{{ o.discount | number }} VND</span
+                    >
+                  </p>
+                  <p>Phí giao hàng: {{ o.feeShipping | number }} VND</p>
+                  <p>
+                    Tổng tiền thanh toán:
+                    <span style="color: red; font-size: 15px; padding-left: 5px"
+                    >{{ o.totalPayment | number }} VND
+                  </span>
+                  </p>
                 </div>
                 <div class="button-confirm d-flex justify-content-end">
                   <ng-template [ngIf]="o.status == 0"><!--                  || o.status == 1-->
