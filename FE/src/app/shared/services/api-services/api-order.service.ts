@@ -39,4 +39,8 @@ export class ApiOrderService {
   getOrderById(id: number) {
     return this.http.get(`${ApiConstant.order}/getOrderById?id=${id}`)
   }
+
+  updateStatus(status: number, id: number) {
+    return this.http.get(`${ApiConstant.order}/updateStatus?status=${status}&id=${id}`)
+  }
 }

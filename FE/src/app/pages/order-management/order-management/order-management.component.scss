@@ -57,8 +57,8 @@
 }
 
 .button-confirm button {
-  width: 120px;
-  height: 37px;
+  width: 150px;
+  height: 45px;
   border-radius: 5px;
   background-color: #ffc107;
   margin: 0px 7px 0px 7px;
@@ -66,8 +66,8 @@
 }
 
 .button-confirm button:hover {
-  width: 120px;
-  height: 37px;
+  width: 150px;
+  height: 45px;
   border-radius: 5px;
   background-color: #e0aa0b;
   margin: 0px 7px 0px 7px;
@@ -80,14 +80,8 @@
   object-fit: cover;
 }
 
-/*.price {*/
-/*  position: relative;*/
-/*}*/
-
 .price .center {
-  /*position: absolute;*/
   margin-top: 37%;
-  /*left: 30%;*/
 }
 
 .max-height {

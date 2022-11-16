@@ -22,6 +22,12 @@ export const ROUTES: RouteInfo[] = [
     class: ''
   },
   {
+    path: '/order-management',
+    title: 'Quản lý đơn hàng',
+    icon: 'nc-basket',
+    class: ''
+  },
+  {
     path: '/product-management',
     title: 'Quản lý sản phẩm',
     icon: 'nc-watch-time',
