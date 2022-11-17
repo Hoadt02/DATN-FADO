@@ -29,6 +29,7 @@ export class OrderHistoryListComponent implements OnInit {
   dangGiao = 0;
   daNhan = 0;
   daHuy = 0;
+  daGiao = 0;
   listMatTab: any;
   dataAddCart: any = [];
 
@@ -65,6 +66,9 @@ export class OrderHistoryListComponent implements OnInit {
       if (x.status == 4) {
         this.daHuy++;
       }
+      if (x.status == 5) {
+        this.daGiao++;
+      }
     }
     this.listMatTab = [
       {
@@ -77,7 +81,10 @@ export class OrderHistoryListComponent implements OnInit {
         status: 2, lable: 'Đang giao', sl: this.dangGiao
       },
       {
-        status: 3, lable: 'Đã giao', sl: this.daNhan
+        status: 5, lable: 'Đã giao', sl: this.daGiao
+      },
+      {
+        status: 3, lable: 'Đã nhận', sl: this.daNhan
       },
       {
         status: 4, lable: 'Đã huỷ', sl: this.daHuy
