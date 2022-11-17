@@ -84,7 +84,7 @@ export class CartComponent implements OnInit {
     })
   }
 
-  //Lấy ra tất cả sản phẩm trong rỏ hàng(láy ra các sản phẩm trong cart theo id người dùng)
+  //Lấy ra tất cả sản phẩm trong giỏ hàng(láy ra các sản phẩm trong cart theo id người dùng)
   getAllPrdInCart() {
     let slPrd = 0;
     this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
@@ -133,7 +133,7 @@ export class CartComponent implements OnInit {
     })
   }
 
-  // xoá sản phẩm khỏi rỏ hàng
+  // xoá sản phẩm khỏi giỏ hàng
   deletePrd(idPrd: number) {
     const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
       width: '500px',
@@ -141,7 +141,7 @@ export class CartComponent implements OnInit {
       hasBackdrop: true,
       data: {
         title: 'Xoá sản phẩm khỏi giỏ hàng!',
-        message: 'Bạn có chắc chắn muốn xoá sản phẩm này ra khỏi rỏ hàng?',
+        message: 'Bạn có chắc chắn muốn xoá sản phẩm này ra khỏi giỏ hàng?',
       }
     });
     diaLogRef.afterClosed().subscribe(data => {
@@ -168,7 +168,7 @@ export class CartComponent implements OnInit {
           next: (data: any) => {
             for (const x of data) {
               if (0 == x.productDetail.status) {
-                this.toastrService.warning(`Một vài sản phẩm đã không còn tồn tại, vui lòng xoá khỏi rỏ hàng!`);
+                this.toastrService.warning(`Một vài sản phẩm đã không còn tồn tại, vui lòng xoá khỏi giỏ hàng!`);
                 return;
               }
             }

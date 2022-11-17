@@ -27,7 +27,7 @@ export class OrderManagementComponent implements OnInit {
   choLayHang = 0;
   dangGiao = 0;
   daNhan = 0;
-  daHuy = 0;
+  daGiaoChoKhach = 0;
   orderDetails: any;
 
   constructor(
@@ -64,8 +64,8 @@ export class OrderManagementComponent implements OnInit {
       if (x.status == 3) {
         this.daNhan++;
       }
-      if (x.status == 4) {
-        this.daHuy++;
+      if (x.status == 5) {
+        this.daGiaoChoKhach++;
       }
     }
     this.listMatTab = [
@@ -79,10 +79,10 @@ export class OrderManagementComponent implements OnInit {
         status: 2, lable: 'Đang giao', sl: this.dangGiao
       },
       {
-        status: 3, lable: 'Đã giao', sl: this.daNhan
+        status: 5, lable: 'Đã giao cho khách', sl: this.daGiaoChoKhach
       },
       {
-        status: 4, lable: 'Đã huỷ', sl: this.daHuy
+        status: 3, lable: 'Đã giao thành công', sl: this.daNhan
       }
     ]
   }
@@ -91,7 +91,7 @@ export class OrderManagementComponent implements OnInit {
     this.tongDonHangOffline = 0;
     this.tongDonHangOnline = 0;
     this.daNhan = 0;
-    this.daHuy = 0;
+    this.daGiaoChoKhach = 0;
     this.dangGiao = 0;
     this.choXacNhan = 0;
     this.choLayHang = 0;
@@ -121,9 +121,15 @@ export class OrderManagementComponent implements OnInit {
     if (type == this.RESULT_CLOSE_DIALOG_ORDER.CONFIRM) {
       title = 'Xác nhận đơn hàng';
       message = 'Bạn có chắc chắn muốn xác nhận đơn hàng?';
+    } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.CANCEL) {
+      title = 'Huỷ đơn hàng';
+      message = 'Bạn có chắc chắn huỷ đơn hàng này?';
     } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.START_DELIVERY) {
       title = 'Bắt đầu giao hàng';
       message = 'Bạn có chắc chắn bắt đầu giao hàng?';
+    } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.DONE) {
+      title = 'Đã giao cho khách';
+      message = 'Bạn có chắc chắn đã giao đơn hàng cho khách?';
     }
     this.matDiaLog.open(ConfirmDialogComponent, {
       width: '400px',
@@ -134,15 +140,18 @@ export class OrderManagementComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
-        if (type == this.RESULT_CLOSE_DIALOG_ORDER.CONFIRM) {
-          status = 1; //  nếu ấn vào xác nhận đơn hàng sẽ chuyển sang đang chuẩn bị hàng
+        if (type == this.RESULT_CLOSE_DIALOG_ORDER.CANCEL) {
+          status = 4; //  Huỷ đơn hàng
+          this.updateStatus(status, id);
+        } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.CONFIRM) {
+          status = 1; //  nếu ấn vào xác nhận đơn hàng sẽ chuyển sang đang chuẩn bị hàng (xác nhận đơn hàng)
           this.updateStatus(status, id);
         } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.START_DELIVERY) {
           status = 2; // nếu ấn vào bắt đầu giao thì sẽ chuyển sang đang giao
           this.updateStatus(status, id);
-        } else {
-          console.log(1231231231232);
-          // this.repurchase(id);
+        } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.DONE) {
+          status = 5; // Đã giao cho khách
+          this.updateStatus(status, id);
         }
       }
     })
