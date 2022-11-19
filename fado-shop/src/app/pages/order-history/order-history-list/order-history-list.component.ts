@@ -7,6 +7,9 @@ import {Contants} from "../../../shared/Contants";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 import {ToastrService} from "ngx-toastr";
+import {CartService} from "../../../shared/service/api-service-impl/cart.service";
+import {Router} from "@angular/router";
+import {yearsPerPage} from "@angular/material/datepicker";
 
 @Component({
   selector: 'app-order-history-list',
@@ -26,7 +29,9 @@ export class OrderHistoryListComponent implements OnInit {
   dangGiao = 0;
   daNhan = 0;
   daHuy = 0;
+  daGiao = 0;
   listMatTab: any;
+  dataAddCart: any = [];
 
   constructor(
     private apiOrder: OrderService,
@@ -34,6 +39,8 @@ export class OrderHistoryListComponent implements OnInit {
     private apiOrderDetail: OrderDetailService,
     private matDiaLog: MatDialog,
     private toastrService: ToastrService,
+    private apiCart: CartService,
+    private router: Router,
   ) {
   }
 
@@ -59,6 +66,9 @@ export class OrderHistoryListComponent implements OnInit {
       if (x.status == 4) {
         this.daHuy++;
       }
+      if (x.status == 5) {
+        this.daGiao++;
+      }
     }
     this.listMatTab = [
       {
@@ -71,7 +81,10 @@ export class OrderHistoryListComponent implements OnInit {
         status: 2, lable: 'Đang giao', sl: this.dangGiao
       },
       {
-        status: 3, lable: 'Đã giao', sl: this.daNhan
+        status: 5, lable: 'Đã giao', sl: this.daGiao
+      },
+      {
+        status: 3, lable: 'Đã nhận', sl: this.daNhan
       },
       {
         status: 4, lable: 'Đã huỷ', sl: this.daHuy
@@ -112,7 +125,7 @@ export class OrderHistoryListComponent implements OnInit {
       title = 'Huỷ đơn hàng';
       message = 'Bạn có chắc chắn muốn huỷ đơn hàng?';
     } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.Repurchase) {
-      title = 'Đặt lại đơn hàng ----- Chưa xử lý';
+      title = 'Đặt lại đơn hàng';
       message = 'Bạn có chắc chắn muốn đặt lại đơn hàng?';
     } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.HasReceivedTheGoods) {
       title = 'Đã nhận hàng';
@@ -129,24 +142,79 @@ export class OrderHistoryListComponent implements OnInit {
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
         if (type == this.RESULT_CLOSE_DIALOG_ORDER.Cancel) {
           status = 4; //  nếu ấn vào huỷ đơn hàng thì trạng thái sẽ = trạng thái đã huỷ
+          this.updateCancelAndReceived(status, id);
         } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.HasReceivedTheGoods) {
           status = 3; // nếu ấn vào đã nhận hàng thì trạng thái về đẫ giao
+          this.updateCancelAndReceived(status, id);
+        } else {
+          console.log(1231231231232);
+          this.repurchase(id);
         }
-        // else if (data == this.RESULT_CLOSE_DIALOG_ORDER.Repurchase) {
-        //   status = 0; // ấn mua lại thì tạo thêm đơn hàng mới rôì xác nhận lại
-        // }
-        console.log('Status: ', status)
-        console.log('id đơn hàng: ', id)
-        this.apiOrder.updateStatus(status, id).subscribe({
-          next: (data: any) => {
-            this.toastrService.success('Thay đổi trạn thái đơn hàng thành công!');
-            console.log('Update xong: ', data);
-            this.findAllByCustomerId();
-          }, error: (err: any) => {
-            this.toastrService.error('Lỗi sửa đổi trạng thái đơn hàng!');
-            console.log(err);
+      }
+    })
+  }
+
+  updateCancelAndReceived(status: number, id: number) {
+    this.apiOrder.updateStatus(status, id).subscribe({
+      next: (_: any) => {
+        if (status == 4) {
+          this.toastrService.success('Huỷ đơn hàng thành công!');
+        } else {
+          this.toastrService.success('Xác nhận đơn hàng thành công!');
+        }
+        this.findAllByCustomerId();
+      }, error: (err: any) => {
+        this.toastrService.error('Đã xảy ra lỗi!');
+        console.log(err);
+      }
+    })
+  }
+
+  repurchase(id: number) {
+    let title = '';
+    let message = '';
+    let inF = 0;
+    let outF = 0;
+    this.apiOrderDetail.findAllByOrderId(id).subscribe((res: any) => {
+      for (const x of res) {
+        outF++;
+        if (x.productDetail.quantity >= 1 && x.productDetail.status == 1) {
+          inF++;
+          this.dataAddCart.push({
+            productDetail: {
+              id: x.productDetail.id
+            },
+            customer: {
+              id: this.storageService.getIdFromToken(),
+            },
+            quantity: 1,
+          })
+        }
+      }
+      if (inF == 0) {
+        this.toastrService.warning('Tất cả sản phẩm đã không còn hợp lệ');
+        return;
+      } else if (outF != inF && inF > 0) {
+        title = 'Một vài sản phẩm không còn hợp lệ';
+        message = 'Bạn chắc chắn muốn tiếp tục?';
+        this.matDiaLog.open(ConfirmDialogComponent, {
+          width: '400px',
+          data: {
+            title, message
+          }
+        }).afterClosed().subscribe(data => {
+          if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
+            for (const y of this.dataAddCart) {
+              this.apiCart.addToCart(y);
+            }
+            this.router.navigate(['/cart']);
           }
         })
+      } else {
+        for (const y of this.dataAddCart) {
+          this.apiCart.addToCart(y);
+        }
+        this.router.navigate(['/cart']);
       }
     })
   }

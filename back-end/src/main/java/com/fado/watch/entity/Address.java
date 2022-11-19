@@ -51,7 +51,7 @@ public class Address implements Serializable {
     @Column(nullable = false, length = 100)
     private String other;
 
-    @Column(nullable = false, length = 54)
+    @Column(nullable = false, length = 60)
     private String fullname;
 
     @JoinColumn(nullable = false, name = "phone_number")

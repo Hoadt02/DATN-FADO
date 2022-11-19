@@ -100,7 +100,7 @@
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Tên khách hàng</mat-label>
               <mat-select formControlName="customer">
-                <mat-option *ngFor="let c of listCustomer" [value]="c.id">{{c.firstname}} {{c.lastname}} - {{c.phoneNumber}}</mat-option>
+                <mat-option *ngFor="let c of listCustomer" [value]="c.id">{{c.firstname}} {{c.lastname}} {{c.phoneNumber == '' ? '' : '-'}} {{c.phoneNumber}}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>

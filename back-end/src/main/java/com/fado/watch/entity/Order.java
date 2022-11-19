@@ -51,16 +51,16 @@ public class Order implements Serializable {
     @Column(nullable = false)
     private Integer total;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer discount;
 
     @Column(name = "total_payment", nullable = false)
     private Integer totalPayment;
 
-    @Column(name = "fee_shipping", nullable = false)
+    @Column(name = "fee_shipping")
     private Integer feeShipping;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Integer type;
 
     @Column(nullable = true, length = 60)

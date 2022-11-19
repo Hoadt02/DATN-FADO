@@ -88,7 +88,7 @@
         </div>
         <div class="d-flex align-items-center mb-2 pt-2">
           <div class="input-group quantity mr-3" style="width: 130px;">
-            <input type="number" class="form-control bg-secondary border-0 text-center" name="slSP" [(ngModel)]="slSP">
+            <input onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'" type="number" class="form-control bg-secondary border-0 text-center" name="slSP" [(ngModel)]="slSP">
           </div>
           <button (click)="addToCart(productDetail.id)" class="btn btn-primary px-3"><i
             class="fa fa-shopping-cart mr-1"></i> Add To

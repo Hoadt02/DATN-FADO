@@ -98,7 +98,7 @@ public class CartServiceImpl implements ICartService {
     }
 
     @Override
-    public boolean checkStatusById() {
+    public boolean checkPromotionalInCartByIdCtm() {
         List<ProductPromotional> listPrmMoi = this.productPromotionalRepository.findAllProductPromotionalInCart(idCtm);
 
 
