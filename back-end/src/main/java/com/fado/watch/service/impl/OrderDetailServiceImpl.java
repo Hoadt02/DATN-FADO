@@ -65,7 +65,7 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
 
     // Day la` pha`n toi nha' ba.n hien da.u da.u
     @Override
-    public OrderDetail saveOrderDetail(OrderDetail orderDetail) {
+    public void saveOrderDetail(OrderDetail orderDetail) {
         OrderDetail orderDetailNew = this.orderDetailRepository.checkTrungSP(orderDetail.getProductDetail().getId(), orderDetail.getOrder().getId());
         if (orderDetailNew == null) {
             orderDetailNew = new OrderDetail();
@@ -76,8 +76,11 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         } else {
             orderDetailNew.setQuantity(orderDetailNew.getQuantity() + orderDetail.getQuantity());
         }
+        this.orderDetailRepository.save(orderDetailNew);
 
-        return this.orderDetailRepository.save(orderDetailNew);
+        ProductDetail productDetail = this.productDetailRepository.findById(orderDetailNew.getProductDetail().getId()).get();
+        productDetail.setQuantity(productDetail.getQuantity() - orderDetailNew.getQuantity());
+        this.productDetailRepository.save(productDetail);
     }
 
     @Override
@@ -95,5 +98,10 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     @Override
     public List<OrderDetail> findOrderDetailByOrder(Integer id) {
         return this.orderDetailRepository.findOrderDetailByOrder(id);
+    }
+
+    @Override
+    public List<OrderDetail> getHistory(Integer status) {
+        return this.orderDetailRepository.getHistory(status);
     }
 }

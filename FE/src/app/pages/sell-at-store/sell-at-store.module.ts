@@ -26,37 +26,43 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {CustomerFormComponent} from '../customer-management/customer-form/customer-form.component';
 import {CategoryFormComponent} from '../category-management/category-form/category-form.component';
+import { SellAtStoreHistoryComponent } from './sell-at-store-history/sell-at-store-history.component';
+import { ScannerFormComponent } from './scanner-form/scanner-form.component';
+import {BarcodeScannerLivestreamModule} from "ngx-barcode-scanner";
 
 @NgModule({
   declarations: [
     SellAtStoreComponent,
+    SellAtStoreHistoryComponent,
+    ScannerFormComponent,
   ],
-  imports: [
-    CommonModule,
-    SellAtStoreRoutingModule,
-    MatTabsModule,
-    MatFormFieldModule,
-    MatSlideToggleModule,
-    MatOptionModule,
-    MatAutocompleteModule,
-    AutocompleteLibModule,
-    MatPaginatorModule,
-    MatTableModule,
-    MatInputModule,
-    MatSortModule,
-    MatButtonModule,
-    MatDialogModule,
-    ReactiveFormsModule,
-    MatRadioModule,
-    MatDatepickerModule,
-    MatSelectModule,
-    MatStepperModule,
-    MatMenuModule,
-    NgxDropzoneModule,
-    MatIconModule,
-    MatGridListModule,
-    FormsModule,
-    MatNativeDateModule
-  ],
+    imports: [
+        CommonModule,
+        SellAtStoreRoutingModule,
+        MatTabsModule,
+        MatFormFieldModule,
+        MatSlideToggleModule,
+        MatOptionModule,
+        MatAutocompleteModule,
+        AutocompleteLibModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatInputModule,
+        MatSortModule,
+        MatButtonModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        MatRadioModule,
+        MatDatepickerModule,
+        MatSelectModule,
+        MatStepperModule,
+        MatMenuModule,
+        NgxDropzoneModule,
+        MatIconModule,
+        MatGridListModule,
+        FormsModule,
+        MatNativeDateModule,
+        BarcodeScannerLivestreamModule
+    ],
 })
 export class SellAtStoreModule { }

@@ -24,4 +24,6 @@ public interface IProductDetailService {
 
     Page<ProductDetail> findProductsWithPaginationAndSortingAndFilter(FilterAndPagingAndSortingModel model);
     List<ProductDetail> findProductWithFilter(FilterModel filterModel);
+
+    ProductDetail getProductDetailByImei(String imei);
 }

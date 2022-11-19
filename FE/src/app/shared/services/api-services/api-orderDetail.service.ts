@@ -39,4 +39,8 @@ export class ApiOrderDetailService {
   findOrderDetailByOrder(id: number) {
     return this.http.get(`${ApiConstant.orderDetail}/findOrderDetailByOrder/${id}`);
   }
+
+  getHistory(status: number) {
+    return this.http.get(`${ApiConstant.orderDetail}/getHistory/${status}`);
+  }
 }

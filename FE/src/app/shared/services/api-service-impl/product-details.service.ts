@@ -113,4 +113,7 @@ export class ProductDetailsService {
     return this.apiService.findProductWithFilter(data);
   }
 
+  getProductDetailByImei(imei: string) {
+    return this.apiService.getProductDetailByImei(imei);
+  }
 }

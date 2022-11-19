@@ -60,6 +60,9 @@ public class Order implements Serializable {
     @Column(name = "fee_shipping", nullable = false)
     private Integer feeShipping;
 
+    @Column(nullable = true)
+    private Integer type;
+
     @Column(nullable = true, length = 60)
     private String fullname;
 

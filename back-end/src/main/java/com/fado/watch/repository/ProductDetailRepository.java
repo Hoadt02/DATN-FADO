@@ -27,9 +27,14 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail, In
     @Query("SELECT p FROM product_details p WHERE p.product.id = :id")
     List<ProductDetail> getSimilarProduct(@Param("id") Integer id);
 
+
+    //Phần của Vinh
     @Query("SELECT p FROM product_details p WHERE p.name like %:name%")
     List<ProductDetail> getProductByName(@Param("name") String name);
 
+    @Query("select pd from product_details pd where pd.imei = :imei")
+    ProductDetail getProductDetailByImei(String imei);
+    // Kết thúc phần của Vinh
 
     //--- hiên lấy ra tất cả sản phẩm trong order----
     @Query("select p from product_details p where p.id in (select o.productDetail.id from order_details o where o.order.id = :id)")

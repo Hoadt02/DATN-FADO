@@ -59,5 +59,9 @@ public class ProductDetailsController {
         return new ResponseEntity<>(this.service.findProductWithFilter(filterModel), HttpStatus.OK);
     }
 
+    @GetMapping("/getProductDetailByImei/{imei}")
+    public ResponseEntity<ProductDetail> getProductDetailByImei(@PathVariable("imei") String imei) {
+        return new ResponseEntity<>(this.service.getProductDetailByImei(imei), HttpStatus.OK);
+    }
 }
 

@@ -129,4 +129,9 @@ public class ProductDetailServiceImpl implements IProductDetailService {
         return repository.findProductWithFilter(filterModel.getProduct_id(), filterModel.getBrand_id(),
                 filterModel.getMaterial_id(), filterModel.getOrigin_id(), filterModel.getStatus(), filterModel.getGender());
     }
+
+    @Override
+    public ProductDetail getProductDetailByImei(String imei) {
+        return this.repository.getProductDetailByImei(imei);
+    }
 }

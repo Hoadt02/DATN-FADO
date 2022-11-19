@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Contants} from "../../shared/Contants";
+import {Constants} from "../../shared/Constants";
 import {MatDialogRef} from "@angular/material/dialog";
-import {CustomerService} from "../../shared/service/api-service-impl/customer.service";
-import {StorageService} from "../../shared/service/jwt/storage.service";
 import {ToastrService} from "ngx-toastr";
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {Regex} from "../../shared/validator/regex";
+import {CustomerService} from "../../shared/services/api-service-impl/customer.service";
+import {StorageService} from "../../shared/services/jwt/storage.service";
 
 @Component({
   selector: 'app-change-password',
@@ -45,7 +45,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   onDismiss(): void {
-    this.dialogRef.close(Contants.RESULT_CLOSE_DIALOG.CLOSE);
+    this.dialogRef.close(Constants.RESULT_CLOSE_DIALOG.CLOSE);
   }
 
   onSubmit(){
@@ -60,7 +60,7 @@ export class ChangePasswordComponent implements OnInit {
   onAccuracy() {
     const data = {
       id: this.storageService.getIdFromToken(),
-      password: this.currentPassControl.getRawValue()
+      // password: this.currentPassControl.getRawValue()
     }
     this.customerService.accuracyPassword(data).subscribe({
       next:(res) =>{

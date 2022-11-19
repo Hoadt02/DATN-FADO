@@ -31,4 +31,7 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Intege
     @Transactional
     @Query("delete from order_details o where o.productDetail.id = :idPro")
     void deleteByIdProduct(Integer idPro);
+
+    @Query("select od from order_details od where od.order.type = 1 and od.order.status =:status")
+    List<OrderDetail> getHistory(Integer status);
 }
