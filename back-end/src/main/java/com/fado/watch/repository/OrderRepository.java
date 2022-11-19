@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 
-    @Query("select o from orders o where o.customer.id =:id order by o.id desc")
+    @Query("select o from orders o where o.customer.id =:id and o.type = 0 order by o.id desc")
     List<Order> findAllByCustomerId(Integer id);
 
     @Modifying
