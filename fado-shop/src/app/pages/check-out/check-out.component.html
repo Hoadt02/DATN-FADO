@@ -12,7 +12,9 @@
       <div class="bg-light">
 
         <div class="checkAndNew mb-3">
-          <mat-checkbox (change)="checkAddress()" [(ngModel)]="disableSelect" class="fs-11">Sử dụng thông tin của tài khoản</mat-checkbox>
+          <mat-checkbox (change)="checkAddress()" [(ngModel)]="disableSelect" class="fs-11">Sử dụng thông tin của tài
+            khoản
+          </mat-checkbox>
         </div>
         <hr>
         <h5 class="section-title position-relative text-uppercase mb-3"><span
@@ -126,14 +128,14 @@
         class="bg-secondary pr-3">Tổng hoá đơn</span>
       </h5>
       <div class="bg-light">
-        <div class="border-bottom pr-2 scroll-bar" style="height: 195px; overflow: auto">
+        <div class="border-bottom pr-2 scroll-bar" style="height: 21vh; overflow: auto">
           <h6 class="mb-3">Danh sách sản phẩm</h6>
           <div *ngFor="let i of items" class="d-flex justify-content-between product">
             <p>{{i.productDetail.name}}</p>
             <p>{{i.price | number}} VND x {{i.quantity}}</p>
           </div>
         </div>
-        <div class="border-bottom pt-3 pb-2">
+        <div class="border-bottom pt-3">
           <div class="d-flex justify-content-between">
             <h6>Tổng tiền hàng</h6>
             <h6>{{subtotal | number}} VND</h6>
@@ -148,13 +150,23 @@
           </div>
         </div>
         <div class="pt-2">
-          <div class="d-flex justify-content-between mt-2 mb-2">
+          <div class="d-flex justify-content-between">
             <h5>Thành tiền</h5>
             <h5>{{total + totalFeeShipping | number}} VND</h5>
           </div>
         </div>
       </div>
-      <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" (click)="order()">
+      <div class="d-flex justify-content-between">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Phương thức thanh toán</mat-label>
+          <mat-select required [(ngModel)]="typePayment">
+            <mat-option [value]="0">
+              Tiền mặt
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <button class="btn btn-block btn-primary font-weight-bold mb-3 py-3" (click)="order()">
         Đặt hàng
       </button>
     </div>

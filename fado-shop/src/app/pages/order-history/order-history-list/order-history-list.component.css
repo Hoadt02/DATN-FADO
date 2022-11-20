@@ -61,7 +61,7 @@
   height: 37px;
   border-radius: 5px;
   background-color: #ffc107;
-  margin: 0px 7px 0px 7px;
+  margin: 0 7px 0 7px;
   border: none;
 }
 
@@ -70,7 +70,7 @@
   height: 37px;
   border-radius: 5px;
   background-color: #e0aa0b;
-  margin: 0px 7px 0px 7px;
+  margin: 0 7px 0 7px;
   border: none;
 }
 
@@ -80,14 +80,9 @@
   object-fit: cover;
 }
 
-/*.price {*/
-/*  position: relative;*/
-/*}*/
-
 .price .center {
-  /*position: absolute;*/
   margin-top: 37%;
-  /*left: 30%;*/
+  text-align: right;
 }
 
 .max-height {

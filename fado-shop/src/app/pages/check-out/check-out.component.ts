@@ -43,6 +43,8 @@ export class CheckOutComponent implements OnInit {
   provinceName!: string;
   wardName!: string;
 
+  typePayment: any = 0;
+
   formGroup = this.fb.group({
     id: [null],
     province: ['', [Validators.required]],
