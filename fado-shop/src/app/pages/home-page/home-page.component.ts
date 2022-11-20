@@ -30,6 +30,7 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
     this.getCategory();
     this.getProduct();
+    this.getAllPrdInCart();
   }
 
   getCategory() {
