@@ -41,4 +41,9 @@ public class ProductController {
     public ResponseEntity<Product> update(@RequestBody Product product) {
         return new ResponseEntity<>(this.iProductService.update(product), HttpStatus.OK);
     }
+
+    @GetMapping("findAllByCategoryId/{id}")
+    public ResponseEntity<List<Product>> findAllByCategoryId(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(this.iProductService.findAllByCategoryId(id), HttpStatus.OK);
+    }
 }

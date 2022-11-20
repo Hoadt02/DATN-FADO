@@ -22,4 +22,8 @@ export class ProductService {
   update(data: any) {
     return this.apiProduct.update(data);
   }
+
+  findAllByCategoryId(id: any) {
+    return this.apiProduct.findAllByCategoryId(id);
+  }
 }
