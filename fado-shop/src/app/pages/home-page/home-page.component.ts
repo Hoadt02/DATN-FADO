@@ -30,6 +30,7 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
     this.getCategory();
     this.getProduct();
+    this.getAllPrdInCart();
   }
 
   getCategory() {
@@ -61,7 +62,7 @@ export class HomePageComponent implements OnInit {
     if (this.items != null) {
       for (const x of this.items) {
         if (x.productDetail.id == raw.id && x.quantity == raw.quantity) {
-          this.toastrService.warning('Số lượng trong rỏ hàng đã bằng số lượng trong kho');
+          this.toastrService.warning('Sản phẩm trong kho không đủ.');
           return;
         }
       }
