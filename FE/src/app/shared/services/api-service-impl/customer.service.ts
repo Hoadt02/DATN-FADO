@@ -60,4 +60,12 @@ export class CustomerService {
       }
     })
   }
+
+  updatePass(id, customer: any) {
+
+  }
+
+  accuracyPassword(data: any) {
+    return this.apiCustomer.getAll()
+  }
 }
