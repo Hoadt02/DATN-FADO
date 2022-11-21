@@ -43,4 +43,8 @@ export class ApiOrderService {
   updateStatus(status: number, id: number) {
     return this.http.get(`${ApiConstant.order}/updateStatus?status=${status}&id=${id}`)
   }
+
+  getOrderHistory(id: number, status: number) {
+    return this.http.get(`${ApiConstant.order}/getOrderHistory?id=${id}&status=${status}`)
+  }
 }

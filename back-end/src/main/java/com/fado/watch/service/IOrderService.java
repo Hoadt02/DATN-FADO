@@ -23,4 +23,6 @@ public interface IOrderService {
     Order update(Order order);
 
     List<Order> getOrderById(Integer id);
+
+    List<Order> getOrderHistory(Integer id, Integer status);
 }

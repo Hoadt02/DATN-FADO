@@ -45,9 +45,10 @@ export class SellAtStoreComponent implements OnInit {
   checkQuantity = false;
   createOrder: any;
   idOrder: any;
-  soHoaDon = 0;
+  // soHoaDon = 0;
   idHoaDon: any[] = [];
   price: number;
+  keyupName: string;
 
   tongTienHang: number = 0
   giamGia: number = 0;
@@ -57,7 +58,9 @@ export class SellAtStoreComponent implements OnInit {
 
   formGroup: FormGroup;
   formGroupCustomer: FormGroup = this.fb.group({
-    customer: 195
+    customer: {
+      id: ''
+    }
   })
   full_name: string;
 
@@ -144,7 +147,7 @@ export class SellAtStoreComponent implements OnInit {
     diaLogRef.afterClosed().subscribe((data: any) => {
       const createOrder = {
         customer: {
-          id: 195
+          id: this.formGroupCustomer.getRawValue()
         },
         staff: {
           id: this.storageService.getIdFromToken()
@@ -162,25 +165,28 @@ export class SellAtStoreComponent implements OnInit {
 
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
         this.orderService.save(createOrder).subscribe((data: any) => {
-          this.idOrder = data.id;
-          console.log(this.idOrder)
-
-          this.soHoaDon++;
-          this.idHoaDon.push({
-            name: this.soHoaDon,
-            value: data.id
-          })
-          this.orderDetailService.findOrderDetailByOrder(data.id).subscribe((data2: any) => {
-            this.orderDetails = data2;
-          })
           if (this.tabs.length < 10) {
             // this.tabs.push(`Hoá đơn ${this.tabs.length + 1}`);
-            this.tabs.push(this.tabs[this.tabs.length - 1] + 1);
+            this.tabs.push((this.tabs.length - 1) + 1);
             this.selected.setValue(this.tabs.length - 1);
+            console.log('tabs: ', (this.tabs.length - 1) + 1);
+            this.toastService.success('Tạo hóa đơn thành công !');
+            this.getOrderByStaff(this.storageService.getIdFromToken());
+            this.getOrderDetail();
+            this.idOrder = data.id;
+            console.log(this.idOrder)
+
+            this.idHoaDon.push({
+              name: (this.tabs.length - 1) + 1,
+              value: data.id
+            })
+            console.log('so hoa don: ', this.idHoaDon[0].name)
+            console.log('data.id: ', data.id)
+            this.orderDetailService.findOrderDetailByOrder(data.id).subscribe((data2: any) => {
+              this.orderDetails = data2;
+            })
           }
-          this.toastService.success('Tạo hóa đơn thành công !');
-          this.getOrderByStaff(this.storageService.getIdFromToken());
-          this.getOrderDetail();
+
         }, error => {
           this.toastService.error('Tạo hóa đơn thất bại !')
           console.log(error)
@@ -223,21 +229,34 @@ export class SellAtStoreComponent implements OnInit {
       disableClose: true,
       hasBackdrop: true,
       data: {
-        title: 'Xóa hóa đơn',
+        title: 'Hủy hóa đơn',
         message: 'Bạn có muốn hủy hóa đơn không ?',
       }
     });
     diaLogRef.afterClosed().subscribe((data: any) => {
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
-        this.tabs.splice(index, 1);
-        this.idHoaDon.splice(index, 1);
-        if (this.selected.value == this.tabs.length) {
-          this.selected.setValue(this.tabs.length - 1);
-          this.defaultPayment();
+        if (this.tabs.length > 1) {
+          if (this.selected.value == this.tabs.length) {
+            this.orderService.update(this.idOrder, createOrder).subscribe((data: any) => {
+              console.log('Sau khi sua: ', data);
+              this.orderDetails = [];
+              this.idHoaDon.splice(index, 1);
+              this.tabs.splice(index, 1);
+              this.selected.setValue(this.tabs.length - 1);
+              this.defaultPayment();
+              this.toastService.success('Hủy hóa đơn thành công !');
+            }, error => {
+              this.toastService.error('Hủy hóa đơn thất bại !');
+              console.log(error);
+            })
+          }
+        } else {
           this.orderService.update(this.idOrder, createOrder).subscribe((data: any) => {
             console.log('Sau khi sua: ', data);
+            this.defaultPayment();
             this.orderDetails = [];
-            this.idHoaDon.splice(index, 1);
+            this.idHoaDon = [];
+            this.tabs = [];
             this.toastService.success('Hủy hóa đơn thành công !');
           }, error => {
             this.toastService.error('Hủy hóa đơn thất bại !');
@@ -463,8 +482,8 @@ export class SellAtStoreComponent implements OnInit {
 
   openHistory() {
     const dialogRef = this.matDiaLog.open(SellAtStoreHistoryComponent, {
-      width: '1000px',
-      disableClose: false,
+      width: '1500px',
+      disableClose: true,
       hasBackdrop: true,
     });
     dialogRef.afterClosed().subscribe(rs => {

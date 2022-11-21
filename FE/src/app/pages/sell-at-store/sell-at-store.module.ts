@@ -29,12 +29,14 @@ import {CategoryFormComponent} from '../category-management/category-form/catego
 import { SellAtStoreHistoryComponent } from './sell-at-store-history/sell-at-store-history.component';
 import { ScannerFormComponent } from './scanner-form/scanner-form.component';
 import {BarcodeScannerLivestreamModule} from "ngx-barcode-scanner";
+import { SellHistoryDetailComponent } from './sell-history-detail/sell-history-detail.component';
 
 @NgModule({
   declarations: [
     SellAtStoreComponent,
     SellAtStoreHistoryComponent,
     ScannerFormComponent,
+    SellHistoryDetailComponent,
   ],
     imports: [
         CommonModule,

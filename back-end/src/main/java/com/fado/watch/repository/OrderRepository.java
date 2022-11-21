@@ -22,9 +22,12 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
 
     // Day la` pha`n toi nha' ba.n hien da.u da.u
-    @Query("select o from orders o where o.staff.id =:id")
+    @Query("select o from orders o where o.staff.id =:id and o.type = 1")
     List<Order> getOrderByStaff(Integer id);
 
     @Query("select o from orders o where o.id =:id")
     List<Order> getOrderById(Integer id);
+
+    @Query("select o from orders o where o.staff.id = :id and o.status = :status and o.type = 1")
+    List<Order> getOrderHistory(@Param("id") Integer id, @Param("status") Integer status);
 }
