@@ -33,8 +33,8 @@
                      (selectedIndexChange)="selected.setValue($event)">
         <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}">
           <ng-template mat-tab-label>
-            <div (click)="getOrderDetailByOrder(index + 1)"> Hóa đơn {{index + 1 }}
-              <a mat-icon-button class="text-black-50" (click)="removeTab(index)">
+            <div (click)="getOrderDetailByOrder(tab + 1)"> Hóa đơn {{ tab + 1 }}
+              <a mat-icon-button class="text-black-50" (click)="removeTab(index + 1)">
                 <i class="fas fa-times"></i>
               </a>
             </div>
@@ -97,9 +97,9 @@
         </div>
         <form [formGroup]="formGroupCustomer" style="width: 90%">
           <div class="col-11 py-0">
-            <mat-form-field appearance="outline" class="w-100">
+            <mat-form-field appearance="outline" class="w-100" formGroupName="customer">
               <mat-label>Tên khách hàng</mat-label>
-              <mat-select formControlName="customer">
+              <mat-select formControlName="id">
                 <mat-option *ngFor="let c of listCustomer" [value]="c.id">{{c.firstname}} {{c.lastname}} {{c.phoneNumber == '' ? '' : '-'}} {{c.phoneNumber}}</mat-option>
               </mat-select>
             </mat-form-field>

@@ -78,4 +78,9 @@ public class OrderServiceImpl implements IOrderService {
         return orderRepository.getOrderById(id);
     }
 
+    @Override
+    public List<Order> getOrderHistory(Integer id, Integer status) {
+        return orderRepository.getOrderHistory(id, status);
+    }
+
 }

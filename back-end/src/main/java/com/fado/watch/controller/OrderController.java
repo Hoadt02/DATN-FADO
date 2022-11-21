@@ -62,4 +62,9 @@ public class OrderController {
     public ResponseEntity<List<Order>> getOrderById(@RequestParam("id") Integer id) {
         return ResponseEntity.ok(this.iOrderService.getOrderById(id));
     }
+
+    @GetMapping("/getOrderHistory")
+    public ResponseEntity<List<Order>> getOrderHistory(@RequestParam("id") Integer id, @RequestParam("status") Integer status) {
+        return ResponseEntity.ok(this.iOrderService.getOrderHistory(id, status));
+    }
 }
