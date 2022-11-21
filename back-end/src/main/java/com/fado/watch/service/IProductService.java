@@ -15,4 +15,6 @@ public interface IProductService {
 
     Product update(Product product);
 
+    List<Product> findAllByCategoryId(Integer id);
+
 }

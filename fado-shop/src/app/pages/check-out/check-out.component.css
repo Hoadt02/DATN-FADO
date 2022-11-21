@@ -54,9 +54,9 @@
   padding: 5px 10px 5px 10px;
   background-color: #FFD333;
   border: none;
+  border-radius: 7px;
 }
 
 .address-default .edit button:hover {
   background-color: #ffcb0d;
-  border-radius: 7px;
 }

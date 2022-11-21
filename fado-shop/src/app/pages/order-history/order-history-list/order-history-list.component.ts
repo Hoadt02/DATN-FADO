@@ -214,8 +214,8 @@ export class OrderHistoryListComponent implements OnInit {
         for (const y of this.dataAddCart) {
           this.apiCart.addToCart(y);
         }
-        this.router.navigate(['/cart']);
       }
+      this.router.navigate(['/cart']);
     })
   }
 }

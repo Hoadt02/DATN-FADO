@@ -48,25 +48,20 @@ export class ProductPromotionalFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getAll();
     this.getProductNotInPromotional();
     this.findAllByStatusTrue();
-    this.getAllProduct();
     this.getAllCategory();
   }
 
   /**Danh sách khuyến mại đang hoạt động ở ô select*/
   findAllByStatusTrue() {
-    // this.isLoading = true;
     this.promotionalService.findAllByStatusTrue().subscribe({
       next: (data: any) => {
         this.promotionalList = data as any[];
         console.log(this.promotionalList);
-        // this.isLoading = false;
       }, error: (err => {
         this.toastrService.error('Lỗi tải dữ liệu');
         console.log(err);
-        // this.isLoading = false;
         return;
       })
     })
@@ -82,10 +77,10 @@ export class ProductPromotionalFormComponent implements OnInit {
     })
   }
 
-  getAllProduct() {
-    this.productService.getAll().subscribe({
+  findAllProductByCategoryId(id : number) {
+    this.productService.findAllByCategoryId(id).subscribe({
       next: (data: any) => {
-        this.products = data.filter(p => p.status == 1);
+        this.products = data;
       }, error: err => {
         console.log(err);
       }
@@ -93,7 +88,6 @@ export class ProductPromotionalFormComponent implements OnInit {
   }
 
   getFilterCategory() {
-    console.log('id category: ', this.filterCategories);
     this.filterProducts = null;
     this.isLoading = true;
     this.productPromotionalService.getProductNotInPromotional().subscribe({
@@ -101,7 +95,6 @@ export class ProductPromotionalFormComponent implements OnInit {
         data = data.filter(c => c.product.category.id == this.filterCategories)
         this.dataSource = new MatTableDataSource<any>(data);
         this.dataSource.paginator = this.paginator;
-        console.log('danh sahcs san pham chua co trong km nay: ', data);
         this.isLoading = false;
       }, error: (err => {
         this.toastrService.error('Lỗi tải dữ liệu');
@@ -113,15 +106,12 @@ export class ProductPromotionalFormComponent implements OnInit {
   }
 
   getFilterProduct() {
-    console.log('id san pham: ', this.filterProducts);
-    this.filterCategories = null;
     this.isLoading = true;
     this.productPromotionalService.getProductNotInPromotional().subscribe({
       next: (data: any) => {
         data = data.filter(c => c.product.id == this.filterProducts)
         this.dataSource = new MatTableDataSource<any>(data);
         this.dataSource.paginator = this.paginator;
-        console.log('danh sahcs san pham chua co trong km nay: ', data);
         this.isLoading = false;
       }, error: (err => {
         this.toastrService.error('Lỗi tải dữ liệu');
@@ -134,13 +124,14 @@ export class ProductPromotionalFormComponent implements OnInit {
 
   /**Danh sách sản phẩm ko tồn tại trong khuyến mại đang hoạt động*/
   getProductNotInPromotional() {
+    this.filterCategories = null;
+    this.filterProducts = null;
     this.selection.clear();
     this.isLoading = true;
     this.productPromotionalService.getProductNotInPromotional().subscribe({
       next: (data: any) => {
         this.dataSource = new MatTableDataSource<any>(data);
         this.dataSource.paginator = this.paginator;
-        console.log('danh sahcs san pham chua co trong km nay: ', data);
         this.isLoading = false;
       }, error: (err => {
         this.toastrService.error('Lỗi tải dữ liệu');
