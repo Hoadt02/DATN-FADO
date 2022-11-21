@@ -1,0 +1,29 @@
+.item-child{
+  position: absolute;
+  top: 43%;
+  left: 7%;
+}
+
+@media screen and (max-width: 992px) {
+  .item-child{
+    position: absolute;
+    top: 37%;
+    left: 3%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .item-child{
+    position: absolute;
+    top: 30%;
+    left: 27%;
+  }
+}
+
+@media screen and (max-width: 544px) {
+  .item-child{
+    position: absolute;
+    top: 25%;
+    left: 18%;
+  }
+}

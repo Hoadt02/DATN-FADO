@@ -19,6 +19,8 @@ export class ProductDetailComponent implements OnInit {
   listSimilarProduct: any[] = [];
   productPromotionalCurrent: any[] = [];
 
+  isLoading = true;
+
   //-------------------------------
   dataAddToCart: any;
   slSP: number = 1;
@@ -60,30 +62,41 @@ export class ProductDetailComponent implements OnInit {
         //Get similar product
         this.productDetailService.getSimilarProduct(data.product.id).subscribe(res2 => {
           this.listSimilarProduct = res2.filter((n: any) => n.id != this.productDetail.id);
-        })
 
-        //Get discount product
-        this.apiProductPromotional.findProductPromotionalByIdProductDetail([data.id]).subscribe(data => {
-          this.productPromotionalCurrent = data;
+          // set data to productPromotionalCurrent
+          const ids = [];
+          for (let i = 0; i < res2.length; i++) {
+            ids.push(res2[i].id);
+          }
+
+          //Get discount product
+          this.apiProductPromotional.findProductPromotionalByIdProductDetail(ids).subscribe(data => {
+            this.productPromotionalCurrent = data;
+            this.isLoading = false;
+          })
         })
       },
       error: (error) => {
         console.log(error);
         if (error.error.code == 'NOT_FOUND') {
-          console.log(error.error.message);
+          this.toastrService.error(error.error.message);
         }
         void this.router.navigate(['/product']);
       }
     });
   }
 
-  loadDiscountProduct(){
+  loadDiscountProduct(id: number) {
     let discount = 0;
-    if (this.productPromotionalCurrent.length  > 0){
-      if (this.productPromotionalCurrent[0].promotional.type == true){
-        discount = (100 - this.productPromotionalCurrent[0].promotional.discount) / 100 * this.productPromotionalCurrent[0].productDetail.price;
-      }else {
-        discount = this.productPromotionalCurrent[0].productDetail.price - this.productPromotionalCurrent[0].promotional.discount;
+    for (let i = 0; i < this.productPromotionalCurrent.length; i++) {
+      if (this.productPromotionalCurrent[i].productDetail.id == id) {
+        if (this.productPromotionalCurrent[i].promotional.type == true) {
+          discount = (100 - this.productPromotionalCurrent[i].promotional.discount) / 100 * this.productPromotionalCurrent[i].productDetail.price;
+          break;
+        } else {
+          discount = this.productPromotionalCurrent[i].productDetail.price - this.productPromotionalCurrent[i].promotional.discount;
+          break;
+        }
       }
     }
     return discount;
@@ -176,4 +189,9 @@ export class ProductDetailComponent implements OnInit {
         }
       }]
   };
+
+  showDetail(id:number) {
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
+      this.router.navigate(['/product-detail/' + id]));
+  }
 }

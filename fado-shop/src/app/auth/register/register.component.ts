@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {checkSpace} from "../../shared/validator/validate";
 import {FormBuilder, Validators} from "@angular/forms";
 import {Regex} from "../../shared/validator/regex";
-import {AuthService} from "../../shared/service/jwt/auth.service";
 import {CustomerService} from "../../shared/service/api-service-impl/customer.service";
 
 @Component({
@@ -35,6 +34,8 @@ export class RegisterComponent implements OnInit {
     role: []
   })
 
+  isLoading = false;
+
   constructor(private fb: FormBuilder,
               private customerService: CustomerService) { }
 
@@ -44,7 +45,14 @@ export class RegisterComponent implements OnInit {
   signUp(){
     this.formGroup.markAllAsTouched();
     if (this.formGroup.invalid) return;
+
+    this.isLoading = true;
     this.customerService.create(this.formGroup.getRawValue());
+    this.customerService.isDoneRegister.subscribe(data => {
+      if (data){
+        this.isLoading = false;
+      }
+    })
   }
 
 }

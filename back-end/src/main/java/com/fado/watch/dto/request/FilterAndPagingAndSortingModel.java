@@ -7,6 +7,7 @@ public class FilterAndPagingAndSortingModel {
     private Integer page;
     private Integer size;
     private Integer sort;
+    private String search;
     private Integer[] category_id;
     private Integer[] brand_id;
     private Integer[] material_id;

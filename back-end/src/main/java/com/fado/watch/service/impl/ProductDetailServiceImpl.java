@@ -48,7 +48,7 @@ public class ProductDetailServiceImpl implements IProductDetailService {
     @Override
     public ProductDetail findProductDetails(Integer id) {
         return repository.findById(id).orElseThrow(() ->
-                new ResourceNotFoundException("Không tìm thấy sản phẩm bạn mong muốn trong Database!")
+                new ResourceNotFoundException("Không tìm thấy sản phẩm bạn mong muốn!")
         );
     }
 
@@ -88,10 +88,11 @@ public class ProductDetailServiceImpl implements IProductDetailService {
 
     @Override
     public Page<ProductDetail> findProductsWithPaginationAndSortingAndFilter(FilterAndPagingAndSortingModel model) {
-        if (model.getCategory_id().length < 1 && model.getBrand_id().length < 1 && model.getMaterial_id().length < 1 && model.getOrigin_id().length < 1) {
+        if (model.getSearch() == null && model.getCategory_id().length < 1 && model.getBrand_id().length < 1
+                && model.getMaterial_id().length < 1 && model.getOrigin_id().length < 1) {
             model.setCategory_id(categoryRepository.getAllIdCategory());
             model.setBrand_id(brandRepository.getAllIdBrand());
-            model.setMaterial_id( materialRepository.getAllIdMaterial());
+            model.setMaterial_id(materialRepository.getAllIdMaterial());
             model.setOrigin_id(originRepository.getAllIdOrigin());
         }
         if (model.getGender().length < 1) model.setGender(new Boolean[]{true, false});
@@ -109,18 +110,19 @@ public class ProductDetailServiceImpl implements IProductDetailService {
 
         Page<ProductDetail> productDetails;
         if (model.getSort() == 1) {
-            productDetails = repository.findAll(PageRequest.of(model.getPage(), model.getSize(), Sort.by("price").ascending()),
-                    model.getCategory_id(), model.getBrand_id(), model.getMaterial_id(), model.getOrigin_id(),
+            productDetails = repository.findAll(PageRequest.of(model.getPage(), model.getSize(), Sort.by("id").descending()),
+                    model.getSearch(), model.getCategory_id(), model.getBrand_id(), model.getMaterial_id(), model.getOrigin_id(),
                     model.getGender(), model.getStartPrice(), model.getEndPrice());
-        } else if (model.getSort() == 2){
-            productDetails = repository.findAll(PageRequest.of(model.getPage(), model.getSize(), Sort.by("price").descending()),
-                    model.getCategory_id(), model.getBrand_id(), model.getMaterial_id(), model.getOrigin_id(),
+        } else if (model.getSort() == 2) {
+            productDetails = repository.findAll(PageRequest.of(model.getPage(), model.getSize(), Sort.by("id").ascending()),
+                    model.getSearch(), model.getCategory_id(), model.getBrand_id(), model.getMaterial_id(), model.getOrigin_id(),
                     model.getGender(), model.getStartPrice(), model.getEndPrice());
-        }else {
+        } else {
             productDetails = repository.findAll(PageRequest.of(model.getPage(), model.getSize()),
-                    model.getCategory_id(), model.getBrand_id(), model.getMaterial_id(), model.getOrigin_id(),
+                    model.getSearch(), model.getCategory_id(), model.getBrand_id(), model.getMaterial_id(), model.getOrigin_id(),
                     model.getGender(), model.getStartPrice(), model.getEndPrice());
         }
+
         return productDetails;
     }
 
@@ -131,6 +133,45 @@ public class ProductDetailServiceImpl implements IProductDetailService {
     }
 
     @Override
+    public Integer getCountProductByCategory(Integer id) {
+        return repository.getCountProductByCategory(id);
+    }
+
+    @Override
+    public Integer getCountProductByBrand(Integer id) {
+        return repository.getCountProductByBrand(id);
+    }
+
+    @Override
+    public Integer getCountProductByMaterial(Integer id) {
+        return repository.getCountProductByMaterial(id);
+    }
+
+    @Override
+    public Integer getCountProductByOrigin(Integer id) {
+        return repository.getCountProductByOrigin(id);
+    }
+
+    @Override
+    public Integer getCountProductByMale() {
+        return repository.getCountProductByMale();
+    }
+
+    @Override
+    public Integer getCountProductByFemale() {
+        return repository.getCountProductByFemale();
+    }
+
+    @Override
+    public List<ProductDetail> getLatestProductDetail() {
+        return repository.getLatestProductDetail();
+    }
+
+    @Override
+    public List<ProductDetail> getProductDetailInPromotional() {
+        return repository.getProductDetailInPromotional();
+    }
+
     public ProductDetail getProductDetailByImei(String imei) {
         return this.repository.getProductDetailByImei(imei);
     }

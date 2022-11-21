@@ -1,5 +1,6 @@
 package com.fado.watch.service;
 
+import com.fado.watch.dto.request.ChangePassModel;
 import com.fado.watch.dto.response.StaffDto;
 import com.fado.watch.entity.Staff;
 
@@ -21,4 +22,5 @@ public interface IStaffService {
     Staff findStaffByEmail(String email);
 
     Boolean existsByEmail(String email);
+    Staff checkPassAndFindStaff(ChangePassModel model);
 }

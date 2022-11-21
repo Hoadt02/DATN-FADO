@@ -53,14 +53,19 @@ export class StaffService {
     data.dateOfBirth = formatDate(data.dateOfBirth);
     return this.apiStaff.update(id, data).subscribe({
       next: (_) => {
-        void this.router.navigate(['/auth/login']);
-        this.toastrService.success('Cập nhật mật khẩu thành công!');
+        void this.router.navigate(['/auth/login']).then(()=>
+          this.toastrService.success('Cập nhật mật khẩu thành công!')
+        );
       }, error: err => {
         console.log(err);
-        void this.router.navigate(['/auth/login']);
-        this.toastrService.error('Cập nhật mật khẩu thất bại!');
+        void this.router.navigate(['/auth/login']).then(()=>
+          this.toastrService.error('Cập nhật mật khẩu thất bại!')
+        );
       }
     })
   }
 
+  accuracyPassword(data:any){
+    return this.apiStaff.accuracyPassword(data);
+  }
 }

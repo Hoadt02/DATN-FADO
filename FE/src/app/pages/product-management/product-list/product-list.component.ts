@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 import {FormBuilder} from '@angular/forms';
 import {Constants} from '../../../shared/Constants';
@@ -42,6 +42,8 @@ export class ProductListComponent implements OnInit {
     status: [null],
     gender: [null]
   });
+
+  keySearch:any = null;
 
   displayedColumns: string[] = ['index' , 'avatar-product', 'name', 'price', 'quantity', 'gender', 'createDate', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
@@ -106,6 +108,7 @@ export class ProductListComponent implements OnInit {
 
   onResetFilter() {
     this.formGroup.patchValue({product_id:null, brand_id:null, material_id:null, origin_id:null, status:null, gender:null});
+    this.keySearch = null;
     this.getAll();
   }
 
@@ -185,5 +188,13 @@ export class ProductListComponent implements OnInit {
         this.listMaterial = data;
       }
     });
+  }
+
+  setNameProduct(name:string){
+    if (name.length > 30){
+      name = name.substring(0,27) + '...';
+      return name;
+    }
+    return name;
   }
 }

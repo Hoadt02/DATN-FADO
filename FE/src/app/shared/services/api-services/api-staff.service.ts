@@ -30,4 +30,7 @@ export class ApiStaffService {
     return this.http.post(`${ApiConstant.staff}/findStaffByEmailAndSendOTP`, email);
   }
 
+  accuracyPassword(data:any):Observable<any>{
+    return this.http.post(`${ApiConstant.staff}/accuracyPassword`,data);
+  }
 }

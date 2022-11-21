@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {StorageService} from "../../shared/services/jwt/storage.service";
+import {Constants} from "../../shared/Constants";
 
 
 export interface RouteInfo {
@@ -40,6 +42,12 @@ export const ROUTES: RouteInfo[] = [
     class: ''
   },
   {
+    path: '/customer-management',
+    title: 'Quản lý khách hàng',
+    icon: 'nc-single-02',
+    class: ''
+  },
+  {
     path: "/promotional-management",
     title: "Quản lý khuyến mại",
     icon: "nc-box-2",
@@ -50,12 +58,6 @@ export const ROUTES: RouteInfo[] = [
     title: "Quản lý voucher",
     icon: "nc-money-coins",
     class: ""
-  },
-  {
-    path: '/customer-management',
-    title: 'Quản lý khách hàng',
-    icon: 'nc-single-02',
-    class: ''
   },
   {
     path: '/category-management',
@@ -98,7 +100,17 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
   public menuItems: any[];
 
+  role:boolean;
+
+  constructor(private storageService: StorageService) {
+  }
+
   ngOnInit() {
+    if (this.storageService.getAuthority() === Constants.TYPE_AUTH.SUPER_ADMIN){
+      this.role = true
+    }else {
+      this.role = false;
+    }
     this.menuItems = ROUTES.filter(menuItem => menuItem);
   }
 }

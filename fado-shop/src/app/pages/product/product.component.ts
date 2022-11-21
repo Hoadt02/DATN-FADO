@@ -5,7 +5,7 @@ import {MaterialService} from '../../shared/service/api-service-impl/material.se
 import {OriginService} from '../../shared/service/api-service-impl/origin.service';
 import {ProductDetailsService} from '../../shared/service/api-service-impl/product-details.service';
 import {Contants} from '../../shared/Contants';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, Validators} from '@angular/forms';
 import {CartService} from '../../shared/service/api-service-impl/cart.service';
 import {checkCheckPrice} from '../../shared/validator/validate';
 import {ToastrService} from "ngx-toastr";
@@ -22,7 +22,7 @@ export class ProductComponent implements OnInit {
   readonly TYPE_SORT = Contants.TYPE_SORT;
   readonly TYPE_SHOW = Contants.TYPE_SHOW;
   readonly TYPE_FILTER = Contants.TYPE_FILTER;
-  isLoading!:boolean;
+  isLoading!: boolean;
 
   // name sort product and show many product
   sort_name = 'Sắp xếp';
@@ -43,15 +43,23 @@ export class ProductComponent implements OnInit {
   productPromotionalCurrent: any[] = [];
 
   // params filter
+  search = null;
   category_id: any[] = [];
   brand_id: any[] = [];
   material_id: any[] = [];
   origin_id: any[] = [];
   gender: any[] = [];
 
+  //name page
+  name = 'Tất cả sản phẩm';
 
-  // url filter
-  url_param: string = '';
+  //count nam nữ
+  countMale = 0;
+  countFemale = 0;
+
+  // checked input from homepage
+  checkedCheckboxCate = -1;
+  checkedCheckboxGender = -1;
 
   //-------------------------------
   dataAddToCart: any;
@@ -81,12 +89,11 @@ export class ProductComponent implements OnInit {
     private toastrService: ToastrService,
     private fb: FormBuilder,
     private storageService: StorageService,
-    private router: Router
+    private router: Router,
   ) {
   }
 
   ngOnInit(): void {
-    console.log(Contants.LIST_PREFIX)
     this.getAllProductPromotional();
     if (this.storageService.getIdFromToken()) {
       this.getAllPrdInCart();
@@ -96,46 +103,90 @@ export class ProductComponent implements OnInit {
     this.loadByBrand();
     this.loadByMaterial();
     this.loadByOrigin();
+    this.loadCountProductMale();
+    this.loaCountProductFemale();
+  }
+
+  //check data search
+  checkDataSearch() {
+    this.productDetailService.dataSearchFromHeader.subscribe( data=>{
+        if (data != null) {
+          this.search = data as any;
+          this.name = 'Kết quả tìm kiếm của từ khóa "' + this.search + '"';
+        }
+    });
+    this.productDetailService.dataSearchFromHeader.next(null);
+  }
+
+  //check data home page
+  checkDataFromHomePage() {
+    this.productDetailService.dataFromHomePage.subscribe(data => {
+      if (data != null) {
+        if (data.id == true || data.id == false) {
+          this.gender.push(data.id);
+          this.name = data.name;
+          this.checkedCheckboxGender = data.id;
+        } else {
+          this.category_id.push(data.id);
+          this.name = data.name;
+          this.checkedCheckboxCate = data.id;
+        }
+      }
+    });
+    this.productDetailService.dataFromHomePage.next(null);
+  }
+
+  //check name page
+  setNamePage() {
+    if (this.category_id.length > 0) this.name = 'Bộ lọc';
+    else if (this.brand_id.length > 0) this.name = 'Bộ lọc';
+    else if (this.material_id.length > 0) this.name = 'Bộ lọc';
+    else if (this.origin_id.length > 0) this.name = 'Bộ lọc';
+    else if (this.gender.length > 0) this.name = 'Bộ lọc';
+    else if (this.formGroup.getRawValue().startPrice != null && this.formGroup.getRawValue().endPrice) this.name = 'Bộ lọc';
+    else this.name = 'Tất cả sản phẩm';
   }
 
   // Start get value oninit
   loadByProductDetail() {
     this.isLoading = true;
-    this.productDetailService.findProductsWithPaginationAndSortingAndFilter(this.setData()).subscribe( {
-     next:(data) => {
-       // set data to list product
-       this.products = data.content;
+    this.checkDataFromHomePage();
+    this.checkDataSearch();
+    this.productDetailService.findProductsWithPaginationAndSortingAndFilter(this.setData()).subscribe({
+      next: (data) => {
+        // set data to list product
+        this.products = data.content;
 
-       // set number of pages
-       this.totalPages = [];
-       for (let i = 0; i < data.totalPages; i++) {
-         this.totalPages.push(i + 1);
-       }
+        // set number of pages
+        this.totalPages = [];
+        for (let i = 0; i < data.totalPages; i++) {
+          this.totalPages.push(i + 1);
+        }
 
-       // set data to productPromotionalCurrent
-       const ids = [];
-       for (let i = 0; i < data.content.length; i++) {
-         ids.push(data.content[i].id);
-       }
-       this.apiProductPromotional.findProductPromotionalByIdProductDetail(ids).subscribe(data => {
-         this.productPromotionalCurrent = data;
-         this.isLoading = false;
-       })
-     },
-      error:(_) => {
-       this.isLoading = false;
+        // set data to productPromotionalCurrent
+        const ids = [];
+        for (let i = 0; i < data.content.length; i++) {
+          ids.push(data.content[i].id);
+        }
+        this.apiProductPromotional.findProductPromotionalByIdProductDetail(ids).subscribe(res => {
+          this.productPromotionalCurrent = res;
+          this.isLoading = false;
+        })
+      },
+      error: (_) => {
+        this.isLoading = false;
       }
     });
   }
 
-  loadDiscountProduct(id:number){
+  loadDiscountProduct(id: number) {
     let discount = 0;
     for (let i = 0; i < this.productPromotionalCurrent.length; i++) {
-      if (this.productPromotionalCurrent[i].productDetail.id == id){
-        if (this.productPromotionalCurrent[i].promotional.type == true){
+      if (this.productPromotionalCurrent[i].productDetail.id == id) {
+        if (this.productPromotionalCurrent[i].promotional.type == true) {
           discount = (100 - this.productPromotionalCurrent[i].promotional.discount) / 100 * this.productPromotionalCurrent[i].productDetail.price;
           break;
-        }else {
+        } else {
           discount = this.productPromotionalCurrent[i].productDetail.price - this.productPromotionalCurrent[i].promotional.discount;
           break;
         }
@@ -144,42 +195,66 @@ export class ProductComponent implements OnInit {
     return discount;
   }
 
+  loadCountProductMale() {
+    this.productDetailService.getCountProductByMale().subscribe(data => {
+      this.countMale = data;
+    })
+  }
+
+  loaCountProductFemale() {
+    this.productDetailService.getCountProductByFemale().subscribe(data => {
+      this.countFemale = data;
+    })
+  }
+
   loadByCategory() {
     this.categoryService.getAll().subscribe((data: any) => {
-      if (data) {
-        this.categories = data;
+      for (let i = 0; i < data.length; i++) {
+        this.productDetailService.getCountProductByCategory(data[i].id).subscribe(res => {
+          data[i].count = res;
+        })
       }
+      this.categories = data;
     });
   }
 
   loadByBrand() {
     this.brandService.getAll().subscribe((data: any) => {
-      if (data) {
-        this.brands = data;
+      for (let i = 0; i < data.length; i++) {
+        this.productDetailService.getCountProductByBrand(data[i].id).subscribe(res => {
+          data[i].count = res;
+        })
       }
+      this.brands = data;
     });
   }
 
   loadByMaterial() {
     this.materialService.getAll().subscribe((data: any) => {
-      if (data) {
-        this.materials = data;
+      for (let i = 0; i < data.length; i++) {
+        this.productDetailService.getCountProductByMaterial(data[i].id).subscribe(res => {
+          data[i].count = res;
+        })
       }
+      this.materials = data;
     });
   }
 
   loadByOrigin() {
     this.originService.getAll().subscribe((data: any) => {
-      if (data) {
-        this.origins = data;
+      for (let i = 0; i < data.length; i++) {
+        this.productDetailService.getCountProductByOrigin(data[i].id).subscribe(res => {
+          data[i].count = res;
+        })
       }
+      this.origins = data;
     });
   }
   // End
 
   // Start set filter with click checkbox
-  addValueFilter(data:any, value:any){
-    let index = data.findIndex((n:any) => n == value);
+  addValueFilter(data: any, value: any) {
+    let index = data.findIndex((n: any) => n == value);
     if (index > -1) {
       data.splice(index, 1);
     } else {
@@ -188,24 +263,29 @@ export class ProductComponent implements OnInit {
   }
 
   setValueFilter(type: string, value: any) {
-    if (type == this.TYPE_FILTER.CATEGORY) this.addValueFilter(this.category_id,value);
-    else if (type == this.TYPE_FILTER.BRAND) this.addValueFilter(this.brand_id,value);
+    //reset data search
+    this.search = null;
+
+    if (type == this.TYPE_FILTER.CATEGORY) this.addValueFilter(this.category_id, value);
+    else if (type == this.TYPE_FILTER.BRAND) this.addValueFilter(this.brand_id, value);
     else if (type == this.TYPE_FILTER.MATERIAL) this.addValueFilter(this.material_id, value);
     else if (type == this.TYPE_FILTER.ORIGIN) this.addValueFilter(this.origin_id, value);
     else if (type == this.TYPE_FILTER.GENDER) this.addValueFilter(this.gender, value);
+    this.setNamePage();
     this.loadByProductDetail();
   }
   // End
 
   // Start set data using load list product
-  setData(){
+  setData() {
     const data = {
       page: this.page,
       size: this.size,
       sort: this.sort,
+      search: this.search,
       category_id: this.category_id,
       brand_id: this.brand_id,
-      material_id: this.brand_id,
+      material_id: this.material_id,
       origin_id: this.origin_id,
       gender: this.gender,
       startPrice: this.formGroup.getRawValue().startPrice,
@@ -225,13 +305,13 @@ export class ProductComponent implements OnInit {
 
   // Start sorting and paging
   setSortProduct(type: string) {
-    if (type == this.TYPE_SORT.PRICE_DOWN) {
-      this.sort_name = 'Giá: từ thấp đến cao';
+    if (type == this.TYPE_SORT.NEW) {
+      this.sort_name = 'Sản phẩm mới nhất';
       this.page = 0;
       this.sort = 1;
       this.loadByProductDetail();
-    } else if (type == this.TYPE_SORT.PRICE_UP) {
-      this.sort_name = 'Giá: từ cao đến thấp';
+    } else if (type == this.TYPE_SORT.OLD) {
+      this.sort_name = 'Sản phẩm cũ nhất';
       this.page = 0;
       this.sort = 2;
       this.loadByProductDetail();
@@ -265,20 +345,8 @@ export class ProductComponent implements OnInit {
     this.page = page - 1;
     this.loadByProductDetail();
   }
-  // End
 
-  //Reset filter
-  resetFilter(){
-    this.page = 0;
-    this.size = 12;
-    this.sort = 0;
-    this.category_id = [];
-    this.brand_id = [];
-    this.material_id = [];
-    this.origin_id = [];
-    this.formGroup.reset();
-    this.loadByProductDetail();
-  }
+  // End
 
   //----------------------------------------------------------
   addToCart(raw: any) {

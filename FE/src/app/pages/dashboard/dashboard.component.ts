@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js';
+import {StorageService} from "../../shared/services/jwt/storage.service";
+import {Router} from "@angular/router";
 
 
 @Component({
