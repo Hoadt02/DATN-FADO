@@ -17,5 +17,5 @@ public interface ICartService {
 
     void deleteAllByCustomerId(Integer id);
 
-    boolean checkStatusById();
+    boolean checkPromotionalInCartByIdCtm();
 }

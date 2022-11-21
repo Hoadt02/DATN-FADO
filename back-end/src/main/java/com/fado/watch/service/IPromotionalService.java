@@ -1,5 +1,6 @@
 package com.fado.watch.service;
 
+import com.fado.watch.dto.request.FilterPromotional;
 import com.fado.watch.entity.Promotional;
 
 import java.util.List;
@@ -14,6 +15,8 @@ public interface IPromotionalService {
     Promotional create(Promotional promotional);
 
     Promotional update(Promotional promotional);
+
+    List<Promotional> filter(FilterPromotional filterPromotional);
 
 
 }

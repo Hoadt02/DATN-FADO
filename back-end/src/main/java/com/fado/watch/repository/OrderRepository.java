@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 
-    @Query("select o from orders o where o.customer.id =:id order by o.id desc")
+    @Query("select o from orders o where o.customer.id =:id and o.type = 0 order by o.id desc")
     List<Order> findAllByCustomerId(Integer id);
 
     @Modifying
@@ -22,16 +22,12 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
 
     // Day la` pha`n toi nha' ba.n hien da.u da.u
-    @Query("select o from orders o where o.staff.id =:id")
+    @Query("select o from orders o where o.staff.id =:id and o.type = 1")
     List<Order> getOrderByStaff(Integer id);
 
-    @Modifying
-    @Transactional
-    @Query("update orders o set o.status = 3 where o.id =:id")
-    void payment(Integer id);
+    @Query("select o from orders o where o.id =:id")
+    List<Order> getOrderById(Integer id);
 
-    @Modifying
-    @Transactional
-    @Query("update orders o set o.status = 4 where o.id =:id")
-    void cancelOrder(Integer id);
+    @Query("select o from orders o where o.staff.id = :id and o.status = :status and o.type = 1")
+    List<Order> getOrderHistory(@Param("id") Integer id, @Param("status") Integer status);
 }

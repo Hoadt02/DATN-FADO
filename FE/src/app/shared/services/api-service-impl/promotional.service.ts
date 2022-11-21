@@ -3,6 +3,7 @@ import {ToastrService} from "ngx-toastr";
 import {BehaviorSubject} from "rxjs";
 import {ApiPromotionalService} from "../api-services/api-promotional.service";
 import {formatDate} from "../../format/formatData";
+import {ApiConstant} from "../../constants/api-constant";
 
 @Injectable({
   providedIn: 'root'
@@ -102,5 +103,19 @@ export class PromotionalService {
   updateCheckIn(id: number, data: any) {
     this.dataInputUpdateCheckIn(data);
     return this.apiPromotional.update(id, data);
+  }
+
+  dataFilter(data: any) {
+    if (null != data.startDate) {
+      data.startDate = formatDate(data.startDate);
+    }
+    if (null != data.endDate) {
+      data.endDate = formatDate(data.endDate);
+    }
+  }
+
+  filterAll(data: any) {
+    this.dataFilter(data)
+    return this.apiPromotional.filterAll(data);
   }
 }

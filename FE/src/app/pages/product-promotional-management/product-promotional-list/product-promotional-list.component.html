@@ -94,38 +94,38 @@
 
           <ng-container matColumnDef="productName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên sản phẩm</th>
-            <td mat-cell *matCellDef="let row"> {{row.productDetail.name}}</td>
+            <td mat-cell *matCellDef="let row"> {{row.prdName}}</td>
           </ng-container>
 
           <ng-container matColumnDef="price">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Giá gốc</th>
-            <td mat-cell *matCellDef="let row"> {{row.productDetail.price}} </td>
+            <td mat-cell *matCellDef="let row"> {{row.prdPrice}} </td>
           </ng-container>
 
           <ng-container matColumnDef="promotionalPrice">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Khuyến mại</th>
             <td mat-cell
-                *matCellDef="let row"> {{row.promotional.discount}}{{row.promotional.type ? '%' : ' VND'}} </td>
+                *matCellDef="let row"> {{row.prmDiscount}}{{row.prmType ? '%' : ' VND'}} </td>
           </ng-container>
 
           <ng-container matColumnDef="priceBefore">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Giá sau khuyến mại</th>
             <td mat-cell *matCellDef="let row">
-              {{row.productDetail.price -
-            (row.promotional.type ?
-              (row.productDetail.price * (row.promotional.discount / 100)) :
-              row.promotional.discount) | number: '1.0-0'}} VND
+              {{row.prdPrice -
+            (row.prmType ?
+              (row.prdPrice * (row.prmDiscount / 100)) :
+              row.prmDiscount) | number: '1.0-0'}} VND
             </td>
           </ng-container>
 
           <ng-container matColumnDef="promotional">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Chương trình khuyến mại</th>
-            <td mat-cell *matCellDef="let row"> {{row.promotional.name}} </td>
+            <td mat-cell *matCellDef="let row"> {{row.prmName}} </td>
           </ng-container>
 
           <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Trạng thái</th>
-            <td mat-cell *matCellDef="let row"> {{row.promotional.status ? 'Đang hoạt động' : 'Ngưng hoạt động'}} </td>
+            <td mat-cell *matCellDef="let row"> {{row.prmStatus ? 'Đang hoạt động' : 'Ngưng hoạt động'}} </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

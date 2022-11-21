@@ -172,4 +172,7 @@ public class ProductDetailServiceImpl implements IProductDetailService {
         return repository.getProductDetailInPromotional();
     }
 
+    public ProductDetail getProductDetailByImei(String imei) {
+        return this.repository.getProductDetailByImei(imei);
+    }
 }

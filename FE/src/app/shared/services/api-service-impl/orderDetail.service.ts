@@ -27,6 +27,9 @@ export class OrderDetailService {
     return this.api.findAllByOrderId(id);
   }
 
+  getHistory(status: number) {
+    return this.api.getHistory(status);
+  }
 
   saveOrderDetail(data: any) {
     return this.api.saveOrderDetail(data);

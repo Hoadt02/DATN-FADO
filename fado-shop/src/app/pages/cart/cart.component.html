@@ -38,11 +38,12 @@
           </thead>
           <tbody class="align-middle">
           <tr *ngFor="let i of items"
-              [style]="i.quantity > i.productDetail.quantity ? 'background-color: red':''">
+              [style]="i.quantity > i.productDetail.quantity  || i.productDetail.status == 0? 'opacity: 0.3;':''">
             <td class="align-middle td-w-35">
               <div class="row">
                 <div class="col-3 d-flex justify-content-center align-items-center pr-0">
-                  <a class="text-uppercase" routerLink="/product-detail/{{i.productDetail.id}}">
+                  <a class="text-uppercase"
+                     [routerLink]="i.productDetail.status == 0 ? '/product' :'/product-detail/{{i.productDetail.id}}'">
                     <img class="w-100" src="../../../assets/img/avtProduct/{{i.productDetail.avatar}}"
                          alt="" style="width: 50px;"> {{i.name}}
                   </a>
@@ -50,7 +51,8 @@
                 <div class="col-9 info-prd">
                   <div class="name">
                     <p>
-                      <a class="text-uppercase" routerLink="/product-detail/{{i.productDetail.id}}">
+                      <a class="text-uppercase"
+                         [routerLink]="i.productDetail.status == 0 ? '/product' :'/product-detail/{{i.productDetail.id}}'">
                         {{i.productDetail.name}}
                       </a>
                     </p>
@@ -71,10 +73,13 @@
 
             <td class="align-middle">
               <div class="input-group quantity mx-auto" style="width: 80px;">
-                <input (change)="updateQuantity(TYPE_UPDATE_NUMBER_PRD.INPUT,i,$event)" type="number"
-                       min="1" required
-                       class="border-radius-10 form-control form-control-sm bg-secondary border-0 text-center mx-2"
-                       [value]="i.quantity">
+                <input
+                  [disabled]="i.productDetail.status == 0"
+                  onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"
+                  (change)="updateQuantity(TYPE_UPDATE_NUMBER_PRD.INPUT,i,$event)" type="number"
+                  min="1" required
+                  class="border-radius-10 form-control form-control-sm bg-secondary border-0 text-center mx-2"
+                  [value]="i.quantity">
               </div>
             </td>
             <td class="align-middle">

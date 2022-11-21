@@ -17,7 +17,7 @@
            </li>
            <li><a style="border-bottom: 2px solid #909090"></a></li>
 
-           <li *ngFor="let menuItem of menuItems | slice: 7 : menuItems.length" routerLinkActive="active" class="{{menuItem.class}}">
+           <li *ngFor="let menuItem of menuItems | slice: 8 : menuItems.length" routerLinkActive="active" class="{{menuItem.class}}">
              <a [routerLink]="[menuItem.path]">
                <i class="nc-icon {{menuItem.icon}}"></i>
                <p>{{menuItem.title}}</p>

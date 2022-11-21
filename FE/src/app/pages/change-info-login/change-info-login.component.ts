@@ -71,6 +71,7 @@ export class ChangeInfoLoginComponent implements OnInit {
 
   save() {
     if (this.formGroup.invalid) {
+      this.formGroup.markAllAsTouched();
       this.toastrService.warning("Vui lòng nhập đúng dữ liệu!");
       return;
     }
@@ -86,6 +87,7 @@ export class ChangeInfoLoginComponent implements OnInit {
       next: (data: any) => {
         this.toastrService.success("Cập nhật thành công!");
         this.isLoading = false;
+        this.matDiaLogRef.close();
       }, error: (err: any) => {
         if (err.error.code == 'UNIQUE') {
           this.toastrService.warning(err.error.message);

@@ -40,4 +40,9 @@ public class ProductServiceImpl implements IProductService {
         return repository.save(product);
     }
 
+    @Override
+    public List<Product> findAllByCategoryId(Integer id) {
+        return this.repository.findAllByCategoryId(id);
+    }
+
 }

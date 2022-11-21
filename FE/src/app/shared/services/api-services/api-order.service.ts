@@ -36,11 +36,15 @@ export class ApiOrderService {
     return this.http.get(`${ApiConstant.order}/getOrderByStaff/${id}`)
   }
 
-  payment(id: number) {
-    return this.http.get(`${ApiConstant.order}/payment?payment=${id}`)
+  getOrderById(id: number) {
+    return this.http.get(`${ApiConstant.order}/getOrderById?id=${id}`)
   }
 
-  cancelOrder(id: number) {
-    return this.http.get(`${ApiConstant.order}/payment?cancel=${id}`)
+  updateStatus(status: number, id: number) {
+    return this.http.get(`${ApiConstant.order}/updateStatus?status=${status}&id=${id}`)
+  }
+
+  getOrderHistory(id: number, status: number) {
+    return this.http.get(`${ApiConstant.order}/getOrderHistory?id=${id}&status=${status}`)
   }
 }

@@ -37,21 +37,26 @@ export class CheckOutComponent implements OnInit {
   districts!: any[];
   wards!: any[];
 
+  districtId: any;
+
   districtName!: string;
   provinceName!: string;
   wardName!: string;
+
+  typePayment: any = 0;
 
   formGroup = this.fb.group({
     id: [null],
     province: ['', [Validators.required]],
     district: ['', [Validators.required]],
     ward: ['', [Validators.required]],
-    other: ['', [checkSpace]],
-    fullname: ['', [checkSpace, Validators.pattern(Regex.name)]],
+    other: ['', [checkSpace, Validators.maxLength(100)]],
+    fullname: ['', [checkSpace, Validators.maxLength(60), Validators.pattern(Regex.name)]],
     phoneNumber: ['', [checkSpace, Validators.pattern(Regex.phoneNumber)]],
   });
 
   dataCraeteOrderDetail: any;
+
   dataCreateOrder: any;
 
   constructor(
@@ -75,6 +80,7 @@ export class CheckOutComponent implements OnInit {
     this.findById();
     this.findByCustomerIdAndDefaultAddress();
     this.getProvinces();
+    this.formGroup.disable();
   }
 
   findById() {
@@ -83,15 +89,13 @@ export class CheckOutComponent implements OnInit {
     })
   }
 
-  getFeeShipping(districtId: any) {
+  getFeeShipping() {
     console.log('Địa chỉ: ', this.addressDefault);
-
     let service_id;
-
     const infoService = {
       shop_id: 1034510,
-      from_district: 1734, // từ quận nào
-      to_district: districtId // đến quận nào
+      from_district: 1734, // từ quận nào yên lạc vĩnh phúc
+      to_district: this.districtId // đến quận nào
     }
 
     this.apiAddress.getInfoService(infoService).subscribe((data: any) => {
@@ -103,23 +107,24 @@ export class CheckOutComponent implements OnInit {
       insurance_value: this.subtotal, // tổng tiền đơn hàng
       // coupon: null, // giảm giá của nhà vận chuyển
       from_district_id: 1766, // gửi từ quận nào
-      to_district_id: districtId, // đến quận nào
-      // to_ward_code: 190713,// xã nào
+      to_district_id: this.districtId, // đến quận nào
+      // to_ward_code: wardId,// xã nào
       weight: 200 // trọng lượng đơn hàng
     }
-
     this.apiAddress.feeShipping(feeShipping).subscribe((data: any) => {
+      this.totalFeeShipping = 0;
       this.totalFeeShipping = data.data.total
-      this.total += this.totalFeeShipping;
       console.log("Phí vận chuyển: ", this.totalFeeShipping);
     })
-
   }
 
   findByCustomerIdAndDefaultAddress() {
     this.apiAddress.findByCustomerIdAndDefaultAddress(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         this.addressDefault = data;
+        this.idAddress = data.id;
+        this.districtId = data.districtId;
+        this.getFeeShipping();
       }, error: err => {
         console.log("loi get addresss: ", err);
       }
@@ -165,17 +170,18 @@ export class CheckOutComponent implements OnInit {
   }
 
   getWards(id: any, name: string) {
+    this.districtId = id;
     this.districtName = name;
     this.apiAddress.getWards(id).subscribe({
       next: (data: any) => {
         this.wards = data.data;
       },
     });
-    this.getFeeShipping(id);
   }
 
-  getWardsName(name: any) {
+  getWardsName(code: any, name: any) {
     this.wardName = name;
+    this.getFeeShipping();
   }
 
   resetWard() {
@@ -197,16 +203,18 @@ export class CheckOutComponent implements OnInit {
       }
     }).afterClosed().subscribe(data => {
       if (null != data && 0 != data) {
-        // this.idAddress = data;
-        this.addressFindById(data);
+        this.idAddress = data;
+        this.addressFindById();
       }
     })
   }
 
   //tìm kiếm đi chỉ dựa theo id được trả ra lúc chọn khi đóng form
-  addressFindById(id: number) {
-    this.apiAddress.findById(id).subscribe(data => {
+  addressFindById() {
+    this.apiAddress.findById(this.idAddress).subscribe((data: any) => {
+      this.districtId = data.districtId;
       this.addressDefault = data;
+      this.getFeeShipping();
     })
   }
 
@@ -215,8 +223,6 @@ export class CheckOutComponent implements OnInit {
   }
 
   order() {
-    console.log(this.formGroup.getRawValue());
-
     let address = [];
     let fullname;
     let phoneNumber;
@@ -236,14 +242,12 @@ export class CheckOutComponent implements OnInit {
       phoneNumber = this.formGroup.getRawValue().phoneNumber;
     }
 
-    console.log(address);
-
     this.dataCreateOrder = {
       customer: {
         id: this.storageService.getIdFromToken()
       },
       staff: {
-        id: 34
+        id: 165
       },
       shipAddress: address.join(' - ').replace(/^\s+|\s+$|\s+(?=\s)/g, ""),
       createDate: formatDate(new Date()),
@@ -251,9 +255,11 @@ export class CheckOutComponent implements OnInit {
       status: 0,
       total: this.subtotal,
       discount: this.discount,
-      totalPayment: this.total,
+      feeShipping: this.totalFeeShipping,
+      totalPayment: this.total + this.totalFeeShipping,
       fullname: fullname!.replace(/^\s+|\s+$|\s+(?=\s)/g, ""),
       phoneNumber,
+      type : 0,
     }
 
     this.apiOrder.save(this.dataCreateOrder).subscribe({
@@ -277,5 +283,24 @@ export class CheckOutComponent implements OnInit {
         this.toastrService.error('Đặt hàng thất bại!');
       }
     });
+  }
+
+  checkAddress() {
+    if (this.disableSelect) {
+      this.totalFeeShipping = 0;
+      this.addressFindById();
+      this.formGroup.disable();
+      this.formGroup.patchValue({
+        province: '',
+        district: '',
+        ward: '',
+        other: '',
+        fullname: '',
+        phoneNumber: '',
+      })
+    } else {
+      this.totalFeeShipping = 0;
+      this.formGroup.enable();
+    }
   }
 }

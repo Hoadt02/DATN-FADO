@@ -112,7 +112,7 @@ export class ProductDetailComponent implements OnInit {
     } else {
       for (const x of this.items) {
         if (x.productDetail.id == idPrd && (x.quantity + this.slSP) > this.productDetail.quantity) {
-          this.toastrService.warning('Số lượng trong rỏ hàng đã bằng số lượng trong kho');
+          this.toastrService.warning('Sản phẩm trong kho không đủ.');
           return;
         }
       }

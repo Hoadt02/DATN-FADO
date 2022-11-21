@@ -44,8 +44,8 @@ public class OrderDetailController {
 
     // Day la` pha`n toi nha' ba.n hien da.u da.u
     @PostMapping("/admin")
-    public ResponseEntity<OrderDetail> save(@RequestBody OrderDetail orderDetail) {
-        return ResponseEntity.ok(this.orderDetailService.saveOrderDetail(orderDetail));
+    public void save(@RequestBody OrderDetail orderDetail) {
+        this.orderDetailService.saveOrderDetail(orderDetail);
     }
 
     @PutMapping("updateQuantityOrderDetail")
@@ -61,5 +61,10 @@ public class OrderDetailController {
     @GetMapping("findOrderDetailByOrder/{id}")
     public ResponseEntity<List<OrderDetail>> findOrderDetailByOrder(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(this.orderDetailService.findOrderDetailByOrder(id));
+    }
+
+    @GetMapping("getHistory/{status}")
+    public ResponseEntity<List<OrderDetail>> getHistory(@PathVariable("status") Integer status) {
+        return ResponseEntity.ok(this.orderDetailService.getHistory(status));
     }
 }

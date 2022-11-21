@@ -17,11 +17,13 @@ public interface IOrderDetailService {
 
 
     // Day la` pha`n toi nha' ba.n hien da.u da.u
-    OrderDetail saveOrderDetail(OrderDetail orderDetail);
+    void saveOrderDetail(OrderDetail orderDetail);
 
     OrderDetail updateQuantityOrderDetail(OrderDetail orderDetail);
 
     void delete(Integer idPro);
 
     List<OrderDetail> findOrderDetailByOrder(Integer id);
+
+    List<OrderDetail> getHistory(Integer status);
 }

@@ -21,7 +21,7 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Intege
 
 
     // Day la` pha`n toi nha' ba.n hien da.u da.u
-    @Query("select o from order_details o where o.order.id =:id")
+    @Query("select o from order_details o where o.order.id =:id and o.order.type = 1")
     List<OrderDetail> findOrderDetailByOrder(Integer id);
 
     @Query("select o from order_details o where o.productDetail.id =:idProduct and o.order.id =:idOrder")
@@ -31,4 +31,7 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Intege
     @Transactional
     @Query("delete from order_details o where o.productDetail.id = :idPro")
     void deleteByIdProduct(Integer idPro);
+
+    @Query("select od from order_details od where od.order.type = 1 and od.order.status =:status")
+    List<OrderDetail> getHistory(Integer status);
 }

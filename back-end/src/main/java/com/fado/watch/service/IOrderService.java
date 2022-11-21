@@ -22,7 +22,7 @@ public interface IOrderService {
 
     Order update(Order order);
 
-    void payment(Integer id);
+    List<Order> getOrderById(Integer id);
 
-    void cancelOrder(Integer id);
+    List<Order> getOrderHistory(Integer id, Integer status);
 }

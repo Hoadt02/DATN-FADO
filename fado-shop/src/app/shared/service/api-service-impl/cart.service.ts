@@ -63,7 +63,7 @@ export class CartService {
     return this.apiCartService.deleteByCustomer(id)
   }
 
-  checkStatusById() {
-    return this.apiCartService.checkStatusById();
+  checkPromotionalInCartByIdCtm() {
+    return this.apiCartService.checkPromotionalInCartByIdCtm();
   }
 }

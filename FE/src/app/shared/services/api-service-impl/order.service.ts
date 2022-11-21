@@ -36,11 +36,15 @@ export class OrderService {
     return this.api.getOrderByStaff(id);
   }
 
-  payment(id: number) {
-    return this.api.payment(id);
+  getOrderById(id: number) {
+    return this.api.getOrderById(id);
   }
 
-  cancelOrder(id: number) {
-    return this.api.cancelOrder(id);
+  updateStatus(status: number, id: number) {
+    return this.api.updateStatus(status, id);
+  }
+
+  getOrderHistory(id: number, status: number) {
+    return this.api.getOrderHistory(id, status);
   }
 }

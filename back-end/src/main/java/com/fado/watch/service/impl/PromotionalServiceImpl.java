@@ -1,5 +1,6 @@
 package com.fado.watch.service.impl;
 
+import com.fado.watch.dto.request.FilterPromotional;
 import com.fado.watch.entity.Promotional;
 import com.fado.watch.exception.ResourceNotFoundException;
 import com.fado.watch.exception.UniqueException;
@@ -57,5 +58,13 @@ public class PromotionalServiceImpl implements IPromotionalService {
             throw new UniqueException("Tên chương trình khuyến mại đã tồn tại");
         }
         return this.promotionalRepository.save(promotional);
+    }
+
+    @Override
+    public List<Promotional> filter(FilterPromotional rq) {
+        return this.promotionalRepository.filter(rq.getStartDate()
+                , rq.getEndDate()
+                , rq.getStatus()
+                , rq.isType());
     }
 }

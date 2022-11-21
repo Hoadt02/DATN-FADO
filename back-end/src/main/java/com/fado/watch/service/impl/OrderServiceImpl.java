@@ -55,7 +55,6 @@ public class OrderServiceImpl implements IOrderService {
             for (OrderDetail o : orderDetails) {
                 o.getProductDetail().setQuantity(o.getQuantity() + o.getProductDetail().getQuantity());
                 this.productDetailService.update(o.getProductDetail());
-                break;
             }
         }
         this.orderRepository.updateStatus(status, id);
@@ -75,13 +74,13 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public void payment(Integer id) {
-        this.orderRepository.payment(id);
+    public List<Order> getOrderById(Integer id) {
+        return orderRepository.getOrderById(id);
     }
 
     @Override
-    public void cancelOrder(Integer id) {
-        this.orderRepository.cancelOrder(id);
+    public List<Order> getOrderHistory(Integer id, Integer status) {
+        return orderRepository.getOrderHistory(id, status);
     }
 
 }
