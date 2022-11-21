@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,20 +15,20 @@ import java.util.Optional;
 @Repository
 public interface ProductDetailRepository extends JpaRepository<ProductDetail, Integer> {
 
-    @Query("SELECT p FROM product_details p WHERE ((:product_id IS NULL OR p.product.id = :product_id)" +
-                                                   " OR (:brand_id IS NULL OR p.brand.id = :brand_id)" +
-                                                   " OR (:material_id IS NULL OR p.material.id = :material_id)" +
-                                                   " OR (:origin_id IS NULL OR p.origin.id = :origin_id))" +
+    @Query("SELECT p FROM product_details p WHERE ((p.product.id = :product_id)" +
+                                                   " OR (p.brand.id = :brand_id)" +
+                                                   " OR (p.material.id = :material_id)" +
+                                                   " OR (p.origin.id = :origin_id))" +
                                                    " AND (:status IS NULL OR p.status = :status)" +
                                                    " AND (:gender IS NULL OR p.gender = :gender)")
     List<ProductDetail> findProductWithFilter(@Param("product_id") Integer product_id, @Param("brand_id") Integer brand_id,
                                               @Param("material_id") Integer material_id, @Param("origin_id") Integer origin_id,
                                               @Param("status") Integer status, @Param("gender") Boolean gender);
 
-    @Query("SELECT p FROM product_details p WHERE p.product.id = :id")
+    @Query("SELECT p FROM product_details p WHERE p.product.id = :id AND p.status = 1 AND p.quantity > 0")
     List<ProductDetail> getSimilarProduct(@Param("id") Integer id);
 
-    @Query("SELECT p FROM product_details p WHERE p.name like %:name%")
+    @Query("SELECT p FROM product_details p WHERE p.name LIKE %:name% AND p.status = 1 AND p.quantity > 0")
     List<ProductDetail> getProductByName(@Param("name") String name);
 
 
@@ -36,15 +37,47 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail, In
     List<ProductDetail> findAllProductInOrder(@Param("id") Integer id);
 
     @Query("SELECT p FROM product_details p " +
-            "WHERE ((p.product.category.id IN (:category_id)) " +
+            "WHERE ((p.name LIKE CONCAT('%',:search,'%'))" +
+                    "OR (p.product.category.id IN (:category_id)) " +
                     "OR (p.brand.id IN (:brand_id)) " +
                     "OR (p.material.id IN (:material_id)) " +
                     "OR (p.origin.id IN (:origin_id))) " +
             "AND (p.gender IN (:gender)) " +
             "AND (p.price BETWEEN :startPrice AND :endPrice) " +
             "AND (p.status = 1)")
-    Page<ProductDetail> findAll(Pageable pageable, @Param("category_id") Integer[] category_id
+    Page<ProductDetail> findAll(Pageable pageable, @Param("search") String search, @Param("category_id") Integer[] category_id
             ,@Param("brand_id") Integer[] brand_id, @Param("material_id") Integer[] material_id
             ,@Param("origin_id") Integer[] origin_id, @Param("gender") Boolean[] gender
             ,@Param("startPrice") Integer startPrice, @Param("endPrice") Integer endPrice);
+
+    @Query("SELECT COUNT(p.id) FROM product_details p WHERE p.product.category.id = :id AND p.status = 1")
+    Integer getCountProductByCategory(@Param("id") Integer id);
+
+    @Query("SELECT COUNT(p.id) FROM product_details p WHERE p.brand.id = :id AND p.status = 1")
+    Integer getCountProductByBrand(@Param("id") Integer id);
+
+    @Query("SELECT COUNT(p.id) FROM product_details p WHERE p.material.id = :id AND p.status = 1")
+    Integer getCountProductByMaterial(@Param("id") Integer id);
+
+    @Query("SELECT COUNT(p.id) FROM product_details p WHERE p.origin.id = :id AND p.status = 1")
+    Integer getCountProductByOrigin(@Param("id") Integer id);
+
+    @Query("SELECT COUNT(p.id) FROM product_details p WHERE p.gender = true AND p.status = 1")
+    Integer getCountProductByMale();
+
+    @Query("SELECT COUNT(p.id) FROM product_details p WHERE p.gender = false AND p.status = 1")
+    Integer getCountProductByFemale();
+
+    @Query(value = "SELECT * FROM product_details WHERE status = 1 AND quantity > 0 ORDER BY id DESC LIMIT 8", nativeQuery = true)
+    List<ProductDetail> getLatestProductDetail();
+
+    @Query(value = "SELECT pd.id, pd.product_id, pd.brand_id, pd.material_id, pd.origin_id, pd.name, pd.price, pd.quantity, pd.gender, pd.imei, pd.avatar, pd.create_date, pd.description, pd.status" +
+            " FROM product_promotionals AS pp JOIN product_details pd ON pp.product_detail_id = pd.id" +
+            " JOIN promotionals p ON pp.promotional_id = p.id" +
+            " WHERE p.status = 1 AND pd.quantity > 0 AND pd.status = 1" +
+            " ORDER BY pp.id DESC LIMIT 8", nativeQuery = true)
+    List<ProductDetail> getProductDetailInPromotional();
+
+    @Query("SELECT p FROM product_details p WHERE p.id = :id AND p.status = 1")
+    Optional<ProductDetail> findById(@Param("id") Integer id);
 }

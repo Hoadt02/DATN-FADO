@@ -53,7 +53,7 @@ public class SendEmailServiceImpl implements ISendEmailService {
             mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setFrom(sender);
             mimeMessageHelper.setTo(details.getRecipient());
-            mimeMessageHelper.setText(details.getMsgBody(),true);
+            mimeMessageHelper.setText(details.getMsgBody(), true);
             mimeMessageHelper.setSubject(
                     details.getSubject());
 
@@ -81,9 +81,9 @@ public class SendEmailServiceImpl implements ISendEmailService {
         EmailDetails emailDetails = new EmailDetails();
         emailDetails.setRecipient(email);
         emailDetails.setSubject("MÃ XÁC THỰC THAY ĐỔI MẬT KHẨU");
-        emailDetails.setMsgBody("Chào quý khách,\n" +
+        emailDetails.setMsgBody("Chào bạn,\n" +
                 "\n" +
-                "FADO Shop đã nhận được yêu cầu thay đổi mật khẩu của quý khách.\n" +
+                "FADO Shop đã nhận được yêu cầu thay đổi mật khẩu của bạn.\n" +
                 "Mã OTP để thay đổi mật khẩu là: " + OTP +"\n" +
                 "\n" +
                 "Lưu ý: mã OTP này chỉ có hiệu lực trong vòng 3 phút.\n" +
@@ -98,11 +98,25 @@ public class SendEmailServiceImpl implements ISendEmailService {
     }
 
     @Override
-    public boolean verificationOTP(String code) {
+    public Boolean verificationOTP(String code) {
         Integer timeCurrent = (int) System.currentTimeMillis();
         if (Integer.parseInt(code) == OTP && TIME_LIFE_OTP >= timeCurrent){
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Boolean sendMailContact(EmailDetails details) {
+       try {
+           details.setRecipient("dotathoa2002@gmail.com");
+           details.setSubject("LIÊN HỆ TỪ KHÁCH HÀNG - TIÊU ĐỀ: " + details.getSubject());
+           details.setMsgBody(details.getMsgBody() + "\n\n" + "Người gửi: " + details.getNameSender() + "\n" +
+                   "Email: " + details.getEmailSender());
+           sendSimpleMail(details);
+           return true;
+       }catch (Exception e){
+           return false;
+       }
     }
 }

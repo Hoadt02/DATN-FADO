@@ -29,8 +29,8 @@ export class Contants {
   };
 
   public static TYPE_SORT = {
-    PRICE_UP: 'price_up',
-    PRICE_DOWN: 'price_down',
+    NEW: 'new',
+    OLD: 'old',
   };
 
   public static TYPE_SHOW = {

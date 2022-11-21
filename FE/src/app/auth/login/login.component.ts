@@ -5,6 +5,7 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {HttpRequestInterceptor} from "../../shared/helpers/http.interceptor";
 import {checkSpace} from "../../shared/validator/validatorForm";
+import {Constants} from "../../shared/Constants";
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,11 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.storageService.isLoggedIn()) {
-      void this.router.navigate(['']);
+      if (this.storageService.getAuthority() === Constants.TYPE_AUTH.SUPER_ADMIN){
+        void this.router.navigate(['']);
+      }else {
+        void this.router.navigate(['/sell-at-store'])
+      }
     }
   }
 

@@ -9,9 +9,9 @@
   <div class="row px-xl-5">
     <div class="col-12">
       <nav class="breadcrumb bg-light mb-30 shadow-sm" style="border-radius: 5px;">
-        <a class="breadcrumb-item text-dark" href="#">Home</a>
-        <a class="breadcrumb-item text-dark" href="#">Shop</a>
-        <span class="breadcrumb-item active">Shop List</span>
+        <a class="breadcrumb-item text-dark" routerLink="/home-page">Trang chủ</a>
+        <a class="breadcrumb-item text-dark" href="/product">Sản phẩm</a>
+        <span class="breadcrumb-item active">{{name}}</span>
       </nav>
     </div>
   </div>
@@ -29,13 +29,14 @@
       <!-- Category Start -->
       <div class="mt-4">
         <mat-accordion>
-          <mat-expansion-panel class="shadow-sm">
+          <mat-expansion-panel class="shadow-sm" [expanded]="checkedCheckboxCate > -1">
             <mat-expansion-panel-header>
               <span> Danh mục</span>
             </mat-expansion-panel-header>
-            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let c of categories; index as i">
-              <input type="checkbox" class="custom-control-input" id="category-{{ i }}" (click)="setValueFilter(TYPE_FILTER.CATEGORY, c.id)"/>
-              <label class="custom-control-label" for="category-{{ i }}">{{c.name}}</label>
+            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let c of categories;">
+              <input type="checkbox" class="custom-control-input" id="category-{{ c.id }}" [checked]="c.id == checkedCheckboxCate" (click)="setValueFilter(TYPE_FILTER.CATEGORY, c.id)"/>
+              <label class="custom-control-label" for="category-{{ c.id }}">{{c.name}}</label>
+              <span class="badge border font-weight-normal">{{c.count}}</span>
             </div>
           </mat-expansion-panel>
         </mat-accordion>
@@ -49,9 +50,10 @@
             <mat-expansion-panel-header>
               <span> Thương hiệu</span>
             </mat-expansion-panel-header>
-            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let b of brands; index as i">
-              <input type="checkbox" class="custom-control-input" id="brand-{{ i }}" (click)="setValueFilter(TYPE_FILTER.BRAND, b.id)"/>
-              <label class="custom-control-label" for="brand-{{ i }}">{{b.name}}</label>
+            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let b of brands;">
+              <input type="checkbox" class="custom-control-input" id="brand-{{ b.id }}" (click)="setValueFilter(TYPE_FILTER.BRAND, b.id)"/>
+              <label class="custom-control-label" for="brand-{{ b.id }}">{{b.name}}</label>
+              <span class="badge border font-weight-normal">{{b.count}}</span>
             </div>
           </mat-expansion-panel>
         </mat-accordion>
@@ -66,8 +68,9 @@
               <span> Chất liệu</span>
             </mat-expansion-panel-header>
             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let m of materials; index as i">
-              <input type="checkbox" class="custom-control-input" id="material-{{ i }}" (click)="setValueFilter(TYPE_FILTER.MATERIAL, m.id)"/>
-              <label class="custom-control-label" for="material-{{ i }}">{{m.name}}</label>
+              <input type="checkbox" class="custom-control-input" id="material-{{ m.id }}" (click)="setValueFilter(TYPE_FILTER.MATERIAL, m.id)"/>
+              <label class="custom-control-label" for="material-{{ m.id }}">{{m.name}}</label>
+              <span class="badge border font-weight-normal">{{m.count}}</span>
             </div>
           </mat-expansion-panel>
         </mat-accordion>
@@ -82,8 +85,9 @@
               <span> Xuất xứ</span>
             </mat-expansion-panel-header>
             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let o of origins; index as i">
-              <input type="checkbox" class="custom-control-input" id="origin-{{ i }}" (click)="setValueFilter(TYPE_FILTER.ORIGIN, o.id)"/>
-              <label class="custom-control-label" for="origin-{{ i }}">{{o.name}}</label>
+              <input type="checkbox" class="custom-control-input" id="origin-{{ o.id }}" (click)="setValueFilter(TYPE_FILTER.ORIGIN, o.id)"/>
+              <label class="custom-control-label" for="origin-{{ o.id }}">{{o.name}}</label>
+              <span class="badge border font-weight-normal">{{o.count}}</span>
             </div>
           </mat-expansion-panel>
         </mat-accordion>
@@ -94,17 +98,15 @@
       <div class="bg-light p-4 mt-3 shadow-sm" style="border-radius: 5px">
         <p style="color: black; font-size: 15px" class="mb-4"> Đối tượng sử dụng</p>
         <form>
-          <div class="d-flex align-items-center justify-content-between">
             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-              <input type="checkbox" class="custom-control-input" id="nam" (click)="setValueFilter(TYPE_FILTER.GENDER, true)"/>
+              <input type="checkbox" class="custom-control-input" id="nam" [checked]="checkedCheckboxGender == 1" (click)="setValueFilter(TYPE_FILTER.GENDER, true)"/>
               <label class="custom-control-label" for="nam">Nam</label>
+              <span class="badge border font-weight-normal">{{countMale}}</span>
             </div>
-          </div>
-          <div class="d-flex align-items-center justify-content-between">
             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-              <input type="checkbox" class="custom-control-input" id="nu" (click)="setValueFilter(TYPE_FILTER.GENDER, false)"/>
+              <input type="checkbox" class="custom-control-input" id="nu" [checked]="checkedCheckboxGender == 0" (click)="setValueFilter(TYPE_FILTER.GENDER, false)"/>
               <label class="custom-control-label" for="nu">Nữ</label>
-            </div>
+              <span class="badge border font-weight-normal">{{countFemale}}</span>
           </div>
         </form>
       </div>
@@ -165,22 +167,23 @@
                   {{ sort_name }}
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
-                  <a class="dropdown-item" (click)="setSortProduct(TYPE_SORT.PRICE_DOWN)">Giá: từ thấp đến cao</a>
-                  <a class="dropdown-item" (click)="setSortProduct(TYPE_SORT.PRICE_UP)">Giá: từ cao đến thấp</a>
+                  <a class="dropdown-item" (click)="setSortProduct(TYPE_SORT.NEW)">Sản phẩm mới nhất</a>
+                  <a class="dropdown-item" (click)="setSortProduct(TYPE_SORT.OLD)">Sản phẩm cũ nhất</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1" *ngFor="let p of products">
-          <div class="product-item bg-light mb-4 shadow-sm item-parent" style="border-radius: 5px">
+          <div class="product-item bg-light mb-4 shadow-sm" style="border-radius: 5px">
             <span *ngIf="loadDiscountProduct(p.id) != 0" class="item-child badge badge-danger">Giảm giá</span>
             <div class="product-img position-relative overflow-hidden" style="border-radius: 5px">
               <img class="img-fluid w-100" src="../../../assets/img/avtProduct/{{ p.avatar }}" alt=""/>
+              <div *ngIf="p.quantity == 0" class="out-of-stock-1">
+                <div class="out-of-stock-2">Hết hàng</div>
+              </div>
               <div class="product-action">
-                <a class="btn btn-outline-dark btn-square" (click)="addToCart(p)"><i class="fa fa-shopping-cart"></i></a>
-                <a class="btn btn-outline-dark btn-square" [routerLink]="['/product-detail']">
-                  <i class="far fa-heart"></i></a>
+                <a class="btn btn-outline-dark btn-square" *ngIf="p.quantity > 0" (click)="addToCart(p)"><i class="fa fa-shopping-cart"></i></a>
                 <a class="btn btn-outline-dark btn-square" [routerLink]="['/product-detail',p.id]"><i
                   class="fa-regular fa-eye"></i></a>
               </div>
@@ -193,16 +196,6 @@
                 <h5 *ngIf="loadDiscountProduct(p.id) != 0" class="text-muted ml-2">
                   <del>{{ p.price | number }}₫</del>
                 </h5>
-              </div>
-              <div
-                class="d-flex align-items-center justify-content-center mb-1"
-              >
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small>(99)</small>
               </div>
             </div>
           </div>
@@ -224,9 +217,12 @@
     <div class="col-lg-9 col-md-8" *ngIf="products.length == 0">
       <div class="text-center">
         <div class="alert alert-warning mt-5" role="alert">
-          <p><i class="fa-solid fa-magnifying-glass"></i> Rất tiếc, không tìm thấy kết quả nào phù hợp với yêu cầu của bạn!</p>
+          <p>
+            <i class="fa-solid fa-magnifying-glass"></i> Rất tiếc, không tìm thấy kết quả nào phù hợp với yêu cầu của bạn!
+            <br>
+            Vui lòng bỏ bớt bộ lọc hoặc tải lại trang!
+          </p>
         </div>
-        <button class="btn text-primary shadow-sm" style="border-radius: 5px; font-size: 15px; background-color: black" (click)="resetFilter()"><i class="fa-solid fa-rotate"></i> Xóa bộ lọc</button>
       </div>
     </div>
 <!--    End not found-->

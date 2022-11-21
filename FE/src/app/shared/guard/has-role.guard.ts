@@ -17,6 +17,9 @@ export class HasRoleGuard implements CanActivate{
               state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     const isAuthorized = this.storageService.getAuthority() === route.data.role;
     if (this.storageService.getAuthority() === Constants.TYPE_AUTH.SUPER_ADMIN) return true;
+    if (this.storageService.getAuthority() === Constants.TYPE_AUTH.ADMIN && state.url === '/dashboard'){
+      void this.router.navigate(['/sell-at-store']);
+    }
     return isAuthorized;
   }
 }

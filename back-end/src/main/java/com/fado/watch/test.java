@@ -10,7 +10,9 @@ import java.util.UUID;
 
 public class test {
     public static void main(String[] args) {
-        int a = Math.round(14/12);
-        System.out.println(a);
+       String a = "Con lợn anh yêu em";
+        for (int i = 0; i < 500; i++) {
+            System.out.println(a);
+        }
     }
 }

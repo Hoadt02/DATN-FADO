@@ -9629,6 +9629,7 @@ a.text-dark:hover, a.text-dark:focus {
   align-items: center;
   justify-content: center;
   transition: .5s;
+  z-index: 3;
 }
 
 .product-action a.btn {

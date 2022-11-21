@@ -9,10 +9,8 @@ import {ProductDetailModule} from "../../pages/product-detail/product-detail.mod
 import {CartModule} from "../../pages/cart/cart.module";
 import {HeaderModule} from "../../component/header/header.module";
 import {FooterModule} from "../../component/footer/footer.module";
-import {ChangePasswordComponent} from "../../pages/change-password/change-password.component";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatIconModule} from "@angular/material/icon";
 import {ChangePasswordModule} from "../../pages/change-password/change-password.module";
+import {IntroduceModule} from "../../pages/introduce/introduce.module";
 
 @NgModule({
   declarations: [
@@ -28,6 +26,7 @@ import {ChangePasswordModule} from "../../pages/change-password/change-password.
     HeaderModule,
     FooterModule,
     ChangePasswordModule,
+    IntroduceModule,
   ]
 })
 export class LayoutAdminModule { }

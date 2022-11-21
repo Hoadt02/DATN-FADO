@@ -46,7 +46,7 @@ export class ProductFormComponent implements OnInit{
     }),
     name: ['', [checkSpace, Validators.pattern(Regex.nameAndNumber), Validators.minLength(4)]],
     price: ['', [Validators.required, Validators.min(10000)]],
-    quantity: ['', [Validators.required, Validators.min(1)]],
+    quantity: ['', [Validators.required, Validators.min(0)]],
     gender: ['', [Validators.required]],
     imei: [''],
     avatar: ['',[Validators.required]],

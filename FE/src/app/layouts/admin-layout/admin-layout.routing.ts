@@ -19,7 +19,7 @@ export const AdminLayoutRoutes: Routes = [
     component: DashboardComponent,
     canActivate: [HasRoleGuard],
     data: {
-      role: TYPE_AUTH.ADMIN
+      role: TYPE_AUTH.SUPER_ADMIN
     }
   },
   {
@@ -107,7 +107,7 @@ export const AdminLayoutRoutes: Routes = [
     loadChildren: () => import('../../pages/customer-management/customer-management.module').then(m => m.CustomerManagementModule),
     canActivate: [HasRoleGuard],
     data: {
-      role: TYPE_AUTH.ADMIN
+      role: TYPE_AUTH.SUPER_ADMIN
     }
   },
   {

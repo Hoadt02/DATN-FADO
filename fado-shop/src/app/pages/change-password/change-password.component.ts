@@ -34,6 +34,7 @@ export class ChangePasswordComponent implements OnInit {
   });
 
   show = true;
+  isLoading!:boolean;
 
   constructor(private dialogRef: MatDialogRef<ChangePasswordComponent>,
               private customerService: CustomerService,
@@ -52,12 +53,15 @@ export class ChangePasswordComponent implements OnInit {
     this.formGroup.markAllAsTouched();
     if (this.formGroup.invalid) return;
     if (this.formGroup.getRawValue().newPassControl != this.formGroup.getRawValue().confirmPassControl) return;
+
+    this.isLoading = true;
     this.customer.password = this.formGroup.getRawValue().newPassControl;
     this.customerService.updatePass(this.customer.id, this.customer);
     this.onDismiss();
   }
 
   onAccuracy() {
+    this.isLoading = true;
     const data = {
       id: this.storageService.getIdFromToken(),
       password: this.currentPassControl.getRawValue()
@@ -67,7 +71,9 @@ export class ChangePasswordComponent implements OnInit {
         this.customer = res;
         this.show = false;
         this.toastrService.success('Mật khẩu trùng khớp!');
+        this.isLoading = false;
       },error:(err) =>{
+        this.isLoading = false;
         if (err.error.code == 'WRONG_PASS'){
           this.toastrService.error(err.error.message);
           return;

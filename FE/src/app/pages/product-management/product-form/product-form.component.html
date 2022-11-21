@@ -68,7 +68,7 @@
                 Vui lòng không bỏ trống số lượng sản phẩm!
               </mat-error>
               <mat-error *ngIf="formGroup.get('quantity')?.hasError('min') && formGroup.get('quantity')?.touched">
-                Số lượng sản phẩm tối thiểu là 1!
+                Số lượng sản phẩm tối thiểu là 0!
               </mat-error>
             </mat-form-field>
 

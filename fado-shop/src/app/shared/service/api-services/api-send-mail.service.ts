@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ApiConstant} from "../../constants/api-constant";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,9 @@ export class ApiSendMailService {
 
   sendMailAgain(email:any){
     return this.http.post(ApiConstant.sendMailAgain, email);
+  }
+
+  sendMailContact(data:any):Observable<any>{
+    return this.http.post(ApiConstant.sendMailContact, data);
   }
 }

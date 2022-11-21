@@ -1,5 +1,6 @@
 package com.fado.watch.service.impl;
 
+import com.fado.watch.dto.request.ChangePassModel;
 import com.fado.watch.dto.response.StaffDto;
 import com.fado.watch.entity.Staff;
 import com.fado.watch.exception.ResourceNotFoundException;
@@ -88,6 +89,15 @@ public class StaffServiceImpl implements IStaffService {
     @Override
     public Boolean existsByEmail(String email) {
         return staffRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Staff checkPassAndFindStaff(ChangePassModel model) {
+        Staff staff = staffRepository.findById(model.getId()).orElseThrow(() -> new ResourceNotFoundException("Tài khoản hiện tại của bạn không tồn tại!"));
+        if (passwordEncoder.matches(model.getPassword(),staff.getPassword())){
+            return staff;
+        }
+        return null;
     }
 
 //    @Override

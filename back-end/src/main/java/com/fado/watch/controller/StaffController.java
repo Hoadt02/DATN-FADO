@@ -1,9 +1,11 @@
 package com.fado.watch.controller;
 
 
+import com.fado.watch.dto.request.ChangePassModel;
 import com.fado.watch.dto.response.StaffDto;
 import com.fado.watch.entity.Customer;
 import com.fado.watch.entity.Staff;
+import com.fado.watch.exception.WrongPasswordException;
 import com.fado.watch.service.ISendEmailService;
 import com.fado.watch.service.IStaffService;
 import org.springframework.http.HttpStatus;
@@ -54,4 +56,12 @@ public class StaffController {
         return new ResponseEntity<>(this.iStaffService.findStaffByEmail(email), HttpStatus.OK);
     }
 
+    @PostMapping("/accuracyPassword")
+    public ResponseEntity<Staff> accuracyPassword(@RequestBody ChangePassModel changePassModel) {
+        Staff staff = iStaffService.checkPassAndFindStaff(changePassModel);
+        if (staff == null){
+            throw new WrongPasswordException("Mật khẩu hiện tại không chính xác!");
+        }
+        return new ResponseEntity<>(staff, HttpStatus.OK);
+    }
 }

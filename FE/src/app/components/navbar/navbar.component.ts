@@ -6,6 +6,9 @@ import {AuthService} from "../../shared/services/jwt/auth.service";
 import {StorageService} from "../../shared/services/jwt/storage.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ChangeInfoLoginComponent} from "../../pages/change-info-login/change-info-login.component";
+import {ChangePasswordComponent} from "../../pages/change-password/change-password.component";
+import {ConfirmDialogComponent} from "../../shared/confirm-dialog/confirm-dialog.component";
+import {Constants} from "../../shared/Constants";
 
 @Component({
   moduleId: module.id,
@@ -111,7 +114,17 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout();
+    this.matDiaLog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: {
+        title: 'Đăng xuất',
+        message: 'Bạn muốn đăng xuất tài khoản này ?'
+      }
+    }).afterClosed().subscribe(result => {
+      if (result == Constants.RESULT_CLOSE_DIALOG.CONFIRM){
+        this.authService.logout();
+      }
+    })
   }
 
   openChageInfoLogin() {
@@ -119,5 +132,12 @@ export class NavbarComponent implements OnInit {
       width: '800px',
       // height: '800px',
     })
+  }
+
+  openChangePass() {
+    this.matDiaLog.open(ChangePasswordComponent,{
+      width: '400px',
+      disableClose: true
+    });
   }
 }

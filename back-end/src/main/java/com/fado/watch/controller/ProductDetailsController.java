@@ -51,7 +51,7 @@ public class ProductDetailsController {
 
     @PostMapping("/findProductsWithPaginationAndSortingAndFilter")
     public ResponseEntity<Page<ProductDetail>> findProductsWithPaginationAndSortingAndFilter(@RequestBody FilterAndPagingAndSortingModel model) {
-        return new ResponseEntity<>(this.service.findProductsWithPaginationAndSortingAndFilter(model), HttpStatus.OK);
+            return new ResponseEntity<>(this.service.findProductsWithPaginationAndSortingAndFilter(model), HttpStatus.OK);
     }
 
     @PostMapping("/findProductWithFilter")
@@ -59,5 +59,44 @@ public class ProductDetailsController {
         return new ResponseEntity<>(this.service.findProductWithFilter(filterModel), HttpStatus.OK);
     }
 
+    @GetMapping("/getCountProductByCategory/{id}")
+    public ResponseEntity<Integer> getCountProductByCategory(@PathVariable Integer id){
+        return new ResponseEntity<>(this.service.getCountProductByCategory(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/getCountProductByBrand/{id}")
+    public ResponseEntity<Integer> getCountProductByBrand(@PathVariable Integer id){
+        return new ResponseEntity<>(this.service.getCountProductByBrand(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/getCountProductByMaterial/{id}")
+    public ResponseEntity<Integer> getCountProductByMaterial(@PathVariable Integer id){
+        return new ResponseEntity<>(this.service.getCountProductByMaterial(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/getCountProductByOrigin/{id}")
+    public ResponseEntity<Integer> getCountProductByOrigin(@PathVariable Integer id){
+        return new ResponseEntity<>(this.service.getCountProductByOrigin(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/getCountProductByMale")
+    public ResponseEntity<Integer> getCountProductByMale(){
+        return new ResponseEntity<>(this.service.getCountProductByMale(), HttpStatus.OK);
+    }
+
+    @GetMapping("/getCountProductByFemale")
+    public ResponseEntity<Integer> getCountProductByFemale(){
+        return new ResponseEntity<>(this.service.getCountProductByFemale(), HttpStatus.OK);
+    }
+
+    @GetMapping("/getLatestProductDetail")
+    public ResponseEntity<List<ProductDetail>> getLatestProductDetail(){
+        return new ResponseEntity<>(this.service.getLatestProductDetail(),HttpStatus.OK);
+    }
+
+    @GetMapping("/getProductDetailInPromotional")
+    public ResponseEntity<List<ProductDetail>> getProductDetailInPromotional(){
+        return new ResponseEntity<>(this.service.getProductDetailInPromotional(),HttpStatus.OK);
+    }
 }
 

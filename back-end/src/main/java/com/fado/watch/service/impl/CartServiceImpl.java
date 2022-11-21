@@ -64,7 +64,7 @@ public class CartServiceImpl implements ICartService {
     }
 
 
-    // load lai rỏ hàng nếu có km sẽ tính tiền, ko thì sẽ trả ra rỏ hàng bth ko km
+    //
     @Override
     public List<CartPriceResponse> findAllByCustomerId(Integer id) {
         idCtm = id;

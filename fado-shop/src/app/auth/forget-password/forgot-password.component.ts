@@ -108,6 +108,7 @@ export class ForgotPasswordComponent implements OnInit {
       return;
     };
 
+    this.isLoading = true;
     this.sendMailService.verificationOTP(this.code).subscribe({
       next:(data)=>{
         if (data == true){
@@ -116,7 +117,9 @@ export class ForgotPasswordComponent implements OnInit {
         }else {
           this.toastrService.error('Mã xác thực không chính xác hoặc đã hết hạn!')
         }
+        this.isLoading = false;
       },error:(error) => {
+        this.isLoading = false;
         console.log(error)
         this.toastrService.error('Lỗi xác thực!');
       }
