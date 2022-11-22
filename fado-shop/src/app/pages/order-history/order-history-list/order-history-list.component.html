@@ -18,10 +18,13 @@
                   <p *ngSwitchCase="5">Đã giao</p>
                 </div>
               </div>
-              <div class="createDate d-flex justify-content-start">
+              <div class="createDate d-flex justify-content-between" style="margin-bottom: 10px">
                 <p>
                   Thông tin giao hàng: {{ o.phoneNumber }} - {{ o.fullname }} -
                   {{ o.shipAddress }}
+                </p>
+                <p style="margin-top: 10px">
+                  Mã đơn hàng: {{ o.id }}
                 </p>
               </div>
               <div class="max-height scroll-bar">
@@ -40,7 +43,7 @@
                         [routerLink]="odt.productDetail.status == 0 ? '/product' :'/product-detail/{{i.productDetail.id}}'"
                         class="title">
                         {{ odt.productDetail.name }}</a>
-                      <p>Chất liệu: {{ odt.productDetail.material.name }}</p>
+                      <p style="margin-top: 10px">Chất liệu: {{ odt.productDetail.material.name }}</p>
                       <p>Nhãn hiệu: {{ odt.productDetail.brand.name }}</p>
                       <p>Số lượng: {{ odt.quantity }}</p>
                     </div>
@@ -115,10 +118,13 @@
                     <p *ngSwitchCase="5">Đã giao</p>
                   </div>
                 </div>
-                <div class="createDate d-flex justify-content-start">
+                <div class="createDate d-flex justify-content-between" style="margin-bottom: 10px">
                   <p>
                     Thông tin giao hàng: {{ o.phoneNumber }} - {{ o.fullname }} -
                     {{ o.shipAddress }}
+                  </p>
+                  <p style="margin-top: 10px">
+                    Mã đơn hàng: {{ o.id }}
                   </p>
                 </div>
                 <div class="max-height scroll-bar">
@@ -138,7 +144,7 @@
                           [routerLink]="odt.productDetail.status == 0 ? '/product' :'/product-detail/{{i.productDetail.id}}'"
                           class="title">
                           {{ odt.productDetail.name }}</a>
-                        <p>Chất liệu: {{ odt.productDetail.material.name }}</p>
+                        <p style="margin-top: 10px">Chất liệu: {{ odt.productDetail.material.name }}</p>
                         <p>Nhãn hiệu: {{ odt.productDetail.brand.name }}</p>
                         <p>Số lượng: {{ odt.quantity }}</p>
                       </div>

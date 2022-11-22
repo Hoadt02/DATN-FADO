@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <div class="row px-xl-5">
       <div class="col-12">
-        <nav class="breadcrumb bg-light mb-30">
+        <nav class="breadcrumb bg-light mb-30 shadow-sm">
           <a class="breadcrumb-item text-dark" href="#">Trang chủ</a>
           <a class="breadcrumb-item text-dark" href="#">Sản phẩm</a>
           <span class="breadcrumb-item active">Giỏ hàng</span>
@@ -37,7 +37,7 @@
           </tr>
           </thead>
           <tbody class="align-middle">
-          <tr *ngFor="let i of items"
+          <tr *ngFor="let i of items" class="shadow-sm"
               [style]="i.quantity > i.productDetail.quantity  || i.productDetail.status == 0? 'opacity: 0.3;':''">
             <td class="align-middle td-w-35">
               <div class="row">
@@ -78,7 +78,7 @@
                   onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"
                   (change)="updateQuantity(TYPE_UPDATE_NUMBER_PRD.INPUT,i,$event)" type="number"
                   min="1" required
-                  class="border-radius-10 form-control form-control-sm bg-secondary border-0 text-center mx-2"
+                  class="border-radius-5 form-control form-control-sm bg-secondary border-0 text-center mx-2"
                   [value]="i.quantity">
               </div>
             </td>
@@ -101,7 +101,7 @@
             <input type="text" class="form-control border-0 p-4" placeholder="Mã voucher" name="voucher"
                    [(ngModel)]="voucherInput">
             <div class="input-group-append">
-              <button class="btn btn-primary" type="button" (click)="checkVoucher()">Áp mã Voucher</button>
+              <button class="border-radius-5 btn btn-primary" type="button" (click)="checkVoucher()">Áp mã Voucher</button>
             </div>
           </div>
         </form>
@@ -124,10 +124,10 @@
           </div>
           <div class="pt-2">
             <div class="d-flex justify-content-between mt-2">
-              <h5>Thành tiền</h5>
+              <h6>Thành tiền</h6>
               <h6>{{total | number}} VND</h6>
             </div>
-            <button (click)="openCheckout()" class="btn btn-block btn-primary font-weight-bold my-3 py-3">
+            <button (click)="openCheckout()" class="border-radius-5 btn btn-block btn-primary font-weight-bold mt-3 py-3">
               Tiến hành đặt hàng
             </button>
           </div>

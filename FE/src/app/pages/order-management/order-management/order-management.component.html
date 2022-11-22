@@ -12,8 +12,14 @@
             <p *ngSwitchCase="3">Đã giao</p>
           </div>
         </div>
-        <div class="createDate d-flex justify-content-start">
-          <p>Thông tin giao hàng: {{o.phoneNumber}} - {{o.fullname}} - {{o.shipAddress}}</p>
+        <div class="createDate d-flex justify-content-between" style="margin-bottom: 10px">
+          <p>
+            Thông tin giao hàng: {{ o.phoneNumber }} - {{ o.fullname }} -
+            {{ o.shipAddress }}
+          </p>
+          <p style="margin-top: 10px">
+            Mã đơn hàng: {{ o.id }}
+          </p>
         </div>
         <div class="max-height scroll-bar">
           <ng-template *ngFor="let odt of orderDetails" [ngIf]="odt.order.id == o.id">
@@ -28,8 +34,8 @@
                 <p>Số lượng: {{odt.quantity}}</p>
               </div>
               <div class="col-2 col-md-2 col-lg-2 price">
-                <div class="center">
-                  <p *ngIf="odt.price != odt.productDetail.price" class="center">{{odt.price | number}} VND</p>
+                <div class="right">
+                  <p *ngIf="odt.price != odt.productDetail.price">{{odt.price | number}} VND</p>
                   <p
                     [style]="odt.price != odt.productDetail.price ? 'text-decoration:line-through;color:red':''">
                     {{odt.productDetail.price | number}} VND
