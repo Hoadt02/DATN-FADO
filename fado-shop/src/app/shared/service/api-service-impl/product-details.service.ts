@@ -62,4 +62,8 @@ export class ProductDetailsService {
   findProductByName(data:string){
     return this.apiService.findProductByName(data);
   }
+
+  getFeaturedProductDetail(){
+    return this.apiService.getFeaturedProductDetail();
+  }
 }

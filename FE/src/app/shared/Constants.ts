@@ -33,4 +33,9 @@ export class Constants {
     //Đã nhận hàng
     DONE: 'done',
   };
+
+  public static PATH_SAVE_IMAGE = {
+    FE: 'FE\\src\\assets\\img\\',
+    FADO: 'fado-shop\\src\\assets\\img\\',
+  }
 }

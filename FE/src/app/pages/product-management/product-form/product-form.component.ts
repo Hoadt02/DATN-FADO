@@ -160,13 +160,17 @@ export class ProductFormComponent implements OnInit{
     this.uploadImageService.uploadImage(avtData, 'avtProduct').subscribe({
       error: (error) => {
         console.log(error);
-        this.toastrService.error('Lỗi thêm mới Avatar sản phẩm!')
+        this.toastrService.error('Thêm mới Avatar sản phẩm phía Admin thất bại!')
         return;
       }
     });
-
-    // Create product detail
-    this.productDetailService.createProductDetail(this.formGroup.getRawValue());
+    this.uploadImageService.uploadImageClient(avtData, 'avtProduct').subscribe({
+      error: (error) => {
+        console.log(error);
+        this.toastrService.error('Thêm mới Avatar sản phẩm phía Client thất bại!')
+        return;
+      }
+    });
 
     // Create list image product detail
     const listImg = new FormData();
@@ -189,15 +193,21 @@ export class ProductFormComponent implements OnInit{
           },
           error: (error) => {
             console.log(error);
-            this.toastrService.error('Thêm hình ảnh chi tiết của sản phẩm thất bại');
-          },
-          complete: () => {
-            console.log('Đã chạy vào đây nhé');
-            this.productDetailService.idProductDetail.next(null);
+            this.toastrService.error('Thêm hình ảnh chi tiết của sản phẩm phía Admin thất bại');
           }
         })
       }
     });
+    this.productDetailService.idProductDetail.next(null);
+    this.uploadImageService.upLoadImageDetailClient(listImg, 'imgDetailProduct').subscribe({
+      error: (error) => {
+        console.log(error);
+        this.toastrService.error('Thêm hình ảnh chi tiết của sản phẩm phía Client thất bại');
+      }
+    })
+
+    // Create product detail
+    this.productDetailService.createProductDetail(this.formGroup.getRawValue());
   }
 
   updateProductDetail() {
@@ -207,7 +217,14 @@ export class ProductFormComponent implements OnInit{
       this.uploadImageService.uploadImage(avtData, 'avtProduct').subscribe({
         error: (error) => {
           console.log(error);
-          this.toastrService.error('Lỗi cập nhật Avatar sản phẩm!')
+          this.toastrService.error('Cập nhật Avatar sản phẩm phía Admin thất bại!')
+          return;
+        }
+      });
+      this.uploadImageService.uploadImageClient(avtData, 'avtProduct').subscribe({
+        error: (error) => {
+          console.log(error);
+          this.toastrService.error('Cập nhật Avatar sản phẩm phía Client thất bại!')
           return;
         }
       });
@@ -237,9 +254,15 @@ export class ProductFormComponent implements OnInit{
         },
         error: (error) => {
           console.log(error);
-          this.toastrService.error('Thêm hình ảnh chi tiết của sản phẩm thất bại');
+          this.toastrService.error('Thêm hình ảnh chi tiết của sản phẩm phía Admin thất bại');
         }
       });
+      this.uploadImageService.upLoadImageDetailClient(listImg, 'imgDetailProduct').subscribe({
+        error: (error) => {
+          console.log(error);
+          this.toastrService.error('Thêm hình ảnh chi tiết của sản phẩm phía Client thất bại');
+        }
+      })
 
       // Cập nhật sản phẩm chi tiết
       this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
@@ -254,7 +277,14 @@ export class ProductFormComponent implements OnInit{
       this.uploadImageService.uploadImage(avtData, 'avtProduct').subscribe({
         error: (error) => {
           console.log(error);
-          this.toastrService.error('Lỗi cập nhật Avatar sản phẩm!')
+          this.toastrService.error('Cập nhật Avatar sản phẩm phía Admin thất bại!');
+          return;
+        }
+      });
+      this.uploadImageService.uploadImageClient(avtData, 'avtProduct').subscribe({
+        error: (error) => {
+          console.log(error);
+          this.toastrService.error('Cập nhật Avatar sản phẩm phía Client thất bại!');
           return;
         }
       });
@@ -278,9 +308,16 @@ export class ProductFormComponent implements OnInit{
         },
         error: (error) => {
           console.log(error);
-          this.toastrService.error('Thêm hình ảnh chi tiết của sản phẩm thất bại');
+          this.toastrService.error('Thêm hình ảnh chi tiết của sản phẩm phía Admin thất bại');
         }
       });
+      this.uploadImageService.upLoadImageDetailClient(listImg, 'imgDetailProduct').subscribe({
+        error: (error) => {
+          console.log(error);
+          this.toastrService.error('Thêm hình ảnh chi tiết của sản phẩm phía Client thất bại');
+        }
+      })
+
       //Cập nhật sản phẩm chi tiết
       this.productDetailService.updateProductDetail(this.formGroup.getRawValue(), this.formGroup.getRawValue().id);
 

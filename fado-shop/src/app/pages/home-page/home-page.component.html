@@ -149,3 +149,34 @@
             </div>
         </div>
 <!-- Products End -->
+
+<!-- Products Start -->
+<div class="container-fluid pt-5 pb-3" *ngIf="productDetailFeatured.length > 0">
+  <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Sản phẩm nổi bật</span></h2>
+  <div class="row px-xl-5">
+    <div class="col-lg-3 col-md-4 col-sm-6 pb-1" *ngFor="let p of productDetailFeatured">
+      <div class="product-item bg-light mb-4 shadow-sm item-parent" style="border-radius: 5px">
+        <span *ngIf="loadDiscountProduct(p.id) != 0" class="item-child badge badge-danger">Giảm giá</span>
+        <div class="product-img position-relative overflow-hidden" style="border-radius: 5px">
+          <img class="img-fluid w-100" src="../../../assets/img/avtProduct/{{ p.avatar }}" alt="" />
+          <div class="product-action">
+            <a class="btn btn-outline-dark btn-square" (click)="addToCart(p)"><i class="fa fa-shopping-cart"></i></a>
+            <a class="btn btn-outline-dark btn-square" [routerLink]="['/product-detail',p.id]"><i
+              class="fa-regular fa-eye"></i></a>
+          </div>
+        </div>
+        <div class="text-center py-4">
+          <a class="h6 text-decoration-none text-truncate name-product" [routerLink]="['/product-detail',p.id]">{{p.name}}</a>
+          <div class="d-flex align-items-center justify-content-center mt-2">
+            <h5 *ngIf="loadDiscountProduct(p.id) == 0">{{ p.price | number }}₫</h5>
+            <h5 *ngIf="loadDiscountProduct(p.id) != 0">{{loadDiscountProduct(p.id) | number}}₫</h5>
+            <h5 *ngIf="loadDiscountProduct(p.id) != 0" class="text-muted ml-2">
+              <del>{{ p.price | number }}₫</del>
+            </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Products End -->

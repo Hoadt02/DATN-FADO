@@ -28,8 +28,8 @@ export class CustomerFormComponent implements OnInit {
       [
         Validators.required,
         Validators.minLength(8),
-        Validators.maxLength(24),
-        Validators.pattern(Regex.password),
+        Validators.maxLength(60),
+        // Validators.pattern(Regex.password),
       ],
     ],
     email: ['', [Validators.required, Validators.pattern(Regex.email)]],

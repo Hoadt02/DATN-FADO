@@ -6,5 +6,5 @@ import java.io.File;
 import java.net.MalformedURLException;
 
 public interface IUploadService {
-     File upload(MultipartFile file, String folder);
+     File upload(MultipartFile file, String folder, String url);
 }

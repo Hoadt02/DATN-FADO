@@ -82,5 +82,4 @@ public class OrderServiceImpl implements IOrderService {
     public List<Order> getOrderHistory(Integer id, Integer status) {
         return orderRepository.getOrderHistory(id, status);
     }
-
 }

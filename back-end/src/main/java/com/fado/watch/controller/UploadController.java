@@ -19,14 +19,18 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/upload/images")
 public class UploadController {
+
+    private final String URL_ADMIN = "FE\\src\\assets\\img\\";
+    private final String URL_CLIENT = "fado-shop\\src\\assets\\img\\";
+
     @Autowired
     IUploadService service;
 
     @PostMapping("/{folder}")
     public Map upload(@RequestParam("file") MultipartFile file, @PathVariable("folder") String folder) {
-        File saveFile = service.upload(file, folder);
+        File saveFile1 = service.upload(file, folder, URL_ADMIN);
         Map<String, String> map = new HashMap<>();
-        map.put("name",saveFile.getName());
+        map.put("name",saveFile1.getName());
         return map;
     }
 
@@ -34,9 +38,21 @@ public class UploadController {
     public List<String> uploadImages(@RequestParam("file") MultipartFile[] files, @PathVariable("folder") String folder) {
         List<String> list = new ArrayList<>();
         for (MultipartFile file: files) {
-            File saveFile = service.upload(file, folder);
-            list.add(saveFile.getName());
+            File saveFile1 = service.upload(file, folder, URL_ADMIN);
+            list.add(saveFile1.getName());
         }
         return list;
+    }
+
+    @PostMapping("/client/{folder}")
+    public void uploadClient(@RequestParam("file") MultipartFile file, @PathVariable("folder") String folder) {
+         service.upload(file, folder, URL_CLIENT);
+    }
+
+    @PostMapping("/client/detail/{folder}")
+    public void uploadImagesClient(@RequestParam("file") MultipartFile[] files, @PathVariable("folder") String folder) {
+        for (MultipartFile file: files) {
+            service.upload(file, folder, URL_CLIENT);
+        }
     }
 }

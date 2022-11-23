@@ -43,4 +43,6 @@ public interface IProductDetailService {
     List<ProductDetail> getProductDetailInPromotional();
     
     ProductDetail getProductDetailByImei(String imei);
+
+    List<ProductDetail> getFeaturedProductDetail();
 }

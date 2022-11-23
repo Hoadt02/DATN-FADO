@@ -175,4 +175,9 @@ public class ProductDetailServiceImpl implements IProductDetailService {
     public ProductDetail getProductDetailByImei(String imei) {
         return this.repository.getProductDetailByImei(imei);
     }
+
+    @Override
+    public List<ProductDetail> getFeaturedProductDetail() {
+        return repository.getFeaturedProductDetail();
+    }
 }

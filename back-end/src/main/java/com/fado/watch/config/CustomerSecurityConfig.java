@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -49,7 +50,15 @@ public class CustomerSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable().cors().disable();
         httpSecurity.authorizeRequests()
                 .anyRequest().permitAll()
-//                .antMatchers("/api/auth/**").permitAll()
+//                .antMatchers(HttpMethod.GET,"/api/v1/category/**").permitAll()
+//                .antMatchers(HttpMethod.GET,"/api/v1/brand/**").permitAll()
+//                .antMatchers(HttpMethod.GET,"/api/v1/material/**").permitAll()
+//                .antMatchers(HttpMethod.GET,"/api/v1/origin/**").permitAll()
+//                .antMatchers(HttpMethod.GET,"/api/v1/product/**").permitAll()
+//                .antMatchers(HttpMethod.GET,"/api/v1/product-promotional/**").permitAll()
+//                .antMatchers(HttpMethod.GET,"/api/v1/productDetail/**").permitAll()
+//                .antMatchers(HttpMethod.POST,"/api/v1/productDetail/findProductsWithPaginationAndSortingAndFilter").permitAll()
+//                .antMatchers("/api/v1/sendMailContact").permitAll()
 //                .antMatchers(HttpMethod.GET,"/api/v1/productDetail").permitAll()
 //                .antMatchers(HttpMethod.GET,"/api/v1/category").permitAll()
 //                .antMatchers(HttpMethod.GET,"/api/v1/brand").permitAll()
