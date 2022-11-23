@@ -148,8 +148,9 @@
           <!-- status Column -->
           <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Trạng thái</th>
-            <td mat-cell *matCellDef="let row" [class.hoat-dong]="row.status == 1" [class.ngung-hoat-dong]="row.status == 0">
-              {{row.status == 1 ? 'Hoạt động' : 'Ngưng hoạt động'}}
+            <td mat-cell *matCellDef="let row">
+              <span *ngIf="row.status == 1" class="status" style="background-color: green">Hoạt động</span>
+              <span *ngIf="row.status == 0" class="status" style="background-color: orangered">Ngưng hoạt động</span>
             </td>
           </ng-container>
 
@@ -157,8 +158,8 @@
           <ng-container matColumnDef="thaoTac">
             <th mat-header-cell *matHeaderCellDef mat-sort-header width="15%"> Thao tác</th>
             <td mat-cell *matCellDef="let row" width="15%">
-              <button mat-icon-button class="text-green" (click)="openDiaLog(TYPE_DIALOG.UPDATE,row)">
-                <i class="fa-regular fa-pen-to-square"></i>
+              <button mat-icon-button color="accent" (click)="openDiaLog(TYPE_DIALOG.UPDATE,row)">
+                <i class="fa-solid fa-pen"></i>
               </button>
               <button *ngIf="row.status == 0" mat-icon-button color="warn" (click)="openDeleteOrNoDelete(row,row.id,1)" title="Click để kích hoạt sản phẩm">
                 <i class="fa-solid fa-lock"></i>

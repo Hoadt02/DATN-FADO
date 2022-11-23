@@ -83,4 +83,12 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail, In
 
     @Query("SELECT p FROM product_details p WHERE p.id = :id AND p.status = 1")
     Optional<ProductDetail> findById(@Param("id") Integer id);
+
+    @Query(value = "SELECT * FROM product_details " +
+                   "WHERE id IN (SELECT d.product_detail_id " +
+                         "FROM order_details d JOIN orders o ON d.order_id = o.id " +
+                         "WHERE o.status = 3 " +
+                         "GROUP BY d.product_detail_id " +
+                         "ORDER BY count(d.product_detail_id) DESC) LIMIT 8", nativeQuery = true)
+    List<ProductDetail> getFeaturedProductDetail();
 }

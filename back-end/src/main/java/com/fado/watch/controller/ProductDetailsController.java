@@ -103,5 +103,10 @@ public class ProductDetailsController {
     public ResponseEntity<ProductDetail> getProductDetailByImei(@PathVariable("imei") String imei) {
         return new ResponseEntity<>(this.service.getProductDetailByImei(imei), HttpStatus.OK);
     }
+
+    @GetMapping("/getFeaturedProductDetail")
+    public ResponseEntity<List<ProductDetail>> getFeaturedProductDetail() {
+        return new ResponseEntity<>(this.service.getFeaturedProductDetail(), HttpStatus.OK);
+    }
 }
 
