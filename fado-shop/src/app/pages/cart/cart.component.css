@@ -9,13 +9,14 @@ h6 {
   font-size: 13px;
 }
 
-.hover-red :hover{
+.hover-red :hover {
   color: red !important;
 }
 
-.border-radius-5{
+.border-radius-5 {
   border-radius: 5px;
 }
+
 .td-w-35 {
   width: 35%;
 }
@@ -39,4 +40,14 @@ h6 {
 
 .center-me {
   verticle-align: middle;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0 15px;
+  background-color: #F5F5F5
+}
+
+table tr{
+  background-color: #FFFFFF;
 }

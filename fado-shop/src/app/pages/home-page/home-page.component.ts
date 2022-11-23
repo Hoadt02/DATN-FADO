@@ -37,7 +37,9 @@ export class HomePageComponent implements OnInit {
    ngOnInit(): void {
     this.getCategory();
     this.getProduct();
-    this.getAllPrdInCart();
+    if (this.storageService.getIdFromToken()){
+      this.getAllPrdInCart();
+    }
   }
 
   getCategory() {
@@ -106,7 +108,7 @@ export class HomePageComponent implements OnInit {
     this.productDetailService.dataFromHomePage.next(data);
     void this.router.navigate(['/product']);
   }
-  
+
   checkIsLogin(): boolean {
     if (!this.storageService.isLoggedIn()) {
       void this.router.navigate(['/auth/login'], {queryParams: {redirectURL: this.router.url}});

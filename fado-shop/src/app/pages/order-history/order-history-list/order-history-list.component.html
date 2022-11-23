@@ -1,8 +1,8 @@
 <div class="container-fluid" style="min-height: 560px">
   <div class="container-fluid">
     <div class="row justify-content-center">
-      <div class="col-10 col-md-10 col-lg-10">
-        <mat-tab-group mat-align-tabs="center">
+      <div class="col-8 col-md-8 col-lg-8">
+        <mat-tab-group mat-align-tabs="center" style="background-color: #FFFFFF">
           <mat-tab label="Tất cả ({{ daMua }})">
             <div class="product" *ngFor="let o of orders">
               <div class="createDate d-flex justify-content-between">
@@ -76,7 +76,7 @@
                   </span>
                 </p>
               </div>
-              <div class="button-confirm d-flex justify-content-end">
+              <div class="button-confirm d-flex justify-content-end mb-0">
                 <ng-template [ngIf]="o.status == 0">
                   <button
                     (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.Cancel,o.id)">
@@ -177,7 +177,7 @@
                   </span>
                   </p>
                 </div>
-                <div class="button-confirm d-flex justify-content-end">
+                <div class="button-confirm d-flex justify-content-end mb-0">
                   <ng-template [ngIf]="o.status == 0">
                     <button
                       (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.Cancel,o.id)">

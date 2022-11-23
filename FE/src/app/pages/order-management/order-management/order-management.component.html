@@ -1,4 +1,4 @@
-<mat-tab-group mat-align-tabs="center">
+<mat-tab-group mat-align-tabs="center" style="background-color: #FFFFFF">
   <mat-tab label="{{t.lable}} ({{t.sl}})" *ngFor="let t of listMatTab">
     <ng-template *ngFor="let o of orders" [ngIf]="o.status == t.status">
       <div class="product">
