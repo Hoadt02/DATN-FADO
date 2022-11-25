@@ -27,4 +27,19 @@ export class ApiOrderService {
   delete(id: number) {
     return this.http.delete(`${ApiConstant.order}/${id}`);
   }
+  chartBar() {
+    return this.http.get(`${ApiConstant.order}/chartBar`);
+  }
+  totalRevenue() {
+    return this.http.get(`${ApiConstant.order}/totalRevenue`);
+  }
+  totalOrder() {
+    return this.http.get(`${ApiConstant.order}/totalOrder`);
+  }
+  orderCancel() {
+    return this.http.get(`${ApiConstant.order}/orderCancel`);
+  }
+  totalOneDay() {
+    return this.http.get(`${ApiConstant.order}/totalOneDay`);
+  }
 }

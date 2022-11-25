@@ -20,4 +20,6 @@ public interface IProductDetailService {
     List<ProductDetail> findProductByName(String name);
 
     List<ProductDetail> findAllProductInOrder(Integer id);
+
+    List<ProductDetail> getlistTop3Pro();
 }

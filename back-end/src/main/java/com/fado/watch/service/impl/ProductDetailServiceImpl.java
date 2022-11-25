@@ -109,4 +109,9 @@ public class ProductDetailServiceImpl implements IProductDetailService {
     public List<ProductDetail> findAllProductInOrder(Integer id) {
         return this.productDetailRepository.findAllProductInOrder(id);
     }
+
+    @Override
+    public List<ProductDetail> getlistTop3Pro() {
+        return this.repository.getListTop3Pro();
+    }
 }

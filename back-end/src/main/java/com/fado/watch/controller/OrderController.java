@@ -1,6 +1,9 @@
 package com.fado.watch.controller;
 
 
+import com.fado.watch.dto.response.CharBarDTO;
+import com.fado.watch.dto.response.OrderCancelDTO;
+import com.fado.watch.dto.response.TotalOrderDTO;
 import com.fado.watch.entity.Order;
 import com.fado.watch.service.IOrderService;
 import org.springframework.http.ResponseEntity;
@@ -44,4 +47,26 @@ public class OrderController {
     public void updateStatus(@RequestParam("status") Integer status, @RequestParam("id") Integer id) {
         this.iOrderService.updateStatus(status, id);
     }
+
+    @GetMapping("/chartBar")
+    public ResponseEntity<List<CharBarDTO>> chartBar(){
+        return ResponseEntity.ok(this.iOrderService.getChartBar());
+    }
+    @GetMapping("/totalRevenue")
+    public ResponseEntity<Integer> totalRevenue(){
+        return ResponseEntity.ok(this.iOrderService.getTotalRevenue());
+    }
+
+    @GetMapping("/totalOrder")
+    public ResponseEntity<List<TotalOrderDTO>> totalOrder(){
+        return ResponseEntity.ok(this.iOrderService.getTotalOrder());
+    }
+
+    @GetMapping("/orderCancel")
+    public ResponseEntity<List<OrderCancelDTO>> orderCancel(){
+        return ResponseEntity.ok(this.iOrderService.getOrderCancel());
+    }
+
+    @GetMapping("/totalOneDay")
+    public ResponseEntity<Integer> totalOneDay() { return ResponseEntity.ok(this.iOrderService.getTotalOneDay()); }
 }

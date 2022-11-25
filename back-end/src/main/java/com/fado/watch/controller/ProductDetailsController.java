@@ -57,4 +57,9 @@ public class ProductDetailsController {
     public ResponseEntity<List<ProductDetail>> getProductByName(@RequestParam("name") String name) {
         return new ResponseEntity<>(this.service.findProductByName(name), HttpStatus.OK);
     }
+
+    @GetMapping("/listTop3Pro")
+    public ResponseEntity<List<ProductDetail>> getListTop3Pro(){
+        return new ResponseEntity<>(this.service.getlistTop3Pro(),HttpStatus.OK);
+    }
 }

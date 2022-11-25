@@ -31,5 +31,7 @@ export class ApiProductDetailService{
     return this.httpClient.get(`${ApiConstant.productDetail}/find?name=${data}`);
   }
 
-
+  getListTop3Pro() {
+    return this.httpClient.get(`${ApiConstant.productDetail}/listTop3Pro`);
+  }
 }

@@ -50,7 +50,6 @@ export class SellAtStoreComponent implements OnInit {
               private fb: FormBuilder,
               private orderService: OrderService,
               private orderDetailService: OrderDetailService,
-              private cartService: CartService,
               private matDiaLog: MatDialog,
               private toastService: ToastrService,
               private storageService: StorageService) {

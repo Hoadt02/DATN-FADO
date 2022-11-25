@@ -1,209 +1,157 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import Chart from 'chart.js';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {ProductDetailsService} from '../../shared/services/api-service-impl/product-details.service';
+import {ToastrService} from 'ngx-toastr';
+import {OrderService} from '../../shared/services/api-service-impl/order.service';
 
 
 @Component({
-    selector: 'dashboard-cmp',
-    moduleId: module.id,
-    templateUrl: 'dashboard.component.html'
+  // tslint:disable-next-line:component-selector
+  selector: 'dashboard-cmp',
+  moduleId: module.id,
+  templateUrl: 'dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
+
 })
 
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
 
-  public canvas : any;
+  public canvas: any;
   public ctx;
   public chartColor;
   public chartEmail;
-  public chartHours;
+  public chartBar;
 
-    ngOnInit(){
-      this.chartColor = "#FFFFFF";
+  displayedColumns: string[] = ['index', 'avatar-product', 'name', 'price', 'quantity', 'gender'];
+  dataSource!: MatTableDataSource<any>;
+  isLoading = true;
 
-      this.canvas = document.getElementById("chartHours");
-      this.ctx = this.canvas.getContext("2d");
+  tongDoanhThu: any = [];
+  tongDonHang = [];
+  tongDonHuy = [];
+  tongDoanhThuOneDay: any = [];
 
-      this.chartHours = new Chart(this.ctx, {
+
+  barChart: any[] = [];
+  dateMonth: any[] = [];
+  totalPay: any[] = [];
+  total: any[] = [];
+  cancel: any[] = [];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  ngOnInit() {
+    this.getData();
+    this.chart();
+    this.getProduct();
+  }
+
+  constructor(
+    private productDetailservice: ProductDetailsService,
+    private toastrService: ToastrService,
+    private orderService: OrderService,
+  ) {
+  }
+
+  getProduct() {
+    this.productDetailservice.getListTop3Pro().subscribe({
+      next: (data: any) => {
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.log(error);
+        this.isLoading = false;
+        this.toastrService.warning('Lỗi load dữ liệu!');
+      }
+    });
+  }
+
+  getData() {
+    this.orderService.getTotalRevenue().subscribe(data => {
+      // @ts-ignore
+      this.tongDoanhThu = data;
+    }),
+      this.orderService.getTotalOneDay().subscribe(data => {
+        // @ts-ignore
+        this.tongDoanhThuOneDay = data;
+      })
+  }
+
+  chart() {
+    this.orderService.getChartBar().subscribe(data => {
+      // @ts-ignore
+      this.barChart = data;
+      this.dateMonth = this.barChart.map((coins: any) => coins.month);
+      this.totalPay = this.barChart.map((coins: any) => coins.sum);
+
+      this.chartBar = new Chart('canvas', {
         type: 'line',
-
         data: {
-          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct"],
-          datasets: [{
-              borderColor: "#6bd098",
-              backgroundColor: "#6bd098",
-              pointRadius: 0,
-              pointHoverRadius: 0,
-              borderWidth: 3,
-              data: [300, 310, 316, 322, 330, 326, 333, 345, 338, 354]
-            },
+          labels: this.dateMonth,
+          datasets: [
             {
-              borderColor: "#f17e5d",
-              backgroundColor: "#f17e5d",
-              pointRadius: 0,
-              pointHoverRadius: 0,
+              data: this.totalPay,
+              borderColor: '#3e95cd',
+              fill: false,
+              label: 'Coin Price',
+              backgroundColor: 'rgba(93, 175, 89, 0.1)',
               borderWidth: 3,
-              data: [320, 340, 365, 360, 370, 385, 390, 384, 408, 420]
             },
-            {
-              borderColor: "#fcc468",
-              backgroundColor: "#fcc468",
+          ],
+        },
+      });
+    });
+
+    this.orderService.getTotalOrder().subscribe(data => {
+      // @ts-ignore
+      this.tongDonHang = data;
+      // tslint:disable-next-line:no-shadowed-variable
+      this.orderService.getOrderCancel().subscribe(data => {
+        // @ts-ignore
+        this.tongDonHuy = data;
+
+        this.total = this.tongDonHang.map((coins: any) => coins.total);
+        this.cancel = this.tongDonHuy.map((coins: any) => coins.cancel);
+
+        this.canvas = document.getElementById('chartPie');
+        this.ctx = this.canvas.getContext('2d');
+        this.chartEmail = new Chart(this.ctx, {
+          type: 'pie',
+          data: {
+            labels: ['Đơn hàng', 'Đã hủy'],
+            datasets: [{
+              label: 'Emails',
               pointRadius: 0,
               pointHoverRadius: 0,
-              borderWidth: 3,
-              data: [370, 394, 415, 409, 425, 445, 460, 450, 478, 484]
+              backgroundColor: [
+                '#4acccd',
+                '#ef8157'
+              ],
+              borderWidth: 0,
+              data: [this.total, this.cancel],
+            }]
+          },
+
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: 'top',
+              },
+              title: {
+                display: true,
+                text: 'Chart.js Pie Chart'
+              }
             }
-          ]
-        },
-        options: {
-          legend: {
-            display: false
-          },
-
-          tooltips: {
-            enabled: false
-          },
-
-          scales: {
-            yAxes: [{
-
-              ticks: {
-                fontColor: "#9f9f9f",
-                beginAtZero: false,
-                maxTicksLimit: 5,
-                //padding: 20
-              },
-              gridLines: {
-                drawBorder: false,
-                zeroLineColor: "#ccc",
-                color: 'rgba(255,255,255,0.05)'
-              }
-
-            }],
-
-            xAxes: [{
-              barPercentage: 1.6,
-              gridLines: {
-                drawBorder: false,
-                color: 'rgba(255,255,255,0.1)',
-                zeroLineColor: "transparent",
-                display: false,
-              },
-              ticks: {
-                padding: 20,
-                fontColor: "#9f9f9f"
-              }
-            }]
-          },
-        }
+          }
+        });
       });
-
-
-      this.canvas = document.getElementById("chartEmail");
-      this.ctx = this.canvas.getContext("2d");
-      this.chartEmail = new Chart(this.ctx, {
-        type: 'pie',
-        data: {
-          labels: [1, 2, 3],
-          datasets: [{
-            label: "Emails",
-            pointRadius: 0,
-            pointHoverRadius: 0,
-            backgroundColor: [
-              '#e3e3e3',
-              '#4acccd',
-              '#fcc468',
-              '#ef8157'
-            ],
-            borderWidth: 0,
-            data: [342, 480, 530, 120]
-          }]
-        },
-
-        options: {
-
-          legend: {
-            display: false
-          },
-
-          pieceLabel: {
-            render: 'percentage',
-            fontColor: ['white'],
-            precision: 2
-          },
-
-          tooltips: {
-            enabled: false
-          },
-
-          scales: {
-            yAxes: [{
-
-              ticks: {
-                display: false
-              },
-              gridLines: {
-                drawBorder: false,
-                zeroLineColor: "transparent",
-                color: 'rgba(255,255,255,0.05)'
-              }
-
-            }],
-
-            xAxes: [{
-              barPercentage: 1.6,
-              gridLines: {
-                drawBorder: false,
-                color: 'rgba(255,255,255,0.1)',
-                zeroLineColor: "transparent"
-              },
-              ticks: {
-                display: false,
-              }
-            }]
-          },
-        }
-      });
-
-      var speedCanvas = document.getElementById("speedChart");
-
-      var dataFirst = {
-        data: [0, 19, 15, 20, 30, 40, 40, 50, 25, 30, 50, 70],
-        fill: false,
-        borderColor: '#fbc658',
-        backgroundColor: 'transparent',
-        pointBorderColor: '#fbc658',
-        pointRadius: 4,
-        pointHoverRadius: 4,
-        pointBorderWidth: 8,
-      };
-
-      var dataSecond = {
-        data: [0, 5, 10, 12, 20, 27, 30, 34, 42, 45, 55, 63],
-        fill: false,
-        borderColor: '#51CACF',
-        backgroundColor: 'transparent',
-        pointBorderColor: '#51CACF',
-        pointRadius: 4,
-        pointHoverRadius: 4,
-        pointBorderWidth: 8
-      };
-
-      var speedData = {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [dataFirst, dataSecond]
-      };
-
-      var chartOptions = {
-        legend: {
-          display: false,
-          position: 'top'
-        }
-      };
-
-      var lineChart = new Chart(speedCanvas, {
-        type: 'line',
-        hover: false,
-        data: speedData,
-        options: chartOptions
-      });
-    }
+    });
+  }
 }
