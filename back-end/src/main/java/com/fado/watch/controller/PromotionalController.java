@@ -1,6 +1,7 @@
 package com.fado.watch.controller;
 
 
+import com.fado.watch.dto.request.FilterPromotional;
 import com.fado.watch.entity.Promotional;
 import com.fado.watch.service.IPromotionalService;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,11 @@ public class PromotionalController {
     @PutMapping("{id}")
     public ResponseEntity<Promotional> update(@RequestBody Promotional promotional) {
         return ResponseEntity.ok(this.iPromotionalService.update(promotional));
+    }
+
+    @PostMapping("/filter")
+    public ResponseEntity<List<Promotional>> update(@RequestBody FilterPromotional rq) {
+        return ResponseEntity.ok(this.iPromotionalService.filter(rq));
     }
 
 }

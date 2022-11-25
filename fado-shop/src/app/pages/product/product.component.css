@@ -1,1 +1,39 @@
+.item-child{
+  font-size: 12px;
+  border-radius: 5px 0px 0px 0px;
+  position: absolute;
+  z-index: 1;
+}
 
+.name-product{
+  width : 140px;
+  overflow:hidden;
+  display:inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.out-of-stock-1{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.out-of-stock-2{
+  background-color: black;
+  height: 100px;
+  width: 100px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  z-index: 1;
+  border-radius: 50px;
+  color: white;
+  font-weight: bold;
+  opacity: 0.8;
+}

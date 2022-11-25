@@ -12,6 +12,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatSelectModule} from "@angular/material/select";
 import { httpInterceptorProviders } from './shared/helpers/http.interceptor';
+import { IntroduceComponent } from './pages/introduce/introduce.component';
 
 @NgModule({
   declarations: [AppComponent],

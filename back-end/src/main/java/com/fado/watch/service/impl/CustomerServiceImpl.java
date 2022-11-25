@@ -1,9 +1,11 @@
 package com.fado.watch.service.impl;
 
+import com.fado.watch.dto.request.ChangePassModel;
 import com.fado.watch.entity.Customer;
 import com.fado.watch.entity.Staff;
 import com.fado.watch.exception.ResourceNotFoundException;
 import com.fado.watch.exception.UniqueException;
+import com.fado.watch.exception.WrongPasswordException;
 import com.fado.watch.repository.CustomerRepository;
 import com.fado.watch.repository.RoleRepository;
 import com.fado.watch.service.ICustomerService;
@@ -95,5 +97,14 @@ private final CustomerRepository customerRepository;
     @Override
     public Customer findByUsername(String username) {
         return customerRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("Username không tồn tại!"));
+    }
+
+    @Override
+    public Customer checkPassAndFindCustomer(ChangePassModel model) {
+        Customer customer = customerRepository.findById(model.getId()).orElseThrow(() -> new ResourceNotFoundException("Tài khoản hiện tại của bạn không tồn tại!"));
+        if (passwordEncoder.matches(model.getPassword(),customer.getPassword())){
+            return customer;
+        }
+        return null;
     }
 }

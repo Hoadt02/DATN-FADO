@@ -25,10 +25,6 @@ export class StaffDetailComponent implements OnInit {
     }
   }
 
-  finById(id: number) {
-    this.staffService.findById(id);
-  }
-
   close() {
     this.matDataRef.close();
   }

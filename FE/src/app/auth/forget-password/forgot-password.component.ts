@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {StaffService} from "../../shared/services/api-service-impl/staff.service";
 import {ToastrService} from "ngx-toastr";
-import {SendMailService} from "../../shared/services/api-service-impl/send-mail.service";
 import {Regex} from "../../shared/validator/regex";
+import {SendMailService} from "../../shared/services/api-service-impl/send-mail.service";
 
 @Component({
   selector: 'app-forget-password',
@@ -44,6 +44,8 @@ export class ForgotPasswordComponent implements OnInit {
   code:any;
   staffChangePass:any;
 
+  isLoading = false;
+
   constructor(private fb: FormBuilder,
               private staffService: StaffService,
               private toastrService: ToastrService,
@@ -75,20 +77,25 @@ export class ForgotPasswordComponent implements OnInit {
     if (this.formGroup.invalid) return;
     if (this.formGroup.getRawValue().password != this.formGroup.getRawValue().confirm_password) return;
 
+    this.isLoading = true;
     this.staffChangePass.password = this.formGroup.getRawValue().password;
-    this.staffService.updatePass(this.staffChangePass.id, this.staffService);
+    this.staffService.updatePass(this.staffChangePass.id, this.staffChangePass);
   }
 
   findCustomerByEmailAndSendOTP() {
     this.emailFormControl.markAllAsTouched();
     if (this.emailFormControl.invalid) return;
+
+    this.isLoading = true;
     this.staffService.findStaffByEmailAndSendOTP(this.emailFormControl.value).subscribe({
       next:(data)=>{
         this.staffChangePass = data;
         this.showConfirmEmail = false;
         this.showConfirmCode = true;
         this.timerInterval();
+        this.isLoading = false;
       },error:(error) => {
+        this.isLoading = false;
         this.toastrService.error(error.error.message);
       }
     })
@@ -100,6 +107,7 @@ export class ForgotPasswordComponent implements OnInit {
       return;
     };
 
+    this.isLoading = true;
     this.sendMailService.verificationOTP(this.code).subscribe({
       next:(data)=>{
         if (data == true){
@@ -108,7 +116,9 @@ export class ForgotPasswordComponent implements OnInit {
         }else {
           this.toastrService.error('Mã xác thực không chính xác hoặc đã hết hạn!')
         }
+        this.isLoading = false;
       },error:(error) => {
+        this.isLoading = false;
         console.log(error)
         this.toastrService.error('Lỗi xác thực!');
       }

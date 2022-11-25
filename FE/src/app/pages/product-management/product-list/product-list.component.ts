@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 
 import {FormBuilder} from '@angular/forms';
 import {Constants} from '../../../shared/Constants';
@@ -15,11 +15,6 @@ import {BrandService} from '../../../shared/services/api-service-impl/brand.serv
 import {MaterialService} from '../../../shared/services/api-service-impl/material.service';
 import {ProductService} from "../../../shared/services/api-service-impl/product.service";
 import {OriginService} from "../../../shared/services/api-service-impl/origin.service";
-import {StorageService} from "../../../shared/services/jwt/storage.service";
-import {CustomerFormComponent} from "../../customer-management/customer-form/customer-form.component";
-import {StaffFormComponent} from "../../staff-management/staff-form/staff-form.component";
-import {CategoryService} from "../../../shared/services/api-service-impl/category.service";
-import {CategoryFormComponent} from "../../category-management/category-form/category-form.component";
 
 
 @Component({
@@ -30,9 +25,8 @@ import {CategoryFormComponent} from "../../category-management/category-form/cat
 export class ProductListComponent implements OnInit {
 
   readonly TYPE_DIALOG = Constants.TYPE_DIALOG;
-  readonly TYPE_FILTER = Constants.TYPE_FILTER;
 
-  isLoading = true;
+  isLoading:boolean;
   panelOpenState = false;
 
   listProduct: any[] = [];
@@ -40,8 +34,16 @@ export class ProductListComponent implements OnInit {
   listOrigin: any[] = [];
   listMaterial: any[] = [];
 
-  name_filter:string;
-  value_filter:string;
+  formGroup = this.fb.group({
+    product_id: [null],
+    brand_id: [null],
+    material_id: [null],
+    origin_id: [null],
+    status: [null],
+    gender: [null]
+  });
+
+  keySearch:any = null;
 
   displayedColumns: string[] = ['index' , 'avatar-product', 'name', 'price', 'quantity', 'gender', 'createDate', 'status', 'thaoTac'];
   dataSource!: MatTableDataSource<any>;
@@ -68,6 +70,7 @@ export class ProductListComponent implements OnInit {
   }
 
   getAll() {
+    this.isLoading = true;
     this.service.getAllProductDetail().subscribe({
       next: (data: any) => {
         this.dataSource = new MatTableDataSource(data);
@@ -83,44 +86,16 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-    getAllFilter(type: string, check: any) {
+    getAllFilter() {
     this.isLoading = true;
-    this.service.getAllProductDetail().subscribe({
+    this.service.findProductWithFilter(this.formGroup.getRawValue()).subscribe({
       next: (data: any) => {
-        if (type == this.TYPE_FILTER.PRODUCT) {
-          data = data.filter(n => n.product.id == check);
-          this.name_filter = '➣ Dòng sản phẩm ➣';
-          this.value_filter = this.listProduct.filter(n => n.id == check)[0].name;
-
-        } else if (type == this.TYPE_FILTER.BRAND) {
-          data = data.filter(n => n.brand.id == check);
-          this.name_filter = ' ➣ Thương hiệu ➣';
-          this.value_filter = this.listBrand.filter(n => n.id == check)[0].name;
-
-        } else if (type == this.TYPE_FILTER.MATERIAL) {
-          data = data.filter(n => n.material.id == check);
-          this.name_filter = '➣ Chất liệu ➣';
-          this.value_filter = this.listMaterial.filter(n => n.id == check)[0].name;
-
-        } else if (type == this.TYPE_FILTER.ORIGIN) {
-          data = data.filter(n => n.origin.id == check);
-          this.name_filter = '➣ Xuất xứ ➣';
-          this.value_filter = this.listOrigin.filter(n => n.id == check)[0].name;
-
-        } else if (type == this.TYPE_FILTER.STATUS) {
-          data = data.filter(n => n.status == check);
-          this.name_filter = '➣ Trạng thái ➣';
-          this.value_filter = check == 1 ? 'Hoạt động': 'Ngưng hoạt động';
-
-        } else if (type == this.TYPE_FILTER.GENDER) {
-          data = data.filter(n => n.gender == check);
-          this.name_filter = '➣ Đối tượng sử dụng ➣';
-          this.value_filter = check == 1 ? 'Nam':'Nữ';
-        }
-
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        if (this.dataSource.paginator) {
+          this.dataSource.paginator.firstPage();
+        }
         this.isLoading = false;
       },
       error: (error) => {
@@ -132,7 +107,8 @@ export class ProductListComponent implements OnInit {
   }
 
   onResetFilter() {
-    this.isLoading = true;
+    this.formGroup.patchValue({product_id:null, brand_id:null, material_id:null, origin_id:null, status:null, gender:null});
+    this.keySearch = null;
     this.getAll();
   }
 
@@ -153,7 +129,6 @@ export class ProductListComponent implements OnInit {
         data: {type, row}
       }).afterClosed().subscribe(result => {
       if (result == Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
-        this.isLoading = true;
         this.getAll();
       };
     });
@@ -213,5 +188,13 @@ export class ProductListComponent implements OnInit {
         this.listMaterial = data;
       }
     });
+  }
+
+  setNameProduct(name:string){
+    if (name.length > 30){
+      name = name.substring(0,27) + '...';
+      return name;
+    }
+    return name;
   }
 }

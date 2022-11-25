@@ -34,4 +34,11 @@ export class ApiProductDetailService{
   getListTop3Pro() {
     return this.httpClient.get(`${ApiConstant.productDetail}/listTop3Pro`);
   }
+  findProductWithFilter(data:any):Observable<any>{
+    return this.httpClient.post(`${ApiConstant.productDetail}/findProductWithFilter`, data)
+  }
+
+  getProductDetailByImei(imei: string): Observable<any> {
+    return this.httpClient.get(`${ApiConstant.productDetail}/getProductDetailByImei/${imei}`);
+  }
 }

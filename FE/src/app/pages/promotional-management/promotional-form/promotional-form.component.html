@@ -15,10 +15,14 @@
     <div class="col-6">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Tên chương trình</mat-label>
-        <input formControlName="name" type="text" required matInput>
+        <input formControlName="name" type="text" required matInput maxlength="255">
         <mat-error *ngIf="formGroup.get('name')?.hasError('isSpace')
         && formGroup.get('name')?.touched">
           Vui lòng điền tên chương trình khuyến mại!
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('name')?.hasError('maxlength')
+        && formGroup.get('name')?.touched">
+          Tên chương trình khuyến mại tối đa 255 ký tự.
         </mat-error>
       </mat-form-field>
     </div>
@@ -27,12 +31,17 @@
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Thời gian</mat-label>
         <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-          <input matStartDate formControlName="startDate" placeholder="Ngày bắt đầu">
-          <input matEndDate formControlName="endDate" placeholder="Ngày kết thúc">
+          <input matStartDate formControlName="startDate" required placeholder="Ngày bắt đầu">
+          <input matEndDate formControlName="endDate" required placeholder="Ngày kết thúc">
         </mat-date-range-input>
         <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
+        <mat-error *ngIf="range.get('startDate')?.hasError('required')
+        || range.get('startDate')?.hasError('required')
+        && formGroup.get('startDate')?.touched">
+          Vui lòng chọn ngày bắt đầu và ngày kết thúc!
+        </mat-error>
         <mat-hint style="color: red"
                   *ngIf="range.errors?.isCheckDate && (range.get('startDate')?.touched || range.get('endDate')?.touched)">
           Ngày bắt đầu phải nhỏ hơn ngày kết thúc!

@@ -1,24 +1,28 @@
 package com.fado.watch.service.impl;
 
+import com.fado.watch.dto.request.ChangePassModel;
+import com.fado.watch.dto.response.StaffDto;
 import com.fado.watch.entity.Staff;
 import com.fado.watch.exception.ResourceNotFoundException;
 import com.fado.watch.exception.UniqueException;
 import com.fado.watch.repository.StaffRepository;
 import com.fado.watch.service.IStaffService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.rmi.NotBoundException;
 import java.util.List;
 import java.util.Objects;
 
 @Service
 public class StaffServiceImpl implements IStaffService {
 
+    private final ModelMapper mapper;
     private final StaffRepository staffRepository;
 
-    public StaffServiceImpl(StaffRepository staffRepository) {
+    public StaffServiceImpl(ModelMapper mapper, StaffRepository staffRepository) {
+        this.mapper = mapper;
         this.staffRepository = staffRepository;
     }
 
@@ -66,7 +70,7 @@ public class StaffServiceImpl implements IStaffService {
             throw new UniqueException("Email đã tồn tại ở tài khoản khác");
         }
 
-        if (!staff.getPassword().equals(staff.getPassword())){
+        if (!staffBefore.getPassword().equals(staff.getPassword())){
             staff.setPassword(passwordEncoder.encode(staff.getPassword()));
         }
         return this.staffRepository.save(staff);
@@ -85,6 +89,15 @@ public class StaffServiceImpl implements IStaffService {
     @Override
     public Boolean existsByEmail(String email) {
         return staffRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Staff checkPassAndFindStaff(ChangePassModel model) {
+        Staff staff = staffRepository.findById(model.getId()).orElseThrow(() -> new ResourceNotFoundException("Tài khoản hiện tại của bạn không tồn tại!"));
+        if (passwordEncoder.matches(model.getPassword(),staff.getPassword())){
+            return staff;
+        }
+        return null;
     }
 
 //    @Override

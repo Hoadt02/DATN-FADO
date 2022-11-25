@@ -15,7 +15,7 @@ export class ApiPromotionalService {
   }
 
   findAllByStatusTrue() {
-    return this.http.get(ApiConstant.promotional+'/findAllByStatusTrue');
+    return this.http.get(ApiConstant.promotional + '/findAllByStatusTrue');
   }
 
   getById(id: number) {
@@ -28,5 +28,9 @@ export class ApiPromotionalService {
 
   update(id: number, data: any) {
     return this.http.put(`${ApiConstant.promotional}/${id}`, data);
+  }
+
+  filterAll(data: any) {
+    return this.http.post(`${ApiConstant.promotional}/filter`, data);
   }
 }

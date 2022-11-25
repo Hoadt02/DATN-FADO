@@ -24,6 +24,10 @@ export class OrderService {
     return this.api.save(data);
   }
 
+  update(idOrder: any,data: any) {
+    return this.api.update(idOrder,data);
+  }
+
   delete(id: number) {
     return this.api.delete(id);
   }
@@ -41,5 +45,20 @@ export class OrderService {
   }
   getTotalOneDay() {
     return this.api.totalOneDay();
+  }
+  getOrderByStaff(id: number) {
+    return this.api.getOrderByStaff(id);
+  }
+
+  getOrderById(id: number) {
+    return this.api.getOrderById(id);
+  }
+
+  updateStatus(status: number, id: number) {
+    return this.api.updateStatus(status, id);
+  }
+
+  getOrderHistory(id: number, status: number) {
+    return this.api.getOrderHistory(id, status);
   }
 }

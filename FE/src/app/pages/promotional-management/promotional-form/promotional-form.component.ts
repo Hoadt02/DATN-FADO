@@ -4,6 +4,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Constants} from "../../../shared/Constants";
 import {PromotionalService} from "../../../shared/services/api-service-impl/promotional.service";
 import {checkDate, checkSpace, checkTypeDiscount} from "../../../shared/validator/validatorForm";
+import {ToastrService} from "ngx-toastr";
+import {StorageService} from "../../../shared/services/jwt/storage.service";
 
 @Component({
   selector: 'app-promotional-form',
@@ -20,14 +22,14 @@ export class PromotionalFormComponent implements OnInit {
 
   formGroup = this.fb.group({
     id: [''],
-    name: ['', [checkSpace]],
+    name: ['', [checkSpace, Validators.maxLength(255)]],
     discount: ['', [Validators.required, Validators.min(1)]],
     type: [false],
     startDate: [new Date()],
     endDate: [new Date()],
     status: [1],
     staff: this.fb.group({
-      id: [164]
+      id: [this.storageService.getIdFromToken()]
     }),
     description: [''],
   }, {
@@ -43,6 +45,8 @@ export class PromotionalFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private promotionalService: PromotionalService,
+    private storageService : StorageService,
+    private toastrService: ToastrService,
     private matDialogRef: MatDialogRef<PromotionalFormComponent>,
     @Inject(MAT_DIALOG_DATA) private dataDiaLog?: any,
   ) {
@@ -72,24 +76,49 @@ export class PromotionalFormComponent implements OnInit {
 
     this.formGroup.markAllAsTouched();
     if (this.formGroup.invalid) {
-      console.log('Có lỗi rồi');
+      return;
+    }
+    if (this.range.invalid) {
       return;
     }
 
     if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
       this.isLoading = true;
-      this.promotionalService.create(this.data);
+      this.promotionalService.create(this.data).subscribe({
+        next: (data: any) => {
+          console.log(data);
+          this.toastrService.success('Thêm khuyến mại thành công!');
+          this.isLoading = false;
+          this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
+        }, error: err => {
+          console.log(err);
+          if (err.error.code == 'UNIQUE') {
+            this.toastrService.warning(err.error.message);
+            this.isLoading = false;
+            return;
+          }
+          this.toastrService.error('Thêm khuyến mại thất bại!');
+        }
+      });
     } else {
       this.isLoading = true;
-      this.promotionalService.update(this.dataDiaLog.row.id, this.data);
+      this.promotionalService.update(this.dataDiaLog.row.id, this.data).subscribe({
+        next: (data: any) => {
+          console.log(data);
+          this.toastrService.success('Cập nhật khuyến mại thành công!');
+          this.isLoading = false;
+          this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
+        }, error: err => {
+          console.log(err);
+          if (err.error.code == 'UNIQUE') {
+            this.toastrService.warning(err.error.message);
+            this.isLoading = false;
+            return;
+          }
+          this.toastrService.error('Cập nhật khuyến mại thất bại!');
+        }
+      });
     }
-    this.promotionalService.isCloseDialog.subscribe((data) => {
-      if (data) {
-        this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
-        this.promotionalService.isCloseDialog.next(false);
-        this.isLoading = false;
-      }
-    });
   }
 
   close() {

@@ -4,6 +4,7 @@ import com.fado.watch.dto.response.CharBarDTO;
 import com.fado.watch.dto.response.OrderCancelDTO;
 import com.fado.watch.dto.response.TotalOrderDTO;
 import com.fado.watch.entity.Order;
+import org.aspectj.weaver.ast.Or;
 
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,7 @@ public interface IOrderService {
 
     Order save(Order order);
 
-    void delete(Integer id);
+//    void delete(Integer id);
 
     void updateStatus(Integer status, Integer id);
 
@@ -27,5 +28,12 @@ public interface IOrderService {
     List<TotalOrderDTO> getTotalOrder();
     List<OrderCancelDTO> getOrderCancel();
     Integer getTotalOneDay();
+    // Day la` pha`n toi nha' ba.n hien da.u da.u
+    List<Order> getOrderByStaff(Integer id);
 
+    Order update(Order order);
+
+    List<Order> getOrderById(Integer id);
+
+    List<Order> getOrderHistory(Integer id, Integer status);
 }

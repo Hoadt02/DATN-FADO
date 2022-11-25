@@ -34,8 +34,7 @@
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Danh mục</mat-label>
             <mat-select [(ngModel)]="filterCategories">
-              <mat-option>------</mat-option>
-              <mat-option (click)="getFilterCategory()" *ngFor="let c of categories"
+              <mat-option (click)="getFilterCategory();findAllProductByCategoryId(c.id)" *ngFor="let c of categories"
                           [value]="c.id">{{c.name}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -45,7 +44,6 @@
           <mat-form-field appearance="outline" class="w-100">
             <mat-label>Sản phẩm</mat-label>
             <mat-select [(ngModel)]="filterProducts">
-              <mat-option>------</mat-option>
               <mat-option (click)="getFilterProduct()" *ngFor="let p of products" [value]="p.id">{{p.name}}</mat-option>
             </mat-select>
           </mat-form-field>

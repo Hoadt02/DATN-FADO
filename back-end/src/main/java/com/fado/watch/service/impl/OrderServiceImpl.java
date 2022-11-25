@@ -47,10 +47,10 @@ public class OrderServiceImpl implements IOrderService {
         return this.orderRepository.save(order);
     }
 
-    @Override
-    public void delete(Integer id) {
-        orderRepository.deleteById(id);
-    }
+//    @Override
+//    public void delete(Integer id) {
+//        orderRepository.deleteById(id);
+//    }
 
     public void updateStatus(Integer status, Integer id) {
         if (4 == status) {
@@ -58,7 +58,6 @@ public class OrderServiceImpl implements IOrderService {
             for (OrderDetail o : orderDetails) {
                 o.getProductDetail().setQuantity(o.getQuantity() + o.getProductDetail().getQuantity());
                 this.productDetailService.update(o.getProductDetail());
-                break;
             }
         }
         this.orderRepository.updateStatus(status, id);
@@ -88,4 +87,26 @@ public class OrderServiceImpl implements IOrderService {
     public Integer getTotalOneDay() { return this.orderRepository.totalOneDay(); }
 
 
+
+
+    // Day la` pha`n toi nha' ba.n hien da.u da.u
+    @Override
+    public List<Order> getOrderByStaff(Integer id) {
+        return this.orderRepository.getOrderByStaff(id);
+    }
+
+    @Override
+    public Order update(Order order) {
+        return orderRepository.save(order);
+    }
+
+    @Override
+    public List<Order> getOrderById(Integer id) {
+        return orderRepository.getOrderById(id);
+    }
+
+    @Override
+    public List<Order> getOrderHistory(Integer id, Integer status) {
+        return orderRepository.getOrderHistory(id, status);
+    }
 }

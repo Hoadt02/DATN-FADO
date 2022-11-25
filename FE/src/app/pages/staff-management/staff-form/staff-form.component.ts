@@ -5,6 +5,7 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {Constants} from "../../../shared/Constants";
 import {checkSpace} from "../../../shared/validator/validatorForm";
 import {Regex} from "../../../shared/validator/regex";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: "app-staff-form",
@@ -26,14 +27,17 @@ export class StaffFormComponent implements OnInit {
     image: [
       "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png",
     ],
-    username: ["", [Validators.required, Validators.pattern(Regex.username), Validators.minLength(8),]],
+    username: ["", [
+      Validators.required,
+      Validators.pattern(Regex.username),
+      Validators.minLength(8),
+      Validators.maxLength(24)]],
     password: [
-      "",
-      [
+      "", [
         Validators.required,
         Validators.minLength(8),
-        Validators.maxLength(24),
-        Validators.pattern(Regex.password),
+        Validators.maxLength(60),
+        // Validators.pattern(Regex.password),
       ],
     ],
     email: ["", [Validators.required, Validators.pattern(Regex.email)]],
@@ -52,6 +56,7 @@ export class StaffFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private staffService: StaffService,
+    private toastrService: ToastrService,
     private matDialogRef: MatDialogRef<StaffFormComponent>,
     @Inject(MAT_DIALOG_DATA) private dataDiaLog?: any
   ) {
@@ -65,6 +70,7 @@ export class StaffFormComponent implements OnInit {
     if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
       this.title = "Thêm mới nhân viên";
     } else {
+      // console.log('ta đã ở đây')
       this.title = "Chỉnh sửa nhân viên";
       this.hidePassword = false;
       if (this.dataDiaLog.row) {
@@ -80,23 +86,42 @@ export class StaffFormComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
     if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
-      this.isLoading = true;
-      this.staffService.create(this.formGroup.getRawValue());
+      this.staffService.create(this.formGroup.getRawValue()).subscribe({
+        next: (_: any) => {
+          this.toastrService.success('Thêm nhân viên thành công!');
+          this.isLoading = false;
+          this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
+        }, error: err => {
+          console.log(err);
+          if (err.error.code == 'UNIQUE') {
+            this.toastrService.warning(err.error.message);
+            this.isLoading = false;
+            return;
+          }
+          this.toastrService.error('Thêm nhân viên thất bại!');
+          this.isLoading = false;
+        }
+      });
     } else {
-      this.isLoading = true;
-      this.staffService.update(
-        this.dataDiaLog.row.id,
-        this.formGroup.getRawValue()
-      );
+      this.staffService.update(this.dataDiaLog.row.id, this.formGroup.getRawValue()).subscribe({
+        next: (_: any) => {
+          this.toastrService.success('Sửa nhân viên thành công!');
+          this.isLoading = false;
+          this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
+        }, error: err => {
+          console.log(err);
+          if (err.error.code == 'UNIQUE') {
+            this.toastrService.warning(err.error.message);
+            this.isLoading = false;
+            return;
+          }
+          this.toastrService.error('Sửa nhân viên thất bại!');
+          this.isLoading = false;
+        }
+      });
     }
-    this.staffService.isCloseDialog.subscribe((data) => {
-      if (data) {
-        this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
-        this.staffService.isCloseDialog.next(false);
-        this.isLoading = false;
-      }
-    });
   }
 
   close() {

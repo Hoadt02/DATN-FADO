@@ -35,4 +35,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(WrongPasswordException.class)
+    public ResponseEntity<?> WrongExceptionHandler(WrongPasswordException exception){
+        ErrorMessage errorMessage = new ErrorMessage("WRONG_PASS", exception.getMessage(), new Date());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
 }

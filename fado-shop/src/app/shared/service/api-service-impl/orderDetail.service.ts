@@ -24,9 +24,9 @@ export class OrderDetailService {
     return this.api.findAllDetailByCustomerId(id);
   }
 
-  // findAllByOrderId(id: number) {
-  //   return this.api.findAllByOrderId(id);
-  // }
+  findAllByOrderId(id: number) {
+    return this.api.findAllByOrderId(id);
+  }
 
   save(data: any) {
     return this.api.save(data)

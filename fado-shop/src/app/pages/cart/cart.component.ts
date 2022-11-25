@@ -29,6 +29,7 @@ export class CartComponent implements OnInit {
   dataAddToCart: any;
   subtotal: number = 0;
   total: number = 0;
+  listPrdInCart: any;
 
   constructor(
     private readonly apiCart: CartService,
@@ -83,13 +84,14 @@ export class CartComponent implements OnInit {
     })
   }
 
-  //Lấy ra tất cả sản phẩm trong rỏ hàng(láy ra các sản phẩm trong cart theo id người dùng)
+  //Lấy ra tất cả sản phẩm trong giỏ hàng(láy ra các sản phẩm trong cart theo id người dùng)
   getAllPrdInCart() {
     let slPrd = 0;
     this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
+        console.log(data);
+        this.listPrdInCart = data.id;
         this.subtotal = 0;
-        // this.discount = 0;
         this.items = data;
         for (const x of data) {
           this.subtotal += Math.round((x.price * x.quantity));
@@ -131,7 +133,7 @@ export class CartComponent implements OnInit {
     })
   }
 
-  // xoá sản phẩm khỏi rỏ hàng
+  // xoá sản phẩm khỏi giỏ hàng
   deletePrd(idPrd: number) {
     const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
       width: '500px',
@@ -139,7 +141,7 @@ export class CartComponent implements OnInit {
       hasBackdrop: true,
       data: {
         title: 'Xoá sản phẩm khỏi giỏ hàng!',
-        message: 'Bạn có chắc chắn muốn xoá sản phẩm này ra khỏi rỏ hàng?',
+        message: 'Bạn có chắc chắn muốn xoá sản phẩm này ra khỏi giỏ hàng?',
       }
     });
     diaLogRef.afterClosed().subscribe(data => {
@@ -157,39 +159,44 @@ export class CartComponent implements OnInit {
 
   // mở checkout
   openCheckout() {
-    this.apiCart.checkStatusById().subscribe(data => {
-      console.log(data);
+    this.apiCart.checkPromotionalInCartByIdCtm().subscribe(data => {
       if (data) {
         this.toastrService.warning("Dữ liệu không trùng khớp, mời bạn tải lại trang!");
         return;
+      } else {
+        this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
+          next: (data: any) => {
+            for (const x of data) {
+              if (0 == x.productDetail.status) {
+                this.toastrService.warning(`Một vài sản phẩm đã không còn tồn tại, vui lòng xoá khỏi giỏ hàng!`);
+                return;
+              }
+            }
+            this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe((data: any) => {
+              for (const x of data) {
+                if (x.quantity > x.productDetail.quantity) {
+                  this.toastrService.warning(`sản phẩm ${x.productDetail.name.toUpperCase()} chỉ còn ${x.productDetail.quantity} sản phẩm.`);
+                  return;
+                }
+              }
+              const discount = this.discount;
+              const items = this.items;
+              this.matDiaLog.open(CheckOutComponent, {
+                width: '1000px',
+                hasBackdrop: true,
+                disableClose: true,
+                data: {
+                  discount, items
+                }
+              }).afterClosed().subscribe(data => {
+                if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
+                  this.getAllPrdInCart();
+                }
+              })
+            })
+          }
+        });
       }
-
-      if (this.items.length == 0) {
-        this.toastrService.warning('Giỏ hàng của bạn đang trống, vui lòng thêm sản phẩm rồi tiến hành đặt hàng!');
-        return;
-      }
-      this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe((data: any) => {
-        for (const x of data) {
-          if (x.quantity > x.productDetail.quantity) {
-            this.toastrService.warning(`sản phẩm ${x.productDetail.name.toUpperCase()} chỉ còn ${x.productDetail.quantity} sản phẩm.`);
-            return;
-          }
-        }
-        const discount = this.discount;
-        const items = this.items;
-        this.matDiaLog.open(CheckOutComponent, {
-          width: '1000px',
-          hasBackdrop: true,
-          disableClose: true,
-          data: {
-            discount, items
-          }
-        }).afterClosed().subscribe(data => {
-          if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
-            this.getAllPrdInCart();
-          }
-        })
-      })
     })
   }
 }

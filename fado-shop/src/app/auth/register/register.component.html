@@ -1,3 +1,10 @@
+<div class="container-fluid">
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner-border text-black-50 spinner-center" role="status"></div>
+  </div>
+</div>
+
+
 <div class="container">
   <div class="row py-5 mt-4 align-items-center">
     <!-- For Demo Purpose -->
@@ -166,22 +173,22 @@
 
         <div class="form-group my-3">
           <button mat-raised-button type="button" class="w-100 bg-primary"
-          (click)="signUp()" >Đăng ký
+                  (click)="signUp()" >Đăng ký
           </button>
         </div>
-          <!-- Divider Text -->
-          <div class="form-group col-lg-12 mx-auto d-flex align-items-center my-4">
-            <div class="border-bottom w-100 ml-5"></div>
-            <span class="px-2 small text-muted font-weight-bold text-muted">OR</span>
-            <div class="border-bottom w-100 mr-5"></div>
-          </div>
+        <!-- Divider Text -->
+        <div class="form-group col-lg-12 mx-auto d-flex align-items-center my-4">
+          <div class="border-bottom w-100 ml-5"></div>
+          <span class="px-2 small text-muted font-weight-bold text-muted">OR</span>
+          <div class="border-bottom w-100 mr-5"></div>
+        </div>
 
-          <!-- Already Registered -->
-          <div class="text-center w-100">
-            <p class="text-muted font-weight-bold">Bạn đã có tài khoản? <a routerLink="/auth/login"
-                                                                           class="text-primary ml-2">Đăng nhập</a>
-            </p>
-          </div>
+        <!-- Already Registered -->
+        <div class="text-center w-100">
+          <p class="text-muted font-weight-bold">Bạn đã có tài khoản? <a routerLink="/auth/login"
+                                                                         class="text-primary ml-2">Đăng nhập</a>
+          </p>
+        </div>
 
       </form>
     </div>

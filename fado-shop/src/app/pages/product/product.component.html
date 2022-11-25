@@ -1,11 +1,17 @@
+<div class="container-fluid">
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner-border text-black-50 spinner-center" role="status"></div>
+  </div>
+</div>
+
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
   <div class="row px-xl-5">
     <div class="col-12">
       <nav class="breadcrumb bg-light mb-30 shadow-sm" style="border-radius: 5px;">
-        <a class="breadcrumb-item text-dark" href="#">Home</a>
-        <a class="breadcrumb-item text-dark" href="#">Shop</a>
-        <span class="breadcrumb-item active">Shop List</span>
+        <a class="breadcrumb-item text-dark" routerLink="/home-page">Trang chủ</a>
+        <a class="breadcrumb-item text-dark" href="/product">Sản phẩm</a>
+        <span class="breadcrumb-item active">{{name}}</span>
       </nav>
     </div>
   </div>
@@ -23,13 +29,14 @@
       <!-- Category Start -->
       <div class="mt-4">
         <mat-accordion>
-          <mat-expansion-panel class="shadow-sm">
+          <mat-expansion-panel class="shadow-sm" [expanded]="checkedCheckboxCate > -1">
             <mat-expansion-panel-header>
-              <span><i class="fa-solid fa-bars-staggered"></i> Danh mục</span>
+              <span> Danh mục</span>
             </mat-expansion-panel-header>
-            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let c of categories; index as i">
-              <input type="checkbox" class="custom-control-input" id="category-{{ i }}" (click)="loadProductDetailByFilter(TYPE_FILTER.CATEGORY, c.id)"/>
-              <label class="custom-control-label" for="category-{{ i }}">{{c.name}}</label>
+            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let c of categories;">
+              <input type="checkbox" class="custom-control-input" id="category-{{ c.id }}" [checked]="c.id == checkedCheckboxCate" (click)="setValueFilter(TYPE_FILTER.CATEGORY, c.id)"/>
+              <label class="custom-control-label" for="category-{{ c.id }}">{{c.name}}</label>
+              <span class="badge border font-weight-normal">{{c.count}}</span>
             </div>
           </mat-expansion-panel>
         </mat-accordion>
@@ -41,11 +48,12 @@
         <mat-accordion>
           <mat-expansion-panel class="shadow-sm">
             <mat-expansion-panel-header>
-              <span><i class="fa-solid fa-bars-staggered"></i> Thương hiệu</span>
+              <span> Thương hiệu</span>
             </mat-expansion-panel-header>
-            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let b of brands; index as i">
-              <input type="checkbox" class="custom-control-input" id="brand-{{ i }}" (click)="loadProductDetailByFilter(TYPE_FILTER.BRAND, b.id)"/>
-              <label class="custom-control-label" for="brand-{{ i }}">{{b.name}}</label>
+            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let b of brands;">
+              <input type="checkbox" class="custom-control-input" id="brand-{{ b.id }}" (click)="setValueFilter(TYPE_FILTER.BRAND, b.id)"/>
+              <label class="custom-control-label" for="brand-{{ b.id }}">{{b.name}}</label>
+              <span class="badge border font-weight-normal">{{b.count}}</span>
             </div>
           </mat-expansion-panel>
         </mat-accordion>
@@ -57,11 +65,12 @@
         <mat-accordion>
           <mat-expansion-panel class="shadow-sm">
             <mat-expansion-panel-header>
-              <span><i class="fa-solid fa-bars-staggered"></i> Chất liệu</span>
+              <span> Chất liệu</span>
             </mat-expansion-panel-header>
             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let m of materials; index as i">
-              <input type="checkbox" class="custom-control-input" id="material-{{ i }}" (click)="loadProductDetailByFilter(TYPE_FILTER.MATERIAL, m.id)"/>
-              <label class="custom-control-label" for="material-{{ i }}">{{m.name}}</label>
+              <input type="checkbox" class="custom-control-input" id="material-{{ m.id }}" (click)="setValueFilter(TYPE_FILTER.MATERIAL, m.id)"/>
+              <label class="custom-control-label" for="material-{{ m.id }}">{{m.name}}</label>
+              <span class="badge border font-weight-normal">{{m.count}}</span>
             </div>
           </mat-expansion-panel>
         </mat-accordion>
@@ -73,11 +82,12 @@
         <mat-accordion>
           <mat-expansion-panel class="shadow-sm">
             <mat-expansion-panel-header>
-              <span><i class="fa-solid fa-bars-staggered"></i> Xuất xứ</span>
+              <span> Xuất xứ</span>
             </mat-expansion-panel-header>
             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let o of origins; index as i">
-              <input type="checkbox" class="custom-control-input" id="origin-{{ i }}" (click)="loadProductDetailByFilter(TYPE_FILTER.ORIGIN, o.id)"/>
-              <label class="custom-control-label" for="origin-{{ i }}">{{o.name}}</label>
+              <input type="checkbox" class="custom-control-input" id="origin-{{ o.id }}" (click)="setValueFilter(TYPE_FILTER.ORIGIN, o.id)"/>
+              <label class="custom-control-label" for="origin-{{ o.id }}">{{o.name}}</label>
+              <span class="badge border font-weight-normal">{{o.count}}</span>
             </div>
           </mat-expansion-panel>
         </mat-accordion>
@@ -86,19 +96,17 @@
 
       <!-- Gender Start -->
       <div class="bg-light p-4 mt-3 shadow-sm" style="border-radius: 5px">
-        <p style="color: black; font-size: 15px" class="mb-4"><i class="fa-solid fa-person-half-dress"></i> Đối tượng sử dụng</p>
+        <p style="color: black; font-size: 15px" class="mb-4"> Đối tượng sử dụng</p>
         <form>
-          <div class="d-flex align-items-center justify-content-between">
             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-              <input type="checkbox" class="custom-control-input" id="nam" (click)="loadProductDetailByFilter(TYPE_FILTER.GENDER, true)"/>
+              <input type="checkbox" class="custom-control-input" id="nam" [checked]="checkedCheckboxGender == 1" (click)="setValueFilter(TYPE_FILTER.GENDER, true)"/>
               <label class="custom-control-label" for="nam">Nam</label>
+              <span class="badge border font-weight-normal">{{countMale}}</span>
             </div>
-          </div>
-          <div class="d-flex align-items-center justify-content-between">
             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-              <input type="checkbox" class="custom-control-input" id="nu" (click)="loadProductDetailByFilter(TYPE_FILTER.GENDER, false)"/>
+              <input type="checkbox" class="custom-control-input" id="nu" [checked]="checkedCheckboxGender == 0" (click)="setValueFilter(TYPE_FILTER.GENDER, false)"/>
               <label class="custom-control-label" for="nu">Nữ</label>
-            </div>
+              <span class="badge border font-weight-normal">{{countFemale}}</span>
           </div>
         </form>
       </div>
@@ -106,7 +114,7 @@
 
       <!-- Price Start -->
       <div class="bg-light p-4 mb-30 shadow-sm mt-3" style="border-radius: 5px">
-        <p style="color: black; font-size: 15px" class="mb-4"><i class="fa-solid fa-money-bill-1-wave"></i> Giá sản phẩm</p>
+        <p style="color: black; font-size: 15px" class="mb-4"> Giá sản phẩm</p>
         <form [formGroup]="formGroup">
           <div class="text-center">
             <div class="form-group">
@@ -115,8 +123,8 @@
                 <input type="number" class="form-control col-5 m-auto" placeholder="Đến" min="0" max="9999999999" formControlName="endPrice" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"/>
               </div>
               <div class="mt-2">
-                <p class="m-0 text-danger" *ngIf="formGroup.errors?.['isCheckPrice'] && (formGroup.get('startPrice')?.touched && formGroup.get('endPrice')?.touched)" style="font-size: 12px">
-                  Giá bắt đầu không được lớn hơn giá kết thúc
+                <p class="m-0 text-danger" *ngIf="formGroup.errors?.['isCheckPrice'] && (!formGroup.get('startPrice')?.hasError('required') && !formGroup.get('endPrice')?.hasError('required'))" style="font-size: 12px">
+                  Vui lòng nhập giá phù hợp!
                 </p>
                 <p class="m-0 text-danger" *ngIf="formGroup.get('startPrice')?.hasError('required') && formGroup.get('startPrice')?.touched" style="font-size: 12px">
                   Vui lòng không bỏ trống ô giá bắt đầu!
@@ -139,18 +147,28 @@
     <!-- Shop Sidebar End -->
 
     <!-- Shop Product Start -->
-    <div class="col-lg-9 col-md-8">
+    <div class="col-lg-9 col-md-8" *ngIf="products.length > 0">
       <div class="row pb-3">
         <div class="col-12 pb-1">
           <div class="d-flex align-items-center justify-content-end mb-4">
             <div class="ml-2">
               <div class="btn-group">
                 <button type="button" class="btn btn-sm btn-light dropdown-toggle shadow-sm" data-toggle="dropdown" style="border-radius: 5px;">
-                  <i class="fa-solid fa-sort"></i> {{ sort_name }}
+                  {{show_name}}
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
-                  <a class="dropdown-item" (click)="setSortProduct(TYPE_SORT.PRICE_DOWN)">Giá: từ thấp đến cao</a>
-                  <a class="dropdown-item" (click)="setSortProduct(TYPE_SORT.PRICE_UP)">Giá: từ cao đến thấp</a>
+                  <a class="dropdown-item" (click)="setShowProduct(TYPE_SHOW.SHOW_8)">Hiển thị: 8 </a>
+                  <a class="dropdown-item" (click)="setShowProduct(TYPE_SHOW.SHOW_12)">Hiển thị: 12 </a>
+                  <a class="dropdown-item" (click)="setShowProduct(TYPE_SHOW.SHOW_20)">Hiển thị: 20 </a>
+                </div>
+              </div>
+              <div class="btn-group ml-2">
+                <button type="button" class="btn btn-sm btn-light dropdown-toggle shadow-sm" data-toggle="dropdown" style="border-radius: 5px;">
+                  {{ sort_name }}
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" (click)="setSortProduct(TYPE_SORT.NEW)">Sản phẩm mới nhất</a>
+                  <a class="dropdown-item" (click)="setSortProduct(TYPE_SORT.OLD)">Sản phẩm cũ nhất</a>
                 </div>
               </div>
             </div>
@@ -158,33 +176,26 @@
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1" *ngFor="let p of products">
           <div class="product-item bg-light mb-4 shadow-sm" style="border-radius: 5px">
+            <span *ngIf="loadDiscountProduct(p.id) != 0" class="item-child badge badge-danger">Giảm giá</span>
             <div class="product-img position-relative overflow-hidden" style="border-radius: 5px">
               <img class="img-fluid w-100" src="../../../assets/img/avtProduct/{{ p.avatar }}" alt=""/>
+              <div *ngIf="p.quantity == 0" class="out-of-stock-1">
+                <div class="out-of-stock-2">Hết hàng</div>
+              </div>
               <div class="product-action">
-                <a class="btn btn-outline-dark btn-square" (click)="addToCart(p)"><i class="fa fa-shopping-cart"></i></a>
-                <a class="btn btn-outline-dark btn-square" [routerLink]="['/product-detail']">
-                  <i class="far fa-heart"></i></a>
+                <a class="btn btn-outline-dark btn-square" *ngIf="p.quantity > 0" (click)="addToCart(p)"><i class="fa fa-shopping-cart"></i></a>
                 <a class="btn btn-outline-dark btn-square" [routerLink]="['/product-detail',p.id]"><i
                   class="fa-regular fa-eye"></i></a>
               </div>
             </div>
             <div class="text-center py-4">
-              <a class="h6 text-decoration-none text-truncate" [routerLink]="['/product-detail',p.id]">{{ p.name }}</a>
+              <a class="h6 text-decoration-none text-truncate name-product" [routerLink]="['/product-detail',p.id]">{{p.name}}</a>
               <div class="d-flex align-items-center justify-content-center mt-2">
-                <h5>{{ p.price | number }}₫</h5>
-                <h5 class="text-muted ml-2">
+                <h5 *ngIf="loadDiscountProduct(p.id) == 0">{{ p.price | number }}₫</h5>
+                <h5 *ngIf="loadDiscountProduct(p.id) != 0">{{loadDiscountProduct(p.id) | number}}₫</h5>
+                <h5 *ngIf="loadDiscountProduct(p.id) != 0" class="text-muted ml-2">
                   <del>{{ p.price | number }}₫</del>
                 </h5>
-              </div>
-              <div
-                class="d-flex align-items-center justify-content-center mb-1"
-              >
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small>(99)</small>
               </div>
             </div>
           </div>
@@ -192,23 +203,30 @@
         <div class="col-12">
           <nav>
             <ul class="pagination justify-content-center">
-              <li class="page-item"><a class="page-link" href="#" aria-label="Previous">&laquo;</a></li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item active"><a class="page-link " href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">4</a></li>
-              <li class="page-item"><a class="page-link" href="#">5</a></li>
-              <li class="page-item"><a class="page-link" href="#">6</a></li>
-              <li class="page-item"><a class="page-link" href="#">7</a></li>
-              <li class="page-item"><a class="page-link" href="#">8</a></li>
-              <li class="page-item"><a class="page-link" href="#">9</a></li>
-              <li class="page-item"><a class="page-link" href="#" aria-label="Next">&raquo;</a></li>
+              <li class="page-item shadow-sm mx-1" (click)="changePage(1)"><a class="page-link" aria-label="Previous"><i class="fa-solid fa-backward-step"></i></a></li>
+              <li class="page-item shadow-sm mx-1" [class.active]="i == page + 1" *ngFor="let i of totalPages" (click)="changePage(i)"><a class="page-link">{{i}}</a></li>
+              <li class="page-item shadow-sm mx-1" (click)="changePage(totalPages.length)"><a class="page-link" aria-label="Next"><i class="fa-solid fa-forward-step"></i></a></li>
             </ul>
           </nav>
         </div>
       </div>
     </div>
     <!-- Shop Product End -->
+
+<!--    Not found-->
+    <div class="col-lg-9 col-md-8" *ngIf="products.length == 0">
+      <div class="text-center">
+        <div class="alert alert-warning mt-5" role="alert">
+          <p>
+            <i class="fa-solid fa-magnifying-glass"></i> Rất tiếc, không tìm thấy kết quả nào phù hợp với yêu cầu của bạn!
+            <br>
+            Vui lòng bỏ bớt bộ lọc hoặc tải lại trang!
+          </p>
+        </div>
+      </div>
+    </div>
+<!--    End not found-->
   </div>
 </div>
 <!-- Shop End -->
+

@@ -1,0 +1,137 @@
+<div *ngIf="isLoading" class="loading">
+  <div class="spinner-border text-info spinner-center" role="status">
+  </div>
+</div>
+
+
+<div class="container">
+  <h5>Chỉnh sửa thông tin cá nhân</h5>
+
+  <div class="infomation row">
+
+    <div class="image col-4 col-md-4">
+      <img [src]="avatarFormDb" alt="avatar">
+      <input (change)="onChangeThumbnail($event)" style="display: none" type="file"
+             id="uploadFile">
+      <label class="fa-solid fa-camera-rotate" for="uploadFile"></label>
+    </div>
+
+    <div class="info col-8 col-md-8">
+
+      <form [formGroup]="formGroup" class="row">
+
+        <div class="col-md-4">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Họ</mat-label>
+            <input formControlName="firstname" type="text"
+                   id="exampleInputFirstname1" required maxlength="50"
+                   matInput>
+            <mat-error
+              *ngIf="formGroup.get('firstname')?.hasError('isSpace') &&
+            formGroup.get('firstname')?.touched">Vui lòng không để trống họ
+            </mat-error>
+            <mat-error
+              *ngIf="formGroup.get('firstname')?.hasError('pattern') &&
+            formGroup.get('firstname')?.touched">Họ không được chứa số và ký tự đặc biệt
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Tên</mat-label>
+            <input formControlName="lastname" type="text"
+                   id="exampleInputLastname1" required maxlength="50"
+                   matInput>
+            <mat-error
+              *ngIf="formGroup.get('lastname')?.hasError('isSpace') &&
+            formGroup.get('lastname')?.touched">Vui lòng không để trống tên
+            </mat-error>
+            <mat-error
+              *ngIf="formGroup.get('lastname')?.hasError('pattern') &&
+            formGroup.get('lastname')?.touched">Tên không được chứa số và ký tự đặc biệt
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Ngày sinh</mat-label>
+            <input formControlName="dateOfBirth" matInput [matDatepicker]="picker1">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+            <mat-error
+              *ngIf="formGroup.get('dateOfBirth')?.hasError('required') &&
+                  formGroup.get('dateOfBirth')?.touched">Bạn phải chọn ngày sinh
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Số điện thoại</mat-label>
+            <input formControlName="phoneNumber" type="text"
+                   id="exampleInputPhoneNumber1" required maxlength="10"
+                   matInput>
+            <mat-error
+              *ngIf="formGroup.get('phoneNumber')?.hasError('required') &&
+            formGroup.get('phoneNumber')?.touched">Bạn phải số điện thoại
+            </mat-error>
+            <mat-error
+              *ngIf="formGroup.get('phoneNumber')?.hasError('pattern') &&
+                    formGroup.get('phoneNumber')?.touched">Số điện thoại sai định dạng
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-6 col-md-6">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input formControlName="email" type="text"
+                   id="exampleInpuEmail1" required maxlength="50"
+                   matInput>
+            <mat-error
+              *ngIf="formGroup.get('email')?.hasError('required') &&
+            formGroup.get('email')?.touched">Vui lòng không để trống email
+            </mat-error>
+            <mat-error
+              *ngIf="formGroup.get('email')?.hasError('pattern') &&
+                    formGroup.get('email')?.touched">Email sai định dạng
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-6 col-md-6">
+          <mat-form-field class="w-100" appearance="outline">
+            <mat-label>Địa chỉ</mat-label>
+            <input formControlName="address" type="text"
+                   id="exampleInputDiaChi1" maxlength="255" required
+                   matInput>
+            <mat-error
+              *ngIf="formGroup.get('address')?.hasError('isSpace') &&
+          formGroup.get('address')?.touched">Bạn phải nhập địa chỉ
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-6 col-md-6 d-flex align-items-center w-100">
+          <mat-label>Giới tính:</mat-label>
+          <mat-radio-group formControlName="gender">
+            <mat-radio-button class="mx-3" [value]="1" [checked]="formGroup.value.gender">Nam</mat-radio-button>
+            <mat-radio-button [value]="0" [checked]="!formGroup.value.gender">Nữ</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+
+        <div class="d-flex justify-content-center">
+          <button mat-raised-button color="accent" (click)="save()">Lưu</button>
+          <button mat-raised-button color="warn" (click)="close()" class="ml-5">Thoát</button>
+        </div>
+      </form>
+
+    </div>
+
+  </div>
+
+</div>

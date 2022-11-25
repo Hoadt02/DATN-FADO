@@ -9,6 +9,8 @@ import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dia
 import {PromotionalService} from "../../../shared/services/api-service-impl/promotional.service";
 import {PromotionalFormComponent} from "../promotional-form/promotional-form.component";
 import {formatDate} from "../../../shared/format/formatData";
+import {FormBuilder} from "@angular/forms";
+import {error} from "protractor";
 
 @Component({
   selector: 'app-promotional-list',
@@ -16,6 +18,13 @@ import {formatDate} from "../../../shared/format/formatData";
   styleUrls: ['./promotional-list.component.scss']
 })
 export class PromotionalListComponent implements OnInit {
+
+  formGroup = this.fb.group({
+    startDate: null,
+    endDate: null,
+    status: null,
+    type: null,
+  })
 
   isLoading = true;
   TYPE_DIALOG = Constants.TYPE_DIALOG;
@@ -41,6 +50,7 @@ export class PromotionalListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
+    private fb: FormBuilder,
     private apiPromotional: PromotionalService,
     private toastrService: ToastrService,
     private matDialog: MatDialog
@@ -52,11 +62,8 @@ export class PromotionalListComponent implements OnInit {
   }
 
   getAll() {
-    this.filterType = null;
-    this.filterStatus = null;
     this.isLoading = true;
-    this.filterStartDate = null;
-    this.filterEndDate = null;
+    this.formGroup.reset();
     this.apiPromotional.getAll().subscribe({
       next: (data: any) => {
         this.listData = data as any[];
@@ -74,68 +81,22 @@ export class PromotionalListComponent implements OnInit {
     })
   }
 
-  getFilterDate() {
-    this.filterType = null;
-    this.filterStatus = null;
+  filterAll() {
+    console.log(this.formGroup.getRawValue());
     this.isLoading = true;
-    this.apiPromotional.getAll().subscribe({
+    this.apiPromotional.filterAll(this.formGroup.getRawValue()).subscribe({
       next: (data: any) => {
-        data = data.filter(s => s.startDate >= formatDate(this.filterStartDate) && s.endDate <= formatDate(this.filterEndDate))
         this.dataSource = new MatTableDataSource<any>(data);
-        this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        if (this.dataSource.paginator) {
+          this.dataSource.paginator.firstPage();
+        }
         this.isLoading = false;
-      }, error: (err => {
-        this.toastrService.error('Lỗi tải dữ liệu');
+      }, error: err => {
         console.log(err);
         this.isLoading = false;
-        return;
-      })
+      }
     })
-  }
-
-  getFilterStatus() {
-    this.filterType = null;
-    this.isLoading = true;
-    this.filterStartDate = null;
-    this.filterEndDate = null;
-    this.apiPromotional.getAll().subscribe({
-      next: (data: any) => {
-        data = data.filter(m => m.status == this.filterStatus)
-        this.dataSource = new MatTableDataSource<any>(data);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.isLoading = false;
-      }, error: (err => {
-        this.toastrService.error('Lỗi tải dữ liệu');
-        console.log(err);
-        this.isLoading = false;
-        return;
-      })
-    })
-  }
-
-  getFilterType() {
-    this.filterStatus = null;
-    this.isLoading = true;
-    this.filterStartDate = null;
-    this.filterEndDate = null;
-    this.apiPromotional.getAll().subscribe({
-      next: (data: any) => {
-        // data = data.filter(s => s.startDate < 123 && s.endDate)
-        data = data.filter(m => m.type == this.filterType)
-        this.dataSource = new MatTableDataSource<any>(data);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.isLoading = false;
-      }, error: (err => {
-        this.toastrService.error('Lỗi tải dữ liệu');
-        console.log(err);
-        this.isLoading = false;
-        return;
-      })
-    })
-    console.log(this.filterType);
   }
 
   applyFilter(event: Event) {
@@ -165,6 +126,10 @@ export class PromotionalListComponent implements OnInit {
 
   /**Xoá mềm*/
   active(type: any, row: any) {
+    if (formatDate(row.endDate) < formatDate(new Date())) {
+      this.toastrService.warning("Khuyến mại đã hết hạn!");
+      return;
+    }
     if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
       this.title = 'Kích hoạt khuyến mại!';
       this.message = 'Bạn có chắc chắn muốn kích hoạt khuyến mại này?'
@@ -187,30 +152,37 @@ export class PromotionalListComponent implements OnInit {
         if (type == this.RESULT_CLOSE_DIALOG.ACTIVE) {
           this.isLoading = true;
           row.status = 1;
-          this.apiPromotional.update(row.id, row);
+          this.apiPromotional.updateStatus(row.id, row).subscribe(_ => {
+            this.toastrService.success("Cập nhật trạng thái thành công!")
+            this.isLoading = false;
+          }, _ => {
+            this.toastrService.error("Cập nhật trạng thái thất bại!");
+            this.isLoading = false;
+          });
         } else {
           this.isLoading = true;
           row.status = 0;
-          this.apiPromotional.update(row.id, row);
+          this.apiPromotional.updateStatus(row.id, row).subscribe(_ => {
+            this.toastrService.success("Cập nhật trạng thái thành công!")
+            this.isLoading = false;
+          }, _ => {
+            this.toastrService.error("Cập nhật trạng thái thất bại!");
+            this.isLoading = false;
+          });
         }
       }
-      this.apiPromotional.isCloseDialog.subscribe((data) => {
-        if (data) {
-          this.apiPromotional.isCloseDialog.next(false);
-          this.isLoading = false;
-        }
-      });
     })
   }
 
   checkStatus() {
     console.log(this.listData);
     for (const x of this.listData) {
-      console.log(x);
-      if (x.endDate < formatDate(new Date()) && x.status == 1) {
+      if (x.endDate < formatDate(new Date()) && x.status == 1 || x.startDate <= formatDate(new Date()) && x.status == 2) {
         this.isLoading = true;
-        x.status = 0;
-        this.apiPromotional.update(x.id, x);
+        this.apiPromotional.updateCheckIn(x.id, x).subscribe(_ => {
+          this.toastrService.success("Cập nhật lại trạng thái thành công");
+        });
+        this.isLoading = false;
       }
     }
     this.apiPromotional.isCloseDialog.subscribe(data => {

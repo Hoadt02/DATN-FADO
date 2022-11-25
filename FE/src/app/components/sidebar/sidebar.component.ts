@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {StorageService} from "../../shared/services/jwt/storage.service";
+import {Constants} from "../../shared/Constants";
 
 
 export interface RouteInfo {
@@ -22,9 +24,9 @@ export const ROUTES: RouteInfo[] = [
     class: ''
   },
   {
-    path: '/product-line',
-    title: 'Các dòng sản phẩm',
-    icon: 'nc-watch-time',
+    path: '/order-management',
+    title: 'Quản lý đơn hàng',
+    icon: 'nc-basket',
     class: ''
   },
   {
@@ -36,6 +38,12 @@ export const ROUTES: RouteInfo[] = [
   {
     path: '/staff-management',
     title: 'Quản lý nhân viên',
+    icon: 'nc-single-02',
+    class: ''
+  },
+  {
+    path: '/customer-management',
+    title: 'Quản lý khách hàng',
     icon: 'nc-single-02',
     class: ''
   },
@@ -52,9 +60,21 @@ export const ROUTES: RouteInfo[] = [
     class: ""
   },
   {
-    path: '/customer-management',
-    title: 'Quản lý khách hàng',
-    icon: 'nc-single-02',
+    path: '/category-management',
+    title: 'Quản lý danh mục',
+    icon: 'nc-bullet-list-67',
+    class: ''
+  },
+  {
+    path: '/product-line',
+    title: 'Các dòng sản phẩm',
+    icon: 'nc-watch-time',
+    class: ''
+  },
+  {
+    path: '/brand-management',
+    title: 'Quản lý thương hiệu',
+    icon: 'nc-bold',
     class: ''
   },
   {
@@ -69,18 +89,6 @@ export const ROUTES: RouteInfo[] = [
     icon: 'nc-shop',
     class: ''
   },
-  {
-    path: '/category-management',
-    title: 'Quản lý danh mục',
-    icon: 'nc-bullet-list-67',
-    class: ''
-  },
-  {
-    path: '/brand-management',
-    title: 'Quản lý thương hiệu',
-    icon: 'nc-bold',
-    class: ''
-  },
 ];
 
 @Component({
@@ -92,7 +100,17 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
   public menuItems: any[];
 
+  role:boolean;
+
+  constructor(private storageService: StorageService) {
+  }
+
   ngOnInit() {
+    if (this.storageService.getAuthority() === Constants.TYPE_AUTH.SUPER_ADMIN){
+      this.role = true
+    }else {
+      this.role = false;
+    }
     this.menuItems = ROUTES.filter(menuItem => menuItem);
   }
 }

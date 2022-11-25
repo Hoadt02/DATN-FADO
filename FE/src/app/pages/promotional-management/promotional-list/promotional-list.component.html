@@ -22,50 +22,53 @@
     <div class="card">
       <h3><b><i class="fa-solid fa-filter"></i> BỘ LỌC</b></h3>
 
-      <div class="card-body row py-0">
-        <div class="col-12 col-md-5">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Thời gian</mat-label>
-            <mat-date-range-input (click)="getFilterDate()" [rangePicker]="picker">
-              <input [(ngModel)]="filterStartDate" matStartDate placeholder="Ngày bắt đầu">
-              <input [(ngModel)]="filterEndDate" matEndDate placeholder="Ngày kết thúc">
-            </mat-date-range-input>
-            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker></mat-date-range-picker>
-          </mat-form-field>
-        </div>
+      <form [formGroup]="formGroup">
+        <div class="card-body row py-0">
+          <div class="col-12 col-md-5">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Thời gian</mat-label>
+              <mat-date-range-input (click)="filterAll()" [rangePicker]="picker">
+                <input formControlName="startDate" matStartDate
+                       placeholder="Ngày bắt đầu">
+                <input formControlName="endDate" matEndDate placeholder="Ngày kết thúc">
+              </mat-date-range-input>
+              <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+          </div>
 
-        <div class="col-6 col-md-3">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Trạng thái</mat-label>
-            <mat-select [(ngModel)]="filterStatus">
-              <mat-option>--</mat-option>
-              <mat-option (click)="getFilterStatus()" [value]="0">Ngưng hoạt động</mat-option>
-              <mat-option (click)="getFilterStatus()" [value]="1">Đang hoạt động</mat-option>
-              <mat-option (click)="getFilterStatus()" [value]="2">Đang chờ</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+          <div class="col-6 col-md-3">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Trạng thái</mat-label>
+              <mat-select formControlName="status">
+                <mat-option>--</mat-option>
+                <mat-option (click)="filterAll()" [value]="0">Ngưng hoạt động</mat-option>
+                <mat-option (click)="filterAll()" [value]="1">Đang hoạt động</mat-option>
+                <mat-option (click)="filterAll()" [value]="2">Đang chờ</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-        <div class="col-6 col-md-3">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label>Loại khuyến mại</mat-label>
-            <mat-select [(ngModel)]="filterType">
-              <mat-option>--</mat-option>
-              <mat-option (click)="getFilterType()" [value]="false">VND</mat-option>
-              <mat-option (click)="getFilterType()" [value]="true">%</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+          <div class="col-6 col-md-3">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Loại khuyến mại</mat-label>
+              <mat-select formControlName="type">
+                <mat-option>--</mat-option>
+                <mat-option (click)="filterAll()" [value]="0">VND</mat-option>
+                <mat-option (click)="filterAll()" [value]="1">%</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-        <div class="col-1 col-md-1">
-          <button class="btn btn-sm btn-outline-danger mt-3 px-2" type="button"
-                  (click)="getAll()" title="Đặt lại">
-            <i class="fa-solid fa-rotate"></i>
-          </button>
+          <div class="col-1 col-md-1">
+            <button class="btn btn-sm btn-outline-danger mt-3 px-2" type="button"
+                    (click)="getAll()" title="Đặt lại">
+              <i class="fa-solid fa-rotate"></i>
+            </button>
+          </div>
         </div>
-      </div>
+      </form>
 
     </div>
 

@@ -24,6 +24,10 @@ export class ApiOrderService {
     return this.http.post(ApiConstant.order, data);
   }
 
+  update(idOrder: any,data: any) {
+    return this.http.put(`${ApiConstant.order}/${idOrder}`, data);
+  }
+
   delete(id: number) {
     return this.http.delete(`${ApiConstant.order}/${id}`);
   }
@@ -41,5 +45,20 @@ export class ApiOrderService {
   }
   totalOneDay() {
     return this.http.get(`${ApiConstant.order}/totalOneDay`);
+  }
+  getOrderByStaff(id: number) {
+    return this.http.get(`${ApiConstant.order}/getOrderByStaff/${id}`)
+  }
+
+  getOrderById(id: number) {
+    return this.http.get(`${ApiConstant.order}/getOrderById?id=${id}`)
+  }
+
+  updateStatus(status: number, id: number) {
+    return this.http.get(`${ApiConstant.order}/updateStatus?status=${status}&id=${id}`)
+  }
+
+  getOrderHistory(id: number, status: number) {
+    return this.http.get(`${ApiConstant.order}/getOrderHistory?id=${id}&status=${status}`)
   }
 }

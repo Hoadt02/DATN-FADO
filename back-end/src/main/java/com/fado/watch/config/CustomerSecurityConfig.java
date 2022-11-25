@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
-@Order(2)
+@Order(1)
 public class CustomerSecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String SU = "SUPER_ADMIN";
     private static final String AD = "ADMIN";
@@ -38,7 +39,7 @@ public class CustomerSecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationManagerBuilder.userDetailsService(customerUserDetailService).passwordEncoder(passwordEncoder);
     }
 
-    @Bean(name = "authenticationManager2")
+    @Bean(name = "authenticationManager1")
     @Override
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
@@ -49,7 +50,15 @@ public class CustomerSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable().cors().disable();
         httpSecurity.authorizeRequests()
                 .anyRequest().permitAll()
-//                .antMatchers("/api/auth/**").permitAll()
+//                .antMatchers(HttpMethod.GET,"/api/v1/category/**").permitAll()
+//                .antMatchers(HttpMethod.GET,"/api/v1/brand/**").permitAll()
+//                .antMatchers(HttpMethod.GET,"/api/v1/material/**").permitAll()
+//                .antMatchers(HttpMethod.GET,"/api/v1/origin/**").permitAll()
+//                .antMatchers(HttpMethod.GET,"/api/v1/product/**").permitAll()
+//                .antMatchers(HttpMethod.GET,"/api/v1/product-promotional/**").permitAll()
+//                .antMatchers(HttpMethod.GET,"/api/v1/productDetail/**").permitAll()
+//                .antMatchers(HttpMethod.POST,"/api/v1/productDetail/findProductsWithPaginationAndSortingAndFilter").permitAll()
+//                .antMatchers("/api/v1/sendMailContact").permitAll()
 //                .antMatchers(HttpMethod.GET,"/api/v1/productDetail").permitAll()
 //                .antMatchers(HttpMethod.GET,"/api/v1/category").permitAll()
 //                .antMatchers(HttpMethod.GET,"/api/v1/brand").permitAll()

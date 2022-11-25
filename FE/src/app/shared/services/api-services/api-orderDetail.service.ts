@@ -28,11 +28,19 @@ export class ApiOrderDetailService {
     return this.http.post(`${ApiConstant.orderDetail}/admin`, data);
   }
 
-  delete(id: number) {
-    return this.http.delete(`${ApiConstant.orderDetail}/${id}`);
+  updateQuantityOrderDetail(data: any) {
+    return this.http.put(ApiConstant.orderDetail + "/updateQuantityOrderDetail", data)
+  }
+
+  deleteByIdProduct(idPro: number) {
+    return this.http.delete(`${ApiConstant.orderDetail}?idPro=${idPro}`);
   }
 
   findOrderDetailByOrder(id: number) {
     return this.http.get(`${ApiConstant.orderDetail}/findOrderDetailByOrder/${id}`);
+  }
+
+  getHistory(status: number) {
+    return this.http.get(`${ApiConstant.orderDetail}/getHistory/${status}`);
   }
 }

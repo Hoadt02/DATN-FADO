@@ -47,4 +47,8 @@ export class SendMailService {
       }
     })
   }
+
+  sendMailContact(data:any) {
+   return this.apiSendMailService.sendMailContact(data);
+  }
 }

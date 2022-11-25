@@ -1,11 +1,8 @@
 package com.fado.watch.controller;
 
-
-import com.fado.watch.dto.response.CartResponse;
-import com.fado.watch.entity.Order;
+import com.fado.watch.dto.request.CartRequest;
 import com.fado.watch.entity.OrderDetail;
 import com.fado.watch.service.IOrderDetailService;
-import com.fado.watch.service.IOrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,24 +37,34 @@ public class OrderDetailController {
     }
 
     @PostMapping()
-    public void save(@RequestBody CartResponse response) {
+    public void save(@RequestBody CartRequest response) {
         this.orderDetailService.save(response);
     }
 
 
     // Day la` pha`n toi nha' ba.n hien da.u da.u
     @PostMapping("/admin")
-    public ResponseEntity<OrderDetail> save(@RequestBody OrderDetail orderDetail) {
-        return new ResponseEntity<>(this.orderDetailService.saveOrderDetail(orderDetail), HttpStatus.OK);
+    public void save(@RequestBody OrderDetail orderDetail) {
+        this.orderDetailService.saveOrderDetail(orderDetail);
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Integer id) {
-        this.orderDetailService.delete(id);
+    @PutMapping("updateQuantityOrderDetail")
+    public ResponseEntity<OrderDetail> updateQuantity(@RequestBody OrderDetail orderDetail) {
+        return ResponseEntity.ok(this.orderDetailService.updateQuantityOrderDetail(orderDetail));
+    }
+
+    @DeleteMapping
+    public void delete(@RequestParam("idPro") Integer idPro) {
+        this.orderDetailService.delete(idPro);
     }
 
     @GetMapping("findOrderDetailByOrder/{id}")
     public ResponseEntity<List<OrderDetail>> findOrderDetailByOrder(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(this.orderDetailService.findOrderDetailByOrder(id));
+    }
+
+    @GetMapping("getHistory/{status}")
+    public ResponseEntity<List<OrderDetail>> getHistory(@PathVariable("status") Integer status) {
+        return ResponseEntity.ok(this.orderDetailService.getHistory(status));
     }
 }

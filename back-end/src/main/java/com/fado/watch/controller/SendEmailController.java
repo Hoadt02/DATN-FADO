@@ -26,12 +26,17 @@ public class SendEmailController {
         return emailService.sendMailWithAttachment(details);
     }
     @GetMapping("/sendMail/{code}")
-    public boolean verificationOTP(@PathVariable("code") String code){
+    public Boolean verificationOTP(@PathVariable("code") String code){
         return emailService.verificationOTP(code);
     }
 
     @PostMapping("/sendMailAgain")
     public void sendMailAgain(@RequestBody String email){
         emailService.sendMailOTP(email);
+    }
+
+    @PostMapping("/sendMailContact")
+    public Boolean sendMailContact(@RequestBody EmailDetails details){
+        return emailService.sendMailContact(details);
     }
 }

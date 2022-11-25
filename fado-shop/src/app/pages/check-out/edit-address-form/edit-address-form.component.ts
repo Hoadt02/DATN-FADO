@@ -6,6 +6,7 @@ import {Contants} from "../../../shared/Contants";
 import {ToastrService} from "ngx-toastr";
 import {checkSpace} from "../../../shared/validator/validate";
 import {StorageService} from "../../../shared/service/jwt/storage.service";
+import {Regex} from "../../../shared/validator/regex";
 
 @Component({
   selector: 'app-edit-address-form',
@@ -19,10 +20,15 @@ export class EditAddressFormComponent implements OnInit {
     customer: this.fb.group({
       id: [this.storageService.getIdFromToken()]
     }),
-    province: ['', [Validators.required]],
-    district: ['', [Validators.required]],
-    commune: ['', [Validators.required]],
-    other: ['', [checkSpace]],
+    province: [''],
+    provinceId: ['', [Validators.required]],
+    district: [''],
+    districtId: ['', [Validators.required]],
+    ward: [''],
+    wardId: ['', [Validators.required]],
+    other: ['', [checkSpace, Validators.maxLength(100)]],
+    fullname: ['', [checkSpace, Validators.maxLength(60),Validators.pattern(Regex.name)]],
+    phoneNumber: ['', [checkSpace,Validators.pattern(Regex.phoneNumber)]], //checkSpace, Regex.phoneNumber
     defaultAddress: [0],
   })
 
@@ -32,6 +38,10 @@ export class EditAddressFormComponent implements OnInit {
   districts: any[] = [];
   wards: any[] = [];
   title: any;
+
+  districtName!: string;
+  provinceName!: string;
+  wardName!: string;
 
   constructor(
     private fb: FormBuilder,
@@ -56,40 +66,61 @@ export class EditAddressFormComponent implements OnInit {
 
   getProvinces() {
     this.apiAddress.getProvinces().subscribe({
-      next: (data) => {
-        this.provinces = data as any[];
+      next: (data: any) => {
+        this.provinces = data.data;
         this.districts = [];
         this.wards = [];
       },
     });
   }
 
-  getDistricts(code: any) {
-    this.apiAddress.getDistricts(code).subscribe({
+  resetDistrictAndWard() {
+    this.formGroup.patchValue({districtId: ''});
+    this.formGroup.patchValue({wardId: ''});
+  }
+
+  getDistricts(id: any, name: string) {
+    console.log(name);
+    this.provinceName = name
+    this.apiAddress.getDistricts(id).subscribe({
       next: (data: any) => {
-        this.districts = data.districts as any[];
+        this.districts = data.data;
         this.wards = [];
       },
     });
   }
 
-  getWards(code: any) {
-    this.apiAddress.getWards(code).subscribe({
+  getWards(id: any, name: string) {
+    console.log(name);
+    this.districtName = name;
+    this.apiAddress.getWards(id).subscribe({
       next: (data: any) => {
-        this.wards = data.wards as any[];
+        this.wards = data.data;
       },
     });
   }
 
+  getWardsName(name: any) {
+    console.log(name)
+    this.wardName = name;
+  }
+
+  resetWard() {
+    this.formGroup.patchValue({wardId: ''});
+  }
+
   // lưu địa chỉ
   saveAddress() {
+    this.formGroup.patchValue({province: this.provinceName, district: this.districtName, ward: this.wardName})
+    console.log(this.formGroup.getRawValue());
+
     if (this.formGroup.invalid) {
       this.formGroup.markAllAsTouched();
       return;
     }
 
     // nếu lúc thêm mà set điạ chỉ mặc định thì sẽ tìm ra địa chỉ măc định hiện tại rồi tắt mặc định đi sau đó thêm mới
-    if (this.formGroup.getRawValue().defaultAddress == 1) {
+    if (1 == this.formGroup.getRawValue().defaultAddress) {
       this.apiAddress.findByCustomerIdAndDefaultAddress(this.storageService.getIdFromToken()).subscribe((data: any) => {
         data.defaultAddress = 0;
         this.apiAddress.save(data).subscribe({

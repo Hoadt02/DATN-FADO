@@ -24,16 +24,7 @@ export class StaffService {
   }
 
   findById(id: number) {
-    return this.apiStaff.findById(id).subscribe({
-      next: (data: any) => {
-        console.log(data);
-      }, error: err => {
-        if (err.error.code == 'NOT_FOUND') {
-          this.toastrService.warning(err.error.message);
-        }
-        console.log(err);
-      }
-    })
+    return this.apiStaff.findById(id);
   }
 
   dataInput(data: any) {
@@ -46,38 +37,12 @@ export class StaffService {
 
   create(data: any) {
     this.dataInput(data);
-    return this.apiStaff.create(data).subscribe({
-      next: (data: any) => {
-        console.log(data);
-        this.toastrService.success('Thêm nhân viên thành công!');
-        this.isCloseDialog.next(true);
-      }, error: err => {
-        console.log(err);
-        if (err.error.code == 'UNIQUE') {
-          this.toastrService.warning(err.error.message);
-          return;
-        }
-        this.toastrService.error('Thêm nhân viên thất bại!');
-      }
-    })
+    return this.apiStaff.create(data);
   }
 
   update(id: number, data: any) {
     this.dataInput(data);
-    return this.apiStaff.update(id, data).subscribe({
-      next: (data: any) => {
-        console.log('update: ', data);
-        this.toastrService.success('Sửa nhân viên thành công!');
-        this.isCloseDialog.next(true);
-      }, error: err => {
-        console.log(err);
-        if (err.error.code == 'UNIQUE') {
-          this.toastrService.warning(err.error.message);
-          return;
-        }
-        this.toastrService.error('Sửa nhân viên thất bại!');
-      }
-    })
+    return this.apiStaff.update(id, data);
   }
 
   findStaffByEmailAndSendOTP(email:any) {
@@ -88,14 +53,19 @@ export class StaffService {
     data.dateOfBirth = formatDate(data.dateOfBirth);
     return this.apiStaff.update(id, data).subscribe({
       next: (_) => {
-        void this.router.navigate(['/auth/login']);
-        this.toastrService.success('Cập nhật mật khẩu thành công!');
+        void this.router.navigate(['/auth/login']).then(()=>
+          this.toastrService.success('Cập nhật mật khẩu thành công!')
+        );
       }, error: err => {
         console.log(err);
-        void this.router.navigate(['/auth/login']);
-        this.toastrService.error('Cập nhật mật khẩu thất bại!');
+        void this.router.navigate(['/auth/login']).then(()=>
+          this.toastrService.error('Cập nhật mật khẩu thất bại!')
+        );
       }
     })
   }
 
+  accuracyPassword(data:any){
+    return this.apiStaff.accuracyPassword(data);
+  }
 }

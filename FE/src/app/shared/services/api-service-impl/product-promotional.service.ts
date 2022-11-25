@@ -50,4 +50,8 @@ export class ProductPromotionalService {
       }
     })
   }
+
+  getPromotional(idOder: number) {
+    return this.apiProductPromotionalService.getPromotional(idOder);
+  }
 }

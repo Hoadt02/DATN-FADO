@@ -11,7 +11,7 @@ export function checkCheckPrice(startPrice: any, endPrice: any): ValidatorFn {
     const valueStartPrice = formGroup.get(startPrice)?.value
     const valueEndPrice = formGroup.get(endPrice)?.value
 
-    if (valueStartPrice > valueEndPrice) {
+    if (valueStartPrice > valueEndPrice || valueStartPrice == valueEndPrice) {
       return {isCheckPrice: true}
     } else {
       return null;

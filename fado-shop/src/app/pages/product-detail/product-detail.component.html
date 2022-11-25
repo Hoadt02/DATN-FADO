@@ -1,3 +1,9 @@
+<div class="container-fluid">
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner-border text-black-50 spinner-center" role="status"></div>
+  </div>
+</div>
+
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
   <div class="row px-xl-5">
@@ -19,6 +25,9 @@
     <div class="col-lg-5 mb-30">
       <div id="product-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner bg-light shadow-sm" style="border-radius: 5px;">
+          <div *ngIf="productDetail?.quantity == 0" class="out-of-stock-1">
+            <div class="out-of-stock-2">Hết hàng</div>
+          </div>
           <div class="carousel-item active">
             <img class="w-100 h-100" src="../../../assets/img/avtProduct/{{productDetail?.avatar}}" alt="Image">
           </div>
@@ -38,17 +47,19 @@
     <div class="col-lg-7 h-auto mb-30">
       <div class="h-100 bg-light p-30 shadow-sm" style="border-radius: 5px;">
         <h1><b>{{productDetail?.name}}</b></h1>
-        <div class="d-flex mb-3">
-          <div class="text-primary mr-2">
-            <small class="fas fa-star"></small>
-            <small class="fas fa-star"></small>
-            <small class="fas fa-star"></small>
-            <small class="fas fa-star-half-alt"></small>
-            <small class="far fa-star"></small>
-          </div>
-          <small class="pt-1">(99 Reviews)</small>
+        <div class="d-flex">
+          <h2 class="font-weight-semi-bold mb-4" *ngIf="loadDiscountProduct(productDetail?.id) != 0">{{loadDiscountProduct(productDetail?.id) | number}}đ</h2>
+          <h3 class="font-weight-semi-bold mb-4 ml-3" *ngIf="loadDiscountProduct(productDetail?.id) != 0" style="color: #9b9b9b">
+            <del>{{ productDetail?.price | number }}₫</del>
+          </h3>
+          <h2 class="font-weight-semi-bold mb-4" *ngIf="loadDiscountProduct(productDetail?.id) == 0">{{productDetail?.price | number}}đ</h2>
         </div>
-        <h3 class="font-weight-semi-bold mb-4">{{productDetail?.price | number}} đ</h3>
+        <i class="fa-solid fa-minus"></i>
+        <i class="fa-solid fa-minus"></i>
+        <i class="fa-solid fa-minus"></i>
+        <i class="fa-solid fa-minus"></i>
+        <i class="fa-solid fa-minus"></i>
+
         <p class="mb-4"></p>
         <div class="d-flex mb-3">
           <strong class="text-dark mr-3">Số lượng còn lại:</strong>
@@ -74,9 +85,9 @@
           <strong class="text-dark mr-3">Xuất xứ:</strong>
           <span>{{productDetail?.origin.name}}</span>
         </div>
-        <div class="d-flex align-items-center mb-2 pt-2">
+        <div class="d-flex align-items-center mb-2 pt-2" *ngIf="productDetail?.quantity > 0">
           <div class="input-group quantity mr-3" style="width: 130px;">
-            <input type="number" class="form-control bg-secondary border-0 text-center" name="slSP" [(ngModel)]="slSP">
+            <input min="1" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'" type="number" class="form-control bg-secondary border-0 text-center" name="slSP" [(ngModel)]="slSP">
           </div>
           <button (click)="addToCart(productDetail.id)" class="btn btn-primary px-3"><i
             class="fa fa-shopping-cart mr-1"></i> Add To
@@ -128,7 +139,7 @@
 <!-- Shop Detail End -->
 
 <!-- Products Start -->
-<div class="container-fluid py-5">
+<div class="container-fluid py-5" *ngIf="listSimilarProduct.length > 0">
   <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Sản phẩm liên quan</span>
   </h2>
   <div class="container-fluid" style="width: 96%">
@@ -136,32 +147,22 @@
       <div ngxSlickItem class="mx-2" *ngFor="let p of listSimilarProduct">
           <div class="product-item bg-light mb-4 shadow-sm" style="border-radius: 5px">
             <div class="product-img position-relative overflow-hidden" style="border-radius: 5px">
+              <span *ngIf="loadDiscountProduct(p.id) != 0" class="item-child badge badge-danger">Giảm giá</span>
               <img class="img-fluid w-100" src="../../../assets/img/avtProduct/{{ p.avatar }}" alt=""/>
               <div class="product-action">
                 <a class="btn btn-outline-dark btn-square" (click)="addToCart(p)"><i class="fa fa-shopping-cart"></i></a>
-                <a class="btn btn-outline-dark btn-square" [routerLink]="['/product-detail']">
-                  <i class="far fa-heart"></i></a>
-                <a class="btn btn-outline-dark btn-square" href="/product-detail/{{p.id}}"><i
+                <a class="btn btn-outline-dark btn-square" (click)="showDetail(p.id)" href="javascript:void(0)"><i
                   class="fa-regular fa-eye"></i></a>
               </div>
             </div>
             <div class="text-center py-4">
-              <a class="h6 text-decoration-none text-truncate" [routerLink]="['/product-detail',p.id]">{{ p.name }}</a>
+              <a class="h6 text-decoration-none text-truncate name-product" [routerLink]="['/product-detail',p.id]">{{ p.name }}</a>
               <div class="d-flex align-items-center justify-content-center mt-2">
-                <h5>{{ p.price | number }}₫</h5>
-                <h5 class="text-muted ml-2">
+                <h5 *ngIf="loadDiscountProduct(p.id) == 0">{{ p.price | number }}₫</h5>
+                <h5 *ngIf="loadDiscountProduct(p.id) != 0">{{loadDiscountProduct(p.id) | number}}₫</h5>
+                <h5 *ngIf="loadDiscountProduct(p.id) != 0" class="text-muted ml-2">
                   <del>{{ p.price | number }}₫</del>
                 </h5>
-              </div>
-              <div
-                class="d-flex align-items-center justify-content-center mb-1"
-              >
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small class="fa fa-star text-primary mr-1"></small>
-                <small>(99)</small>
               </div>
             </div>
           </div>

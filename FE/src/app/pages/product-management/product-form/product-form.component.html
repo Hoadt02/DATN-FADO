@@ -9,10 +9,9 @@
   <span class="col-1" style="font-size: 25px" (click)="onDismiss()"><i class="fa-solid fa-xmark"></i></span>
 </div>
 
-<mat-stepper #stepper>
+<mat-stepper linear #stepper>
+  <mat-step [stepControl]="formGroup">
   <form [formGroup]="formGroup">
-    <mat-step>
-
 <!--      Thông tin sản phẩm-->
       <ng-template matStepLabel>Thông tin sản phẩm</ng-template>
       <div class="row">
@@ -30,7 +29,9 @@
             <img src="assets/img/avtProduct/{{formGroup.getRawValue().avatar}}">
           </div>
           <div *ngIf="!showImage" class="text-center">
-            <button type="button" mat-icon-button color="primary" class="mt-3" (click)="showImage = !showImage"><i class="fa-solid fa-rotate-right fs-4"></i></button>
+            <button type="button" mat-icon-button color="primary" class="mt-3" (click)="changeShowImage()">
+              <i class="fa-solid fa-camera-rotate change-img"></i>
+            </button>
           </div>
         </div>
         <div class="col-8">
@@ -69,7 +70,7 @@
                 Vui lòng không bỏ trống số lượng sản phẩm!
               </mat-error>
               <mat-error *ngIf="formGroup.get('quantity')?.hasError('min') && formGroup.get('quantity')?.touched">
-                Số lượng sản phẩm tối thiểu là 1!
+                Số lượng sản phẩm tối thiểu là 0!
               </mat-error>
             </mat-form-field>
 
@@ -143,11 +144,12 @@
       <div>
         <button type="button" mat-raised-button matStepperNext>Next</button>
       </div>
-    </mat-step>
+  </form>
+  </mat-step>
 <!--    End thông tin sản phẩm-->
 
 <!--    Hình ảnh sản phẩm chi tiết-->
-    <mat-step>
+    <mat-step [stepControl]="formImgDetail">
       <ng-template matStepLabel>Hình ảnh chi tiết sản phẩm</ng-template>
       <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)" *ngIf="showImageDetail">
         <ngx-dropzone-label style="font-size: 12px">Chọn hình ảnh chi tiết sản phẩm</ngx-dropzone-label>
@@ -159,7 +161,9 @@
         <img *ngFor="let image of listImageProductDetail" src="assets/img/imgDetailProduct/{{image.name}}" width="150px" class="me-2">
       </div>
       <div *ngIf="!showImageDetail" class="text-center">
-        <button type="button" mat-icon-button color="primary" class="mt-2" (click)="showImageDetail = !showImageDetail"><i class="fa-solid fa-rotate-right fs-5"></i></button>
+        <button type="button" mat-icon-button color="primary" class="mt-2" (click)="changeShowImageDetail()">
+          <i class="fa-solid fa-camera-rotate change-img"></i>
+        </button>
       </div>
       <div class="mt-3">
         <button type="button" class="mr-2" mat-raised-button matStepperPrevious>Back</button>
@@ -169,60 +173,14 @@
 <!--    End Hình ảnh sản phẩm chi tiết-->
 
 <!--    Hoàn thành-->
-    <mat-step>
+    <mat-step [stepControl]="formGroup && formImgDetail">
       <ng-template matStepLabel>Hoàn thành</ng-template>
-      <p *ngIf="formGroup.invalid" class="text-danger">
-        <i class="fa-sharp fa-solid fa-triangle-exclamation"></i> Vui lòng nhập đúng các thông tin ở phần "Thông tin sản
-        phẩm"!
-      </p>
-
-<!--      Điều kiện khi thêm-->
-      <div *ngIf="formGroup.getRawValue().id == ''">
-        <p *ngIf="fileAvt.length == 0" class="text-danger">
-          <i class="fa-sharp fa-solid fa-triangle-exclamation"></i> Vui lòng chọn hình ảnh đại diện của sản phẩm!
-        </p>
-        <p *ngIf="files.length == 0" class="text-danger">
-          <i class="fa-sharp fa-solid fa-triangle-exclamation"></i> Vui lòng chọn hình ảnh chi tiết của sản phẩm!
-        </p>
-        <p *ngIf="fileAvt.length != 0 && files.length > 0 && formGroup.valid">
-          <i class="fa-solid fa-check text-success"></i> Mời bạn nhấn nút lưu để thêm mới sản phẩm!
-        </p>
-      </div>
-
-<!--      Điều kiện khi update-->
-      <div *ngIf="formGroup.getRawValue().id != ''">
-        <p *ngIf="showImage" class="text-danger">
-          <span *ngIf="fileAvt.length == 0">
-            <i class="fa-sharp fa-solid fa-triangle-exclamation"></i> Vui lòng chọn hình ảnh đại diện của sản phẩm!
-          </span>
-        </p>
-        <p *ngIf="showImageDetail" class="text-danger">
-          <span *ngIf="files.length <= 0">
-            <i class="fa-sharp fa-solid fa-triangle-exclamation"></i> Vui lòng chọn hình ảnh chi tiết của sản phẩm!
-          </span>
-        </p>
-        <p *ngIf="(showImage == false && showImageDetail == false && formGroup.valid) ||
-                  (fileAvt.length != 0 && files.length > 0 && formGroup.valid) ||
-                  (showImage == false && files.length > 0 && formGroup.valid) ||
-                  (fileAvt.length != 0 && showImageDetail == false && formGroup.valid)">
-          <i class="fa-solid fa-check text-success"></i> Mời bạn nhấn nút lưu để cập nhật sản phẩm!
-        </p>
-      </div>
-
+        <p *ngIf="formGroup.getRawValue().id == '' "><i class="fa-solid fa-check text-success"></i> Mời bạn nhấn nút lưu để thêm sản phẩm!</p>
+        <p *ngIf="formGroup.getRawValue().id != '' "><i class="fa-solid fa-check text-success"></i> Mời bạn nhấn nút lưu để cập nhật sản phẩm!</p>
 <!--      Các nút thao tác-->
       <div>
         <button mat-raised-button matStepperPrevious>Back</button>
-        <button type="button" class="mx-2" mat-raised-button color="primary" (click)="onSubmit()"
-                [disabled]="formGroup.invalid || files.length == 0 || fileAvt.length == 0"
-                *ngIf="formGroup.getRawValue().id == ''">
-          <span><i class="fa-solid fa-check"></i> Lưu</span>
-        </button>
-
-        <button type="button" class="mx-2" mat-raised-button color="primary" (click)="onSubmit()"
-                [disabled]="formGroup.invalid ||
-                            (showImage == true && fileAvt.length == 0) ||
-                            (showImageDetail == true && files.length == 0)"
-                *ngIf="formGroup.getRawValue().id != ''">
+        <button type="button" class="mx-2" mat-raised-button color="primary" (click)="onSubmit()">
           <span><i class="fa-solid fa-check"></i> Lưu</span>
         </button>
         <button type="button" mat-raised-button color="warn" (click)="onDismiss()">
@@ -231,5 +189,4 @@
       </div>
     </mat-step>
 <!--    End hoàn thành-->
-  </form>
 </mat-stepper>

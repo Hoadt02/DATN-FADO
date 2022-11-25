@@ -24,6 +24,7 @@ export class ProductPromotionalListComponent implements OnInit {
   filterType: any;
   filterPromotional: any;
   promotionalList: any[];
+  dataTable: any[] = [];
 
 
   displayedColumns: string[] = ['select', 'productName', 'price', 'promotionalPrice', 'priceBefore', 'promotional', 'status'];
@@ -53,7 +54,19 @@ export class ProductPromotionalListComponent implements OnInit {
     this.isLoading = true;
     this.productPromotionalService.getAll().subscribe({
       next: (data: any) => {
-        this.dataSource = new MatTableDataSource(data);
+        this.dataTable = [];
+        for (const x of data) {
+          this.dataTable.push({
+            id: x.id,
+            prdName: x.productDetail.name,
+            prdPrice: x.productDetail.price,
+            prmDiscount: x.promotional.discount,
+            prmName: x.promotional.name,
+            prmType: x.promotional.type,
+            prmStatus: x.promotional.status,
+          })
+        }
+        this.dataSource = new MatTableDataSource(this.dataTable);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.isLoading = false;
@@ -66,16 +79,12 @@ export class ProductPromotionalListComponent implements OnInit {
   }
 
   getAllPromotional() {
-    // this.isLoading = true;
     this.promotionalService.getAll().subscribe({
       next: (data: any) => {
         this.promotionalList = data as any[];
-        console.log(this.promotionalList);
-        // this.isLoading = false;
       }, error: (err => {
         this.toastrService.error('Lỗi tải dữ liệu');
         console.log(err);
-        // this.isLoading = false;
         return;
       })
     })
@@ -87,8 +96,20 @@ export class ProductPromotionalListComponent implements OnInit {
     this.isLoading = true;
     this.productPromotionalService.getAll().subscribe({
       next: (data: any) => {
-        data = data.filter(m => m.promotional.type == this.filterType);
-        this.dataSource = new MatTableDataSource(data);
+        this.dataTable = [];
+        for (const x of data) {
+          this.dataTable.push({
+            id: x.id,
+            prdName: x.productDetail.name,
+            prdPrice: x.productDetail.price,
+            prmDiscount: x.promotional.discount,
+            prmName: x.promotional.name,
+            prmType: x.promotional.type,
+            prmStatus: x.promotional.status,
+          })
+        }
+        this.dataTable = this.dataTable.filter(m => m.prmType == this.filterType);
+        this.dataSource = new MatTableDataSource(this.dataTable);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.isLoading = false;
@@ -105,8 +126,21 @@ export class ProductPromotionalListComponent implements OnInit {
     this.isLoading = true;
     this.productPromotionalService.getAll().subscribe({
       next: (data: any) => {
-        data = data.filter(m => m.promotional.id == this.filterPromotional);
-        this.dataSource = new MatTableDataSource(data);
+        this.dataTable = [];
+        for (const x of data) {
+          this.dataTable.push({
+            id: x.id,
+            prdName: x.productDetail.name,
+            prdPrice: x.productDetail.price,
+            prmDiscount: x.promotional.discount,
+            prmName: x.promotional.name,
+            prmType: x.promotional.type,
+            prmStatus: x.promotional.status,
+            prmId: x.promotional.id,
+          })
+        }
+        this.dataTable = this.dataTable.filter(m => m.prmId == this.filterPromotional);
+        this.dataSource = new MatTableDataSource(this.dataTable);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.isLoading = false;

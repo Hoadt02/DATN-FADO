@@ -1,84 +1,96 @@
 <div class="container-fluid">
   <div *ngIf="isLoading" class="loading">
-    <div class="spinner-border text-warning spinner-center" role="status"></div>
+    <div class="spinner-border spinner-center" role="status"></div>
   </div>
 </div>
 
-<div class="my-3">
-  <button mat-raised-button color="primary" (click)="openDiaLog(TYPE_DIALOG.NEW)"><i class="fa-solid fa-plus"></i>
-    Thêm mới
-  </button>
-  <button mat-raised-button color="accent" (click)="onResetFilter()"><i class="fa-solid fa-arrows-rotate"></i>
-    Reset
-  </button>
-</div>
-
 <div class="row">
-  <div class="col-12 col-md-3">
+  <div class="col-12">
     <div class="card">
       <div class="card-body">
         <h3><b><i class="fa-solid fa-magnifying-glass"></i> TÌM KIẾM NHANH</b></h3>
         <mat-form-field appearance="outline" class="p-0">
           <mat-label>Từ khóa tìm kiếm</mat-label>
-          <input matInput (keyup)="applyFilter($event)" placeholder="Mời bạn nhập từ khóa tìm kiếm" #input>
+          <input matInput (keyup)="applyFilter($event)" [(ngModel)]="keySearch" placeholder="Mời bạn nhập từ khóa tìm kiếm">
         </mat-form-field>
       </div>
     </div>
   </div>
-  <div class="col-12 col-md-9">
+</div>
+
+<div class="row">
+  <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h3><b><i class="fa-solid fa-filter"></i> BỘ LỌC <span class="text-black-50">{{name_filter}} {{value_filter}}</span></b></h3>
+        <h3><b><i class="fa-solid fa-filter"></i> BỘ LỌC</b></h3>
         <div class="row">
-          <mat-form-field appearance="outline" class="col-2">
-            <mat-label>Dòng sản phẩm</mat-label>
-            <mat-select>
-              <mat-option *ngFor="let p of listProduct" (click)="getAllFilter(TYPE_FILTER.PRODUCT, p.id)">{{p.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
+          <form [formGroup]="formGroup">
+            <mat-form-field appearance="outline" class="col-2">
+              <mat-label>Dòng sản phẩm</mat-label>
+              <mat-select formControlName="product_id">
+                <mat-option *ngFor="let p of listProduct" (click)="getAllFilter()" [value]="p.id">
+                  {{p.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 
-          <mat-form-field appearance="outline" class="col-2">
-            <mat-label>Thương hiệu</mat-label>
-            <mat-select>
-              <mat-option *ngFor="let b of listBrand" (click)="getAllFilter(TYPE_FILTER.BRAND, b.id)">{{b.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
+            <mat-form-field appearance="outline" class="col-2">
+              <mat-label>Thương hiệu</mat-label>
+              <mat-select formControlName="brand_id">
+                <mat-option *ngFor="let b of listBrand" (click)="getAllFilter()" [value]="b.id">
+                  {{b.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 
-          <mat-form-field appearance="outline" class="col-2">
-            <mat-label>Chất liệu</mat-label>
-            <mat-select>
-              <mat-option *ngFor="let m of listMaterial" (click)="getAllFilter(TYPE_FILTER.MATERIAL, m.id)">{{m.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
+            <mat-form-field appearance="outline" class="col-2">
+              <mat-label>Chất liệu</mat-label>
+              <mat-select formControlName="material_id">
+                <mat-option *ngFor="let m of listMaterial" (click)="getAllFilter()" [value]="m.id">
+                  {{m.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 
-          <mat-form-field appearance="outline" class="col-2">
-            <mat-label>Xuất xứ</mat-label>
-            <mat-select>
-              <mat-option *ngFor="let o of listOrigin" (click)="getAllFilter(TYPE_FILTER.ORIGIN,o.id)">{{o.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
+            <mat-form-field appearance="outline" class="col-2">
+              <mat-label>Xuất xứ</mat-label>
+              <mat-select formControlName="origin_id">
+                <mat-option *ngFor="let o of listOrigin" (click)="getAllFilter()" [value]="o.id">
+                  {{o.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 
-          <mat-form-field appearance="outline" class="col-2">
-            <mat-label>Trạng thái</mat-label>
-            <mat-select>
-              <mat-option (click)="getAllFilter(TYPE_FILTER.STATUS, 1)">Hoạt động</mat-option>
-              <mat-option (click)="getAllFilter(TYPE_FILTER.STATUS, 0)">Không hoạt động</mat-option>
-            </mat-select>
-          </mat-form-field>
+            <mat-form-field appearance="outline" class="col-2">
+              <mat-label>Trạng thái</mat-label>
+              <mat-select formControlName="status">
+                <mat-option (click)="getAllFilter()" [value]="1">Hoạt động</mat-option>
+                <mat-option (click)="getAllFilter()" [value]="0">Ngưng hoạt động</mat-option>
+              </mat-select>
+            </mat-form-field>
 
-          <mat-form-field appearance="outline" class="col-2">
-            <mat-label>Đối tượng sử dụng</mat-label>
-            <mat-select>
-              <mat-option (click)="getAllFilter(TYPE_FILTER.GENDER, true)">Nam</mat-option>
-              <mat-option (click)="getAllFilter(TYPE_FILTER.GENDER, false)">Nữ</mat-option>
-            </mat-select>
-          </mat-form-field>
+            <mat-form-field appearance="outline" class="col-2">
+              <mat-label>Đối tượng sử dụng</mat-label>
+              <mat-select formControlName="gender">
+                <mat-option (click)="getAllFilter()" [value]="true">Nam</mat-option>
+                <mat-option (click)="getAllFilter()" [value]="false">Nữ</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
         </div>
       </div>
     </div>
   </div>
 </div>
 
+<div class="mb-3 text-center">
+  <button mat-raised-button color="primary" (click)="openDiaLog(TYPE_DIALOG.NEW)"><i class="fa-solid fa-plus"></i>
+    Thêm mới
+  </button>
+  <button mat-raised-button color="accent" (click)="onResetFilter()"><i class="fa-solid fa-arrows-rotate"></i>
+    Làm mới
+  </button>
+</div>
 
 <!-- Row -->
 <div class="row">
@@ -106,7 +118,7 @@
           <!-- name Column -->
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header width="18%"> Tên sản phẩm</th>
-            <td mat-cell *matCellDef="let row" width="18%"> {{row.name}} </td>
+            <td mat-cell *matCellDef="let row" width="18%"> {{setNameProduct(row.name)}} </td>
           </ng-container>
 
           <!-- price Column -->
@@ -137,7 +149,8 @@
           <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Trạng thái</th>
             <td mat-cell *matCellDef="let row">
-              {{row.status == 1 ? 'Hoạt động' : 'Ngưng hoạt động'}}
+              <span *ngIf="row.status == 1" class="status" style="background-color: green">Hoạt động</span>
+              <span *ngIf="row.status == 0" class="status" style="background-color: orangered">Ngưng hoạt động</span>
             </td>
           </ng-container>
 
@@ -145,8 +158,8 @@
           <ng-container matColumnDef="thaoTac">
             <th mat-header-cell *matHeaderCellDef mat-sort-header width="15%"> Thao tác</th>
             <td mat-cell *matCellDef="let row" width="15%">
-              <button mat-icon-button class="text-green" (click)="openDiaLog(TYPE_DIALOG.UPDATE,row)">
-                <i class="fa-regular fa-pen-to-square"></i>
+              <button mat-icon-button color="accent" (click)="openDiaLog(TYPE_DIALOG.UPDATE,row)">
+                <i class="fa-solid fa-pen"></i>
               </button>
               <button *ngIf="row.status == 0" mat-icon-button color="warn" (click)="openDeleteOrNoDelete(row,row.id,1)" title="Click để kích hoạt sản phẩm">
                 <i class="fa-solid fa-lock"></i>
@@ -165,7 +178,7 @@
 
           <!--          Row shown when there is no matching data.-->
           <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">Không có dữ liệu nào phù hợp với "{{input.value}}"</td>
+            <td class="mat-cell" colspan="4">Không có dữ liệu nào phù hợp với "{{keySearch}}"</td>
           </tr>
         </table>
         <mat-paginator [pageSizeOptions]="[10, 20, 35, 100]" aria-label="Select page of users"></mat-paginator>
@@ -174,3 +187,4 @@
   </div>
 </div>
 <!-- End Row -->
+

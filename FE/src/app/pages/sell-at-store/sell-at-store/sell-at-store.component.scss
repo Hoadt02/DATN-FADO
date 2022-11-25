@@ -1,3 +1,7 @@
+.all {
+  background-color: #eaeaea;
+}
+
 .divAll {
   width: 100%;
   height: auto;
@@ -16,9 +20,11 @@
 .d-flex {
   display: flex !important;
 }
+
 .justify-content-between {
   justify-content: space-between !important;
 }
+
 .btn-primary {
   color: #212529;
   background-color: #FFD333;
@@ -26,10 +32,7 @@
 }
 
 .orders {
-  box-shadow: 2px 2px #dadada;
-  height: 50px;
-  line-height: 60px;
-  border-radius: 10px;
+  background-color: white;
 }
 .giamgia{
   text-align: right;

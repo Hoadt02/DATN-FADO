@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {Regex} from "../../shared/validator/regex";
 import {CustomerService} from "../../shared/service/api-service-impl/customer.service";
-import {error} from "protractor";
 import {ToastrService} from "ngx-toastr";
 import {SendMailService} from "../../shared/service/api-service-impl/send-mail.service";
 
@@ -46,6 +45,8 @@ export class ForgotPasswordComponent implements OnInit {
   code:any;
   customerChangePass:any;
 
+  isLoading!:boolean;
+
   constructor(private fb: FormBuilder,
               private customerService: CustomerService,
               private toastrService: ToastrService,
@@ -77,20 +78,25 @@ export class ForgotPasswordComponent implements OnInit {
     if (this.formGroup.invalid) return;
     if (this.formGroup.getRawValue().password != this.formGroup.getRawValue().confirm_password) return;
 
+    this.isLoading = true;
     this.customerChangePass.password = this.formGroup.getRawValue().password;
-    this.customerService.update(this.customerChangePass.id, this.customerChangePass);
+    this.customerService.updatePass(this.customerChangePass.id, this.customerChangePass);
   }
 
   findCustomerByEmailAndSendOTP() {
     this.emailFormControl.markAllAsTouched();
     if (this.emailFormControl.invalid) return;
+
+    this.isLoading = true;
     this.customerService.findCustomerByEmailAndSendOTP(this.emailFormControl.getRawValue()).subscribe({
       next:(data)=>{
         this.customerChangePass = data;
         this.showConfirmEmail = false;
         this.showConfirmCode = true;
         this.timerInterval();
+        this.isLoading = false;
       },error:(error) => {
+        this.isLoading = false;
         this.toastrService.error(error.error.message);
       }
     })
@@ -102,6 +108,7 @@ export class ForgotPasswordComponent implements OnInit {
       return;
     };
 
+    this.isLoading = true;
     this.sendMailService.verificationOTP(this.code).subscribe({
       next:(data)=>{
         if (data == true){
@@ -110,7 +117,9 @@ export class ForgotPasswordComponent implements OnInit {
         }else {
           this.toastrService.error('Mã xác thực không chính xác hoặc đã hết hạn!')
         }
+        this.isLoading = false;
       },error:(error) => {
+        this.isLoading = false;
         console.log(error)
         this.toastrService.error('Lỗi xác thực!');
       }

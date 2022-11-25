@@ -66,6 +66,11 @@ const routes: Routes = [
       role: ROLE,
     },
   },
+  {
+    path: 'introduce',
+    loadChildren: () =>
+      import('../../pages/introduce/introduce.module').then((m) => m.IntroduceModule),
+  },
 ];
 
 @NgModule({

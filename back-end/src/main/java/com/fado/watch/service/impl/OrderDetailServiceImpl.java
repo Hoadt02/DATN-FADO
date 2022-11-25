@@ -1,7 +1,7 @@
 package com.fado.watch.service.impl;
 
-import com.fado.watch.dto.response.CartDto;
-import com.fado.watch.dto.response.CartResponse;
+import com.fado.watch.dto.response.CartPriceResponse;
+import com.fado.watch.dto.request.CartRequest;
 import com.fado.watch.entity.*;
 import com.fado.watch.exception.ResourceNotFoundException;
 import com.fado.watch.repository.OrderDetailRepository;
@@ -44,10 +44,10 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     }
 
     @Override
-    public void save(CartResponse response) {
+    public void save(CartRequest response) {
         Order order = this.orderRepository.findById(response.getOrderId()).orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy đối tượng này"));
 
-        for (CartDto x : response.getCartList()) {
+        for (CartPriceResponse x : response.getCartList()) {
             OrderDetail orderDetail = new OrderDetail();
             System.out.println(x.getPrice());
             orderDetail.setOrder(order);
@@ -65,17 +65,43 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
 
     // Day la` pha`n toi nha' ba.n hien da.u da.u
     @Override
-    public OrderDetail saveOrderDetail(OrderDetail orderDetail) {
-        return this.orderDetailRepository.save(orderDetail);
+    public void saveOrderDetail(OrderDetail orderDetail) {
+        OrderDetail orderDetailNew = this.orderDetailRepository.checkTrungSP(orderDetail.getProductDetail().getId(), orderDetail.getOrder().getId());
+        if (orderDetailNew == null) {
+            orderDetailNew = new OrderDetail();
+            orderDetailNew.setProductDetail(orderDetail.getProductDetail());
+            orderDetailNew.setOrder(orderDetail.getOrder());
+            orderDetailNew.setQuantity(orderDetail.getQuantity());
+            orderDetailNew.setPrice(orderDetail.getPrice());
+        } else {
+            orderDetailNew.setQuantity(orderDetailNew.getQuantity() + orderDetail.getQuantity());
+        }
+        this.orderDetailRepository.save(orderDetailNew);
+
+        ProductDetail productDetail = this.productDetailRepository.findById(orderDetailNew.getProductDetail().getId()).get();
+        productDetail.setQuantity(productDetail.getQuantity() - orderDetailNew.getQuantity());
+        this.productDetailRepository.save(productDetail);
     }
 
     @Override
-    public void delete(Integer id) {
-        orderDetailRepository.deleteById(id);
+    public OrderDetail updateQuantityOrderDetail(OrderDetail orderDetail) {
+        OrderDetail orderDetailNew = this.orderDetailRepository.checkTrungSP(orderDetail.getProductDetail().getId(), orderDetail.getOrder().getId());
+        orderDetailNew.setQuantity(orderDetail.getQuantity());
+        return this.orderDetailRepository.save(orderDetailNew);
+    }
+
+    @Override
+    public void delete(Integer idPro) {
+        orderDetailRepository.deleteByIdProduct(idPro);
     }
 
     @Override
     public List<OrderDetail> findOrderDetailByOrder(Integer id) {
         return this.orderDetailRepository.findOrderDetailByOrder(id);
+    }
+
+    @Override
+    public List<OrderDetail> getHistory(Integer status) {
+        return this.orderDetailRepository.getHistory(status);
     }
 }

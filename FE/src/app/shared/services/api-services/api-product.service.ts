@@ -21,4 +21,8 @@ export class ApiProductService {
   update(data: any): Observable<any> {
     return this.http.put(`${ApiConstant.product}/${data.id}`, data);
   }
+
+  findAllByCategoryId(id: number): Observable<any> {
+    return this.http.get(`${ApiConstant.product}/findAllByCategoryId/${id}`);
+  }
 }

@@ -15,12 +15,17 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import {HttpClientModule} from "@angular/common/http";
 import {httpInterceptorProviders} from "./shared/helpers/http.interceptor";
 import {MatTableModule} from "@angular/material/table";
+import {MatDialogModule} from "@angular/material/dialog";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MatInputModule} from "@angular/material/input";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -29,11 +34,21 @@ import {MatTableModule} from "@angular/material/table";
     }),
     SidebarModule,
     NavbarModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-left', timeOut: 1500,
+      closeButton: true,
+      maxOpened: 1,
+      autoDismiss: true,
+    }),
     FooterModule,
     FixedPluginModule,
     HttpClientModule,
-    MatTableModule
+    MatTableModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

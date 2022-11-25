@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router, RouterModule} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ProductDetailsService} from "../../shared/service/api-service-impl/product-details.service";
 import {ImageService} from "../../shared/service/api-service-impl/image.service";
 import {CartService} from "../../shared/service/api-service-impl/cart.service";
 import {ToastrService} from "ngx-toastr";
 import {StorageService} from "../../shared/service/jwt/storage.service";
+import {ProductPromotionalService} from "../../shared/service/api-service-impl/product-promotional.service";
 
 @Component({
   selector: 'app-product-detail',
@@ -16,6 +17,9 @@ export class ProductDetailComponent implements OnInit {
   productDetail: any;
   listImg: any[] = [];
   listSimilarProduct: any[] = [];
+  productPromotionalCurrent: any[] = [];
+
+  isLoading = true;
 
   //-------------------------------
   dataAddToCart: any;
@@ -32,6 +36,7 @@ export class ProductDetailComponent implements OnInit {
               private apiCart: CartService,
               private toastrService: ToastrService,
               private storageService: StorageService,
+              private apiProductPromotional: ProductPromotionalService
   ) {
   }
 
@@ -56,19 +61,45 @@ export class ProductDetailComponent implements OnInit {
 
         //Get similar product
         this.productDetailService.getSimilarProduct(data.product.id).subscribe(res2 => {
-          this.listSimilarProduct = res2.filter((n:any) => n.id != this.productDetail.id);
+          this.listSimilarProduct = res2.filter((n: any) => n.id != this.productDetail.id);
+
+          // set data to productPromotionalCurrent
+          const ids = [];
+          for (let i = 0; i < res2.length; i++) {
+            ids.push(res2[i].id);
+          }
+
+          //Get discount product
+          this.apiProductPromotional.findProductPromotionalByIdProductDetail(ids).subscribe(data => {
+            this.productPromotionalCurrent = data;
+            this.isLoading = false;
+          })
         })
       },
       error: (error) => {
         console.log(error);
         if (error.error.code == 'NOT_FOUND') {
-          console.log(error.error.message);
+          this.toastrService.error(error.error.message);
         }
         void this.router.navigate(['/product']);
       }
     });
+  }
 
-
+  loadDiscountProduct(id: number) {
+    let discount = 0;
+    for (let i = 0; i < this.productPromotionalCurrent.length; i++) {
+      if (this.productPromotionalCurrent[i].productDetail.id == id) {
+        if (this.productPromotionalCurrent[i].promotional.type == true) {
+          discount = (100 - this.productPromotionalCurrent[i].promotional.discount) / 100 * this.productPromotionalCurrent[i].productDetail.price;
+          break;
+        } else {
+          discount = this.productPromotionalCurrent[i].productDetail.price - this.productPromotionalCurrent[i].promotional.discount;
+          break;
+        }
+      }
+    }
+    return discount;
   }
 
   addToCart(idPrd: number) {
@@ -81,7 +112,7 @@ export class ProductDetailComponent implements OnInit {
     } else {
       for (const x of this.items) {
         if (x.productDetail.id == idPrd && (x.quantity + this.slSP) > this.productDetail.quantity) {
-          this.toastrService.warning('Số lượng trong rỏ hàng đã bằng số lượng trong kho');
+          this.toastrService.warning('Sản phẩm trong kho không đủ.');
           return;
         }
       }
@@ -128,9 +159,39 @@ export class ProductDetailComponent implements OnInit {
 
   slideConfig = {
     slidesToShow: 6,
-    slidesToScroll:1,
-    swipeToSlide:true,
-    autoplay:true ,
-    autoplaySpeed: 3000
+    slidesToScroll: 1,
+    swipeToSlide: true,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    responsive: [{
+      breakpoint: 1216,
+      settings: {
+        arrows: false,
+        slidesToShow: 5
+      }
+    }, {
+        breakpoint: 992,
+        settings: {
+          arrows: false,
+          slidesToShow: 4
+        }
+      }, {
+        breakpoint: 768,
+        settings: {
+          arrows: false,
+          slidesToShow: 3
+        }
+      }, {
+        breakpoint: 544,
+        settings: {
+          arrows: false,
+          slidesToShow: 2
+        }
+      }]
   };
+
+  showDetail(id:number) {
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(()=>
+      this.router.navigate(['/product-detail/' + id]));
+  }
 }

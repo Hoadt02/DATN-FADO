@@ -11,5 +11,7 @@ public interface ISendEmailService {
 
     void sendMailOTP(String email);
 
-    boolean verificationOTP(String code);
+    Boolean verificationOTP(String code);
+
+    Boolean sendMailContact(EmailDetails details);
 }
