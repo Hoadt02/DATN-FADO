@@ -1,10 +1,10 @@
-<div class="container-fluid" style="min-height: 560px">
+<div class="container-fluid" style="min-height: 645px">
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-8 col-md-8 col-lg-8">
         <mat-tab-group mat-align-tabs="center" style="background-color: #FFFFFF">
           <mat-tab label="Tất cả ({{ daMua }})">
-            <div class="product" *ngFor="let o of orders">
+            <div class="product card" *ngFor="let o of orders">
               <div class="createDate d-flex justify-content-between">
                 <p style="margin-top: 10px">
                   Ngày mua hàng: {{ o.createDate }}
@@ -104,7 +104,7 @@
             *ngFor="let x of listMatTab"
           >
             <ng-template *ngFor="let o of orders" [ngIf]="o.status == x.status">
-              <div class="product">
+              <div class="product card">
                 <div class="createDate d-flex justify-content-between">
                   <p style="margin-top: 10px">
                     Ngày mua hàng: {{ o.createDate }}
