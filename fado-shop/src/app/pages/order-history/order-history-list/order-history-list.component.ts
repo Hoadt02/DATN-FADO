@@ -215,7 +215,10 @@ export class OrderHistoryListComponent implements OnInit {
           this.apiCart.addToCart(y);
         }
       }
-      this.router.navigate(['/cart']);
+      setTimeout(() => {
+        this.toastrService.info("Đã chuyển hướng đến rỏ hàng");
+        this.router.navigate(['/cart']);
+      }, 2100);
     })
   }
 }

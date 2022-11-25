@@ -22,8 +22,8 @@ import { IntroduceComponent } from './pages/introduce/introduce.component';
     HttpClientModule,
     LayoutAdminModule,
     ToastrModule.forRoot({
-      positionClass: 'toast-top-left', timeOut: 2500,
-      // preventDuplicates: true,
+      positionClass: 'toast-top-left', timeOut: 2000,
+      preventDuplicates: true,
       closeButton: true,
       progressBar: true,
       maxOpened: 1,

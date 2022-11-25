@@ -34,7 +34,9 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllPrdInCart();
+    if (this.storageService.getIdFromToken()){
+      this.getAllPrdInCart();
+    }
     this.apiCart.numberPrdInCart$.subscribe(data => {
       this.numberPrdInCart = data;
     });

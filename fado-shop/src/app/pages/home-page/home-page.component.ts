@@ -37,7 +37,9 @@ export class HomePageComponent implements OnInit {
    ngOnInit(): void {
     this.getCategory();
     this.getProduct();
-    this.getAllPrdInCart();
+    if (this.storageService.getIdFromToken()){
+      this.getAllPrdInCart();
+    }
   }
 
   getCategory() {

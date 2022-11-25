@@ -12,14 +12,14 @@
       <div class="bg-light">
 
         <div class="checkAndNew mb-3">
-          <mat-checkbox (change)="checkAddress()" [(ngModel)]="disableSelect" class="fs-11">Sử dụng thông tin của tài
+          <mat-checkbox (change)="checkAddress()" [(ngModel)]="disableSelect" class="fs-12">Sử dụng thông tin của tài
             khoản
           </mat-checkbox>
         </div>
         <hr>
         <h5 class="section-title position-relative text-uppercase mb-3"><span
           class="bg-secondary pr-3">Thông tin đặt hàng</span></h5>
-        <div class="fs-11 address-default row">
+        <div class="fs-12 address-default row">
           <div class="name col-9 col-md-9 col-lg-9">
             <ng-template [ngIf]="addressDefault">
               <b>Gửi tới:</b>
@@ -128,7 +128,7 @@
         class="bg-secondary pr-3">Tổng hoá đơn</span>
       </h5>
       <div class="bg-light">
-        <div class="border-bottom pr-2 scroll-bar" style="height: 21vh; overflow: auto">
+        <div class="border-bottom pr-2 scroll-bar" style="height: 19vh; overflow: auto">
           <h6 class="mb-3">Danh sách sản phẩm</h6>
           <div *ngFor="let i of items" class="d-flex justify-content-between product">
             <p>{{i.productDetail.name}}</p>
@@ -166,7 +166,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <button class="btn btn-block btn-primary font-weight-bold mb-3 py-3" (click)="order()">
+      <button class="border-radius-5 btn btn-block btn-primary font-weight-bold mb-3 py-3" (click)="order()">
         Đặt hàng
       </button>
     </div>
