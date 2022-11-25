@@ -22,6 +22,7 @@ public interface IProductDetailService {
 
     List<ProductDetail> findAllProductInOrder(Integer id);
 
+    List<ProductDetail> getlistTop3Pro();
     Page<ProductDetail> findProductsWithPaginationAndSortingAndFilter(FilterAndPagingAndSortingModel model);
 
     List<ProductDetail> findProductWithFilter(FilterModel filterModel);

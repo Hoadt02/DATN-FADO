@@ -49,6 +49,10 @@ public class ProductDetailsController {
         return new ResponseEntity<>(this.service.findProductByName(name), HttpStatus.OK);
     }
 
+    @GetMapping("/listTop3Pro")
+    public ResponseEntity<List<ProductDetail>> getListTop3Pro() {
+        return new ResponseEntity<>(this.service.getlistTop3Pro(), HttpStatus.OK);
+    }
     @PostMapping("/findProductsWithPaginationAndSortingAndFilter")
     public ResponseEntity<Page<ProductDetail>> findProductsWithPaginationAndSortingAndFilter(@RequestBody FilterAndPagingAndSortingModel model) {
         return new ResponseEntity<>(this.service.findProductsWithPaginationAndSortingAndFilter(model), HttpStatus.OK);
