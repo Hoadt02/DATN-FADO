@@ -1,3 +1,9 @@
+<div class="container-fluid">
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner-border spinner-center" role="status"></div>
+  </div>
+</div>
+
 <div class="card">
   <mat-tab-group mat-align-tabs="center" style="background-color: #FFFFFF">
     <mat-tab label="{{t.lable}} ({{t.sl}})" *ngFor="let t of listMatTab">
