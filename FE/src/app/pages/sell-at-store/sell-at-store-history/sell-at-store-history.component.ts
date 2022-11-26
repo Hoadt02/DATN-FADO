@@ -7,6 +7,7 @@ import {OrderService} from "../../../shared/services/api-service-impl/order.serv
 import {StorageService} from "../../../shared/services/jwt/storage.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {SellHistoryDetailComponent} from "../sell-history-detail/sell-history-detail.component";
+import {Constants} from "../../../shared/Constants";
 
 @Component({
   selector: 'app-sell-at-store-history',
@@ -15,44 +16,48 @@ import {SellHistoryDetailComponent} from "../sell-history-detail/sell-history-de
 })
 export class SellAtStoreHistoryComponent implements OnInit {
 
-  listHistoryPayment: any[] = [];
-  listHistoryCancel: any[] = [];
-  displayedColumns: string[] = ['index', 'customer', 'total', 'discount', 'totalPayment', 'date', 'action'];
-  dataSourceCancel!: MatTableDataSource<any>;
-  dataSourcePayment!: MatTableDataSource<any>;
+  readonly STATUS_SUCCESS = Constants.STATUS_PAYMENT.SUCCESS;
+  readonly STATUS_CANCEL = Constants.STATUS_PAYMENT.CANCEL;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  displayedColumnsS: string[] = ['index', 'customer', 'total', 'discount', 'totalPayment', 'date', 'action'];
+  dataSourcePayment!: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginatorS!: MatPaginator;
+  @ViewChild(MatSort) sortS!: MatSort;
+
+  displayedColumnsC: string[] = ['index', 'customer', 'total', 'discount', 'totalPayment', 'date', 'action'];
+  dataSourceCancel!: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginatorC!: MatPaginator;
+  @ViewChild(MatSort) sortC!: MatSort;
 
   constructor(private orderDetailService: OrderDetailService,
               private orderService: OrderService,
               private storageService: StorageService,
               private matDataRef: MatDialogRef<SellAtStoreHistoryComponent>,
-              private matDiaLog: MatDialog,) {
+              private matDiaLog: MatDialog) {
   }
 
   ngOnInit(): void {
-    this.getListHistory1();
-    this.getListHistory2();
+    this.getListHistoryS();
+    this.getListHistoryC();
   }
 
-  getListHistory1() {
-    this.orderService.getOrderHistory(this.storageService.getIdFromToken(), 3).subscribe((data: any) => {
+  getListHistoryS() {
+    this.orderService.getOrderHistory(this.storageService.getIdFromToken(), this.STATUS_SUCCESS).subscribe((data: any) => {
       this.dataSourcePayment = new MatTableDataSource(data);
-      this.dataSourcePayment.paginator = this.paginator;
-      this.dataSourcePayment.sort = this.sort;
+      this.dataSourcePayment.paginator = this.paginatorS;
+      this.dataSourcePayment.sort = this.sortS;
       console.log('danh sach hoa don da ban: ', data)
     }, error => {
       console.log(error)
     })
   }
 
-  getListHistory2() {
-    this.orderService.getOrderHistory(this.storageService.getIdFromToken(), 4).subscribe((data: any) => {
-      this.dataSourceCancel = new MatTableDataSource(data);
-      this.dataSourceCancel.paginator = this.paginator;
-      this.dataSourceCancel.sort = this.sort;
-      console.log('danh sach hoa don da huy: ', data)
+  getListHistoryC() {
+    this.orderService.getOrderHistory(this.storageService.getIdFromToken(), this.STATUS_CANCEL).subscribe((data2: any) => {
+      this.dataSourceCancel = new MatTableDataSource(data2);
+      this.dataSourceCancel.paginator = this.paginatorC;
+      this.dataSourceCancel.sort = this.sortC;
+      console.log('danh sach hoa don da huy: ', data2)
     }, error => {
       console.log(error)
     })

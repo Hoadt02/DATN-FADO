@@ -40,3 +40,20 @@
 .name{
   font-size: 17px;
 }
+
+:host ::ng-deep .mat-tab-label {
+  height: 3rem !important;
+  min-width: 8rem !important;
+}
+
+/* Styles for the active tab label */
+:host ::ng-deep .mat-tab-label.mat-tab-label-active {
+  border: 1px solid white;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+/* Styles for the ink bar */
+:host ::ng-deep .mat-ink-bar {
+  display: none !important;
+}

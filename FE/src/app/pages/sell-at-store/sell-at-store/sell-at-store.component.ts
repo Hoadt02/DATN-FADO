@@ -16,6 +16,9 @@ import {SellAtStoreHistoryComponent} from "../sell-at-store-history/sell-at-stor
 import {ScannerFormComponent} from "../scanner-form/scanner-form.component";
 // @ts-ignore
 import printJS from 'print-js';
+import {BehaviorSubject, debounceTime} from "rxjs";
+import {AuthService} from "../../../shared/services/jwt/auth.service";
+import {ChangeInfoLoginComponent} from "../../change-info-login/change-info-login.component";
 
 @Component({
   selector: 'app-sell-at-store',
@@ -24,13 +27,18 @@ import printJS from 'print-js';
 })
 export class SellAtStoreComponent implements OnInit {
   isLoading = true;
+  public isCollapsed = true;
   RESULT_CLOSE_DIALOG = Constants.RESULT_CLOSE_DIALOG;
   TYPE_DIALOG = Constants.TYPE_DIALOG;
   TYPE_UPDATE_NUMBER_PRD = Constants.TYPE_UPDATE_NUMBER_PRD;
 
   tabs = [];
-  selectedTab: any;
   selected = new FormControl(0);
+
+  dataSearch: any[] = [];
+  keyword = 'name';
+  keySearch = new FormControl('');
+  changeSearch: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   name = '';
   products: any[] = [];
@@ -45,10 +53,8 @@ export class SellAtStoreComponent implements OnInit {
   checkQuantity = false;
   createOrder: any;
   idOrder: any;
-  // soHoaDon = 0;
   idHoaDon: any[] = [];
   price: number;
-  keyupName: string;
 
   tongTienHang: number = 0
   giamGia: number = 0;
@@ -58,9 +64,9 @@ export class SellAtStoreComponent implements OnInit {
 
   formGroup: FormGroup;
   formGroupCustomer: FormGroup = this.fb.group({
-    customer: {
+    customer: this.fb.group({
       id: ''
-    }
+    })
   })
   full_name: string;
 
@@ -76,16 +82,49 @@ export class SellAtStoreComponent implements OnInit {
               private matDiaLog: MatDialog,
               private toastService: ToastrService,
               private storageService: StorageService,
-              private router: Router) {
+              private router: Router,
+              private authService: AuthService) {
     this.full_name = this.storageService.getFullNameFromToken();
   }
 
   ngOnInit(): void {
     this.setDataOrder();
-    this.initForm();
     this.getAllNameProduct();
     this.getCustomerForCombobox();
     this.getOrderByStaff(this.storageService.getIdFromToken());
+  }
+
+  log() {
+    console.log(this.formGroupCustomer.getRawValue().customer.id)
+  }
+
+  selectEvent($event: any) {
+    this.addOrder($event.id);
+    this.keySearch.reset();
+  }
+
+  onSubmitSearch() {
+    try {
+      if (this.keySearch.value?.trim().length == 0 || this.keySearch.value == null) {
+        return;
+      }
+    } catch (e) {
+      console.log(e);
+      return;
+    }
+    this.keySearch.reset();
+  }
+
+  onChangeSearch($event: any) {
+    this.changeSearch.next($event);
+    this.changeSearch.pipe(debounceTime(1000)).subscribe(value => {
+      if (value !== '') {
+        this.productDetailService.findProductByName(value).subscribe(data => {
+          this.dataSearch = data
+        });
+        this.changeSearch.next('');
+      }
+    })
   }
 
   openSave(type: any, row?: any) {
@@ -119,21 +158,6 @@ export class SellAtStoreComponent implements OnInit {
     })
   }
 
-  initForm() {
-    this.formGroup = this.fb.group({
-      name: [''],
-    })
-    this.formGroup.get('name').valueChanges.subscribe((data: any) => {
-      this.onChangeSearch(data);
-    })
-  }
-
-  onChangeSearch(search) {
-    this.productDetailService.findProductByName(search).subscribe((data: any) => {
-      this.filterProduct = data;
-    })
-  }
-
   addTab(selectAfterAdding: boolean) {
     const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
       width: '400px',
@@ -147,7 +171,7 @@ export class SellAtStoreComponent implements OnInit {
     diaLogRef.afterClosed().subscribe((data: any) => {
       const createOrder = {
         customer: {
-          id: this.formGroupCustomer.getRawValue()
+          id: 195
         },
         staff: {
           id: this.storageService.getIdFromToken()
@@ -166,13 +190,12 @@ export class SellAtStoreComponent implements OnInit {
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
         this.orderService.save(createOrder).subscribe((data: any) => {
           if (this.tabs.length < 10) {
-            // this.tabs.push(`Hoá đơn ${this.tabs.length + 1}`);
-            this.tabs.push((this.tabs.length - 1) + 1);
+            this.tabs.push(this.tabs[this.tabs.length - 1] + 1);
             this.selected.setValue(this.tabs.length - 1);
-            console.log('tabs: ', (this.tabs.length - 1) + 1);
+            console.log('tabs: ', this.tabs.length);
             this.toastService.success('Tạo hóa đơn thành công !');
             this.getOrderByStaff(this.storageService.getIdFromToken());
-            this.getOrderDetail();
+            this.defaultPayment();
             this.idOrder = data.id;
             console.log(this.idOrder)
 
@@ -180,9 +203,7 @@ export class SellAtStoreComponent implements OnInit {
               name: (this.tabs.length - 1) + 1,
               value: data.id
             })
-            console.log('so hoa don: ', this.idHoaDon[0].name)
-            console.log('data.id: ', data.id)
-            this.orderDetailService.findOrderDetailByOrder(data.id).subscribe((data2: any) => {
+            this.orderDetailService.findOrderDetailByOrder(this.idOrder).subscribe((data2: any) => {
               this.orderDetails = data2;
             })
           }
@@ -236,20 +257,19 @@ export class SellAtStoreComponent implements OnInit {
     diaLogRef.afterClosed().subscribe((data: any) => {
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
         if (this.tabs.length > 1) {
-          if (this.selected.value == this.tabs.length) {
-            this.orderService.update(this.idOrder, createOrder).subscribe((data: any) => {
-              console.log('Sau khi sua: ', data);
-              this.orderDetails = [];
-              this.idHoaDon.splice(index, 1);
-              this.tabs.splice(index, 1);
-              this.selected.setValue(this.tabs.length - 1);
-              this.defaultPayment();
-              this.toastService.success('Hủy hóa đơn thành công !');
-            }, error => {
-              this.toastService.error('Hủy hóa đơn thất bại !');
-              console.log(error);
-            })
-          }
+          this.orderService.update(this.idOrder, createOrder).subscribe((data: any) => {
+            console.log('Sau khi sua: ', data);
+            this.orderDetails = [];
+            this.idHoaDon.splice(index, 1);
+            this.tabs.splice(index, 1);
+            this.selected.setValue(this.tabs.length - 1);
+            this.defaultPayment();
+            this.getOrderDetail()
+            this.toastService.success('Hủy hóa đơn thành công !');
+          }, error => {
+            this.toastService.error('Hủy hóa đơn thất bại !');
+            console.log(error);
+          })
         } else {
           this.orderService.update(this.idOrder, createOrder).subscribe((data: any) => {
             console.log('Sau khi sua: ', data);
@@ -264,8 +284,6 @@ export class SellAtStoreComponent implements OnInit {
           })
         }
       }
-    }, error => {
-      this.toastService.warning('Hủy hóa đơn thất bại !')
     })
   }
 
@@ -378,13 +396,12 @@ export class SellAtStoreComponent implements OnInit {
     let id = this.idHoaDon.filter(n => n.name == name)[0].value;
     console.log('id : ', id);
     this.idOrder = id;
-    this.orderDetailService.findOrderDetailByOrder(id).subscribe((data: any) => {
+    this.orderDetailService.findOrderDetailByOrder(this.idOrder).subscribe((data: any) => {
       this.orderDetails = data;
     });
     this.getOrderDetail();
-    // console.log('select tab value: ',this.selected.value);
+    console.log('select tab value: ', this.selected.value);
   }
-
 
   getOrderByStaff(id: number) {
     this.orderService.getOrderByStaff(id).subscribe((data: any) => {
@@ -424,7 +441,7 @@ export class SellAtStoreComponent implements OnInit {
     const createOrder = {
       id: this.idOrder,
       customer: {
-        id: 195
+        id: this.formGroupCustomer.getRawValue().customer.id
       },
       staff: {
         id: this.storageService.getIdFromToken()
@@ -461,7 +478,9 @@ export class SellAtStoreComponent implements OnInit {
             this.toastService.success('Thanh toán thành công !');
             this.defaultPayment();
             this.tabs.splice(index, 1);
+            this.idHoaDon.splice(index, 1)
             this.orderDetails = [];
+            this.export(this.idOrder);
           }, error => {
             this.toastService.error('Thanh toán thất bại !');
             console.log(error);
@@ -471,18 +490,33 @@ export class SellAtStoreComponent implements OnInit {
     })
   }
 
-  backToHome() {
-    if (this.tabs.length > 0) {
-      this.toastService.warning('Vui lòng thưc hiện hết thao tác trước khi trở về trang chủ !');
-      return;
-    } else {
-      this.router.navigate(['/']);
-    }
+  export(idOrder: number) {
+    const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
+      width: '400px',
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        title: 'In hóa đơn',
+        message: 'Bạn có muốn in hóa đơn không ?',
+      }
+    });
+    diaLogRef.afterClosed().subscribe((rs: any) => {
+      if (rs === this.RESULT_CLOSE_DIALOG.CONFIRM) {
+        this.orderService.exportOrder(idOrder).subscribe((data: any) => {
+          this.toastService.success("Đã in hóa đơn!");
+          console.log(data);
+        }, error => {
+          this.toastService.error("In hóa đơn thất bại!");
+          console.log(error);
+        })
+      }
+    })
   }
 
   openHistory() {
     const dialogRef = this.matDiaLog.open(SellAtStoreHistoryComponent, {
       width: '1500px',
+      height: '700px',
       disableClose: true,
       hasBackdrop: true,
     });
@@ -503,4 +537,26 @@ export class SellAtStoreComponent implements OnInit {
       this.addOrder(rs.id);
     })
   }
+
+  logout() {
+    this.matDiaLog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: {
+        title: 'Đăng xuất',
+        message: 'Bạn muốn đăng xuất tài khoản này ?'
+      }
+    }).afterClosed().subscribe(result => {
+      if (result == Constants.RESULT_CLOSE_DIALOG.CONFIRM) {
+        this.authService.logout();
+      }
+    })
+  }
+
+  openInfoUser() {
+    this.matDiaLog.open(ChangeInfoLoginComponent, {
+      width: '800px',
+      disableClose: true,
+    })
+  }
+
 }

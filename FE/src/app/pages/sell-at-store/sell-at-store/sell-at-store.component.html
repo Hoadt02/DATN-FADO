@@ -1,40 +1,45 @@
-<div class="all">
-  <div class="row p-0 m-0" style="background-color: #ffd333">
-    <div class="col-0">
-      <div class="example-button-container d-flex justify-content-center align-items-center"
-           style="width: 100%; height: 100%">
-        <a class="mx-lg-3" (click)="backToHome()" mat-mini-fab color="white">
-          <mat-icon>home</mat-icon>
-        </a>
+<div class="all container-fluid h-auto">
+  <div class="row p-2" style="background-color: #181818">
+<!--    Tìm Kiếm   -->
+    <div class="col-lg-4 col-4 text-left">
+      <div class="d-flex">
+        <div class="ng-autocomplete">
+          <ng-autocomplete
+            [data]="dataSearch"
+            [searchKeyword]="keyword"
+            placeholder="Tìm kiếm sản phẩm. . . . ."
+            (selected)='selectEvent($event)'
+            (inputChanged)='onChangeSearch($event)'
+            [itemTemplate]="itemTemplate"
+            [formControl]="keySearch"
+            (keyup.enter)="onSubmitSearch()">
+          </ng-autocomplete>
+
+          <ng-template #itemTemplate let-item>
+            <div class="d-flex p-2">
+              <div class="justify-content-start">
+                <img alt="" class="example-option-img" src="assets/img/avtProduct/{{item.avatar}}" height="60">
+              </div>
+              <div class="justify-content-end ml-3">
+                <p class="font-weight-bold text-dark" [innerHTML]="item.name"></p>
+                <p>Giá: <span class="font-weight-bold text-danger">{{item.price}}</span> | Số lượng: <span class="font-weight-bold text-danger">{{item.quantity}}</span></p>
+              </div>
+            </div>
+          </ng-template>
+        </div>
       </div>
     </div>
-    <div class="ng-autocomplete col-4 mt-2">
-      <form [formGroup]="formGroup">
-        <mat-form-field style="width: 100%">
-          <mat-label><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm sản phẩm</mat-label>
-          <input matInput type="text" [matAutocomplete]="auto" formControlName="name" [(ngModel)]="name">
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option (click)="addOrder(item.id)" class="divAll" *ngFor="let item of filterProduct"
-                        [value]="item.name">
-              <div class="divImage">
-                <img width="90" class="img-fluid " src="/assets/img/avtProduct/{{item.avatar}}">
-              </div>
-              <div class="divPhai">
-                <b>{{item.name}}</b><br> Số lượng: {{item.quantity}}
-              </div>
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-      </form>
-    </div>
+<!--    End tìm kiếm -->
 
-    <div class="col-5">
+<!--    tab order  -->
+    <div class="col-6">
       <mat-tab-group [selectedIndex]="selected.value" animationDuration="0ms"
                      (selectedIndexChange)="selected.setValue($event)">
         <mat-tab *ngFor="let tab of tabs; let index = index" id="tab-{{index}}">
           <ng-template mat-tab-label>
-            <div (click)="getOrderDetailByOrder(tab + 1)"> Hóa đơn {{ tab + 1 }}
-              <a mat-icon-button class="text-black-50" (click)="removeTab(index + 1)">
+            <div class="font-weight-bold" style="color: white" (click)="getOrderDetailByOrder(index + 1)">
+              Hóa đơn {{ index + 1 }}
+              <a mat-icon-button class="text-white" (click)="removeTab(index)">
                 <i class="fas fa-times"></i>
               </a>
             </div>
@@ -42,26 +47,35 @@
         </mat-tab>
       </mat-tab-group>
     </div>
-    <div class="example-button-container d-flex justify-content-center align-items-center">
-      <a (click)="addTab(true)" mat-mini-fab color="white">
+<!--    end tab  -->
+
+    <div class="col-2 text-right">
+      <a (click)="addTab(true)" class="mx-lg-2" mat-mini-fab color="white">
         <mat-icon>add</mat-icon>
       </a>
-      <a (click)="openScannerBarcode()" class="mx-lg-5" mat-mini-fab color="white">
+      <a (click)="openScannerBarcode()" class="mx-lg-2" mat-mini-fab color="white">
         <mat-icon>code</mat-icon>
       </a>
       <a [matMenuTriggerFor]="menu" class="mx-lg-2" mat-mini-fab color="white">
         <mat-icon>menu</mat-icon>
       </a>
       <mat-menu #menu="matMenu" class="w-auto">
-        <a class="nav-link" mat-menu-item (click)="openHistory()">
-          <i class="material-icons">work_history</i>Lịch sử mua hàng
+        <a class="nav-link" style="color: #000000" mat-menu-item (click)="openHistory()">
+          <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử mua hàng
+        </a>
+        <mat-divider></mat-divider>
+        <a class="nav-link" style="color: black" mat-menu-item (click)="openInfoUser()">
+          <i class="fa-regular fa-user"></i> Thông tin cá nhân
+        </a>
+        <a class="nav-link" style="color: black" mat-menu-item (click)="logout()">
+          <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
         </a>
       </mat-menu>
     </div>
   </div>
 
-  <div class="row mx-auto mt-3">
-    <!--    Hóa đơn bên trái -->
+  <div class="row mt-3 mr-lg-0">
+    <!--    Giỏ hàng bên trái -->
     <div class="col-8">
       <div class="shadow-sm mb-3 orders" style="border-radius: 5px;"
            *ngFor="let order of orderDetails;let index = index">
@@ -85,16 +99,16 @@
     </div>
 
     <!--    Thanh toán bên phải-->
-    <div class="col-4 shadow-sm orders" style="border-radius: 10px">
-      <div class="row">
-        <div class="name col-8 pt-3 my-2">
+    <div class="col-4 shadow-sm orders" style="border-radius: 5px">
+      <div class="row mt-3">
+        <div class="name col-8 font-weight-bold text-dark">
           <i class="fa-regular fa-user"></i>
           <span> {{full_name}} </span>
         </div>
 
-        <div class="col-4">
-          <label class="pt-4">{{ createOrder.createDate | date: 'dd-MM-yyyy hh:mm' }}</label>
-        </div>
+        <label class="col-4 font-weight-bold text-dark">
+          {{ createOrder.createDate | date: 'dd-MM-yyyy hh:mm' }}
+        </label>
         <form [formGroup]="formGroupCustomer" style="width: 90%">
           <div class="col-11 py-0">
             <mat-form-field appearance="outline" class="w-100" formGroupName="customer">
@@ -135,7 +149,9 @@
               </div>
               <div class="col-3">
                 <mat-form-field class="w-100">
-                  <input class="giamgia" matInput [(ngModel)]="tienKhachDua">
+                  <input class="giamgia" currencyMask
+                         [options]="{prefix: 'đ', decimal: ',', precision: 0}"
+                         matInput [(ngModel)]="tienKhachDua">
                 </mat-form-field>
               </div>
             </div>
@@ -149,13 +165,13 @@
             <div class="d-flex justify-content-between">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Ghi chú</mat-label>
-                <textarea rows="4" matInput></textarea>
+                <textarea rows="8" matInput></textarea>
               </mat-form-field>
             </div>
           </div>
         </div>
         <div>
-          <button class="btn btn-block btn-primary font-weight-bold my-3 py-3" (click)="payment()">
+          <button class="btn btn-block text-warning font-weight-bold my-3 py-3" style="background-color: black" (click)="payment()">
             Thanh toán
           </button>
         </div>
