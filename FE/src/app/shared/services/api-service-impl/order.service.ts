@@ -47,4 +47,8 @@ export class OrderService {
   getOrderHistory(id: number, status: number) {
     return this.api.getOrderHistory(id, status);
   }
+
+  exportOrder(id: number) {
+    return this.api.exportOrder(id);
+  }
 }

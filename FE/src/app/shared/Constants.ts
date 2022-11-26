@@ -33,4 +33,9 @@ export class Constants {
     //Đã nhận hàng
     DONE: 'done',
   };
+
+  public static STATUS_PAYMENT = {
+    SUCCESS: 3,
+    CANCEL: 4
+  }
 }

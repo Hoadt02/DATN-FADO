@@ -25,4 +25,6 @@ public interface IOrderService {
     List<Order> getOrderById(Integer id);
 
     List<Order> getOrderHistory(Integer id, Integer status);
+
+    void exportOrder(Integer id);
 }

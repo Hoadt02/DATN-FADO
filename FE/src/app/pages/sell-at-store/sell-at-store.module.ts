@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { SellAtStoreRoutingModule } from './sell-at-store-routing.module';
-import { SellAtStoreComponent } from './sell-at-store/sell-at-store.component';
+import {SellAtStoreRoutingModule} from './sell-at-store-routing.module';
+import {SellAtStoreComponent} from './sell-at-store/sell-at-store.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
@@ -26,10 +26,12 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {CustomerFormComponent} from '../customer-management/customer-form/customer-form.component';
 import {CategoryFormComponent} from '../category-management/category-form/category-form.component';
-import { SellAtStoreHistoryComponent } from './sell-at-store-history/sell-at-store-history.component';
-import { ScannerFormComponent } from './scanner-form/scanner-form.component';
+import {SellAtStoreHistoryComponent} from './sell-at-store-history/sell-at-store-history.component';
+import {ScannerFormComponent} from './scanner-form/scanner-form.component';
 import {BarcodeScannerLivestreamModule} from "ngx-barcode-scanner";
-import { SellHistoryDetailComponent } from './sell-history-detail/sell-history-detail.component';
+import {SellHistoryDetailComponent} from './sell-history-detail/sell-history-detail.component';
+import {NgxCurrencyModule} from "ngx-currency";
+import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
   declarations: [
@@ -38,33 +40,36 @@ import { SellHistoryDetailComponent } from './sell-history-detail/sell-history-d
     ScannerFormComponent,
     SellHistoryDetailComponent,
   ],
-    imports: [
-        CommonModule,
-        SellAtStoreRoutingModule,
-        MatTabsModule,
-        MatFormFieldModule,
-        MatSlideToggleModule,
-        MatOptionModule,
-        MatAutocompleteModule,
-        AutocompleteLibModule,
-        MatPaginatorModule,
-        MatTableModule,
-        MatInputModule,
-        MatSortModule,
-        MatButtonModule,
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatRadioModule,
-        MatDatepickerModule,
-        MatSelectModule,
-        MatStepperModule,
-        MatMenuModule,
-        NgxDropzoneModule,
-        MatIconModule,
-        MatGridListModule,
-        FormsModule,
-        MatNativeDateModule,
-        BarcodeScannerLivestreamModule
-    ],
+  imports: [
+    CommonModule,
+    SellAtStoreRoutingModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatSlideToggleModule,
+    MatOptionModule,
+    MatAutocompleteModule,
+    AutocompleteLibModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatInputModule,
+    MatSortModule,
+    MatButtonModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatStepperModule,
+    MatMenuModule,
+    NgxDropzoneModule,
+    MatIconModule,
+    MatGridListModule,
+    FormsModule,
+    MatNativeDateModule,
+    BarcodeScannerLivestreamModule,
+    NgxCurrencyModule,
+    MatDividerModule
+  ],
 })
-export class SellAtStoreModule { }
+export class SellAtStoreModule {
+}

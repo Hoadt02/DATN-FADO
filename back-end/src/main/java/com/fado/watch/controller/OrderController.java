@@ -6,8 +6,6 @@ import com.fado.watch.service.IOrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -37,11 +35,6 @@ public class OrderController {
         return ResponseEntity.ok(this.iOrderService.save(order));
     }
 
-//    @DeleteMapping("/{id}")
-//    public void delete(@PathVariable("id") Integer id) {
-//        this.iOrderService.delete(id);
-//    }
-
     @GetMapping("/updateStatus")
     public void updateStatus(@RequestParam("status") Integer status, @RequestParam("id") Integer id) {
         this.iOrderService.updateStatus(status, id);
@@ -66,5 +59,10 @@ public class OrderController {
     @GetMapping("/getOrderHistory")
     public ResponseEntity<List<Order>> getOrderHistory(@RequestParam("id") Integer id, @RequestParam("status") Integer status) {
         return ResponseEntity.ok(this.iOrderService.getOrderHistory(id, status));
+    }
+
+    @GetMapping("/export/{id}")
+    public void export(@PathVariable("id") Integer id) {
+        this.iOrderService.exportOrder(id);
     }
 }

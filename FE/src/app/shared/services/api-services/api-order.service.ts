@@ -47,4 +47,8 @@ export class ApiOrderService {
   getOrderHistory(id: number, status: number) {
     return this.http.get(`${ApiConstant.order}/getOrderHistory?id=${id}&status=${status}`)
   }
+
+  exportOrder(id: number) {
+    return this.http.get(`${ApiConstant.order}/export/${id}`);
+  }
 }
