@@ -166,7 +166,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <button class="border-radius-5 btn btn-block btn-primary font-weight-bold mb-3 py-3" (click)="order()">
+      <button [disabled]="isCheckOut" class="border-radius-5 btn btn-block btn-primary font-weight-bold mb-3 py-3" (click)="order()">
         Đặt hàng
       </button>
     </div>
