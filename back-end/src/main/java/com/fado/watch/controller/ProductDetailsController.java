@@ -49,6 +49,10 @@ public class ProductDetailsController {
         return new ResponseEntity<>(this.service.findProductByName(name), HttpStatus.OK);
     }
 
+    @GetMapping("/listTop3Pro")
+    public ResponseEntity<List<ProductDetail>> getListTop3Pro() {
+        return new ResponseEntity<>(this.service.getlistTop3Pro(), HttpStatus.OK);
+    }
     @PostMapping("/findProductsWithPaginationAndSortingAndFilter")
     public ResponseEntity<Page<ProductDetail>> findProductsWithPaginationAndSortingAndFilter(@RequestBody FilterAndPagingAndSortingModel model) {
         return new ResponseEntity<>(this.service.findProductsWithPaginationAndSortingAndFilter(model), HttpStatus.OK);
@@ -102,6 +106,11 @@ public class ProductDetailsController {
     @GetMapping("/getProductDetailByImei/{imei}")
     public ResponseEntity<ProductDetail> getProductDetailByImei(@PathVariable("imei") String imei) {
         return new ResponseEntity<>(this.service.getProductDetailByImei(imei), HttpStatus.OK);
+    }
+
+    @GetMapping("/getFeaturedProductDetail")
+    public ResponseEntity<List<ProductDetail>> getFeaturedProductDetail() {
+        return new ResponseEntity<>(this.service.getFeaturedProductDetail(), HttpStatus.OK);
     }
 }
 

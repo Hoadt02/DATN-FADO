@@ -38,4 +38,8 @@ export class Constants {
     SUCCESS: 3,
     CANCEL: 4
   }
+  public static PATH_SAVE_IMAGE = {
+    FE: 'FE\\src\\assets\\img\\',
+    FADO: 'fado-shop\\src\\assets\\img\\',
+  }
 }

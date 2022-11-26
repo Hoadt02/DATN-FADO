@@ -17,4 +17,12 @@ export class UploadImageService{
   uploadImageDetail(data: any, folder:string) {
     return this.apiUploadService.upLoadImageDetail(data, folder);
   }
+
+  uploadImageClient(data:any, folder:string){
+    return this.apiUploadService.uploadImageClient(data, folder);
+  }
+
+  upLoadImageDetailClient(data: any, folder:string) {
+    return this.apiUploadService.upLoadImageDetailClient(data, folder);
+  }
 }

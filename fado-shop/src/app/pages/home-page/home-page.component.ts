@@ -18,10 +18,10 @@ export class HomePageComponent implements OnInit {
   productDetailLatest: any[] = [];
   productDetailInPromotion: any[] = [];
   productPromotionalCurrent: any[] = [];
+  productDetailFeatured: any[] = [];
 
   isLoading = false;
 
-  productDetails: any[] = [];
   items: any;
   dataAddToCart: any;
 
@@ -37,7 +37,9 @@ export class HomePageComponent implements OnInit {
    ngOnInit(): void {
     this.getCategory();
     this.getProduct();
-    this.getAllPrdInCart();
+    if (this.storageService.getIdFromToken()){
+      this.getAllPrdInCart();
+    }
   }
 
   getCategory() {
@@ -66,10 +68,16 @@ export class HomePageComponent implements OnInit {
           this.productDetailInPromotion = res2;
           this.setDataListIdProductCurrent(res2,listIdProductCurrent);
 
-            //Get product promotion current
-            this.productPromotionalService.findProductPromotionalByIdProductDetail(listIdProductCurrent).subscribe(data => {
-              this.productPromotionalCurrent = data;
-              this.isLoading = false;
+            // Get featured product
+            this.productDetailService.getFeaturedProductDetail().subscribe(res3 => {
+              this.productDetailFeatured = res3;
+              this.setDataListIdProductCurrent(res3, listIdProductCurrent);
+
+              //Get product promotion current
+              this.productPromotionalService.findProductPromotionalByIdProductDetail(listIdProductCurrent).subscribe(data => {
+                this.productPromotionalCurrent = data;
+                this.isLoading = false;
+              })
             })
         })
     });
@@ -106,7 +114,7 @@ export class HomePageComponent implements OnInit {
     this.productDetailService.dataFromHomePage.next(data);
     void this.router.navigate(['/product']);
   }
-  
+
   checkIsLogin(): boolean {
     if (!this.storageService.isLoggedIn()) {
       void this.router.navigate(['/auth/login'], {queryParams: {redirectURL: this.router.url}});

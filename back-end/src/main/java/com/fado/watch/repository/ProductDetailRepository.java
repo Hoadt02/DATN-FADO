@@ -39,6 +39,11 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail, In
     @Query("select p from product_details p where p.id in (select o.productDetail.id from order_details o where o.order.id = :id)")
     List<ProductDetail> findAllProductInOrder(@Param("id") Integer id);
 
+//lấy top 3 sản phẩm
+    @Query(value = "SELECT * FROM product_details p WHERE p.product_id = (SELECT o.product_detail_id FROM order_details o" +
+            "            GROUP BY o.product_detail_id" +
+            "            ORDER BY SUM(o.quantity) ASC LIMIT 3);",nativeQuery = true)
+    List<ProductDetail> getListTop3Pro();
     @Query("SELECT p FROM product_details p " +
             "WHERE ((p.name LIKE CONCAT('%',:search,'%'))" +
                     "OR (p.product.category.id IN (:category_id)) " +
@@ -83,4 +88,12 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail, In
 
     @Query("SELECT p FROM product_details p WHERE p.id = :id AND p.status = 1")
     Optional<ProductDetail> findById(@Param("id") Integer id);
+
+    @Query(value = "SELECT * FROM product_details " +
+                   "WHERE id IN (SELECT d.product_detail_id " +
+                         "FROM order_details d JOIN orders o ON d.order_id = o.id " +
+                         "WHERE o.status = 3 " +
+                         "GROUP BY d.product_detail_id " +
+                         "ORDER BY count(d.product_detail_id) DESC) LIMIT 8", nativeQuery = true)
+    List<ProductDetail> getFeaturedProductDetail();
 }

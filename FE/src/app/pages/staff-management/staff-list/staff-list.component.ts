@@ -27,8 +27,8 @@ export class StaffListComponent implements OnInit {
 
   displayedColumns: string[] =
     [
-      'stt', 'fullName',
-      'dateOfBirth', 'image',
+      'stt', 'image','fullName',
+      'dateOfBirth',
       // 'username', 'email', 'phoneNumber',
       'gender',
       // 'address',

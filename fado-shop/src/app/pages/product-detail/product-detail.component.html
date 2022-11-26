@@ -25,7 +25,7 @@
     <div class="col-lg-5 mb-30">
       <div id="product-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner bg-light shadow-sm" style="border-radius: 5px;">
-          <div *ngIf="productDetail.quantity == 0" class="out-of-stock-1">
+          <div *ngIf="productDetail?.quantity == 0" class="out-of-stock-1">
             <div class="out-of-stock-2">Hết hàng</div>
           </div>
           <div class="carousel-item active">
@@ -85,7 +85,7 @@
           <strong class="text-dark mr-3">Xuất xứ:</strong>
           <span>{{productDetail?.origin.name}}</span>
         </div>
-        <div class="d-flex align-items-center mb-2 pt-2" *ngIf="productDetail.quantity > 0">
+        <div class="d-flex align-items-center mb-2 pt-2" *ngIf="productDetail?.quantity > 0">
           <div class="input-group quantity mr-3" style="width: 130px;">
             <input min="1" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'" type="number" class="form-control bg-secondary border-0 text-center" name="slSP" [(ngModel)]="slSP">
           </div>

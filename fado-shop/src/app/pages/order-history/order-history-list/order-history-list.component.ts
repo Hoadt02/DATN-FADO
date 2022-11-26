@@ -32,6 +32,7 @@ export class OrderHistoryListComponent implements OnInit {
   daGiao = 0;
   listMatTab: any;
   dataAddCart: any = [];
+  isLoading!: boolean;
 
   constructor(
     private apiOrder: OrderService,
@@ -93,6 +94,7 @@ export class OrderHistoryListComponent implements OnInit {
   }
 
   findAllByCustomerId() {
+    this.isLoading = true;
     this.daMua = 0;
     this.daNhan = 0;
     this.daHuy = 0;
@@ -104,14 +106,17 @@ export class OrderHistoryListComponent implements OnInit {
         this.orders = data as any[];
         this.findAllDetailByCustomerId();
         this.getSoLuong();
+        this.isLoading = false;
       }
     })
   }
 
   findAllDetailByCustomerId() {
+    this.isLoading = true;
     this.apiOrderDetail.findAllDetailByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         this.orderDetails = data as any[];
+        this.isLoading = false;
       }
     })
   }
@@ -215,7 +220,10 @@ export class OrderHistoryListComponent implements OnInit {
           this.apiCart.addToCart(y);
         }
       }
-      this.router.navigate(['/cart']);
+      setTimeout(() => {
+        this.toastrService.info("Đã chuyển hướng đến rỏ hàng");
+        this.router.navigate(['/cart']);
+      }, 2100);
     })
   }
 }
