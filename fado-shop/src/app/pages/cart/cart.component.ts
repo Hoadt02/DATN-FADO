@@ -174,7 +174,7 @@ export class CartComponent implements OnInit {
           next: (data: any) => {
             for (const x of data) {
               if (0 == x.productDetail.status) {
-                this.toastrService.warning(`Một vài sản phẩm đã không còn tồn tại, vui lòng xoá khỏi giỏ hàng!`);
+                this.toastrService.warning(`Một vài sản phẩm đã không còn tồn tại, vui lòng tải lại trang và xoá sản phẩm khỏi giỏ hàng!`);
                 return;
               }
             }
