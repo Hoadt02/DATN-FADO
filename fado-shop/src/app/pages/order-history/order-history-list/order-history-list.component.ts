@@ -212,18 +212,21 @@ export class OrderHistoryListComponent implements OnInit {
             for (const y of this.dataAddCart) {
               this.apiCart.addToCart(y);
             }
-            this.router.navigate(['/cart']);
+            setTimeout(() => {
+              this.toastrService.info("Đã chuyển hướng đến rỏ hàng");
+              this.router.navigate(['/cart']);
+            }, 2100);
           }
         })
       } else {
         for (const y of this.dataAddCart) {
           this.apiCart.addToCart(y);
         }
+        setTimeout(() => {
+          this.toastrService.info("Đã chuyển hướng đến rỏ hàng");
+          this.router.navigate(['/cart']);
+        }, 2100);
       }
-      setTimeout(() => {
-        this.toastrService.info("Đã chuyển hướng đến rỏ hàng");
-        this.router.navigate(['/cart']);
-      }, 2100);
     })
   }
 }
