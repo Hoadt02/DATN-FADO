@@ -91,6 +91,7 @@ export class CheckOutComponent implements OnInit {
   }
 
   getFeeShipping() {
+    this.isCheckOut = true;
     console.log('Địa chỉ: ', this.addressDefault);
     let service_id;
     const infoService = {

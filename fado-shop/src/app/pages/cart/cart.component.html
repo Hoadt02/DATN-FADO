@@ -1,4 +1,10 @@
 <div class="container-fluid">
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner-border text-black-50 spinner-center" role="status"></div>
+  </div>
+</div>
+
+<div class="container-fluid">
   <!-- Breadcrumb Start -->
   <div class="container-fluid">
     <div class="row px-xl-5">
