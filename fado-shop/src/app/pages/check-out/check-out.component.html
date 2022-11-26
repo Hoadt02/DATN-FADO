@@ -151,8 +151,8 @@
         </div>
         <div class="pt-2">
           <div class="d-flex justify-content-between">
-            <h5>Thành tiền</h5>
-            <h5>{{total + totalFeeShipping | number}} VND</h5>
+            <h6>Thành tiền</h6>
+            <h6>{{total + totalFeeShipping | number}} VND</h6>
           </div>
         </div>
       </div>
@@ -166,7 +166,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <button class="border-radius-5 btn btn-block btn-primary font-weight-bold mb-3 py-3" (click)="order()">
+      <button [disabled]="isCheckOut" class="border-radius-5 btn btn-block btn-primary font-weight-bold mb-3 py-3" (click)="order()">
         Đặt hàng
       </button>
     </div>

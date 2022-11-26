@@ -29,6 +29,7 @@ export class OrderManagementComponent implements OnInit {
   daNhan = 0;
   daGiaoChoKhach = 0;
   orderDetails: any;
+  isLoading!: boolean;
 
   constructor(
     private apiOrder: OrderService,
@@ -88,6 +89,7 @@ export class OrderManagementComponent implements OnInit {
   }
 
   findAllOrder() {
+    this.isLoading = true;
     this.tongDonHangOffline = 0;
     this.tongDonHangOnline = 0;
     this.daNhan = 0;
@@ -100,15 +102,18 @@ export class OrderManagementComponent implements OnInit {
         this.orders = data as any[];
         this.findAllDetail();
         this.createTabContent();
+        this.isLoading = false;
       }
     })
   }
 
   findAllDetail() {
+    this.isLoading = true;
     this.apiOrderDetail.getAll().subscribe({
       next: (data: any) => {
         console.log('prd: ', data);
         this.orderDetails = data as any[];
+        this.isLoading = false;
       }
     })
   }

@@ -30,6 +30,7 @@ export class CartComponent implements OnInit {
   subtotal: number = 0;
   total: number = 0;
   listPrdInCart: any;
+  isLoading!: boolean;
 
   constructor(
     private readonly apiCart: CartService,
@@ -86,6 +87,7 @@ export class CartComponent implements OnInit {
 
   //Lấy ra tất cả sản phẩm trong giỏ hàng(láy ra các sản phẩm trong cart theo id người dùng)
   getAllPrdInCart() {
+    this.isLoading = true;
     let slPrd = 0;
     this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
@@ -106,6 +108,10 @@ export class CartComponent implements OnInit {
           this.total = 0;
         }
         this.apiCart.numberPrdInCart$.next(slPrd);
+        this.isLoading = false;
+      }, error: _ => {
+        this.toastrService.error("Đã xảy ra lỗi từ hệ thống, vui lòng th lại sau !");
+        this.isLoading = false;
       }
     });
   }

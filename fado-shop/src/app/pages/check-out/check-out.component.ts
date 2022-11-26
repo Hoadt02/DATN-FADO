@@ -58,6 +58,7 @@ export class CheckOutComponent implements OnInit {
   dataCraeteOrderDetail: any;
 
   dataCreateOrder: any;
+  isCheckOut = true;
 
   constructor(
     private apiCustomer: CustomerService,
@@ -90,6 +91,7 @@ export class CheckOutComponent implements OnInit {
   }
 
   getFeeShipping() {
+    this.isCheckOut = true;
     console.log('Địa chỉ: ', this.addressDefault);
     let service_id;
     const infoService = {
@@ -113,8 +115,11 @@ export class CheckOutComponent implements OnInit {
     }
     this.apiAddress.feeShipping(feeShipping).subscribe((data: any) => {
       this.totalFeeShipping = 0;
-      this.totalFeeShipping = data.data.total
-      console.log("Phí vận chuyển: ", this.totalFeeShipping);
+      this.totalFeeShipping = data.data.total;
+      if (this.totalFeeShipping != 0){
+        this.isCheckOut = false;
+      }
+
     })
   }
 
@@ -287,6 +292,7 @@ export class CheckOutComponent implements OnInit {
 
   checkAddress() {
     if (this.disableSelect) {
+      this.isCheckOut = true;
       this.totalFeeShipping = 0;
       this.addressFindById();
       this.formGroup.disable();
@@ -299,6 +305,7 @@ export class CheckOutComponent implements OnInit {
         phoneNumber: '',
       })
     } else {
+      this.isCheckOut = true;
       this.totalFeeShipping = 0;
       this.formGroup.enable();
     }
