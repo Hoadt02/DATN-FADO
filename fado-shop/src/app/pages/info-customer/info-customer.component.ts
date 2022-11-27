@@ -84,7 +84,7 @@ export class InfoCustomerComponent implements OnInit {
       this.formGroup.patchValue({image: this.avatarFormDb});
     }
     console.log(this.formGroup.getRawValue());
-    this.apiCustomer.updateData(this.formGroup.value.id, this.formGroup.getRawValue()).subscribe({
+    this.apiCustomer.updateData(this.formGroup.value.id as any, this.formGroup.getRawValue()).subscribe({
       next: (data: any) => {
         this.toastrService.success('Cập nhật thành công!');
         this.isLoading = false;
