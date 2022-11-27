@@ -14,7 +14,7 @@
       <form class="mt-5 px-3" [formGroup]="formGroup">
         <div class="form-group mb-3">
           <mat-form-field appearance="standard" class="w-100">
-            <mat-label><i class="fa-solid fa-user"></i> Username</mat-label>
+            <mat-label><i class="fa-solid fa-user"></i> Tài khoản</mat-label>
             <input type="text" matInput formControlName="username">
             <mat-error *ngIf="formGroup.get('username')?.hasError('isSpace') && formGroup.get('username')?.touched">
               Vui lòng không bỏ trống username!
