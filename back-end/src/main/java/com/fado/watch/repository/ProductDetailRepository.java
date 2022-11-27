@@ -28,7 +28,7 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail, In
     @Query("SELECT p FROM product_details p WHERE p.product.id = :id AND p.status = 1 AND p.quantity > 0")
     List<ProductDetail> getSimilarProduct(@Param("id") Integer id);
 
-    @Query("SELECT p FROM product_details p WHERE p.name LIKE %:name% AND p.status = 1 AND p.quantity > 0")
+    @Query("SELECT p FROM product_details p WHERE p.name LIKE CONCAT('%',:name,'%') AND p.status = 1 AND p.quantity > 0")
     List<ProductDetail> getProductByName(@Param("name") String name);
 
     @Query("select pd from product_details pd where pd.imei = :imei")
