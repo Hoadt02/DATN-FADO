@@ -25,11 +25,17 @@ export class CustomerService {
     return this.apiCustomer.findByid(id);
   }
 
+
+
   findCustomerByEmailAndSendOTP(email:any) {
    return this.apiCustomer.findCustomerByEmailAndSendOTP(email);
   }
 
   dataReplace(data: any){
+    data.firstname = data.firstname.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
+    data.lastname = data.lastname.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
+    data.address = data.address.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
+    data.email = data.email.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
     data.dateOfBirth=formatDate(data.dateOfBirth);
   }
 
@@ -65,6 +71,11 @@ export class CustomerService {
         });
       }
     })
+  }
+
+  updateData(id: number, data: any) {
+    this.dataReplace(data);
+    return this.apiCustomer.update(id, data);
   }
 
   accuracyPassword(data:any){

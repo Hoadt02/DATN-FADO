@@ -1,26 +1,26 @@
-import {Component, OnInit} from '@angular/core';
-import {StaffService} from '../../shared/services/api-service-impl/staff.service';
-import {FormBuilder, Validators} from '@angular/forms';
-import {StorageService} from '../../shared/services/jwt/storage.service';
-import {checkSpace} from '../../shared/validator/validatorForm';
-import {Regex} from '../../shared/validator/regex';
-import {ToastrService} from 'ngx-toastr';
-import {MatDialogRef} from '@angular/material/dialog';
-import {UploadImageToHostService} from '../../shared/services/api-service-impl/upload-image-to-host.service';
+import {Component, OnInit} from "@angular/core";
+import {checkSpace} from "../../shared/validator/validate";
+import {FormBuilder, Validators} from "@angular/forms";
+import {Regex} from "../../shared/validator/regex";
+import {StorageService} from "../../shared/service/jwt/storage.service";
+import {UploadImageToHostService} from "../../shared/service/api-service-impl/upload-image-to-host.service";
+import {CustomerService} from "../../shared/service/api-service-impl/customer.service";
+import {ToastrService} from "ngx-toastr";
+import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-change-info-login',
-  templateUrl: './change-info-login.component.html',
-  styleUrls: ['./change-info-login.component.scss']
+  selector: 'app-info-customer',
+  templateUrl: './info-customer.component.html',
+  styleUrls: ['./info-customer.component.css']
 })
-export class ChangeInfoLoginComponent implements OnInit {
+export class InfoCustomerComponent implements OnInit {
   isLoading = false
 
   formGroup = this.fb.group({
     id: [''],
     firstname: ['', [checkSpace, Validators.pattern(Regex.name)]],
-    lastname: ['', [checkSpace, Validators.pattern(Regex.name)]],
-    dateOfBirth: ['', Validators.required],
+    lastname: ['', [checkSpace,  Validators.pattern(Regex.name)]],
+    dateOfBirth: [new Date(), Validators.required],
     image: [''],
     username: [''],
     password: [''],
@@ -30,11 +30,12 @@ export class ChangeInfoLoginComponent implements OnInit {
     address: ['', checkSpace],
     status: [1],
     role: this.fb.group({
-      id: [4],
+      id: [4]
     }),
-  });
+  })
 
   hide = true;
+  // @ts-ignore
   file: File;
   avatar: any;
   avatarFormDb: any;
@@ -43,15 +44,15 @@ export class ChangeInfoLoginComponent implements OnInit {
     private fb: FormBuilder,
     private storageService: StorageService,
     private uploadImageToHostService: UploadImageToHostService,
-    private apiStaff: StaffService,
+    private apiCustomer: CustomerService,
     private toastrService: ToastrService,
-    private matDiaLogRef: MatDialogRef<ChangeInfoLoginComponent>
+    private matDiaLogRef: MatDialogRef<InfoCustomerComponent>
   ) {
   }
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.apiStaff.findById(this.storageService.getIdFromToken()).subscribe({
+    this.apiCustomer.findById(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         this.formGroup.patchValue(data);
         this.avatarFormDb = data.image;
@@ -83,7 +84,7 @@ export class ChangeInfoLoginComponent implements OnInit {
       this.formGroup.patchValue({image: this.avatarFormDb});
     }
     console.log(this.formGroup.getRawValue());
-    this.apiStaff.update(this.formGroup.value.id, this.formGroup.getRawValue()).subscribe({
+    this.apiCustomer.updateData(this.formGroup.value.id, this.formGroup.getRawValue()).subscribe({
       next: (data: any) => {
         this.toastrService.success('Cập nhật thành công!');
         this.isLoading = false;
@@ -94,7 +95,7 @@ export class ChangeInfoLoginComponent implements OnInit {
           this.isLoading = false;
           return;
         }
-        this.toastrService.error('Sửa nhân viên thất bại!');
+        this.toastrService.error('Sửa khách hàng thất bại!');
         this.isLoading = false;
       }
     })
@@ -109,6 +110,7 @@ export class ChangeInfoLoginComponent implements OnInit {
     this.isLoading = true;
     this.file = event.target.files;
     const formData = new FormData();
+    // @ts-ignore
     formData.append('files', this.file[0]);
     return this.uploadImageToHostService.uploadImageToHost(formData)
       .toPromise().then(res => {

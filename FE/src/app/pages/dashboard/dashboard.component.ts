@@ -6,6 +6,7 @@ import {MatSort} from '@angular/material/sort';
 import {ProductDetailsService} from '../../shared/services/api-service-impl/product-details.service';
 import {ToastrService} from 'ngx-toastr';
 import {OrderService} from '../../shared/services/api-service-impl/order.service';
+import {OrderDetailService} from '../../shared/services/api-service-impl/orderDetail.service';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class DashboardComponent implements OnInit {
   public chartEmail;
   public chartBar;
 
-  displayedColumns: string[] = ['index', 'avatar-product', 'name', 'price', 'quantity', 'gender'];
+  displayedColumns: string[] = ['index', 'name', 'price', 'quantityO'];
   dataSource!: MatTableDataSource<any>;
   isLoading = true;
 
@@ -50,14 +51,14 @@ export class DashboardComponent implements OnInit {
   }
 
   constructor(
-    private productDetailservice: ProductDetailsService,
+    private productDetailService: ProductDetailsService,
     private toastrService: ToastrService,
     private orderService: OrderService,
   ) {
   }
 
   getProduct() {
-    this.productDetailservice.getListTop3Pro().subscribe({
+    this.productDetailService.getFeaturedProductDetail().subscribe({
       next: (data: any) => {
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;
@@ -99,7 +100,7 @@ export class DashboardComponent implements OnInit {
               data: this.totalPay,
               borderColor: '#3e95cd',
               fill: false,
-              label: 'Coin Price',
+              label: 'Tiền từng tháng',
               backgroundColor: 'rgba(93, 175, 89, 0.1)',
               borderWidth: 3,
             },
@@ -126,7 +127,6 @@ export class DashboardComponent implements OnInit {
           data: {
             labels: ['Đơn hàng', 'Đã hủy'],
             datasets: [{
-              label: 'Emails',
               pointRadius: 0,
               pointHoverRadius: 0,
               backgroundColor: [

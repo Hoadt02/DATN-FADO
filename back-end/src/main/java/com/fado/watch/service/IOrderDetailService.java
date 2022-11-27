@@ -26,4 +26,6 @@ public interface IOrderDetailService {
     List<OrderDetail> findOrderDetailByOrder(Integer id);
 
     List<OrderDetail> getHistory(Integer status);
+
+
 }

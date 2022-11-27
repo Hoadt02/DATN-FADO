@@ -10,6 +10,7 @@ import {ChangePasswordComponent} from "../../pages/change-password/change-passwo
 import {ProductDetailsService} from "../../shared/service/api-service-impl/product-details.service";
 import {FormControl} from "@angular/forms";
 import {BehaviorSubject, debounceTime, distinctUntilChanged} from "rxjs";
+import {InfoCustomerComponent} from "../../pages/info-customer/info-customer.component";
 
 @Component({
   selector: 'app-header',
@@ -132,5 +133,11 @@ export class HeaderComponent implements OnInit {
     }else {
       void this.router.navigate(['/product']);
     }
+  }
+  openChageInfoLogin() {
+    this.matDiaLog.open(InfoCustomerComponent, {
+      width: '800px',
+      // height: '800px',
+    })
   }
 }

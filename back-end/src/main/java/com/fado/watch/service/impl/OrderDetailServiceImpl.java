@@ -104,4 +104,5 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     public List<OrderDetail> getHistory(Integer status) {
         return this.orderDetailRepository.getHistory(status);
     }
+
 }

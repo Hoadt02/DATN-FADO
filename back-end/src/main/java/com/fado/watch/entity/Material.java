@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name="materials")
-public class Material implements Serializable {
+public class  Material implements Serializable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
