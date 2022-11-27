@@ -67,4 +67,5 @@ public class OrderDetailController {
     public ResponseEntity<List<OrderDetail>> getHistory(@PathVariable("status") Integer status) {
         return ResponseEntity.ok(this.orderDetailService.getHistory(status));
     }
+
 }

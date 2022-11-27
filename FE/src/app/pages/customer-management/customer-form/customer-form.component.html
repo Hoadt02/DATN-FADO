@@ -54,6 +54,14 @@
             formGroup.get('username')?.touched">Bạn phải nhập tài khoản
           </mat-error>
           <mat-error
+            *ngIf="formGroup.get('username')?.hasError('minlength') &&
+            formGroup.get('username')?.touched">Tài khoản tối thiểu 8 ký tự
+          </mat-error>
+          <mat-error
+            *ngIf="formGroup.get('username')?.hasError('maxlength') &&
+            formGroup.get('username')?.touched">Tài khoản tối đa 24 ký tự
+          </mat-error>
+          <mat-error
             *ngIf="formGroup.get('username')?.hasError('pattern') &&
             formGroup.get('username')?.touched">Tài khoản không được chứa khoảng trắng, viết dấu và ký tự đặc biệt
           </mat-error>
@@ -63,9 +71,11 @@
       <div class="col-md-6" *ngIf="hidePassword">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Mật khẩu</mat-label>
-          <input formControlName="password" type="password"
-                 id="exampleInputPassword1" required maxlength="50"
-                 matInput>
+          <input formControlName="password" matInput [type]="hide ? 'password' : 'text'" minlength="8">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
           <mat-error
             *ngIf="formGroup.get('password')?.hasError('required') &&
             formGroup.get('password')?.touched">Bạn phải nhập mật khẩu
@@ -76,7 +86,7 @@
           </mat-error>
           <mat-error
             *ngIf="formGroup.get('password')?.hasError('maxlength') &&
-            formGroup.get('password')?.touched">Mật khẩu tối đa 24 ký tự
+            formGroup.get('password')?.touched">Mật khẩu tối đa 60 ký tự
           </mat-error>
           <mat-error
             *ngIf="formGroup.get('password')?.hasError('pattern') &&
@@ -84,6 +94,7 @@
           </mat-error>
         </mat-form-field>
       </div>
+
 
 
       <div class="col-md-6">
@@ -130,7 +141,27 @@
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
+            <mat-error
+              *ngIf="formGroup.get('dateOfBirth')?.hasError('required') &&
+          formGroup.get('dateOfBirth')?.touched">Bạn phải chọn ngày sinh
+            </mat-error>
           </mat-form-field>
+      </div>
+
+
+      <div [class]="hidePassword?'col-md-6':'col-md-6'">
+
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Địa chỉ</mat-label>
+          <input formControlName="address" type="text"
+                 id="exampleInputDiaChi1" maxlength="255" required
+                 matInput>
+          <mat-error
+            *ngIf="formGroup.get('address')?.hasError('isSpace') &&
+          formGroup.get('address')?.touched">Bạn phải nhập địa chỉ
+          </mat-error>
+        </mat-form-field>
+
       </div>
 
       <div class="col-md-6 d-flex align-items-center">
@@ -143,7 +174,7 @@
 
     </div>
     <div class="d-flex justify-content-center">
-      <button mat-raised-button color="primary" (click)="onSubmit()">Lưu</button>
+      <button mat-raised-button color="accent" (click)="onSubmit()">Lưu</button>
       <button mat-raised-button color="warn" (click)="onDismiss()" class="mx-5">Thoát</button>
     </div>
   </form>

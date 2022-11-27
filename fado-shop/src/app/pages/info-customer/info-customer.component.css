@@ -1,0 +1,21 @@
+.infomation .image {
+  position: relative;
+}
+
+.infomation .image img {
+  width: 210px;
+  height: 210px;
+  border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
+}
+
+.infomation .image label {
+  background-color: #eee9e9;
+  padding: 10px;
+  top: 56%;
+  right: 13%;
+  font-size: 20px;
+  position: absolute;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}

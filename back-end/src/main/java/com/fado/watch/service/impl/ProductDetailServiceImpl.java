@@ -86,10 +86,7 @@ public class ProductDetailServiceImpl implements IProductDetailService {
         return this.productDetailRepository.findAllProductInOrder(id);
     }
 
-    @Override
-    public List<ProductDetail> getlistTop3Pro() {
-        return this.repository.getListTop3Pro();
-    }
+
     public Page<ProductDetail> findProductsWithPaginationAndSortingAndFilter(FilterAndPagingAndSortingModel model) {
         if (model.getSearch() == null && model.getCategory_id().length < 1 && model.getBrand_id().length < 1
                 && model.getMaterial_id().length < 1 && model.getOrigin_id().length < 1) {

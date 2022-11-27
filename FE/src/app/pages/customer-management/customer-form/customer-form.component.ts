@@ -5,6 +5,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Constants} from '../../../shared/Constants';
 import {Regex} from '../../../shared/validator/regex';
 import {checkSpace} from '../../../shared/validator/validatorForm';
+import {validate} from 'codelyzer/walkerFactory/walkerFn';
 
 @Component({
   selector: 'app-customer-form',
@@ -14,6 +15,7 @@ import {checkSpace} from '../../../shared/validator/validatorForm';
 export class CustomerFormComponent implements OnInit {
   title: string;
   isLoading = false;
+  hide = true;
   hidePassword = true;
 
   formGroup = this.fb.group({
@@ -22,7 +24,11 @@ export class CustomerFormComponent implements OnInit {
     lastname: ['', [checkSpace,  Validators.pattern(Regex.name)]],
     dateOfBirth: [new Date(), Validators.required],
     image: ['https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/1200px-User-avatar.svg.png'],
-    username: ['', [Validators.required, Validators.pattern(Regex.username)]],
+    username: ['', [
+      Validators.required,
+      Validators.pattern(Regex.username),
+      Validators.minLength(8),
+      Validators.maxLength(24)]],
     password: [
       '',
       [
@@ -35,6 +41,7 @@ export class CustomerFormComponent implements OnInit {
     email: ['', [Validators.required, Validators.pattern(Regex.email)]],
     phoneNumber: ['', [Validators.required, Validators.pattern(Regex.phoneNumber)]],
     gender: [1],
+    address: ['', checkSpace],
     status: [1],
     role: this.fb.group({
       id: [4]
@@ -78,6 +85,7 @@ export class CustomerFormComponent implements OnInit {
     // tslint:disable-next-line:triple-equals
     if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
       this.customerService.create(this.formGroup.getRawValue());
+
     } else {
       this.customerService.update(this.dataDiaLog.row.id, this.formGroup.getRawValue());
     }

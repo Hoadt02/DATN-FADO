@@ -105,9 +105,7 @@ export class ProductDetailsService {
       );
   }
 
-  getListTop3Pro() {
-    return this.apiService.getListTop3Pro();
-  }
+
   findPriceProductDetail(id: number) {
     return this.apiService.findProductDetail(id);
   }
@@ -118,5 +116,9 @@ export class ProductDetailsService {
 
   getProductDetailByImei(imei: string) {
     return this.apiService.getProductDetailByImei(imei);
+  }
+
+  getFeaturedProductDetail() {
+    return this.apiService.getFeaturedProductDetail();
   }
 }

@@ -2,13 +2,12 @@ package com.fado.watch.service.impl;
 
 import com.fado.watch.dto.request.ChangePassModel;
 import com.fado.watch.entity.Customer;
-import com.fado.watch.entity.Staff;
 import com.fado.watch.exception.ResourceNotFoundException;
 import com.fado.watch.exception.UniqueException;
-import com.fado.watch.exception.WrongPasswordException;
 import com.fado.watch.repository.CustomerRepository;
 import com.fado.watch.repository.RoleRepository;
 import com.fado.watch.service.ICustomerService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,9 +18,12 @@ import java.util.Objects;
 @Service
 public class CustomerServiceImpl implements ICustomerService {
 
+    private final ModelMapper mapper;
+
 private final CustomerRepository customerRepository;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    public CustomerServiceImpl(ModelMapper mapper, CustomerRepository customerRepository) {
+        this.mapper = mapper;
         this.customerRepository = customerRepository;
     }
 

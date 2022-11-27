@@ -11,6 +11,8 @@ import {HeaderModule} from "../../component/header/header.module";
 import {FooterModule} from "../../component/footer/footer.module";
 import {ChangePasswordModule} from "../../pages/change-password/change-password.module";
 import {IntroduceModule} from "../../pages/introduce/introduce.module";
+import {InfoCustomerComponent} from "../../pages/info-customer/info-customer.component";
+import {InfoCustomerModule} from "../../pages/info-customer/info-customer.module";
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import {IntroduceModule} from "../../pages/introduce/introduce.module";
     FooterModule,
     ChangePasswordModule,
     IntroduceModule,
+    InfoCustomerModule
   ]
 })
 export class LayoutAdminModule { }
