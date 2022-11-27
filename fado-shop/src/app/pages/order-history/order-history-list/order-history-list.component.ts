@@ -99,6 +99,7 @@ export class OrderHistoryListComponent implements OnInit {
     this.daNhan = 0;
     this.daHuy = 0;
     this.dangGiao = 0;
+    this.daGiao = 0;
     this.choXacNhan = 0;
     this.choLayHang = 0;
     this.apiOrder.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
@@ -147,12 +148,18 @@ export class OrderHistoryListComponent implements OnInit {
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
         if (type == this.RESULT_CLOSE_DIALOG_ORDER.Cancel) {
           status = 4; //  nếu ấn vào huỷ đơn hàng thì trạng thái sẽ = trạng thái đã huỷ
-          this.updateCancelAndReceived(status, id);
+          this.apiOrder.findById(id).subscribe((data: any) => {
+            if (data.status === 1) {
+              this.toastrService.warning("Đơn hàng này đã được xác nhận, vui lòng tải lại trang!");
+              return;
+            } else {
+              this.updateCancelAndReceived(status, id);
+            }
+          })
         } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.HasReceivedTheGoods) {
           status = 3; // nếu ấn vào đã nhận hàng thì trạng thái về đẫ giao
           this.updateCancelAndReceived(status, id);
         } else {
-          console.log(1231231231232);
           this.repurchase(id);
         }
       }
@@ -162,11 +169,6 @@ export class OrderHistoryListComponent implements OnInit {
   updateCancelAndReceived(status: number, id: number) {
     this.apiOrder.updateStatus(status, id).subscribe({
       next: (_: any) => {
-        if (status == 4) {
-          this.toastrService.success('Huỷ đơn hàng thành công!');
-        } else {
-          this.toastrService.success('Xác nhận đơn hàng thành công!');
-        }
         this.findAllByCustomerId();
       }, error: (err: any) => {
         this.toastrService.error('Đã xảy ra lỗi!');

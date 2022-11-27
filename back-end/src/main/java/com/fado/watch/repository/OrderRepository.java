@@ -51,7 +51,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("select o from orders o where o.id =:id and o.type = 1")
     List<Order> getOrderById(Integer id);
 
-    @Query("select o from orders o where o.id =:id and o.type = 1")
+    @Query("select o from orders o where o.id =:id")
     Order findOrderById(Integer id);
 
     @Query("select o from orders o where o.staff.id = :id and o.status = :status and o.type = 1")

@@ -150,7 +150,14 @@ export class OrderManagementComponent implements OnInit {
           this.updateStatus(status, id);
         } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.CONFIRM) {
           status = 1; //  nếu ấn vào xác nhận đơn hàng sẽ chuyển sang đang chuẩn bị hàng (xác nhận đơn hàng)
-          this.updateStatus(status, id);
+          this.apiOrder.getOrderByIdOne(id).subscribe((data: any) => {
+            if (data.status === 4) {
+              this.toastrService.warning("Đơn hàng đã bị huỷ, vui lòng tải lại trang !");
+              return
+            } else {
+              this.updateStatus(status, id);
+            }
+          })
         } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.START_DELIVERY) {
           status = 2; // nếu ấn vào bắt đầu giao thì sẽ chuyển sang đang giao
           this.updateStatus(status, id);

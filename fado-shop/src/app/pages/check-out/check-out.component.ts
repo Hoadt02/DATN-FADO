@@ -252,7 +252,7 @@ export class CheckOutComponent implements OnInit {
         id: this.storageService.getIdFromToken()
       },
       staff: {
-        id: 165
+        id: 1
       },
       shipAddress: address.join(' - ').replace(/^\s+|\s+$|\s+(?=\s)/g, ""),
       createDate: formatDate(new Date()),
