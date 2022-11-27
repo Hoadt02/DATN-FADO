@@ -51,6 +51,11 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
+    public Order findById(Integer id) {
+        return this.orderRepository.findOrderById(id);
+    }
+
+    @Override
     public Order save(Order order) {
         return this.orderRepository.save(order);
     }

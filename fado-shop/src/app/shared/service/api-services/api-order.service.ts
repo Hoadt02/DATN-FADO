@@ -20,6 +20,10 @@ export class ApiOrderService {
     return this.http.get(`${ApiConstant.order}/findAllByCustomerId/${id}`);
   }
 
+  findById(id: number) {
+    return this.http.get(`${ApiConstant.order}/${id}`);
+  }
+
   save(data: any) {
     return this.http.post(ApiConstant.order, data);
   }

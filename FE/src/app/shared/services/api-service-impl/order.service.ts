@@ -54,6 +54,10 @@ export class OrderService {
     return this.api.getOrderById(id);
   }
 
+  getOrderByIdOne(id: number) {
+    return this.api.getOrderByIdOne(id);
+  }
+
   updateStatus(status: number, id: number) {
     return this.api.updateStatus(status, id);
   }

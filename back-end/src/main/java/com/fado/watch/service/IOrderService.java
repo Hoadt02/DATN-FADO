@@ -15,6 +15,8 @@ public interface IOrderService {
 
     List<Order> findAllByCustomerId(Integer id);
 
+    Order findById(Integer id);
+
     Order save(Order order);
 
 //    void delete(Integer id);
