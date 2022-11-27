@@ -43,6 +43,11 @@ public class OrderController {
         this.iOrderService.updateStatus(status, id);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Order> findById(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok(this.iOrderService.findById(id));
+    }
+
     @GetMapping("/chartBar")
     public ResponseEntity<List<CharBarDTO>> chartBar(){
         return ResponseEntity.ok(this.iOrderService.getChartBar());
