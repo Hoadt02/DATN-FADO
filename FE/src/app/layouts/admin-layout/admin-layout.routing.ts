@@ -10,6 +10,7 @@ import {NotificationsComponent} from '../../pages/notifications/notifications.co
 import {Constants} from "../../shared/Constants";
 import {HasRoleGuard} from "../../shared/guard/has-role.guard";
 import {AuthGuard} from "../../shared/guard/auth.guard";
+import {SellAtStoreComponent} from "../../pages/sell-at-store/sell-at-store/sell-at-store.component";
 
 const TYPE_AUTH = Constants.TYPE_AUTH;
 
@@ -22,6 +23,14 @@ export const AdminLayoutRoutes: Routes = [
       role: TYPE_AUTH.SUPER_ADMIN
     }
   },
+  // {
+  //   path: 'sell-at-store',
+  //   loadChildren: () => import('../../pages/sell-at-store/sell-at-store.module').then(m => m.SellAtStoreModule),
+  //   canActivate: [HasRoleGuard],
+  //   data: {
+  //     role: TYPE_AUTH.ADMIN
+  //   }
+  // },
   {
     path: 'user',
     component: UserComponent,

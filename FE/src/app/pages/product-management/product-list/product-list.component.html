@@ -157,15 +157,15 @@
           <!-- thao tác Column -->
           <ng-container matColumnDef="thaoTac">
             <th mat-header-cell *matHeaderCellDef mat-sort-header width="15%"> Thao tác</th>
-            <td mat-cell *matCellDef="let row" width="15%">
+            <td mat-cell *matCellDef="let row">
               <button mat-icon-button color="accent" (click)="openDiaLog(TYPE_DIALOG.UPDATE,row)">
                 <i class="fa-solid fa-pen"></i>
               </button>
               <button *ngIf="row.status == 0" mat-icon-button color="warn" (click)="openDeleteOrNoDelete(row,row.id,1)" title="Click để kích hoạt sản phẩm">
-                <i class="fa-solid fa-lock"></i>
+                <i class="fa-solid fa-lock-open"></i>
               </button>
               <button *ngIf="row.status == 1" mat-icon-button class="text-green" (click)="openDeleteOrNoDelete(row,row.id,0)" title="Click để vô hiệu hóa sản phẩm">
-                <i class="fa-solid fa-lock-open"></i>
+                <i class="fa-solid fa-lock"></i>
               </button>
               <button mat-icon-button color="primary" (click)="openViewDialog(row)">
                 <i class="fa-solid fa-eye"></i>

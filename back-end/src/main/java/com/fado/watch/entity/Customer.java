@@ -63,9 +63,6 @@ public class Customer implements Serializable {
     @Column(nullable=false, length=1)
     private boolean gender;
 
-    @Column(nullable = false, length = 255)
-    private String address;
-
     @Column(precision=10)
     private Integer status;
 

@@ -14,8 +14,6 @@ import {ProductPromotionalService} from "../../../shared/services/api-service-im
 import {Router} from "@angular/router";
 import {SellAtStoreHistoryComponent} from "../sell-at-store-history/sell-at-store-history.component";
 import {ScannerFormComponent} from "../scanner-form/scanner-form.component";
-// @ts-ignore
-import printJS from 'print-js';
 import {BehaviorSubject, debounceTime} from "rxjs";
 import {AuthService} from "../../../shared/services/jwt/auth.service";
 import {ChangeInfoLoginComponent} from "../../change-info-login/change-info-login.component";
@@ -528,7 +526,7 @@ export class SellAtStoreComponent implements OnInit {
   openScannerBarcode() {
     const dialogRef = this.matDiaLog.open(ScannerFormComponent, {
       width: '500px',
-      disableClose: false,
+      disableClose: true,
       hasBackdrop: true,
     });
     dialogRef.afterClosed().subscribe((rs: any) => {
