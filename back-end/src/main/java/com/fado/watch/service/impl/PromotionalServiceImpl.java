@@ -6,6 +6,7 @@ import com.fado.watch.exception.ResourceNotFoundException;
 import com.fado.watch.exception.UniqueException;
 import com.fado.watch.repository.PromotionalRepository;
 import com.fado.watch.service.IPromotionalService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -64,7 +65,6 @@ public class PromotionalServiceImpl implements IPromotionalService {
     public List<Promotional> filter(FilterPromotional rq) {
         return this.promotionalRepository.filter(rq.getStartDate()
                 , rq.getEndDate()
-                , rq.getStatus()
-                , rq.isType());
+                , rq.getStatus());
     }
 }
