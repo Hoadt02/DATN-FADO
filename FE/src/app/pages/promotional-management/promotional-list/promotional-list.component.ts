@@ -22,8 +22,7 @@ export class PromotionalListComponent implements OnInit {
   formGroup = this.fb.group({
     startDate: null,
     endDate: null,
-    status: null,
-    type: null,
+    status: 1
   })
 
   isLoading = true;
@@ -58,7 +57,7 @@ export class PromotionalListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAll();
+    this.filterAll();
   }
 
   getAll() {
