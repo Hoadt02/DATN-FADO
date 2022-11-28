@@ -27,6 +27,9 @@
             </div>
           </ng-template>
         </div>
+        <a (click)="openScannerBarcode()" class="mx-lg-2" mat-mini-fab color="white">
+          <i class="fa-solid fa-barcode"></i>
+        </a>
       </div>
     </div>
 <!--    End tìm kiếm -->
@@ -52,9 +55,6 @@
     <div class="col-2 text-right">
       <a (click)="addTab(true)" class="mx-lg-2" mat-mini-fab color="white">
         <mat-icon>add</mat-icon>
-      </a>
-      <a (click)="openScannerBarcode()" class="mx-lg-2" mat-mini-fab color="white">
-        <mat-icon>code</mat-icon>
       </a>
       <a [matMenuTriggerFor]="menu" class="mx-lg-2" mat-mini-fab color="white">
         <mat-icon>menu</mat-icon>
