@@ -61,7 +61,7 @@
 <!--            </mat-form-field>-->
 <!--          </div>-->
 
-          <div class="col-1 col-md-1">
+          <div class="col-1 col-md-1 pl-0">
             <button class="btn btn-sm btn-outline-danger mt-3 px-2" type="button"
                     (click)="getAll()" title="Đặt lại">
               <i class="fa-solid fa-rotate"></i>
@@ -76,8 +76,7 @@
 </div>
 
 <div class="text-center my-3">
-  <a class="mr-5" mat-raised-button color="primary" [routerLink]="['/product-promotional-management']"
-     [state]="{tracingId: 123}">
+  <a class="mr-5" mat-raised-button color="primary" (click)="openProductInPromotional()">
     <i class="fa-solid fa-plus"></i> Quản lý sản phẩm khuyến mại
   </a>
   <button mat-raised-button color="primary" (click)="openSave(TYPE_DIALOG.NEW)">
@@ -133,7 +132,7 @@
               <span *ngIf="row.status == 0" class="status" style="background-color: orangered">Ngưng hoạt động</span>
             </td>
           </ng-container>
-          
+
           <ng-container matColumnDef="staff">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Nguời tạo</th>
             <td mat-cell *matCellDef="let row"> {{row.staff.firstname}} {{row.staff.lastname}}</td>
