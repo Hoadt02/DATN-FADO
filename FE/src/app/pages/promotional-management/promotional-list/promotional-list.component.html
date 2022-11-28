@@ -5,7 +5,7 @@
 
 <div class="row">
 
-  <div class="col-12 col-md-3">
+  <div class="col-12 col-md-6">
     <div class="card">
       <h3><b><i class="fa-solid fa-magnifying-glass"></i> TÌM KIẾM NHANH</b></h3>
       <div class="card-body py-0">
@@ -17,14 +17,14 @@
     </div>
   </div>
 
-  <div class="col-12 col-md-9">
+  <div class="col-12 col-md-6">
 
     <div class="card">
       <h3><b><i class="fa-solid fa-filter"></i> BỘ LỌC</b></h3>
 
       <form [formGroup]="formGroup">
         <div class="card-body row py-0">
-          <div class="col-12 col-md-5">
+          <div class="col-6 col-md-6">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Thời gian</mat-label>
               <mat-date-range-input (click)="filterAll()" [rangePicker]="picker">
@@ -38,7 +38,7 @@
             </mat-form-field>
           </div>
 
-          <div class="col-6 col-md-3">
+          <div class="col-5 col-md-5">
             <mat-form-field appearance="outline" class="w-100">
               <mat-label>Trạng thái</mat-label>
               <mat-select formControlName="status">
@@ -50,18 +50,18 @@
             </mat-form-field>
           </div>
 
-          <div class="col-6 col-md-3">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Loại khuyến mại</mat-label>
-              <mat-select formControlName="type">
-                <mat-option>--</mat-option>
-                <mat-option (click)="filterAll()" [value]="0">VND</mat-option>
-                <mat-option (click)="filterAll()" [value]="1">%</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
+<!--          <div class="col-6 col-md-3">-->
+<!--            <mat-form-field appearance="outline" class="w-100">-->
+<!--              <mat-label>Loại khuyến mại</mat-label>-->
+<!--              <mat-select formControlName="type">-->
+<!--                <mat-option>&#45;&#45;</mat-option>-->
+<!--                <mat-option (click)="filterAll()" [value]="0">VND</mat-option>-->
+<!--                <mat-option (click)="filterAll()" [value]="1">%</mat-option>-->
+<!--              </mat-select>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
 
-          <div class="col-1 col-md-1">
+          <div class="col-1 col-md-1 pl-0">
             <button class="btn btn-sm btn-outline-danger mt-3 px-2" type="button"
                     (click)="getAll()" title="Đặt lại">
               <i class="fa-solid fa-rotate"></i>
@@ -76,8 +76,7 @@
 </div>
 
 <div class="text-center my-3">
-  <a class="mr-5" mat-raised-button color="primary" [routerLink]="['/product-promotional-management']"
-     [state]="{tracingId: 123}">
+  <a class="mr-5" mat-raised-button color="primary" (click)="openProductInPromotional()">
     <i class="fa-solid fa-plus"></i> Quản lý sản phẩm khuyến mại
   </a>
   <button mat-raised-button color="primary" (click)="openSave(TYPE_DIALOG.NEW)">
@@ -125,6 +124,15 @@
             </td>
           </ng-container>
 
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Trạng thái</th>
+            <td mat-cell *matCellDef="let row">
+              <span *ngIf="row.status == 2" class="status" style="background-color: #ffc600 ">Đang chờ</span>
+              <span *ngIf="row.status == 1" class="status" style="background-color: green">Hoạt động</span>
+              <span *ngIf="row.status == 0" class="status" style="background-color: orangered">Ngưng hoạt động</span>
+            </td>
+          </ng-container>
+
           <ng-container matColumnDef="staff">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Nguời tạo</th>
             <td mat-cell *matCellDef="let row"> {{row.staff.firstname}} {{row.staff.lastname}}</td>
@@ -140,18 +148,18 @@
               Hành động
             </th>
             <td mat-cell *matCellDef="let row" class="text-center">
-              <button class="btn btn-sm btn-outline-primary me-2 px-2" type="button"
+              <button mat-icon-button color="accent" *ngIf="row.status == 1 || row.status == 2" type="button"
                       (click)="openSave(TYPE_DIALOG.UPDATE, row)" title="Sửa">
-                <i class="fa-regular fa-pen-to-square"></i>
+                <i class="fa-solid fa-pen"></i>
               </button>
 
-              <button *ngIf="row.status == 0" class="btn btn-sm btn-outline-danger px-2"
-                      type="button"
-                      (click)="active(RESULT_CLOSE_DIALOG.ACTIVE,row)" title="Kích hoạt">
-                <i class="fa-solid fa-lock"></i>
-              </button>
+<!--              <button mat-icon-button *ngIf="row.status == 0" class="btn btn-sm btn-outline-danger px-2"-->
+<!--                      type="button"-->
+<!--                      (click)="active(RESULT_CLOSE_DIALOG.ACTIVE,row)" title="Kích hoạt">-->
+<!--                <i class="fa-solid fa-lock"></i>-->
+<!--              </button>-->
 
-              <button *ngIf="row.status == 1 || row.status == 2" class="btn btn-sm btn-outline-success px-2"
+              <button *ngIf="row.status == 1 || row.status == 2" mat-icon-button class="text-green"
                       type="button"
                       (click)="active(RESULT_CLOSE_DIALOG.NOT_ACTIVE,row)" title="Vô hiệu hoá">
                 <i class="fa-solid fa-lock-open"></i>
@@ -165,7 +173,7 @@
 
           <!-- Row shown when there is no matching data. -->
           <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            <td class="mat-cell" colspan="4">Không có dữ liệu: "{{input.value}}"</td>
           </tr>
         </table>
 

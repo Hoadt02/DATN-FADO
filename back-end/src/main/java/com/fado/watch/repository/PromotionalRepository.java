@@ -8,12 +8,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface PromotionalRepository extends JpaRepository<Promotional, Integer> {
+
+    @Override
+    @Query("select p from promotionals p order by p.id desc ")
+    List<Promotional> findAll();
 
     Optional<Promotional> findByName(String name);
 
@@ -26,11 +29,9 @@ public interface PromotionalRepository extends JpaRepository<Promotional, Intege
     @Query("select p from promotionals p where 1 = 1" +
             "and (:startDate is null or p.startDate >= :startDate)" +
             "and (:endDate is null or p.endDate <= :endDate)" +
-            "and (:status is null or p.status = :status)" +
-            "and (:type is null or p.type = :type)")
+            "and (:status is null or p.status = :status) order by p.id desc")
     List<Promotional> filter(@Param("startDate") LocalDate startDate
             , @Param("endDate") LocalDate endDate
-            , @Param("status") Integer status
-            , @Param("type") boolean type);
+            , @Param("status") Integer status);
 
 }

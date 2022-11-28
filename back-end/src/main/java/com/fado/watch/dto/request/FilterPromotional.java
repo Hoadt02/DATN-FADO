@@ -10,6 +10,5 @@ public class FilterPromotional {
     private LocalDate startDate;
     private LocalDate endDate;
     private Integer status;
-    private boolean type;
 
 }
