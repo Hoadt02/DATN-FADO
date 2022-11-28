@@ -17,17 +17,11 @@ import {Constants} from "../../../shared/Constants";
 export class SellAtStoreHistoryComponent implements OnInit {
 
   readonly STATUS_SUCCESS = Constants.STATUS_PAYMENT.SUCCESS;
-  readonly STATUS_CANCEL = Constants.STATUS_PAYMENT.CANCEL;
 
-  displayedColumnsS: string[] = ['index', 'customer', 'total', 'discount', 'totalPayment', 'date', 'action'];
-  dataSourcePayment!: MatTableDataSource<any>;
-  @ViewChild(MatPaginator) paginatorS!: MatPaginator;
-  @ViewChild(MatSort) sortS!: MatSort;
-
-  displayedColumnsC: string[] = ['index', 'customer', 'total', 'discount', 'totalPayment', 'date', 'action'];
-  dataSourceCancel!: MatTableDataSource<any>;
-  @ViewChild(MatPaginator) paginatorC!: MatPaginator;
-  @ViewChild(MatSort) sortC!: MatSort;
+  displayedColumns: string[] = ['index', 'customer', 'total', 'discount', 'totalPayment', 'date', 'action'];
+  dataSource!: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private orderDetailService: OrderDetailService,
               private orderService: OrderService,
@@ -37,27 +31,15 @@ export class SellAtStoreHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getListHistoryS();
-    this.getListHistoryC();
+    this.getListHistory();
   }
 
-  getListHistoryS() {
+  getListHistory() {
     this.orderService.getOrderHistory(this.storageService.getIdFromToken(), this.STATUS_SUCCESS).subscribe((data: any) => {
-      this.dataSourcePayment = new MatTableDataSource(data);
-      this.dataSourcePayment.paginator = this.paginatorS;
-      this.dataSourcePayment.sort = this.sortS;
-      console.log('danh sach hoa don da ban: ', data)
-    }, error => {
-      console.log(error)
-    })
-  }
-
-  getListHistoryC() {
-    this.orderService.getOrderHistory(this.storageService.getIdFromToken(), this.STATUS_CANCEL).subscribe((data2: any) => {
-      this.dataSourceCancel = new MatTableDataSource(data2);
-      this.dataSourceCancel.paginator = this.paginatorC;
-      this.dataSourceCancel.sort = this.sortC;
-      console.log('danh sach hoa don da huy: ', data2)
+      this.dataSource = new MatTableDataSource(data);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      console.log('danh sach hoa don: ', data)
     }, error => {
       console.log(error)
     })

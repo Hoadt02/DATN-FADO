@@ -29,6 +29,7 @@ export class SellAtStoreComponent implements OnInit {
   RESULT_CLOSE_DIALOG = Constants.RESULT_CLOSE_DIALOG;
   TYPE_DIALOG = Constants.TYPE_DIALOG;
   TYPE_UPDATE_NUMBER_PRD = Constants.TYPE_UPDATE_NUMBER_PRD;
+  PLUS_PRODUCT = Constants.TYPE_UPDATE_NUMBER_PRD.PLUS
 
   tabs = [];
   selected = new FormControl(0);
@@ -63,7 +64,7 @@ export class SellAtStoreComponent implements OnInit {
   formGroup: FormGroup;
   formGroupCustomer: FormGroup = this.fb.group({
     customer: this.fb.group({
-      id: ''
+      id: 195
     })
   })
   full_name: string;
@@ -169,7 +170,7 @@ export class SellAtStoreComponent implements OnInit {
     diaLogRef.afterClosed().subscribe((data: any) => {
       const createOrder = {
         customer: {
-          id: 195
+          id: this.formGroupCustomer.getRawValue().customer.id
         },
         staff: {
           id: this.storageService.getIdFromToken()
@@ -341,8 +342,13 @@ export class SellAtStoreComponent implements OnInit {
     let soLuong = event?.target.value;
 
     if (soLuong > data.productDetail.quantity) {
-      this.toastService.warning('Trong kho còn 1 sản phẩm');
+      this.toastService.warning('Trong kho còn ' + data.productDetail.quantity + ' sản phẩm');
       event.target.value = data.quantity;
+      return;
+    }
+
+    if (soLuong <= 0 || soLuong === "") {
+      this.deleteOrderDetail(data.productDetail.id);
       return;
     }
 
@@ -408,11 +414,13 @@ export class SellAtStoreComponent implements OnInit {
   }
 
   getOrderDetail() {
+    let soLuong = 0
     this.orderDetailService.findOrderDetailByOrder(this.idOrder).subscribe((data: any) => {
       this.tongTienHang = 0;
       this.orderDetails = data;
       for (const d of data) {
         this.tongTienHang += Math.round(d.price * d.quantity);
+        soLuong += d.quantity;
         this.promotionDetailService.getPromotional(this.idOrder).subscribe((data2: any) => {
           for (const pp of data2) {
             this.giamGia = Math.round(pp.promotional.discount * d.quantity);
@@ -423,7 +431,7 @@ export class SellAtStoreComponent implements OnInit {
           }
         })
       }
-
+      this.orderDetailService.quantityPrd$.next(soLuong);
     })
     console.log('id order cua getOrderDetail: ', this.idOrder)
   }
