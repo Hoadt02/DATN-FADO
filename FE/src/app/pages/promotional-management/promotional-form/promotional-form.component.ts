@@ -24,7 +24,7 @@ export class PromotionalFormComponent implements OnInit {
     id: [''],
     name: ['', [checkSpace, Validators.maxLength(255)]],
     discount: ['', [Validators.required, Validators.min(1)]],
-    type: [false],
+    type: [true],
     startDate: [new Date()],
     endDate: [new Date()],
     status: [1],

@@ -11,6 +11,9 @@ import {PromotionalFormComponent} from "../promotional-form/promotional-form.com
 import {formatDate} from "../../../shared/format/formatData";
 import {FormBuilder} from "@angular/forms";
 import {error} from "protractor";
+import {
+  ProductPromotionalListComponent
+} from "../../product-promotional-management/product-promotional-list/product-promotional-list.component";
 
 @Component({
   selector: 'app-promotional-list',
@@ -22,8 +25,7 @@ export class PromotionalListComponent implements OnInit {
   formGroup = this.fb.group({
     startDate: null,
     endDate: null,
-    status: null,
-    type: null,
+    status: 1
   })
 
   isLoading = true;
@@ -58,7 +60,7 @@ export class PromotionalListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAll();
+    this.filterAll();
   }
 
   getAll() {
@@ -192,4 +194,12 @@ export class PromotionalListComponent implements OnInit {
     })
   }
 
+  openProductInPromotional(){
+    this.matDialog.open(ProductPromotionalListComponent,{
+      width:'1000vh',
+      height:'90vh',
+      disableClose:true,
+      hasBackdrop: true
+    })
+  }
 }
