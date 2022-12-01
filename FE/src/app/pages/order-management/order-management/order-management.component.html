@@ -31,7 +31,7 @@
           <div class="max-height scroll-bar">
             <ng-template *ngFor="let odt of orderDetails" [ngIf]="odt.order.id == o.id">
               <div class="row w-100 product-detail">
-                <div class="col-2 col-md-2 col-lg-2 image">
+                <div class="col-2 col-md-2 col-lg-2 imagee">
                   <img src="../../../assets/img/avtProduct/{{odt.productDetail.avatar}}" alt="Ảnh sản phẩm">
                 </div>
                 <div class="col-8 col-md-8 col-lg-8">
@@ -41,7 +41,7 @@
                   <p>Số lượng: {{odt.quantity}}</p>
                 </div>
                 <div class="col-2 col-md-2 col-lg-2 price">
-                  <div class="right">
+                  <div class="center">
                     <p *ngIf="odt.price != odt.productDetail.price">{{odt.price | number}} VND</p>
                     <p
                       [style]="odt.price != odt.productDetail.price ? 'text-decoration:line-through;color:red':''">
@@ -53,12 +53,12 @@
             </ng-template>
           </div>
           <div class="total-payment ml-auto">
-            <p>
-              Giảm giá:
-              <span style="padding-left: 5px; margin-right: 20px"
-              >{{ o.discount | number }} VND</span
-              >
-            </p>
+<!--            <p>-->
+<!--              Giảm giá:-->
+<!--              <span style="padding-left: 5px; margin-right: 20px"-->
+<!--              >{{ o.discount | number }} VND</span-->
+<!--              >-->
+<!--            </p>-->
             <p>Phí giao hàng: {{ o.feeShipping | number }} VND</p>
             <p>
               Tổng tiền thanh toán:
