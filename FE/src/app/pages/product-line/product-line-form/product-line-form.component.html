@@ -9,7 +9,10 @@
     <mat-form-field class="w-100" appearance="outline" formGroupName="category">
       <mat-label>Danh mục</mat-label>
       <mat-select disableRipple formControlName="id">
-        <mat-option *ngFor="let cate of listCategory" [value]="cate.id">{{cate.name}}</mat-option>
+        <mat-option *ngFor="let cate of listCategory" [value]="cate.id" [disabled]="cate.status == 0">
+          <span *ngIf="cate.status == 1">{{cate.name}}</span>
+          <span *ngIf="cate.status == 0"><del>{{cate.name}}</del></span>
+        </mat-option>
       </mat-select>
       <mat-error
         *ngIf="formGroup.get('category.id')?.hasError('required') && formGroup.get('category.id')?.touched">
