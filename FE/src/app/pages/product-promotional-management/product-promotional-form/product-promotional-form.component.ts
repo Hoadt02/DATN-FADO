@@ -218,4 +218,8 @@ export class ProductPromotionalFormComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
+
+  close() {
+    this.matDialogRef.close();
+  }
 }
