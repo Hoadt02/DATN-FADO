@@ -8,7 +8,7 @@
           <span class="navbar-toggler-bar bar3"></span>
         </button>
       </div>
-      <a class="navbar-brand" href="javascript:void(0)">{{getTitle()}}</a>
+     <b> <a class="navbar-brand" href="javascript:void(0)">{{getTitle()}}</a></b>
     </div>
     <button class="navbar-toggler" type="button" (click)="collapse()" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
       <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -20,7 +20,7 @@
         <li class="nav-item btn-rotate" ngbDropdown placement="bottom-left">
           <a class="nav-link" ngbDropdownToggle id="navbarDropdownMenuAccount">
             <i class="fa-regular fa-user"></i>
-            <span> {{full_name}} </span>
+            <b><span> {{full_name}} </span></b>
           </a>
           <div ngbDropdownMenu aria-labelledby="navbarDropdownMenuAccount" class="dropdown-menu dropdown-menu-right">
             <a ngbDropdownItem href="javascript:void(0)" (click)="openChageInfoLogin()"><i class="fa-regular fa-user"></i> Thông tin cá nhân</a>
