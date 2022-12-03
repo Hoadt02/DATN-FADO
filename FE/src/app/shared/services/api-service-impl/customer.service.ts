@@ -14,7 +14,6 @@ export class CustomerService {
   constructor(
     private readonly apiCustomer: ApiCustomerService,
     private toastrService: ToastrService,
-    private router: Router
   ) {
   }
   getAll() {
@@ -23,14 +22,12 @@ export class CustomerService {
   dataReplace(data: any) {
     data.firstname = data.firstname.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
     data.lastname = data.lastname.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
-    data.address = data.address.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
     data.email = data.email.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
    data.dateOfBirth = formatDate(data.dateOfBirth);
   }
   create(data: any) {
     this.dataReplace(data);
     return this.apiCustomer.create(data).subscribe({
-      // tslint:disable-next-line:no-shadowed-variable
       next: (data: any) => {
         this.toastrService.success('Khách hàng thêm thành công!');
         this.isCloseDialog.next(true);
