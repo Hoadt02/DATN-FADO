@@ -37,7 +37,7 @@
         <div class="col-8">
           <div class="row">
             <mat-form-field class="w-100" appearance="outline" class="col-6">
-              <mat-label>Tên sản phẩm</mat-label>
+              <mat-label>Tên sản phẩm *</mat-label>
               <input type="text" matInput placeholder="..." formControlName="name">
               <mat-error *ngIf="formGroup.get('name')?.hasError('isSpace') && formGroup.get('name')?.touched">
                 Vui lòng không bỏ trống tên sản phẩm!
@@ -91,7 +91,10 @@
             <mat-form-field appearance="outline" class="col-6" formGroupName="product">
               <mat-label>Dòng sản phẩm</mat-label>
               <mat-select formControlName="id">
-                <mat-option *ngFor="let p of listProduct" [value]="p.id">{{p.name}}</mat-option>
+                <mat-option *ngFor="let p of listProduct" [value]="p.id" [disabled]="p.status == 0 || p.category.status == 0">
+                  <span *ngIf="p.status == 1 && p.category.status == 1">{{p.name}}</span>
+                  <span *ngIf="p.status == 0 || p.category.status == 0"><del>{{p.name}}</del></span>
+                </mat-option>
               </mat-select>
               <mat-error *ngIf="formGroup.get('product')?.invalid && formGroup.get('product')?.touched">
                 Vui lòng không bỏ trống dòng sản phẩm!
@@ -101,7 +104,10 @@
             <mat-form-field appearance="outline" class="col-6" formGroupName="brand">
               <mat-label>Thương hiệu</mat-label>
               <mat-select formControlName="id">
-                <mat-option *ngFor="let b of listBrand" [value]="b.id">{{b.name}}</mat-option>
+                <mat-option *ngFor="let b of listBrand" [value]="b.id" [disabled]="b.status == 0">
+                  <span *ngIf="b.status == 1">{{b.name}}</span>
+                  <span *ngIf="b.status == 0"><del>{{b.name}}</del></span>
+                </mat-option>
               </mat-select>
               <mat-error *ngIf="formGroup.get('brand')?.invalid && formGroup.get('brand')?.touched">
                 Vui lòng không bỏ trống thương hiệu sản phẩm!
@@ -113,7 +119,10 @@
             <mat-form-field appearance="outline" class="col-6" formGroupName="material">
               <mat-label>Chất liệu</mat-label>
               <mat-select formControlName="id">
-                <mat-option *ngFor="let m of listMaterial" [value]="m.id">{{m.name}}</mat-option>
+                <mat-option *ngFor="let m of listMaterial" [value]="m.id" [disabled]="m.status == 0">
+                  <span *ngIf="m.status == 1">{{m.name}}</span>
+                  <span *ngIf="m.status == 0"><del>{{m.name}}</del></span>
+                </mat-option>
               </mat-select>
               <mat-error *ngIf="formGroup.get('material')?.invalid && formGroup.get('material')?.touched">
                 Vui lòng không bỏ trống chất liệu sản phẩm!
@@ -123,7 +132,10 @@
             <mat-form-field appearance="outline" class="col-6" formGroupName="origin">
               <mat-label>Xuất xứ</mat-label>
               <mat-select formControlName="id">
-                <mat-option *ngFor="let o of listOrigin" [value]="o.id">{{o.name}}</mat-option>
+                <mat-option *ngFor="let o of listOrigin" [value]="o.id" [disabled]="o.status == 0">
+                  <span *ngIf="o.status == 1">{{o.name}}</span>
+                  <span *ngIf="o.status == 0"><del>{{o.name}}</del></span>
+                </mat-option>
               </mat-select>
               <mat-error *ngIf="formGroup.get('origin')?.invalid && formGroup.get('origin')?.touched">
                 Vui lòng không bỏ trống xuất xứ sản phẩm!

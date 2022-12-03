@@ -9,9 +9,8 @@
   <div class="row px-xl-5">
     <div class="col-12">
       <nav class="breadcrumb bg-light mb-30 shadow-sm" style="border-radius: 5px;">
-        <a class="breadcrumb-item text-dark" href="#">Home</a>
-        <a class="breadcrumb-item text-dark" href="#">Shop</a>
-        <span class="breadcrumb-item active">Shop Detail</span>
+        <a class="breadcrumb-item text-dark" routerLink="/">Trang chủ</a>
+        <span class="breadcrumb-item active">Sản phẩm chi tiết</span>
       </nav>
     </div>
   </div>
@@ -90,13 +89,12 @@
             <input min="1" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'" type="number" class="form-control bg-secondary border-0 text-center" name="slSP" [(ngModel)]="slSP">
           </div>
           <button (click)="addToCart(productDetail.id)" class="btn btn-primary px-3"><i
-            class="fa fa-shopping-cart mr-1"></i> Add To
-            Cart
+            class="fa fa-shopping-cart mr-1"></i> Thêm vào giỏ hàng
           </button>
         </div>
         <p style="color: red; font-size: 11px" *ngIf="checkSl">Số lượng nhập vào vượt quá số lượng hiện có!</p>
         <div class="d-flex pt-2">
-          <strong class="text-dark mr-2">Share on:</strong>
+          <strong class="text-dark mr-2">Chia sẻ:</strong>
           <div class="d-inline-flex">
             <a class="text-dark px-2" href="">
               <i class="fab fa-facebook-f"></i>

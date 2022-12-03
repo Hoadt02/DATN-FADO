@@ -128,7 +128,7 @@
         class="bg-secondary pr-3">Tổng hoá đơn</span>
       </h5>
       <div class="bg-light">
-        <div class="border-bottom pr-2 scroll-bar" style="height: 19vh; overflow: auto">
+        <div class="border-bottom pr-2 scroll-bar" style="height: 25.3vh; overflow: auto">
           <h6 class="mb-3">Danh sách sản phẩm</h6>
           <div *ngFor="let i of items" class="d-flex justify-content-between product">
             <p>{{i.productDetail.name}}</p>
@@ -144,10 +144,10 @@
             <h6>Phí giao hàng</h6>
             <h6>{{totalFeeShipping | number}} VND</h6>
           </div>
-          <div class="d-flex justify-content-between">
-            <h6 class="font-weight-medium">Giảm giá voucher</h6>
-            <h6 class="font-weight-medium">{{discount | number}} VND</h6>
-          </div>
+<!--          <div class="d-flex justify-content-between">-->
+<!--            <h6 class="font-weight-medium">Giảm giá voucher</h6>-->
+<!--            <h6 class="font-weight-medium">{{discount | number}} VND</h6>-->
+<!--          </div>-->
         </div>
         <div class="pt-2">
           <div class="d-flex justify-content-between">

@@ -60,7 +60,7 @@ export class PromotionalListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.filterAll();
+    this.getAll();
   }
 
   getAll() {
@@ -84,7 +84,6 @@ export class PromotionalListComponent implements OnInit {
   }
 
   filterAll() {
-    console.log(this.formGroup.getRawValue());
     this.isLoading = true;
     this.apiPromotional.filterAll(this.formGroup.getRawValue()).subscribe({
       next: (data: any) => {
@@ -94,6 +93,7 @@ export class PromotionalListComponent implements OnInit {
           this.dataSource.paginator.firstPage();
         }
         this.isLoading = false;
+        this.checkStatus();
       }, error: err => {
         console.log(err);
         this.isLoading = false;
@@ -137,7 +137,7 @@ export class PromotionalListComponent implements OnInit {
       this.message = 'Bạn có chắc chắn muốn kích hoạt khuyến mại này?'
     } else {
       this.title = 'Vô hiệu hoá khuyến mại!';
-      this.message = 'Bạn có chắc chắn muốn vô hiệu hoá khuyến mại này?'
+      this.message = 'Vô hiệu hoá khuyến mại sẽ không thể kích hoạt lại, bạn có chắc chắn muốn vô hiệu hoá khuyến mại này?'
     }
 
     const diaLogRef = this.matDialog.open(ConfirmDialogComponent, {
@@ -177,7 +177,6 @@ export class PromotionalListComponent implements OnInit {
   }
 
   checkStatus() {
-    console.log(this.listData);
     for (const x of this.listData) {
       if (x.endDate < formatDate(new Date()) && x.status == 1 || x.startDate <= formatDate(new Date()) && x.status == 2) {
         this.isLoading = true;
@@ -194,11 +193,11 @@ export class PromotionalListComponent implements OnInit {
     })
   }
 
-  openProductInPromotional(){
-    this.matDialog.open(ProductPromotionalListComponent,{
-      width:'1000vh',
-      height:'90vh',
-      disableClose:true,
+  openProductInPromotional() {
+    this.matDialog.open(ProductPromotionalListComponent, {
+      width: '1000vh',
+      height: '90vh',
+      disableClose: true,
       hasBackdrop: true
     })
   }
