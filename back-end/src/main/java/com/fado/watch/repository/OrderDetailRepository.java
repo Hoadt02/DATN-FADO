@@ -25,6 +25,9 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Intege
     @Query("select o from order_details o where o.order.id =:id and o.order.type = 1")
     List<OrderDetail> findOrderDetailByOrder(Integer id);
 
+    @Query("select o from order_details o where o.order.id =:id and o.order.type = 1")
+    OrderDetail findOrderDetailByOrderId(Integer id);
+
     @Query("select o from order_details o where o.productDetail.id =:idProduct and o.order.id =:idOrder")
     OrderDetail checkTrungSP(Integer idProduct, Integer idOrder);
 
@@ -36,5 +39,7 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Intege
     @Query("select od from order_details od where od.order.type = 1 and od.order.status =:status")
     List<OrderDetail> getHistory(Integer status);
 
+    @Query("select od.order.status from order_details od where od.order.id = :id")
+    Integer getStatus(@Param("id") Integer id);
 
 }

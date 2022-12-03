@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ApiOrderService} from "../api-services/api-order.service";
 import {ApiConstant} from "../../constants/api-constant";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,12 @@ export class OrderService {
     return this.api.save(data);
   }
 
-  update(idOrder: any,data: any) {
-    return this.api.update(idOrder,data);
+  updateMua(idOrder: any,data: any) {
+    return this.api.updateMua(idOrder,data);
+  }
+
+  updateHuy(idOrder: any,data: any) {
+    return this.api.updateHuy(idOrder,data);
   }
 
   delete(id: number) {
@@ -54,6 +59,10 @@ export class OrderService {
     return this.api.getOrderById(id);
   }
 
+  getOrderByIdOne(id: number) {
+    return this.api.getOrderByIdOne(id);
+  }
+
   updateStatus(status: number, id: number) {
     return this.api.updateStatus(status, id);
   }
@@ -64,5 +73,9 @@ export class OrderService {
 
   exportOrder(id: number) {
     return this.api.exportOrder(id);
+  }
+
+  filterOrder(data: any) {
+    return this.api.filterOrder(data);
   }
 }

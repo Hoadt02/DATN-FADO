@@ -20,6 +20,10 @@ export class OrderService {
     return this.api.findAllByCustomerId(id);
   }
 
+  findById(id: number) {
+    return this.api.findById(id);
+  }
+
   save(data: any) {
     return this.api.save(data);
   }

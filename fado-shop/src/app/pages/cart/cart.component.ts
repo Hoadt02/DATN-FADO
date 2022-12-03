@@ -189,8 +189,8 @@ export class CartComponent implements OnInit {
               const items = this.items;
               this.matDiaLog.open(CheckOutComponent, {
                 width: '1000px',
-                height: '70vh',
-                minHeight: '70vh',
+                height: '77vh',
+                minHeight: '77vh',
                 hasBackdrop: true,
                 disableClose: true,
                 data: {

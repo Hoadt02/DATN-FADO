@@ -37,4 +37,7 @@ export class ScannerFormComponent implements OnInit, AfterViewInit {
     console.log(started);
   }
 
+  close() {
+    this.matDialogRef.close();
+  }
 }

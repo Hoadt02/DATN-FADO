@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ProductPromotionalService} from "../../../shared/services/api-service-impl/product-promotional.service";
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
@@ -40,6 +40,7 @@ export class ProductPromotionalListComponent implements OnInit {
     private readonly promotionalService: PromotionalService,
     private matDiaLog: MatDialog,
     private readonly toastrService: ToastrService,
+    private matDiaLogRef :MatDialogRef<ProductPromotionalListComponent>
   ) {
   }
 
@@ -241,5 +242,9 @@ export class ProductPromotionalListComponent implements OnInit {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+  }
+
+  close() {
+    this.matDiaLogRef.close();
   }
 }

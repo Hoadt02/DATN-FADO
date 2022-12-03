@@ -1,139 +1,124 @@
 <div class="container-fluid">
-  <h1>Lịch sử mua bán tại quầy</h1>
-  <mat-tab-group fitInkBarToContent>
-    <mat-tab label="Đã bán">
-      <div class="row row-sm w-100">
-        <div class="col-lg-12 col-md-12">
-          <div class="card custom-card">
-            <div class="card-body">
-              <table mat-table [dataSource]="dataSourcePayment" matSort>
 
-                <!-- index Column -->
-                <ng-container matColumnDef="index">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> STT</th>
-                  <td mat-cell *matCellDef="let row; index as i"> {{i + 1}} </td>
-                </ng-container>
-
-                <!-- customer Column -->
-                <ng-container matColumnDef="customer">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên khách hàng</th>
-                  <td mat-cell *matCellDef="let row"> {{row.customer.firstname}} {{row.customer.lastname}} </td>
-                </ng-container>
-
-                <!-- total Column -->
-                <ng-container matColumnDef="total">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Tổng giá</th>
-                  <td mat-cell *matCellDef="let row"> {{row.total | currency:'VND'}} </td>
-                </ng-container>
-
-                <!-- discount Column -->
-                <ng-container matColumnDef="discount">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Giảm giá</th>
-                  <td mat-cell *matCellDef="let row"> {{row.discount | currency:'VND'}} </td>
-                </ng-container>
-
-                <!-- totalPayment Column -->
-                <ng-container matColumnDef="totalPayment">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Tổng thanh toán</th>
-                  <td mat-cell *matCellDef="let row"> {{row.totalPayment | currency:'VND'}} </td>
-                </ng-container>
-
-                <!-- date Column -->
-                <ng-container matColumnDef="date">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Ngày tạo</th>
-                  <td mat-cell *matCellDef="let row"> {{row.createDate | date: 'dd/MM/yyy'}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="action">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-                  <td mat-cell *matCellDef="let row">
-                    <button class="btn btn-sm btn-outline-primary ms-2 px-2" type="button"
-                             title="Chi tiết" (click)="openOrderDetail(row)">
-                      <i class="fa-regular fa-eye"></i>
-                    </button>
-                  </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumnsS"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumnsS;"></tr>
-
-              </table>
-
-              <mat-paginator [pageSizeOptions]="[5, 10, 20, 35, 100]" aria-label="Select page of users"></mat-paginator>
-            </div>
-          </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <div class="card">
+        <h3><b><i class="fa-solid fa-magnifying-glass"></i> TÌM KIẾM NHANH</b></h3>
+        <div class="card-body py-0">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Tìm kiếm</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="Tìm kiếm " #input>
+          </mat-form-field>
         </div>
       </div>
-    </mat-tab>
+    </div>
 
-    <mat-tab label="Đã hủy">
-      <div class="row row-sm w-100">
-        <div class="col-lg-12 col-md-12">
-          <div class="card custom-card">
-            <div class="card-body">
-              <table mat-table [dataSource]="dataSourceCancel" matSort>
+    <div class="col-12 col-md-6">
+      <div class="card">
+        <h3><b><i class="fa-solid fa-filter"></i> BỘ LỌC</b></h3>
+        <form [formGroup]="formGroupFilter">
+          <div class="card-body row py-0">
+            <div class="col-6 col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Thời gian</mat-label>
+                <mat-date-range-input (click)="filterOrder()" [rangePicker]="picker">
+                  <input formControlName="startDate" matStartDate placeholder="Từ ngày">
+                  <input formControlName="endDate" matEndDate placeholder="Đến ngày">
+                </mat-date-range-input>
+                <mat-hint>MM/dd/yyyy – MM/dd/yyyy</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+              </mat-form-field>
+            </div>
 
-                <!-- index Column -->
-                <ng-container matColumnDef="index">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> STT</th>
-                  <td mat-cell *matCellDef="let row; index as i"> {{i + 1}} </td>
-                </ng-container>
-
-                <!-- customer Column -->
-                <ng-container matColumnDef="customer">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên khách hàng</th>
-                  <td mat-cell *matCellDef="let row"> {{row.customer.firstname}} {{row.customer.lastname}} </td>
-                </ng-container>
-
-                <!-- total Column -->
-                <ng-container matColumnDef="total">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Tổng giá</th>
-                  <td mat-cell *matCellDef="let row"> {{row.total | currency:'VND'}} </td>
-                </ng-container>
-
-                <!-- discount Column -->
-                <ng-container matColumnDef="discount">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Giảm giá</th>
-                  <td mat-cell *matCellDef="let row"> {{row.discount | currency:'VND'}} </td>
-                </ng-container>
-
-                <!-- totalPayment Column -->
-                <ng-container matColumnDef="totalPayment">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Tổng thanh toán</th>
-                  <td mat-cell *matCellDef="let row"> {{row.totalPayment | currency:'VND'}} </td>
-                </ng-container>
-
-                <!-- date Column -->
-                <ng-container matColumnDef="date">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Ngày tạo</th>
-                  <td mat-cell *matCellDef="let row"> {{row.createDate | date: 'dd/MM/yyy'}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="action">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-                  <td mat-cell *matCellDef="let row">
-                    <button class="btn btn-sm btn-outline-primary ms-2 px-2" type="button"
-                            title="Chi tiết" (click)="openOrderDetail(row)">
-                      <i class="fa-regular fa-eye"></i>
-                    </button>
-                  </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumnsC"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumnsC;"></tr>
-
-              </table>
-
-              <mat-paginator [pageSizeOptions]="[5, 10, 20, 35, 100]" aria-label="Select page of users"></mat-paginator>
+            <div class="col-5 col-md-5">
+              <mat-form-field appearance="outline" class="w-100" >
+                <mat-label>Khách hàng</mat-label>
+                <mat-select formControlName="customerId">
+                  <mat-option (click)="filterOrder()" *ngFor="let c of listCustomer" [value]="c.id">{{c.firstname}} {{c.lastname}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-1 col-md-1 pl-0">
+              <a mat-icon-button class="text-danger" (click)="getListHistory()" title="Đặt lại">
+                <i class="fa-solid fa-rotate"></i>
+              </a>
             </div>
           </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 col-md-12">
+      <div class="card">
+        <div class="card-body">
+          <div>
+            <h3><b><i class="fa-solid fa-list"></i> DANH SÁCH HÓA ĐƠN THANH TOÁN</b></h3>
+          </div>
+          <table mat-table [dataSource]="dataSource" matSort>
+
+            <!-- index Column -->
+            <ng-container matColumnDef="index">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> STT</th>
+              <td mat-cell *matCellDef="let row; index as i"> {{i + 1}} </td>
+            </ng-container>
+
+            <!-- customer Column -->
+            <ng-container matColumnDef="customer">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên khách hàng</th>
+              <td mat-cell *matCellDef="let row"> {{row.customer.firstname}} {{row.customer.lastname}} </td>
+            </ng-container>
+
+            <!-- total Column -->
+            <ng-container matColumnDef="total">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Tổng giá</th>
+              <td mat-cell *matCellDef="let row"> {{row.total | currency:'VND'}} </td>
+            </ng-container>
+
+            <!-- discount Column -->
+            <ng-container matColumnDef="discount">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Giảm giá</th>
+              <td mat-cell *matCellDef="let row"> {{row.discount | currency:'VND'}} </td>
+            </ng-container>
+
+            <!-- totalPayment Column -->
+            <ng-container matColumnDef="totalPayment">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Tổng thanh toán</th>
+              <td mat-cell *matCellDef="let row"> {{row.totalPayment | currency:'VND'}} </td>
+            </ng-container>
+
+            <!-- date Column -->
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header> Ngày tạo</th>
+              <td mat-cell *matCellDef="let row"> {{row.createDate | date: 'dd/MM/yyy'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+              <td mat-cell *matCellDef="let row">
+                <a mat-icon-button class="text-green"
+                   title="Chi tiết" (click)="openOrderDetail(row)">
+                  <i class="fa-regular fa-eye"></i>
+                </a>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <!--          Row shown when there is no matching data.-->
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">Không có dữ liệu nào phù hợp với "{{input.value}}"</td>
+            </tr>
+          </table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 20, 35, 100]" aria-label="Select page of users"></mat-paginator>
         </div>
       </div>
-    </mat-tab>
-  </mat-tab-group>
-
-  <div class="text-center">
-    <button class="btn btn-outline-success" (click)="close()">Đóng</button>
+    </div>
   </div>
 </div>
-
+<div class="text-center">
+  <button class="btn btn-outline-success" (click)="close()">Đóng</button>
+</div>

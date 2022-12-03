@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ToastrService} from "ngx-toastr";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {ApiPromotionalService} from "../api-services/api-promotional.service";
 import {ApiProductPromotionalService} from "../api-services/api-product-promotional.service";
 import {any} from "codelyzer/util/function";
@@ -51,7 +51,11 @@ export class ProductPromotionalService {
     })
   }
 
-  getPromotional(idOder: number) {
+  getPromotional(idOder: number): Observable<any> {
     return this.apiProductPromotionalService.getPromotional(idOder);
+  }
+
+  getDiscount(idPd: number) {
+    return this.apiProductPromotionalService.getDiscount(idPd);
   }
 }

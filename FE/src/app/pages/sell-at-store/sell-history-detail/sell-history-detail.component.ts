@@ -1,8 +1,7 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {OrderDetailService} from "../../../shared/services/api-service-impl/orderDetail.service";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatPaginator} from "@angular/material/paginator";
+import {OrderService} from "../../../shared/services/api-service-impl/order.service";
 
 @Component({
   selector: 'app-sell-history-detail',
@@ -11,22 +10,31 @@ import {MatPaginator} from "@angular/material/paginator";
 })
 export class SellHistoryDetailComponent implements OnInit {
 
-  displayedColumns: string[] = ['index', 'image', 'name' , 'price', 'quantity'];
-  dataSource!: MatTableDataSource<any>;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  orders: any[] = [];
+  orderMoney: any[] = [];
+
+
   constructor(private matDataRef: MatDialogRef<SellHistoryDetailComponent>,
               @Inject(MAT_DIALOG_DATA) private dataDiaLog: any,
-              private orderDetailService: OrderDetailService) { }
+              private orderDetailService: OrderDetailService,
+              private orderService: OrderService) { }
 
   ngOnInit(): void {
     this.orderDetailService.findOrderDetailByOrder(this.dataDiaLog.row.id).subscribe((data: any) => {
-      this.dataSource = new MatTableDataSource(data);
-      this.dataSource.paginator = this.paginator;
+      this.orders = data;
+    });
+
+    this.orderService.getOrderById(this.dataDiaLog.row.id).subscribe((rs: any) => {
+      this.orderMoney = rs;
     })
   }
 
   close() {
     this.matDataRef.close();
+  }
+
+  export() {
+    window.print();
   }
 
 }

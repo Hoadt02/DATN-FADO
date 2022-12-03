@@ -2,14 +2,11 @@ import {Routes} from '@angular/router';
 
 import {DashboardComponent} from '../../pages/dashboard/dashboard.component';
 import {UserComponent} from '../../pages/user/user.component';
-import {TableComponent} from '../../pages/table/table.component';
-import {TypographyComponent} from '../../pages/typography/typography.component';
 import {IconsComponent} from '../../pages/icons/icons.component';
-import {MapsComponent} from '../../pages/maps/maps.component';
-import {NotificationsComponent} from '../../pages/notifications/notifications.component';
 import {Constants} from "../../shared/Constants";
 import {HasRoleGuard} from "../../shared/guard/has-role.guard";
 import {AuthGuard} from "../../shared/guard/auth.guard";
+import {SellAtStoreComponent} from "../../pages/sell-at-store/sell-at-store/sell-at-store.component";
 
 const TYPE_AUTH = Constants.TYPE_AUTH;
 
@@ -22,6 +19,14 @@ export const AdminLayoutRoutes: Routes = [
       role: TYPE_AUTH.SUPER_ADMIN
     }
   },
+  // {
+  //   path: 'sell-at-store',
+  //   loadChildren: () => import('../../pages/sell-at-store/sell-at-store.module').then(m => m.SellAtStoreModule),
+  //   canActivate: [HasRoleGuard],
+  //   data: {
+  //     role: TYPE_AUTH.ADMIN
+  //   }
+  // },
   {
     path: 'user',
     component: UserComponent,
@@ -31,40 +36,8 @@ export const AdminLayoutRoutes: Routes = [
     }
   },
   {
-    path: 'table',
-    component: TableComponent,
-    canActivate: [HasRoleGuard],
-    data: {
-      role: TYPE_AUTH.ADMIN
-    }
-  },
-  {
-    path: 'typography',
-    component: TypographyComponent,
-    canActivate: [HasRoleGuard],
-    data: {
-      role: TYPE_AUTH.ADMIN
-    }
-  },
-  {
     path: 'icons',
     component: IconsComponent,
-    canActivate: [HasRoleGuard],
-    data: {
-      role: TYPE_AUTH.ADMIN
-    }
-  },
-  {
-    path: 'maps',
-    component: MapsComponent,
-    canActivate: [HasRoleGuard],
-    data: {
-      role: TYPE_AUTH.ADMIN
-    }
-  },
-  {
-    path: 'notifications',
-    component: NotificationsComponent,
     canActivate: [HasRoleGuard],
     data: {
       role: TYPE_AUTH.ADMIN

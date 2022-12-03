@@ -27,6 +27,9 @@
             </div>
           </ng-template>
         </div>
+        <a (click)="openScannerBarcode()" class="mx-lg-2" mat-mini-fab color="white">
+          <i class="fa-solid fa-barcode"></i>
+        </a>
       </div>
     </div>
 <!--    End tìm kiếm -->
@@ -53,15 +56,12 @@
       <a (click)="addTab(true)" class="mx-lg-2" mat-mini-fab color="white">
         <mat-icon>add</mat-icon>
       </a>
-      <a (click)="openScannerBarcode()" class="mx-lg-2" mat-mini-fab color="white">
-        <mat-icon>code</mat-icon>
-      </a>
       <a [matMenuTriggerFor]="menu" class="mx-lg-2" mat-mini-fab color="white">
         <mat-icon>menu</mat-icon>
       </a>
       <mat-menu #menu="matMenu" class="w-auto">
-        <a class="nav-link" style="color: #000000" mat-menu-item (click)="openHistory()">
-          <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử mua hàng
+        <a class="nav-link" style="color: black" mat-menu-item (click)="openHistory()">
+          <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử hóa đơn
         </a>
         <mat-divider></mat-divider>
         <a class="nav-link" style="color: black" mat-menu-item (click)="openInfoUser()">
@@ -130,11 +130,14 @@
       <div class="p-30 mb-3">
         <div class="border-top pt-1">
           <div class="d-flex justify-content-between mb-1 pt-3">
-            <h4>Tổng tiền hàng</h4>
+            <h4>Tổng tiền hàng
+              <span
+              class="badge text-secondary border border-secondary rounded-circle"
+              style="padding-bottom: 2px">{{countQuantity}}</span></h4>
             <h4>{{tongTienHang | currency:'VND'}}</h4>
           </div>
           <div class="d-flex justify-content-between mb-1 pt-3">
-            <h4>Giảm giá</h4>
+            <h4>Giảm giá (% -> đ)</h4>
             <h4>{{giamGia | currency:'VND'}}</h4>
           </div>
           <div class="border-top pt-2">
@@ -148,16 +151,18 @@
                 <h4>Tiền khách đưa</h4>
               </div>
               <div class="col-3">
-                <mat-form-field class="w-100">
-                  <input class="giamgia" currencyMask
-                         [options]="{prefix: 'đ', decimal: ',', precision: 0}"
-                         matInput [(ngModel)]="tienKhachDua">
-                </mat-form-field>
+                <form [formGroup]="formMoney">
+                  <mat-form-field class="w-100">
+                    <input class="giamgia" currencyMask formControlName="tienKhachDua"
+                           [options]="{prefix: 'đ', decimal: ',', precision: 0}"
+                           matInput [(ngModel)]="tienKhachDua">
+                  </mat-form-field>
+                </form>
               </div>
             </div>
 
             <div class="d-flex justify-content-between">
-              <h4>Tiền thừa trả khách</h4>
+              <h4 (click)="ex()">Tiền thừa trả khách</h4>
               <h4 *ngIf="tienKhachDua > 0">{{tienKhachDua - tienKhachCanTra | currency:'VND'}}</h4>
             </div>
 

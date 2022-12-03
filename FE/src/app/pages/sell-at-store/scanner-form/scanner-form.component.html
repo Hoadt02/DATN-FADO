@@ -1,10 +1,15 @@
-<barcode-scanner-livestream
-  type="code_128"
-  (valueChanges)="onValueChange($event)"
-  (started)="(onStarted)"
->
+<div class="text-right mt-0">
+  <i class="fa-solid fa-xmark" (click)="close()"></i>
+</div>
+<div>
+  <barcode-scanner-livestream
+    type="code_128"
+    (valueChanges)="onValueChange($event)"
+    (started)="(onStarted)"
+  >
 
-</barcode-scanner-livestream>
-<div [hidden]="!barcodeValue">
-  {{ barcodeValue }}
+  </barcode-scanner-livestream>
+  <div [hidden]="!barcodeValue">
+    {{ barcodeValue }}
+  </div>
 </div>

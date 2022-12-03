@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.Date;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -51,9 +52,18 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("select o from orders o where o.id =:id and o.type = 1")
     List<Order> getOrderById(Integer id);
 
-    @Query("select o from orders o where o.id =:id and o.type = 1")
+    @Query("select o from orders o where o.id =:id")
     Order findOrderById(Integer id);
 
     @Query("select o from orders o where o.staff.id = :id and o.status = :status and o.type = 1")
     List<Order> getOrderHistory(@Param("id") Integer id, @Param("status") Integer status);
+
+    @Query("select o from orders o where 1 = 1"
+            + "and (:startDate is null or o.createDate >= :startDate )"
+            + "and (:endDate is null or o.createDate <= :endDate)"
+            + "and (:customerId is null or o.customer.id = :customerId) "
+            + "order by o.id desc ")
+    List<Order> filterOrder(@Param("startDate") LocalDate startDate,
+                            @Param("endDate") LocalDate endDate,
+                            @Param("customerId") Integer customerId);
 }
