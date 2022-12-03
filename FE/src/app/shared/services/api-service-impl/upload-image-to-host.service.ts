@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {ApiUploadImageToHostService} from "../api-services/api-upload-image-to-host.service";
-import {ApiConstant} from "../../constants/api-constant";
+import {ApiUploadImageToHostService} from '../api-services/api-upload-image-to-host.service';
+import {ApiConstant} from '../../constants/api-constant';
 
 @Injectable({
   providedIn: 'root'

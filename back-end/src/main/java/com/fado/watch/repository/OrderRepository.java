@@ -26,8 +26,8 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     void updateStatus(@Param("status") Integer status, @Param("id") Integer id);
 
     //    lấy số tiền trong từng tháng
-    @Query("SELECT new CharBarDTO(MONTH(o.createDate) ,SUM(o.totalPayment)) FROM orders o WHERE YEAR(o.createDate) = 2022 GROUP BY MONTH(o.createDate) ORDER BY MONTH(o.createDate) ASC")
-    List<CharBarDTO> chartBar();
+    @Query("SELECT new CharBarDTO(MONTH(o.createDate) ,SUM(o.totalPayment)) FROM orders o WHERE YEAR(o.createDate) = :year and o.status = 3 GROUP BY MONTH(o.createDate) ORDER BY MONTH(o.createDate) ASC")
+    List<CharBarDTO> chartBar(@Param("year") Integer year);
 
     //      lấy số tiền trong 1 năm
     @Query("SELECT SUM(o.totalPayment) AS DOANHTHU FROM orders o WHERE YEAR(o.createDate) = :year and o.status = 3")

@@ -39,16 +39,18 @@
           <!-- status Column -->
           <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Trạng thái</th>
-            <td mat-cell *matCellDef="let row"> {{row.status == 1 ? 'Đang xử dụng':'Đã xóa'}} </td>
+            <td mat-cell *matCellDef="let row">
+              <span *ngIf="row.status == 1" class="status" style="background-color: green">Đang sử dụng</span>
+              <span *ngIf="row.status == 0" class="status" style="background-color: orangered">Đã xóa</span>
+            </td>
           </ng-container>
 
           <!-- thao tác Column -->
           <ng-container matColumnDef="thaoTac">
-            <th mat-header-cell *matHeaderCellDef> Thao tác</th>
-            <td mat-cell *matCellDef="let row">
-              <button class="btn btn-sm btn-outline-primary mg-r-2" type="button"
-                      (click)="openDiaLog(TYPE_DIALOG.UPDATE,row)">
-                <i class="fa-regular fa-pen-to-square"></i>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header width="15%"> Thao tác</th>
+            <td mat-cell *matCellDef="let row" width="15%">
+              <button mat-icon-button color="accent" (click)="openDiaLog(TYPE_DIALOG.UPDATE,row)" title="Sua">
+                <i class="fa-solid fa-pen"></i>
               </button>
               <button [disabled]="row.status == 0" mat-icon-button color="warn" (click)="onDelete(row.id, row)">
                 <i class="fa-sharp fa-solid fa-trash"></i>

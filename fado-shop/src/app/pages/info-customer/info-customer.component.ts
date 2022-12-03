@@ -27,7 +27,7 @@ export class InfoCustomerComponent implements OnInit {
     email: ['', [Validators.required, Validators.pattern(Regex.email)]],
     phoneNumber: ['', [Validators.required, Validators.pattern(Regex.phoneNumber)]],
     gender: [1],
-    address: ['', checkSpace],
+    // address: ['', checkSpace],
     status: [1],
     role: this.fb.group({
       id: [4]
@@ -35,8 +35,7 @@ export class InfoCustomerComponent implements OnInit {
   })
 
   hide = true;
-  // @ts-ignore
-  file: File;
+  file!: File;
   avatar: any;
   avatarFormDb: any;
 
