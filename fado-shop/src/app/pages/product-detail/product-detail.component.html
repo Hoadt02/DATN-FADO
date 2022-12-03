@@ -145,7 +145,7 @@
       <div ngxSlickItem class="mx-2" *ngFor="let p of listSimilarProduct">
           <div class="product-item bg-light mb-4 shadow-sm" style="border-radius: 5px">
             <div class="product-img position-relative overflow-hidden" style="border-radius: 5px">
-              <span *ngIf="loadDiscountProduct(p.id) != 0" class="item-child badge badge-danger">Giảm giá</span>
+              <span *ngIf="loadDiscountProduct(p.id) != 0" class="item-child badge badge-danger">Giảm {{loadPercentProduct(p.id)}}%</span>
               <img class="img-fluid w-100" src="../../../assets/img/avtProduct/{{ p.avatar }}" alt=""/>
               <div class="product-action">
                 <a class="btn btn-outline-dark btn-square" (click)="addToCart(p)"><i class="fa fa-shopping-cart"></i></a>

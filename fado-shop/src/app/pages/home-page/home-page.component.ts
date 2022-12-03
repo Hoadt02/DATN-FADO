@@ -94,16 +94,22 @@ export class HomePageComponent implements OnInit {
     let discount = 0;
     for (let i = 0; i < this.productPromotionalCurrent.length; i++) {
       if (this.productPromotionalCurrent[i].productDetail.id == id) {
-        if (this.productPromotionalCurrent[i].promotional.type == true) {
           discount = (100 - this.productPromotionalCurrent[i].promotional.discount) / 100 * this.productPromotionalCurrent[i].productDetail.price;
           break;
-        } else {
-          discount = this.productPromotionalCurrent[i].productDetail.price - this.productPromotionalCurrent[i].promotional.discount;
-          break;
-        }
       }
     }
     return discount;
+  }
+
+  loadPercentProduct(id: number){
+    let percent = 0;
+    for (let i = 0; i < this.productPromotionalCurrent.length; i++) {
+      if (this.productPromotionalCurrent[i].productDetail.id == id) {
+        percent = this.productPromotionalCurrent[i].promotional.discount;
+        break;
+      }
+    }
+    return percent;
   }
 
   redirectProduct(id:number,name:string) {
