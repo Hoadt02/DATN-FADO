@@ -29,4 +29,8 @@ export class ApiProductPromotionalService {
   getPromotional(idOrder: number) {
     return this.http.get(`${ApiConstant.promotionalProduct}/getPromotional?idO=${idOrder}`);
   }
+
+  getDiscount(idPd: number) {
+    return this.http.get(`${ApiConstant.promotionalProduct}/getDiscount/${idPd}`)
+  }
 }

@@ -1,7 +1,5 @@
-table {
-  width: 100%;
-}
-
-td, th {
-  width: 15%;
+@media print {
+  button {
+    display: none;
+  }
 }

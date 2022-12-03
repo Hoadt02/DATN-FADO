@@ -13,7 +13,7 @@ import java.util.List;
 public interface CartRepository extends JpaRepository<Cart, Integer> {
 
     @Query("select new CartPriceResponse(c.id,c.quantity,c.productDetail.price,c.productDetail,c.customer) from carts c where c.customer.id = :id")
-    List<CartPriceResponse> findAllByCustomerId(Integer id);
+    List<CartPriceResponse> findAllByCustomerId(@Param("id") Integer id);
 
     void deleteAllByCustomerId(Integer id);
 

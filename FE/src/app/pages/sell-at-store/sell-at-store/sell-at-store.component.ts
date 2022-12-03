@@ -41,6 +41,7 @@ export class SellAtStoreComponent implements OnInit {
 
   name = '';
   products: any[] = [];
+  promotions: any[] = [];
   findByIdOrder: any[] = []
   orders: any[] = [];
   orderDetails: any[] = [];
@@ -54,6 +55,7 @@ export class SellAtStoreComponent implements OnInit {
   idOrder: any;
   idHoaDon: any[] = [];
   price: number;
+  countQuantity: number = 0;
 
   tongTienHang: number = 0
   giamGia: number = 0;
@@ -66,6 +68,10 @@ export class SellAtStoreComponent implements OnInit {
     customer: this.fb.group({
       id: 195
     })
+  })
+
+  formMoney: FormGroup = this.fb.group({
+    tienKhachDua: ''
   })
   full_name: string;
 
@@ -91,15 +97,6 @@ export class SellAtStoreComponent implements OnInit {
     this.getAllNameProduct();
     this.getCustomerForCombobox();
     this.getOrderByStaff(this.storageService.getIdFromToken());
-  }
-
-  log() {
-    console.log(this.formGroupCustomer.getRawValue().customer.id)
-  }
-
-  selectEvent($event: any) {
-    this.addOrder($event.id);
-    this.keySearch.reset();
   }
 
   onSubmitSearch() {
@@ -148,6 +145,18 @@ export class SellAtStoreComponent implements OnInit {
         this.listCustomer = data;
       }
     });
+  }
+
+  getDiscount(idPd: number) {
+    this.promotionDetailService.getDiscount(idPd).subscribe((data2: any) => {
+      this.promotions = data2;
+      console.log('data: ', data2.discount)
+    })
+  }
+
+  selectEvent($event: any) {
+    this.addOrder($event.id);
+    this.keySearch.reset();
   }
 
   getAllNameProduct() {
@@ -222,6 +231,7 @@ export class SellAtStoreComponent implements OnInit {
     this.tienKhachCanTra = 0;
     this.tienKhachDua = 0;
     this.tienThuaTraKhach = 0;
+    this.countQuantity = 0;
   }
 
   removeTab(index: number) {
@@ -256,7 +266,7 @@ export class SellAtStoreComponent implements OnInit {
     diaLogRef.afterClosed().subscribe((data: any) => {
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
         if (this.tabs.length > 1) {
-          this.orderService.update(this.idOrder, createOrder).subscribe((data: any) => {
+          this.orderService.updateHuy(this.idOrder, createOrder).subscribe((data: any) => {
             console.log('Sau khi sua: ', data);
             this.orderDetails = [];
             this.idHoaDon.splice(index, 1);
@@ -270,7 +280,7 @@ export class SellAtStoreComponent implements OnInit {
             console.log(error);
           })
         } else {
-          this.orderService.update(this.idOrder, createOrder).subscribe((data: any) => {
+          this.orderService.updateHuy(this.idOrder, createOrder).subscribe((data: any) => {
             console.log('Sau khi sua: ', data);
             this.defaultPayment();
             this.orderDetails = [];
@@ -305,6 +315,9 @@ export class SellAtStoreComponent implements OnInit {
             this.orderDetailService.saveOrderDetail(this.createProductAtOrderDetail(idProduct, this.idOrder, 1, data.price)).subscribe((data2: any) => {
               this.getOrderDetail();
               this.toastService.success('Thêm sản phẩm thành công !');
+              this.orderDetailService.quantityPrd$.subscribe(rs => {
+                this.countQuantity = rs;
+              })
             }, error => {
               this.toastService.error('Thêm sản phẩm thất bại !');
               console.log(error)
@@ -416,22 +429,25 @@ export class SellAtStoreComponent implements OnInit {
   getOrderDetail() {
     let soLuong = 0
     this.orderDetailService.findOrderDetailByOrder(this.idOrder).subscribe((data: any) => {
-      this.tongTienHang = 0;
-      this.orderDetails = data;
-      for (const d of data) {
-        this.tongTienHang += Math.round(d.price * d.quantity);
-        soLuong += d.quantity;
-        this.promotionDetailService.getPromotional(this.idOrder).subscribe((data2: any) => {
+      this.promotionDetailService.getPromotional(this.idOrder).subscribe((data2: any) => {
+        this.tongTienHang = 0;
+        this.tienKhachCanTra = 0;
+        this.giamGia = 0;
+        this.orderDetails = data;
+        console.log(data2.promotional)
+        for (const d of data) {
+          this.tongTienHang += d.price * d.quantity;
+          soLuong += d.quantity;
           for (const pp of data2) {
-            this.giamGia = Math.round(pp.promotional.discount * d.quantity);
+            if (d.productDetail.id == pp.productDetail.id){
+              this.giamGia += d.price * (pp.promotional.discount / 100) * d.quantity;
+            }
           }
-          this.tienKhachCanTra = Math.round(this.tongTienHang - this.giamGia);
-          if (this.tienKhachCanTra < 0) {
-            this.tienKhachCanTra = 0;
-          }
-        })
-      }
-      this.orderDetailService.quantityPrd$.next(soLuong);
+          this.orderDetailService.quantityPrd$.next(soLuong);
+        }
+        this.tienKhachCanTra = Math.round(this.tongTienHang - this.giamGia);
+        this.tienThuaTraKhach = this.formMoney.getRawValue().tienKhachDua - this.tienKhachCanTra
+      })
     })
     console.log('id order cua getOrderDetail: ', this.idOrder)
   }
@@ -478,14 +494,19 @@ export class SellAtStoreComponent implements OnInit {
           this.toastService.warning('Vui lòng tạo hóa đơn để tiến hành thanh toán !');
         } else if (this.tongTienHang == 0) {
           this.toastService.warning('Vui lòng chọn sản phẩm trước !');
+        } else if (this.tienKhachDua == 0) {
+          this.toastService.warning('Vui lòng nhập tiền khách đưa !');
+        } else if (this.tienKhachDua < this.tienKhachCanTra) {
+          this.toastService.warning('Tiền khách đưa không được bé hơn tiền khách cần trả !');
         } else {
-          this.orderService.update(this.idOrder, createOrder).subscribe((data: any) => {
+          this.orderService.updateMua(this.idOrder, createOrder).subscribe((data: any) => {
             console.log('Sau khi thanh toan: ', data);
             this.toastService.success('Thanh toán thành công !');
             this.defaultPayment();
             this.tabs.splice(index, 1);
             this.idHoaDon.splice(index, 1)
             this.orderDetails = [];
+            // this.tienThuaTraKhach = this.formMoney.getRawValue().tienKhachDua - createOrder.totalPayment
             this.export(this.idOrder);
           }, error => {
             this.toastService.error('Thanh toán thất bại !');
@@ -522,7 +543,7 @@ export class SellAtStoreComponent implements OnInit {
   openHistory() {
     const dialogRef = this.matDiaLog.open(SellAtStoreHistoryComponent, {
       width: '1500px',
-      height: '700px',
+      height: '750px',
       disableClose: true,
       hasBackdrop: true,
     });
@@ -565,4 +586,7 @@ export class SellAtStoreComponent implements OnInit {
     })
   }
 
+  ex() {
+    window.print()
+  }
 }

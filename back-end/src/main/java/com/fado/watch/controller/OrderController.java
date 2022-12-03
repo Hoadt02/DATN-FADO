@@ -1,6 +1,7 @@
 package com.fado.watch.controller;
 
 
+import com.fado.watch.dto.request.FilterOrder;
 import com.fado.watch.dto.response.CharBarDTO;
 import com.fado.watch.dto.response.OrderCancelDTO;
 import com.fado.watch.dto.response.TotalOrderDTO;
@@ -75,9 +76,14 @@ public class OrderController {
         return ResponseEntity.ok(this.iOrderService.getOrderByStaff(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Order> update(@RequestBody Order order) {
-        return ResponseEntity.ok(this.iOrderService.update(order));
+    @PutMapping("/payment/{id}")
+    public ResponseEntity<Order> updateMua(@RequestBody Order order) {
+        return ResponseEntity.ok(this.iOrderService.updateMua(order));
+    }
+
+    @PutMapping("/cancel/{id}")
+    public ResponseEntity<Order> updateHuy(@RequestBody Order order) {
+        return ResponseEntity.ok(this.iOrderService.updateHuy(order));
     }
 
     @GetMapping("/getOrderById")
@@ -93,5 +99,10 @@ public class OrderController {
     @GetMapping("/export/{id}")
     public void export(@PathVariable("id") Integer id) {
         this.iOrderService.exportOrder(id);
+    }
+
+    @PostMapping("/filterOrder")
+    public ResponseEntity<List<Order>> filterOrder(@RequestBody FilterOrder filterOrder) {
+        return ResponseEntity.ok(this.iOrderService.filterOrder(filterOrder));
     }
 }

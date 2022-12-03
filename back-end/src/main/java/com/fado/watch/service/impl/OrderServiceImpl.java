@@ -1,12 +1,15 @@
 package com.fado.watch.service.impl;
 
+import com.fado.watch.dto.request.FilterOrder;
 import com.fado.watch.dto.response.CharBarDTO;
 import com.fado.watch.dto.response.OrderCancelDTO;
 import com.fado.watch.dto.response.TotalOrderDTO;
 import com.fado.watch.entity.Order;
 import com.fado.watch.entity.OrderDetail;
+import com.fado.watch.entity.ProductDetail;
 import com.fado.watch.repository.OrderDetailRepository;
 import com.fado.watch.repository.OrderRepository;
+import com.fado.watch.repository.ProductDetailRepository;
 import com.fado.watch.service.IOrderDetailService;
 import com.fado.watch.service.IOrderService;
 import com.fado.watch.service.IProductDetailService;
@@ -18,7 +21,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.time.Year;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -33,11 +35,14 @@ public class OrderServiceImpl implements IOrderService {
 
     private final IProductDetailService productDetailService;
 
-    public OrderServiceImpl(IOrderDetailService orderDetailService, OrderRepository orderRepository, OrderDetailRepository orderDetailRepository, IProductDetailService productDetailService) {
+    private final ProductDetailRepository productDetailRepository;
+
+    public OrderServiceImpl(IOrderDetailService orderDetailService, OrderRepository orderRepository, OrderDetailRepository orderDetailRepository, IProductDetailService productDetailService, ProductDetailRepository productDetailRepository) {
         this.orderDetailService = orderDetailService;
         this.orderRepository = orderRepository;
         this.orderDetailRepository = orderDetailRepository;
         this.productDetailService = productDetailService;
+        this.productDetailRepository = productDetailRepository;
     }
 
     @Override
@@ -97,8 +102,9 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public Integer getTotalOneDay() { return this.orderRepository.totalOneDay(); }
-
+    public Integer getTotalOneDay() {
+        return this.orderRepository.totalOneDay();
+    }
 
 
     // Day la` pha`n toi nha' ba.n hien da.u da.u
@@ -108,7 +114,20 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public Order update(Order order) {
+    public Order updateMua(Order order) {
+        List<OrderDetail> orderDetails = this.orderDetailRepository.findOrderDetailByOrder(order.getId());
+
+        for (OrderDetail orderDetail : orderDetails) {
+            ProductDetail productDetail = this.productDetailRepository.findById(orderDetail.getProductDetail().getId()).get();
+            productDetail.setQuantity(productDetail.getQuantity() - orderDetail.getQuantity());
+            System.out.println("So luong: " + productDetail.getQuantity());
+            this.productDetailRepository.save(productDetail);
+        }
+        return orderRepository.save(order);
+    }
+
+    @Override
+    public Order updateHuy(Order order) {
         return orderRepository.save(order);
     }
 
@@ -234,11 +253,6 @@ public class OrderServiceImpl implements IOrderService {
                 table.getRow(i + 1).getCell(4).setText(formatter.format(orderDetailList.get(i).getProductDetail().getPrice() * orderDetailList.get(i).getQuantity()) + " VNĐ");
             }
 
-            int tongSoLuong = 0;
-            for (int i = 0; i < orderDetailList.size(); i++) {
-                tongSoLuong += Integer.parseInt(String.valueOf(orderDetailList.get(i).getProductDetail().getQuantity()));
-            }
-
             XWPFParagraph paragraph15 = document.createParagraph();
             paragraph15.setAlignment(ParagraphAlignment.LEFT);
 
@@ -266,23 +280,24 @@ public class OrderServiceImpl implements IOrderService {
             paragraph19.setAlignment(ParagraphAlignment.LEFT);
             run19.setText("Tổng tiền thanh toán:  " + formatter.format(order.getTotalPayment()) + " VNĐ");
             run19.setBold(true);
-            run19.setFontSize(14);
-            run19.setTextPosition(100);
+            run19.setFontSize(12);
+            run19.setTextPosition(50);
 
-            XWPFParagraph paragraph20 = document.createParagraph();
-            paragraph20.setAlignment(ParagraphAlignment.CENTER);
-            XWPFRun run20 = paragraph20.createRun();
-            run20.setText("Quý khách vui lòng kiểm tra kỹ hàng");
-
-            XWPFParagraph paragraph21 = document.createParagraph();
-            paragraph21.setAlignment(ParagraphAlignment.CENTER);
-            XWPFRun run21 = paragraph21.createRun();
-            run21.setText("-------------------------------");
 
             XWPFParagraph paragraph22 = document.createParagraph();
             paragraph22.setAlignment(ParagraphAlignment.CENTER);
             XWPFRun run22 = paragraph22.createRun();
-            run22.setText("Cảm ơn quý khách đã mua hàng và hẹn gặp lại!");
+            run22.setText("Cảm ơn quý khách đã đến với cửa hàng chúng tôi");
+
+            XWPFParagraph paragraph23 = document.createParagraph();
+            paragraph23.setAlignment(ParagraphAlignment.CENTER);
+            XWPFRun run23 = paragraph23.createRun();
+            run23.setText("-------------------------------");
+
+            XWPFParagraph paragraph24 = document.createParagraph();
+            paragraph24.setAlignment(ParagraphAlignment.CENTER);
+            XWPFRun run24 = paragraph24.createRun();
+            run24.setText("***Chúc quý khách một ngày tốt lành***");
 
             document.write(fos);
             fos.close();
@@ -292,6 +307,13 @@ public class OrderServiceImpl implements IOrderService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Order> filterOrder(FilterOrder filterOrder) {
+        return this.orderRepository.filterOrder(filterOrder.getStartDate(),
+                filterOrder.getEndDate(),
+                filterOrder.getCustomerId());
     }
 
 }

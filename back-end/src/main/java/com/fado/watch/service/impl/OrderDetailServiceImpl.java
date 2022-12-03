@@ -78,9 +78,7 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
         }
         this.orderDetailRepository.save(orderDetailNew);
 
-        ProductDetail productDetail = this.productDetailRepository.findById(orderDetailNew.getProductDetail().getId()).get();
-        productDetail.setQuantity(productDetail.getQuantity() - orderDetailNew.getQuantity());
-        this.productDetailRepository.save(productDetail);
+
     }
 
     @Override
