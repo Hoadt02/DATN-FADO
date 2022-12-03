@@ -1,5 +1,6 @@
 package com.fado.watch.service;
 
+import com.fado.watch.dto.request.FilterOrder;
 import com.fado.watch.dto.response.CharBarDTO;
 import com.fado.watch.dto.response.OrderCancelDTO;
 import com.fado.watch.dto.response.TotalOrderDTO;
@@ -33,11 +34,15 @@ public interface IOrderService {
     // Day la` pha`n toi nha' ba.n hien da.u da.u
     List<Order> getOrderByStaff(Integer id);
 
-    Order update(Order order);
+    Order updateMua(Order order);
+
+    Order updateHuy(Order order);
 
     List<Order> getOrderById(Integer id);
 
     List<Order> getOrderHistory(Integer id, Integer status);
 
     void exportOrder(Integer id);
+
+    List<Order> filterOrder(FilterOrder filterOrder);
 }

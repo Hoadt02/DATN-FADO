@@ -5,6 +5,7 @@ import com.fado.watch.dto.response.DeleteProductPromotional;
 import com.fado.watch.entity.ProductDetail;
 import com.fado.watch.entity.ProductPromotional;
 import com.fado.watch.service.IProductPromotionalService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,5 +65,10 @@ public class ProductPromotionalController {
     @GetMapping("/getPromotional")
     public ResponseEntity<List<ProductPromotional>> getPromotional(@RequestParam("idO") Integer idOder) {
         return ResponseEntity.ok(this.iProductPromotionalService.getPromotional(idOder));
+    }
+
+    @GetMapping("/getDiscount/{idPd}")
+    public ResponseEntity<List<ProductPromotional>> getDiscount(@PathVariable("idPd") Integer idPb) {
+        return new ResponseEntity<>(this.iProductPromotionalService.getDiscountProduct(idPb), HttpStatus.OK);
     }
 }

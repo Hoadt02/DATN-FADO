@@ -24,8 +24,12 @@ export class ApiOrderService {
     return this.http.post(ApiConstant.order, data);
   }
 
-  update(idOrder: any,data: any) {
-    return this.http.put(`${ApiConstant.order}/${idOrder}`, data);
+  updateMua(idOrder: any,data: any) {
+    return this.http.put(`${ApiConstant.order}/payment/${idOrder}`, data);
+  }
+
+  updateHuy(idOrder: any,data: any) {
+    return this.http.put(`${ApiConstant.order}/cancel/${idOrder}`, data);
   }
 
   delete(id: number) {
@@ -68,5 +72,9 @@ export class ApiOrderService {
 
   exportOrder(id: number) {
     return this.http.get(`${ApiConstant.order}/export/${id}`);
+  }
+
+  filterOrder(data: any) {
+    return this.http.post(`${ApiConstant.order}/filterOrder`, data);
   }
 }

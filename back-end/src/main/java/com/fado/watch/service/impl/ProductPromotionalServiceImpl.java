@@ -70,4 +70,9 @@ public class ProductPromotionalServiceImpl implements IProductPromotionalService
     public List<ProductPromotional> getPromotional(Integer idOrder) {
         return productPromotionalRepository.getPromotional(idOrder);
     }
+
+    @Override
+    public List<ProductPromotional> getDiscountProduct(Integer idPd) {
+        return productPromotionalRepository.getDiscountProduct(idPd);
+    }
 }

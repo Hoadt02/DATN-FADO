@@ -26,7 +26,7 @@ export const ROUTES: RouteInfo[] = [
   {
     path: '/order-management',
     title: 'Quản lý đơn hàng',
-    icon: 'nc-basket',
+    icon: 'nc-cart-simple',
     class: ''
   },
   {

@@ -70,6 +70,9 @@ import {MatDividerModule} from "@angular/material/divider";
     NgxCurrencyModule,
     MatDividerModule
   ],
+  exports: [
+
+  ]
 })
 export class SellAtStoreModule {
 }
