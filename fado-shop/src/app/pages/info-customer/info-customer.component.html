@@ -12,7 +12,7 @@
     <div class="image col-4 col-md-4">
       <img [src]="avatarFormDb" alt="avatar">
       <input (change)="onChangeThumbnail($event)" style="display: none" type="file"
-             id="uploadFile">
+             id="uploadFile" enctype="multipart/form-data">
       <label class="fa-solid fa-camera-rotate" for="uploadFile"></label>
     </div>
 
@@ -102,20 +102,8 @@
             </mat-form-field>
           </div>
 
-          <div class="col-6 col-md-6">
-            <mat-form-field class="w-100" appearance="outline">
-              <mat-label>Địa chỉ</mat-label>
-              <input formControlName="address" type="text"
-                     id="exampleInputDiaChi1" maxlength="255" required
-                     matInput>
-              <mat-error
-                *ngIf="formGroup.get('address')?.hasError('isSpace') &&
-          formGroup.get('address')?.touched">Bạn phải nhập địa chỉ
-              </mat-error>
-            </mat-form-field>
-          </div>
 
-          <div class="col-6 col-md-6 d-flex align-items-center w-100">
+          <div class="col-12 col-md-12 d-flex align-items-center w-100">
             <mat-label>Giới tính:</mat-label>
             <mat-radio-group formControlName="gender">
               <mat-radio-button class="mx-3" [value]="1" [checked]="formGroup.value.gender == 1">Nam</mat-radio-button>

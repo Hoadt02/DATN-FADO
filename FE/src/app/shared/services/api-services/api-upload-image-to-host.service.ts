@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {ApiConstant} from "../../constants/api-constant";
+import {HttpClient} from '@angular/common/http';
+import {ApiConstant} from '../../constants/api-constant';
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +8,10 @@ import {ApiConstant} from "../../constants/api-constant";
 export class ApiUploadImageToHostService {
 
   constructor(
-    private http : HttpClient
+    private http: HttpClient
   ) { }
 
-  uploadImageToHost(files : any){
-    return this.http.post(`${ApiConstant.uploadImageToHost}`,files);
+  uploadImageToHost(files: any) {
+    return this.http.post(`${ApiConstant.uploadImageToHost}`, files);
   }
 }

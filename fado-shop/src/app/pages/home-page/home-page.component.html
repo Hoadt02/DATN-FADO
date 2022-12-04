@@ -93,7 +93,7 @@
         <div class="row px-xl-5">
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1" *ngFor="let p of productDetailLatest">
                 <div class="product-item bg-light mb-4 shadow-sm item-parent" style="border-radius: 5px">
-                    <span *ngIf="loadDiscountProduct(p.id) != 0" class="item-child badge badge-danger">Giảm giá</span>
+                    <span *ngIf="loadDiscountProduct(p.id) != 0" class="item-child badge badge-danger">Giảm {{loadPercentProduct(p.id)}}%</span>
                     <div class="product-img position-relative overflow-hidden" style="border-radius: 5px">
                         <img class="img-fluid w-100" src="../../../assets/img/avtProduct/{{ p.avatar }}" alt="" />
                         <div class="product-action">
@@ -125,7 +125,7 @@
             <div class="row px-xl-5">
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1" *ngFor="let p of productDetailInPromotion">
                     <div class="product-item bg-light mb-4 shadow-sm item-parent" style="border-radius: 5px">
-                        <span *ngIf="loadDiscountProduct(p.id) != 0" class="item-child badge badge-danger">Giảm giá</span>
+                        <span *ngIf="loadDiscountProduct(p.id) != 0" class="item-child badge badge-danger">Giảm {{loadPercentProduct(p.id)}}%</span>
                         <div class="product-img position-relative overflow-hidden" style="border-radius: 5px">
                             <img class="img-fluid w-100" src="../../../assets/img/avtProduct/{{ p.avatar }}" alt="" />
                             <div class="product-action">
@@ -156,7 +156,7 @@
   <div class="row px-xl-5">
     <div class="col-lg-3 col-md-4 col-sm-6 pb-1" *ngFor="let p of productDetailFeatured">
       <div class="product-item bg-light mb-4 shadow-sm item-parent" style="border-radius: 5px">
-        <span *ngIf="loadDiscountProduct(p.id) != 0" class="item-child badge badge-danger">Giảm giá</span>
+        <span *ngIf="loadDiscountProduct(p.id) != 0" class="item-child badge badge-danger">Giảm {{loadPercentProduct(p.id)}}%</span>
         <div class="product-img position-relative overflow-hidden" style="border-radius: 5px">
           <img class="img-fluid w-100" src="../../../assets/img/avtProduct/{{ p.avatar }}" alt="" />
           <div class="product-action">

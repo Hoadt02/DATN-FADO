@@ -83,7 +83,7 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public List<CharBarDTO> getChartBar() {
-        return this.orderRepository.chartBar();
+        return this.orderRepository.chartBar(Year.now().getValue());
     }
 
     @Override

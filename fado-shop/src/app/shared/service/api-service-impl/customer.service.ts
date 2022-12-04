@@ -34,7 +34,6 @@ export class CustomerService {
   dataReplace(data: any){
     data.firstname = data.firstname.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
     data.lastname = data.lastname.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
-    data.address = data.address.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
     data.email = data.email.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
     data.dateOfBirth=formatDate(data.dateOfBirth);
   }

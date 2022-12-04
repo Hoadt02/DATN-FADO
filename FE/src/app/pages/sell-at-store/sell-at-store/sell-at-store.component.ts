@@ -56,7 +56,6 @@ export class SellAtStoreComponent implements OnInit {
   idHoaDon: any[] = [];
   price: number;
   countQuantity: number = 0;
-  dataProduct: any;
 
   tongTienHang: number = 0
   giamGia: number = 0;
