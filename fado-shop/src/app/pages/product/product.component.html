@@ -176,7 +176,7 @@
         </div>
         <div class="col-lg-3 col-md-4 col-sm-6 pb-1" *ngFor="let p of products">
           <div class="product-item bg-light mb-4 shadow-sm" style="border-radius: 5px">
-            <span *ngIf="loadDiscountProduct(p.id) != 0" class="item-child badge badge-danger">Giảm giá</span>
+            <span *ngIf="loadDiscountProduct(p.id) != 0" class="item-child badge badge-danger">Giảm {{loadPercentProduct(p.id)}}%</span>
             <div class="product-img position-relative overflow-hidden" style="border-radius: 5px">
               <img class="img-fluid w-100" src="../../../assets/img/avtProduct/{{ p.avatar }}" alt=""/>
               <div *ngIf="p.quantity == 0" class="out-of-stock-1">

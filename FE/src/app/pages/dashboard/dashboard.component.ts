@@ -30,10 +30,10 @@ export class DashboardComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
   isLoading = true;
 
-  tongDoanhThu: any = [];
+  tongDoanhThu: any;
   tongDonHang = [];
   tongDonHuy = [];
-  tongDoanhThuOneDay: any = [];
+  tongDoanhThuOneDay: any;
 
 
   barChart: any[] = [];
@@ -90,22 +90,77 @@ export class DashboardComponent implements OnInit {
       this.barChart = data;
       this.dateMonth = this.barChart.map((coins: any) => coins.month);
       this.totalPay = this.barChart.map((coins: any) => coins.sum);
-
       this.chartBar = new Chart('canvas', {
-        type: 'line',
+        type: 'bar',
         data: {
           labels: this.dateMonth,
           datasets: [
             {
               data: this.totalPay,
-              borderColor: '#3e95cd',
-              fill: false,
-              label: 'Tiền từng tháng',
-              backgroundColor: 'rgba(93, 175, 89, 0.1)',
-              borderWidth: 3,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
             },
           ],
         },
+        options: {
+          legend: {
+            display: false
+          },
+          scales: {
+            xAxes: [{}],
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true,
+                  callback: function(label) {
+                    return label.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                  }
+                }
+              }
+            ]
+          },
+          tooltips: {
+            enabled: true,
+            intersect: true,
+            titleFontSize: 20,
+            callbacks: {
+              // tslint:disable-next-line:no-shadowed-variable
+              label: function(tooltipItem, data) {
+                const dataset = data.datasets[tooltipItem.datasetIndex];
+                const currentValue = dataset.data[tooltipItem.index];
+                return currentValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+              }
+            }
+          },
+
+        }
       });
     });
 
