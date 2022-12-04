@@ -351,7 +351,7 @@ export class SellAtStoreComponent implements OnInit {
     })
   }
 
-  updateOrderDetail(type: any, data: any, event?: any) {
+  updateOrderDetail(data: any, type?: any, event?: any) {
     let soLuong = event?.target.value;
 
     if (soLuong > data.productDetail.quantity) {
@@ -584,9 +584,5 @@ export class SellAtStoreComponent implements OnInit {
       width: '800px',
       disableClose: true,
     })
-  }
-
-  ex() {
-    window.print()
   }
 }

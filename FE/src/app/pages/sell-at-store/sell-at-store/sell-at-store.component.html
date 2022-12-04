@@ -83,7 +83,7 @@
           <mat-grid-tile>{{index + 1}}</mat-grid-tile>
           <mat-grid-tile>{{order.productDetail.name}}</mat-grid-tile>
           <mat-grid-tile>{{order.price | currency:'VND'}}</mat-grid-tile>
-          <mat-grid-tile><input (change)="updateOrderDetail(TYPE_UPDATE_NUMBER_PRD, order, $event)" type="number"
+          <mat-grid-tile><input (change)="updateOrderDetail(order,TYPE_UPDATE_NUMBER_PRD, $event)" type="number"
                                 min="1" required
                                 class="border-radius-10 form-control form-control-sm border-0 text-center mx-2"
                                 value="{{order.quantity}}">
