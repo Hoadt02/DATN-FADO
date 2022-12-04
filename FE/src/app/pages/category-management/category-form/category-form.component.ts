@@ -67,11 +67,13 @@ export class CategoryFormComponent implements OnInit {
       this.fileImg.splice(0, this.fileImg.length);
     }
     this.fileImg = event.addedFiles;
+    this.formGroup.patchValue({image:event.addedFiles[0].name})
   }
 
   onRemoveImg() {
     console.log(this.fileImg.length);
     this.fileImg.splice(0, 1);
+    this.formGroup.patchValue({image:''});
   }
 
   onDismiss() {
@@ -87,15 +89,21 @@ export class CategoryFormComponent implements OnInit {
     // add image
     const imgData = new FormData();
     imgData.append('file', this.fileImg[0]);
-    this.uploadImageService.uploadImage(imgData, 'imageCategory').subscribe((data: any) => {
-      this.formGroup.patchValue({image: data.name});
-      console.log('data cua anh: ', data.name)
-      this.categoryService.isCloseDialog.next(true);
-    }, error => {
-      console.log(error);
-      this.toastrService.error('Lỗi thêm ảnh !!');
-      return;
+    this.uploadImageService.uploadImage(imgData, 'imageCategory').subscribe({
+      error: (error) => {
+        console.log(error);
+        this.toastrService.error('Lỗi thêm ảnh !!');
+        return;
+      }
+    });
+    this.uploadImageService.uploadImageClient(imgData, 'imageCategory').subscribe({
+      error: (error) => {
+        console.log(error);
+        this.toastrService.error('Lỗi thêm ảnh !!');
+        return;
+      }
     })
+
 
     if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
       this.isLoading = true;
