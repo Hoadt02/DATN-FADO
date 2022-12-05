@@ -94,7 +94,20 @@ public class ProductDetail implements Serializable {
 	@ManyToOne(optional=false)
     @JoinColumn(name="material_id", nullable=false)
     private Material material;
-    
+
+    @ManyToOne(optional=false)
+    @JoinColumn(name="water_proof_id", nullable=false)
+    private Material  waterproof;
+
+
+    @ManyToOne(optional=false)
+    @JoinColumn(name="face_diameter_id", nullable=false)
+    private Material  facediameter;
+
+    @ManyToOne(optional=false)
+    @JoinColumn(name="battery_powers_id", nullable=false)
+    private Material  batterypower;
+
 	@OneToMany(mappedBy="productDetail")
     @JsonIgnore
     private List<ProductPromotional> productPromotionalList;
