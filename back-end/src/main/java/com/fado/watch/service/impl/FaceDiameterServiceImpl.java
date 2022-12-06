@@ -2,6 +2,7 @@ package com.fado.watch.service.impl;
 
 import com.fado.watch.entity.FaceDiameter;
 import com.fado.watch.entity.FaceDiameter;
+import com.fado.watch.entity.Material;
 import com.fado.watch.exception.UniqueException;
 import com.fado.watch.repository.FaceDiameterRepository;
 import com.fado.watch.repository.WaterProofRepository;
@@ -21,6 +22,11 @@ public class FaceDiameterServiceImpl implements IFaceDiameterService {
     @Override
     public List<FaceDiameter> getAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public FaceDiameter findById(Integer id) {
+        return repository.findById(id).get();
     }
 
     @Override

@@ -8,7 +8,7 @@
   <div class="row">
     <mat-form-field class="w-100" appearance="outline">
       <mat-label>Tên thương hiệu</mat-label>
-      <input type="text" matInput formControlName="name">
+      <input type="text" matInput formControlName="name" placeholder="VD: Gucci">
       <mat-error
         *ngIf="formGroup.get('name')?.hasError('isSpace') && formGroup.get('name')?.touched">
         Vui lòng không bỏ trống tên thương hiệu
