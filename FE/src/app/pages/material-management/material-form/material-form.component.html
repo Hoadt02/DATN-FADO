@@ -12,7 +12,7 @@
 
         <mat-form-field class="w-100" appearance="outline" class="col-6">
           <mat-label>Tên chất liệu</mat-label>
-          <input type="text" matInput formControlName="name" id="exampleInputFirstname1" required maxlength="60">
+          <input type="text" matInput formControlName="name" id="exampleInputFirstname1" required maxlength="60" placeholder="VD: Vàng">
           <mat-error
             *ngIf="formGroup.get('name')?.hasError('isSpace') &&
             formGroup.get('name')?.touched">Tên chất liệu đang bị trống

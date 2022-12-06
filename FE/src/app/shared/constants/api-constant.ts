@@ -22,5 +22,8 @@ export const ApiConstant = {
   orderDetail: `${environment.service.localhost}/api/v1/order-detail`,
   cart: `${environment.service.localhost}/api/v1/cart`,
   uploadImageToHost: `${environment.service.localhost}/api/v1/upload-to-host`,
+  facediameter: `${environment.service.localhost}/api/v1/face-diameter`,
+  batterypower: `${environment.service.localhost}/api/v1/battery-powers`,
+  waterproof: `${environment.service.localhost}/api/v1/water-proof`,
 }
 
