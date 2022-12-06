@@ -19,7 +19,7 @@ export class FaceDiameterFormComponent implements OnInit {
     {
       id : [''],
       name: ['', [checkSpace , Validators.maxLength(50)]],
-      status: true
+      status: 1
     }
   )
 
