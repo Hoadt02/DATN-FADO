@@ -1,6 +1,7 @@
 package com.fado.watch.service.impl;
 
 import com.fado.watch.entity.BatteryPowers;
+import com.fado.watch.entity.Material;
 import com.fado.watch.exception.UniqueException;
 import com.fado.watch.repository.BatteryPowerRepository;
 import com.fado.watch.repository.OriginRepository;
@@ -20,6 +21,11 @@ public class BatteryPowerServiceImpl implements IBatteryPowerService {
     @Override
     public List<BatteryPowers> getAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public BatteryPowers findById(Integer id) {
+        return repository.findById(id).get();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.fado.watch.controller;
 
 import com.fado.watch.entity.BatteryPowers;
 import com.fado.watch.entity.FaceDiameter;
+import com.fado.watch.entity.Material;
 import com.fado.watch.service.IFaceDiameterService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,10 @@ public class FaceDiameterController {
     public ResponseEntity<List<FaceDiameter>> findAll() {
         return new ResponseEntity<>(this.iFaceDiameter.getAll(), HttpStatus.OK);
     }
-
+    @GetMapping("{id}")
+    public ResponseEntity<FaceDiameter> findById(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(this.iFaceDiameter.findById(id), HttpStatus.OK);
+    }
     @PostMapping
     public ResponseEntity<FaceDiameter> create(@RequestBody FaceDiameter batteryPower){
         return new ResponseEntity<>(this.iFaceDiameter.create(batteryPower), HttpStatus.OK);

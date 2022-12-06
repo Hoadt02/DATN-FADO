@@ -11,7 +11,7 @@ import {OriginService} from "../../../shared/services/api-service-impl/origin.se
 import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-origin-list',
+  selector: 'app-battery-power-list',
   templateUrl: './origin-list.component.html',
   styleUrls: ['./origin-list.component.scss']
 })

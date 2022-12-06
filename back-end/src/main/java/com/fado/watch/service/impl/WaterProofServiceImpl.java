@@ -1,5 +1,6 @@
 package com.fado.watch.service.impl;
 
+import com.fado.watch.entity.Material;
 import com.fado.watch.entity.WaterProof;
 import com.fado.watch.entity.WaterProof;
 import com.fado.watch.exception.UniqueException;
@@ -21,6 +22,10 @@ public class WaterProofServiceImpl implements IWaterProofService {
         return repository.findAll();
     }
 
+    @Override
+    public WaterProof findById(Integer id) {
+        return repository.findById(id).get();
+    }
     @Override
     public WaterProof create(WaterProof waterProof) {
         if (this.repository.findByName(waterProof.getName()).isPresent()){

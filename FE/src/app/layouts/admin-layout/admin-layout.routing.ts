@@ -139,4 +139,31 @@ export const AdminLayoutRoutes: Routes = [
       role: TYPE_AUTH.ADMIN
     }
   },
+  {
+    path: 'face-diameter-management',
+    // tslint:disable-next-line:max-line-length
+    loadChildren: () => import('../../pages/face-diameter-management/face-diameter-management.module').then(m => m.FaceDiameterManagementModule),
+    canActivate: [HasRoleGuard],
+    data: {
+      role: TYPE_AUTH.SUPER_ADMIN
+    }
+  },
+  {
+    path: 'battery-power-management',
+    // tslint:disable-next-line:max-line-length
+    loadChildren: () => import('../../pages/battery-power-management/battery-power-management.module').then(m => m.BatteryPowerManagementModule),
+    canActivate: [HasRoleGuard],
+    data: {
+      role: TYPE_AUTH.SUPER_ADMIN
+    }
+  },
+  {
+    path: 'water-proof-management',
+    // tslint:disable-next-line:max-line-length
+    loadChildren: () => import('../../pages/water-proof-management/water-proof-management.module').then(m => m.WaterProofManagementModule),
+    canActivate: [HasRoleGuard],
+    data: {
+      role: TYPE_AUTH.SUPER_ADMIN
+    }
+  },
 ];

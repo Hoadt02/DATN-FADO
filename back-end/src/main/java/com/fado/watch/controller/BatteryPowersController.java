@@ -1,6 +1,7 @@
 package com.fado.watch.controller;
 
 import com.fado.watch.entity.BatteryPowers;
+import com.fado.watch.entity.Material;
 import com.fado.watch.entity.Origin;
 import com.fado.watch.service.IBatteryPowerService;
 import com.fado.watch.service.IOriginService;
@@ -25,7 +26,10 @@ public class BatteryPowersController {
     public ResponseEntity<List<BatteryPowers>> findAll() {
         return new ResponseEntity<>(this.iBatteryPower.getAll(), HttpStatus.OK);
     }
-
+    @GetMapping("{id}")
+    public ResponseEntity<BatteryPowers> findById(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(this.iBatteryPower.findById(id), HttpStatus.OK);
+    }
     @PostMapping
     public ResponseEntity<BatteryPowers> create(@RequestBody BatteryPowers batteryPower){
         return new ResponseEntity<>(this.iBatteryPower.create(batteryPower), HttpStatus.OK);

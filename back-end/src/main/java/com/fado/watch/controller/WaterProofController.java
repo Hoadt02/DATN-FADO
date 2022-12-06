@@ -1,6 +1,7 @@
 package com.fado.watch.controller;
 
 import com.fado.watch.entity.FaceDiameter;
+import com.fado.watch.entity.Material;
 import com.fado.watch.entity.WaterProof;
 import com.fado.watch.service.IFaceDiameterService;
 import com.fado.watch.service.IWaterProofService;
@@ -24,7 +25,10 @@ public class WaterProofController {
     public ResponseEntity<List<WaterProof>> findAll() {
         return new ResponseEntity<>(this.iWaterProof.getAll(), HttpStatus.OK);
     }
-
+    @GetMapping("{id}")
+    public ResponseEntity<WaterProof> findById(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(this.iWaterProof.findById(id), HttpStatus.OK);
+    }
     @PostMapping
     public ResponseEntity<WaterProof> create(@RequestBody WaterProof waterProof){
         return new ResponseEntity<>(this.iWaterProof.create(waterProof), HttpStatus.OK);
