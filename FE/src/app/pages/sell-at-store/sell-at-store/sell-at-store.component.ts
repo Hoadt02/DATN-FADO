@@ -66,7 +66,7 @@ export class SellAtStoreComponent implements OnInit {
   formGroup: FormGroup;
   formGroupCustomer: FormGroup = this.fb.group({
     customer: this.fb.group({
-      id: 195
+      id: 167
     })
   })
 
@@ -238,7 +238,7 @@ export class SellAtStoreComponent implements OnInit {
     const createOrder = {
       id: this.idOrder,
       customer: {
-        id: 195
+        id: 167
       },
       staff: {
         id: this.storageService.getIdFromToken()
@@ -378,7 +378,7 @@ export class SellAtStoreComponent implements OnInit {
   setDataOrder() {
     this.createOrder = {
       customer: {
-        id: 195
+        id: 167
       },
       staff: {
         id: this.storageService.getIdFromToken()
