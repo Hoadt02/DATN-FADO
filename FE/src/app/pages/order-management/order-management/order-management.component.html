@@ -5,6 +5,24 @@
 </div>
 
 <div class="card">
+  <div class="card-body">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Tìm kiếm theo mã đơn hàng</mat-label>
+      <input matInput type="number" [(ngModel)]="searchOrderData" placeholder="Vd. 9 ">
+    </mat-form-field>
+    <div class="text-center">
+      <button mat-raised-button color="accent" (click)="searchOrder()"><i class="fa-solid fa-search"></i>
+        Tìm kiếm
+      </button>
+      <button class="ml-5" mat-raised-button color="primary" (click)="findAllOrder()"><i
+        class="fa-solid fa-arrows-rotate"></i>
+        Làm mới
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="card">
   <mat-tab-group mat-align-tabs="center" style="background-color: #FFFFFF">
     <mat-tab label="{{t.lable}} ({{t.sl}})" *ngFor="let t of listMatTab">
       <ng-template *ngFor="let o of orders" [ngIf]="o.status == t.status">
@@ -15,8 +33,13 @@
               <p *ngSwitchCase="0">Chờ xác nhận</p>
               <p *ngSwitchCase="1">Chờ lấy hàng</p>
               <p *ngSwitchCase="2">Đang giao</p>
-              <p *ngSwitchCase="5">Đã giao cho khách</p>
               <p *ngSwitchCase="3">Đã giao</p>
+              <p *ngSwitchCase="4">Đã huỷ</p>
+              <p *ngSwitchCase="5">Đã giao cho khách</p>
+              <p *ngSwitchCase="6">
+                Đã trả <i style="cursor: pointer; font-size: 23px" (click)="description(o.description)"
+                          class="fa-solid fa-circle-info"></i>
+              </p>
             </div>
           </div>
           <div class="createDate d-flex justify-content-between" style="margin-bottom: 10px">
@@ -53,12 +76,12 @@
             </ng-template>
           </div>
           <div class="total-payment ml-auto">
-<!--            <p>-->
-<!--              Giảm giá:-->
-<!--              <span style="padding-left: 5px; margin-right: 20px"-->
-<!--              >{{ o.discount | number }} VND</span-->
-<!--              >-->
-<!--            </p>-->
+            <!--            <p>-->
+            <!--              Giảm giá:-->
+            <!--              <span style="padding-left: 5px; margin-right: 20px"-->
+            <!--              >{{ o.discount | number }} VND</span-->
+            <!--              >-->
+            <!--            </p>-->
             <p>Phí giao hàng: {{ o.feeShipping | number }} VND</p>
             <p>
               Tổng tiền thanh toán:
@@ -75,11 +98,15 @@
               </button>
             </ng-template>
             <ng-template [ngIf]="o.status == 1">
+              <button class="mr-3" (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.CANCEL,o.id)">Huỷ đơn hàng
+              </button>
               <button (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.START_DELIVERY,o.id)">Bắt đầu giao
               </button>
             </ng-template>
             <ng-template [ngIf]="o.status == 2">
               <button (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.DONE,o.id)">Đã giao cho khách
+              </button>
+              <button (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.REVERT,o.id)">Khách từ chối nhận hàng
               </button>
             </ng-template>
           </div>

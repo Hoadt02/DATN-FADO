@@ -25,32 +25,38 @@ export class OrderService {
     return this.api.save(data);
   }
 
-  updateMua(idOrder: any,data: any) {
-    return this.api.updateMua(idOrder,data);
+  updateMua(idOrder: any, data: any) {
+    return this.api.updateMua(idOrder, data);
   }
 
-  updateHuy(idOrder: any,data: any) {
-    return this.api.updateHuy(idOrder,data);
+  updateHuy(idOrder: any, data: any) {
+    return this.api.updateHuy(idOrder, data);
   }
 
   delete(id: number) {
     return this.api.delete(id);
   }
+
   getChartBar() {
     return this.api.chartBar();
   }
+
   getTotalRevenue() {
     return this.api.totalRevenue();
   }
+
   getTotalOrder() {
     return this.api.totalOrder();
   }
+
   getOrderCancel() {
     return this.api.orderCancel();
   }
+
   getTotalOneDay() {
     return this.api.totalOneDay();
   }
+
   getOrderByStaff(id: number) {
     return this.api.getOrderByStaff(id);
   }
@@ -65,6 +71,10 @@ export class OrderService {
 
   updateStatus(status: number, id: number) {
     return this.api.updateStatus(status, id);
+  }
+
+  revertOrder(description: string, id: number) {
+    return this.api.revertOrder(description, id);
   }
 
   getOrderHistory(id: number, status: number) {

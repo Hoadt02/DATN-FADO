@@ -44,32 +44,41 @@ public class OrderController {
         this.iOrderService.updateStatus(status, id);
     }
 
+    @GetMapping("/revertOrder")
+    public void revertOrder(@RequestParam("description") String description, @RequestParam("id") Integer id) {
+        this.iOrderService.revertOrder(description, id);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Order> findById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(this.iOrderService.findById(id));
     }
 
     @GetMapping("/chartBar")
-    public ResponseEntity<List<CharBarDTO>> chartBar(){
+    public ResponseEntity<List<CharBarDTO>> chartBar() {
         return ResponseEntity.ok(this.iOrderService.getChartBar());
     }
+
     @GetMapping("/totalRevenue")
-    public ResponseEntity<Integer> totalRevenue(){
+    public ResponseEntity<Integer> totalRevenue() {
         return ResponseEntity.ok(this.iOrderService.getTotalRevenue());
     }
 
     @GetMapping("/totalOrder")
-    public ResponseEntity<List<TotalOrderDTO>> totalOrder(){
+    public ResponseEntity<List<TotalOrderDTO>> totalOrder() {
         return ResponseEntity.ok(this.iOrderService.getTotalOrder());
     }
 
     @GetMapping("/orderCancel")
-    public ResponseEntity<List<OrderCancelDTO>> orderCancel(){
+    public ResponseEntity<List<OrderCancelDTO>> orderCancel() {
         return ResponseEntity.ok(this.iOrderService.getOrderCancel());
     }
 
     @GetMapping("/totalOneDay")
-    public ResponseEntity<Integer> totalOneDay() { return ResponseEntity.ok(this.iOrderService.getTotalOneDay()); }
+    public ResponseEntity<Integer> totalOneDay() {
+        return ResponseEntity.ok(this.iOrderService.getTotalOneDay());
+    }
+
     // Day la` pha`n toi nha' ba.n hien da.u da.u
     @GetMapping("getOrderByStaff/{id}")
     public ResponseEntity<List<Order>> getOrderByStaff(@PathVariable("id") Integer id) {

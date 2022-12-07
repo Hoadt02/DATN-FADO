@@ -82,6 +82,16 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
+    public void revertOrder(String description, Integer id) {
+        List<OrderDetail> orderDetails = this.orderDetailService.getAllOrderDetailInOrder(id);
+        for (OrderDetail o : orderDetails) {
+            o.getProductDetail().setQuantity(o.getQuantity() + o.getProductDetail().getQuantity());
+            this.productDetailService.update(o.getProductDetail());
+        }
+        this.orderRepository.revertOrder(description, id);
+    }
+
+    @Override
     public List<CharBarDTO> getChartBar() {
         return this.orderRepository.chartBar(Year.now().getValue());
     }

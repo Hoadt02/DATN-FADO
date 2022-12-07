@@ -10,6 +10,8 @@ import {ToastrService} from "ngx-toastr";
 import {CartService} from "../../../shared/service/api-service-impl/cart.service";
 import {Router} from "@angular/router";
 import {yearsPerPage} from "@angular/material/datepicker";
+import {EditAddressComponent} from "../../check-out/edit-address/edit-address.component";
+import {AddressService} from "../../../shared/service/api-service-impl/address.service";
 
 @Component({
   selector: 'app-order-history-list',
@@ -30,15 +32,18 @@ export class OrderHistoryListComponent implements OnInit {
   daNhan = 0;
   daHuy = 0;
   daGiao = 0;
+  traHang = 0;
   listMatTab: any;
   dataAddCart: any = [];
   isLoading!: boolean;
+  searchOrderData: any;
 
   constructor(
     private apiOrder: OrderService,
     private storageService: StorageService,
     private apiOrderDetail: OrderDetailService,
     private matDiaLog: MatDialog,
+    private apiAddress: AddressService,
     private toastrService: ToastrService,
     private apiCart: CartService,
     private router: Router,
@@ -70,6 +75,9 @@ export class OrderHistoryListComponent implements OnInit {
       if (x.status == 5) {
         this.daGiao++;
       }
+      if (x.status == 6) {
+        this.traHang++;
+      }
     }
     this.listMatTab = [
       {
@@ -89,19 +97,27 @@ export class OrderHistoryListComponent implements OnInit {
       },
       {
         status: 4, lable: 'Đã huỷ', sl: this.daHuy
+      },
+      {
+        status: 6, lable: 'Trả hàng', sl: this.traHang
       }
     ]
   }
 
-  findAllByCustomerId() {
-    this.isLoading = true;
+  resetNumber() {
     this.daMua = 0;
     this.daNhan = 0;
     this.daHuy = 0;
     this.dangGiao = 0;
     this.daGiao = 0;
+    this.traHang = 0;
     this.choXacNhan = 0;
     this.choLayHang = 0;
+  }
+
+  findAllByCustomerId() {
+    this.isLoading = true;
+    this.resetNumber();
     this.apiOrder.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         this.orders = data as any[];
@@ -114,6 +130,7 @@ export class OrderHistoryListComponent implements OnInit {
 
   findAllDetailByCustomerId() {
     this.isLoading = true;
+    this.searchOrderData = null;
     this.apiOrderDetail.findAllDetailByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         this.orderDetails = data as any[];
@@ -231,4 +248,92 @@ export class OrderHistoryListComponent implements OnInit {
       }
     })
   }
+
+  description(description: string) {
+    this.matDiaLog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Lý do trả hàng !',
+        message: description
+      }
+    })
+  }
+
+  searchOrder() {
+    this.isLoading = true;
+    this.orders = [];
+    this.resetNumber();
+    this.getSoLuong();
+    this.apiOrder.findById(this.searchOrderData).subscribe({
+      next: (data: any) => {
+        if (data !== null) {
+          this.orders.push(data);
+          this.findAllDetailByCustomerId();
+          this.getSoLuong();
+        }
+        this.isLoading = false;
+      }, error: err => {
+        console.log('Lỗi rồi: ', err);
+        this.isLoading = false;
+      }
+    })
+  }
+
+  // openEditAddress() {
+  //   let idAddressSelect;
+  //   this.matDiaLog.open(EditAddressComponent, {
+  //     width: '1000px',
+  //     disableClose: true,
+  //     hasBackdrop: true,
+  //     data: {
+  //       idAddressSelect
+  //     }
+  //   }).afterClosed().subscribe(data => {
+  //     if (null != data && 0 != data) {
+  //       // this.idAddress = data;
+  //       this.addressFindById();
+  //     }
+  //   })
+  // }
+
+  // addressFindById() {
+  // this.apiAddress.findById(this.idAddress).subscribe((data: any) => {
+  //   this.districtId = data.districtId;
+  //   this.addressDefault = data;
+  //   this.getFeeShipping();
+  // })
+  // }
+
+  // getFeeShipping() {
+  // this.isCheckOut = true;
+  // console.log('Địa chỉ: ', this.addressDefault);
+  // let service_id;
+  // const infoService = {
+  //   shop_id: 1034510,
+  //   from_district: 1734, // từ quận nào yên lạc vĩnh phúc
+  //   to_district: this.districtId // đến quận nào
+  // }
+  //
+  // this.apiAddress.getInfoService(infoService).subscribe((data: any) => {
+  //   service_id = data.data[0].service_id
+  // })
+  // const feeShipping = {
+  //   service_id: service_id, // data trả về t bên trên
+  //   service_type_id: 2, // đường bộ
+  //   insurance_value: this.subtotal, // tổng tiền đơn hàng
+  //   // coupon: null, // giảm giá của nhà vận chuyển
+  //   from_district_id: 1766, // gửi từ quận nào
+  //   to_district_id: this.districtId, // đến quận nào
+  //   // to_ward_code: wardId,// xã nào
+  //   weight: 200 // trọng lượng đơn hàng
+  // }
+  // this.apiAddress.feeShipping(feeShipping).subscribe((data: any) => {
+  //   this.totalFeeShipping = 0;
+  //   this.totalFeeShipping = data.data.total;
+  //   if (this.totalFeeShipping != 0){
+  //     this.isCheckOut = false;
+  //   }
+  //
+  // })
+  // }
 }
