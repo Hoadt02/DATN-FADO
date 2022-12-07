@@ -97,7 +97,7 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: '/water-proof-management',
-    title: 'Quản lý độ kháng nước',
+    title: 'Quản lý độ chống nước',
     icon: 'nc-support-17',
     class: ''
   },

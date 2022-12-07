@@ -15,7 +15,7 @@
 <!--      Thông tin sản phẩm-->
       <ng-template matStepLabel>Thông tin sản phẩm</ng-template>
       <div class="row">
-        <div class="col-4">
+        <div class="col-3">
           <div class="custom-dropzone-avt" ngx-dropzone [accept]="'image/*'" (change)="onSelectAvt($event)"
                [multiple]='false' *ngIf="showImage">
             <ngx-dropzone-label style="font-size: 12px">Chọn ảnh đại diện</ngx-dropzone-label>
@@ -34,9 +34,10 @@
             </button>
           </div>
         </div>
-        <div class="col-8">
+        <div class="col-9">
+
           <div class="row">
-            <mat-form-field class="w-100" appearance="outline" class="col-6">
+            <mat-form-field class="w-100" appearance="outline" class="col-12">
               <mat-label>Tên sản phẩm *</mat-label>
               <input type="text" matInput placeholder="..." formControlName="name">
               <mat-error *ngIf="formGroup.get('name')?.hasError('isSpace') && formGroup.get('name')?.touched">
@@ -49,8 +50,10 @@
                 Tên sản phẩm tối thiểu 4 ký tự!
               </mat-error>
             </mat-form-field>
+          </div>
 
-            <mat-form-field class="w-100" appearance="outline" class="col-6">
+          <div class="row">
+            <mat-form-field class="w-100" appearance="outline" class="col-4">
               <mat-label>Giá sản phẩm</mat-label>
               <input type="number" matInput placeholder="..." formControlName="price" min="0" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
               <mat-error *ngIf="formGroup.get('price')?.hasError('required') && formGroup.get('price')?.touched">
@@ -60,10 +63,8 @@
                 Giá sản phẩm tối thiểu 10.000 VNĐ!
               </mat-error>
             </mat-form-field>
-          </div>
 
-          <div class="row">
-            <mat-form-field class="w-100" appearance="outline" class="col-6">
+            <mat-form-field class="w-100" appearance="outline" class="col-4">
               <mat-label>Số lượng sản phẩm</mat-label>
               <input type="number" matInput placeholder="..." formControlName="quantity" min="0" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
               <mat-error *ngIf="formGroup.get('quantity')?.hasError('required') && formGroup.get('quantity')?.touched">
@@ -74,7 +75,7 @@
               </mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="col-6">
+            <mat-form-field appearance="outline" class="col-4">
               <mat-label>Đối tượng sử dụng</mat-label>
               <mat-select disableRipple formControlName="gender">
                 <mat-option [value]='true'>Nam</mat-option>
@@ -84,11 +85,10 @@
                 Vui lòng không bỏ trống giới tính sản phẩm!
               </mat-error>
             </mat-form-field>
-
           </div>
 
           <div class="row">
-            <mat-form-field appearance="outline" class="col-6" formGroupName="product">
+            <mat-form-field appearance="outline" class="col-4" formGroupName="product">
               <mat-label>Dòng sản phẩm</mat-label>
               <mat-select formControlName="id">
                 <mat-option *ngFor="let p of listProduct" [value]="p.id" [disabled]="p.status == 0 || p.category.status == 0">
@@ -101,7 +101,7 @@
               </mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="col-6" formGroupName="brand">
+            <mat-form-field appearance="outline" class="col-4" formGroupName="brand">
               <mat-label>Thương hiệu</mat-label>
               <mat-select formControlName="id">
                 <mat-option *ngFor="let b of listBrand" [value]="b.id" [disabled]="b.status == 0">
@@ -113,10 +113,8 @@
                 Vui lòng không bỏ trống thương hiệu sản phẩm!
               </mat-error>
             </mat-form-field>
-          </div>
 
-          <div class="row">
-            <mat-form-field appearance="outline" class="col-6" formGroupName="material">
+            <mat-form-field appearance="outline" class="col-4" formGroupName="material">
               <mat-label>Chất liệu</mat-label>
               <mat-select formControlName="id">
                 <mat-option *ngFor="let m of listMaterial" [value]="m.id" [disabled]="m.status == 0">
@@ -128,8 +126,10 @@
                 Vui lòng không bỏ trống chất liệu sản phẩm!
               </mat-error>
             </mat-form-field>
+          </div>
 
-            <mat-form-field appearance="outline" class="col-6" formGroupName="origin">
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-3" formGroupName="origin">
               <mat-label>Xuất xứ</mat-label>
               <mat-select formControlName="id">
                 <mat-option *ngFor="let o of listOrigin" [value]="o.id" [disabled]="o.status == 0">
@@ -139,6 +139,45 @@
               </mat-select>
               <mat-error *ngIf="formGroup.get('origin')?.invalid && formGroup.get('origin')?.touched">
                 Vui lòng không bỏ trống xuất xứ sản phẩm!
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-3" formGroupName="waterproof">
+              <mat-label>Chống nước</mat-label>
+              <mat-select formControlName="id">
+                <mat-option *ngFor="let w of listWaterproof" [value]="w.id" [disabled]="w.status == 0">
+                  <span *ngIf="w.status == 1">{{w.name}} ATM</span>
+                  <span *ngIf="w.status == 0"><del>{{w.name}} ATM</del></span>
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="formGroup.get('waterproof')?.invalid && formGroup.get('waterproof')?.touched">
+                Vui lòng không bỏ trống thông số chống nước!
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-3" formGroupName="facediameter">
+              <mat-label>Đường kính mặt</mat-label>
+              <mat-select formControlName="id">
+                <mat-option *ngFor="let f of listFacediameter" [value]="f.id" [disabled]="f.status == 0">
+                  <span *ngIf="f.status == 1">{{f.name}} mm</span>
+                  <span *ngIf="f.status == 0"><del>{{f.name}} mm</del></span>
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="formGroup.get('facediameter')?.invalid && formGroup.get('facediameter')?.touched">
+                Vui lòng không bỏ trống thông số đường kính mặt!
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-3" formGroupName="batterypower">
+              <mat-label>Năng lượng pin</mat-label>
+              <mat-select formControlName="id">
+                <mat-option *ngFor="let b of listBatterypower" [value]="b.id" [disabled]="b.status == 0">
+                  <span *ngIf="b.status == 1">{{b.name}} Quartz/Pin</span>
+                  <span *ngIf="b.status == 0"><del>{{b.name}} Quartz/Pin</del></span>
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="formGroup.get('batterypower')?.invalid && formGroup.get('batterypower')?.touched">
+                Vui lòng không bỏ trống thông số chống nước!
               </mat-error>
             </mat-form-field>
           </div>

@@ -12,6 +12,9 @@ public class FilterAndPagingAndSortingModel {
     private Integer[] brand_id;
     private Integer[] material_id;
     private Integer[] origin_id;
+    private Integer[] waterproof_id;
+    private Integer[] facediameter_id;
+    private Integer[] batterypower_id;
     private Boolean[] gender;
     private Integer startPrice;
     private Integer endPrice;
