@@ -6,29 +6,25 @@
     <form [formGroup]="formGroup" class="example-form">
       <div class="row">
         <mat-form-field class=" col-6" appearance="outline">
-          <mat-label>Tên xuất xứ</mat-label>
+          <mat-label>Dung lượng pin</mat-label>
           <input formControlName="name" type="text"
-                 id="exampleInputName1" required maxlength="50" placeholder="VD: Việt Nam"
+                 id="exampleInputName1" required maxlength="50" placeholder="VD: Quartz/Pin"
                  matInput>
           <mat-error
             *ngIf="formGroup.get('name')?.hasError('isSpace') &&
-            formGroup.get('name')?.touched">Bạn phải nhập xuất xứ
-          </mat-error>
-          <mat-error
-            *ngIf="formGroup.get('name')?.hasError('pattern') &&
-            formGroup.get('name')?.touched">Xuất xứ không được chứa số và ký tự đặc biệt
+            formGroup.get('name')?.touched">Bạn phải nhập dung lượng pin
           </mat-error>
           <mat-error
             *ngIf="formGroup.get('name')?.hasError('maxlength') &&
-            formGroup.get('name')?.touched">Xuất xứ không vượt quá 50 ký tự
+            formGroup.get('name')?.touched">Dung lượng pin không vượt quá 50 ký tự
           </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="col-6">
           <mat-label>Trạng thái</mat-label>
           <mat-select disableRipple formControlName="status">
-            <mat-option [value]="true">Đang hoạt động</mat-option>
-            <mat-option [value]="false">Ngừng hoạt động</mat-option>
+            <mat-option [value]="1">Đang sử dụng</mat-option>
+            <mat-option [value]="0">Đã xóa</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

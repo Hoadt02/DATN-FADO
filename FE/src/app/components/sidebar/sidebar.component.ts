@@ -89,6 +89,24 @@ export const ROUTES: RouteInfo[] = [
     icon: 'nc-shop',
     class: ''
   },
+  {
+    path: '/face-diameter-management',
+    title: 'Quản lý đường kính',
+    icon: 'nc-ruler-pencil',
+    class: ''
+  },
+  {
+    path: '/water-proof-management',
+    title: 'Quản lý độ kháng nước',
+    icon: 'nc-support-17',
+    class: ''
+  },
+  {
+    path: '/battery-power-management',
+    title: 'Quản lý năng lượng pin',
+    icon: 'nc-atom',
+    class: ''
+  },
 ];
 
 @Component({

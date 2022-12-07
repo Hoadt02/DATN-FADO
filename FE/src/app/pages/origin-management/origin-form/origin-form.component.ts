@@ -7,7 +7,7 @@ import {checkSpace} from '../../../shared/validator/validatorForm';
 import {Regex} from '../../../shared/validator/regex';
 
 @Component({
-  selector: 'app-origin-form',
+  selector: 'app-battery-power-form',
   templateUrl: './origin-form.component.html',
   styleUrls: ['./origin-form.component.scss']
 })

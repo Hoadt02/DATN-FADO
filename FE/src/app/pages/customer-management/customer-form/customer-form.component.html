@@ -11,7 +11,7 @@
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Họ</mat-label>
           <input formControlName="firstname" type="text"
-                 id="exampleInputFirstname1" required maxlength="50"
+                 id="exampleInputFirstname1" required maxlength="50" placeholder="VD: Nguyễn Hồng"
                  matInput>
           <mat-error
             *ngIf="formGroup.get('firstname')?.hasError('isSpace') &&
@@ -28,7 +28,7 @@
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Tên</mat-label>
           <input formControlName="lastname" type="text"
-                 id="exampleInputLastname1" required maxlength="50"
+                 id="exampleInputLastname1" required maxlength="50" placeholder="VD: Sơn"
                  matInput>
           <mat-error
             *ngIf="formGroup.get('lastname')?.hasError('isSpace') &&
@@ -47,7 +47,7 @@
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Tài khoản</mat-label>
           <input formControlName="username" type="text"
-                 id="exampleInputUsername1" required maxlength="50"
+                 id="exampleInputUsername1" required maxlength="50" placeholder="VD: sonnh"
                  matInput>
           <mat-error
             *ngIf="formGroup.get('username')?.hasError('required') &&
@@ -71,7 +71,7 @@
       <div class="col-md-6" *ngIf="hidePassword">
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Mật khẩu</mat-label>
-          <input formControlName="password" matInput [type]="hide ? 'password' : 'text'" minlength="8">
+          <input formControlName="password" matInput [type]="hide ? 'password' : 'text'" minlength="8" placeholder="VD: 12345678">
           <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                   [attr.aria-pressed]="hide">
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -102,7 +102,7 @@
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Số điện thoại</mat-label>
           <input formControlName="phoneNumber" type="text"
-                 id="exampleInputPhoneNumber1" required maxlength="10"
+                 id="exampleInputPhoneNumber1" required maxlength="10" placeholder="VD: 0198273849"
                  matInput>
           <mat-error
             *ngIf="formGroup.get('phoneNumber')?.hasError('required') &&
@@ -121,7 +121,7 @@
         <mat-form-field class="w-100" appearance="outline">
           <mat-label>Email</mat-label>
           <input formControlName="email" type="text"
-                 id="exampleInpuEmail1" required maxlength="50"
+                 id="exampleInpuEmail1" required maxlength="50" placeholder="VD: sonnh@gmail.com"
                  matInput>
           <mat-error
             *ngIf="formGroup.get('email')?.hasError('required') &&
