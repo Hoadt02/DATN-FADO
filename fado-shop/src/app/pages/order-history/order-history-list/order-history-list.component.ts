@@ -117,6 +117,7 @@ export class OrderHistoryListComponent implements OnInit {
 
   findAllByCustomerId() {
     this.isLoading = true;
+    this.searchOrderData = null;
     this.resetNumber();
     this.apiOrder.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
@@ -130,7 +131,6 @@ export class OrderHistoryListComponent implements OnInit {
 
   findAllDetailByCustomerId() {
     this.isLoading = true;
-    this.searchOrderData = null;
     this.apiOrderDetail.findAllDetailByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         this.orderDetails = data as any[];

@@ -65,13 +65,13 @@
                   <div class="row w-100 product-detail">
                     <div class="col-2 col-md-2 col-lg-2 image">
                       <a
-                        [routerLink]="odt.productDetail.status == 0 ? '/product' :'/product-detail/{{i.productDetail.id}}'">
+                        routerLink="/product-detail/{{odt.productDetail.id}}">
                         <img src="../../../assets/img/avtProduct/{{odt.productDetail.avatar}}" alt="Ảnh sản phẩm"/>
                       </a>
                     </div>
                     <div class="col-8 col-md-8 col-lg-8">
                       <a
-                        [routerLink]="odt.productDetail.status == 0 ? '/product' :'/product-detail/{{i.productDetail.id}}'"
+                        routerLink="/product-detail/{{odt.productDetail.id}}"
                         class="title">
                         {{ odt.productDetail.name }}</a>
                       <p style="margin-top: 10px">Chất liệu: {{ odt.productDetail.material.name }}</p>
