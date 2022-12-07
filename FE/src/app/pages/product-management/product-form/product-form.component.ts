@@ -12,6 +12,9 @@ import {ToastrService} from 'ngx-toastr';
 import {ImageService} from '../../../shared/services/api-service-impl/image.service';
 import {checkSpace} from '../../../shared/validator/validatorForm';
 import {Regex} from '../../../shared/validator/regex';
+import {WaterProofService} from "../../../shared/services/api-service-impl/waterProof.service";
+import {FaceDiameterService} from "../../../shared/services/api-service-impl/faceDiameter.service";
+import {BatteryPowerService} from "../../../shared/services/api-service-impl/batteryPower.service";
 
 @Component({
   selector: 'app-product-form',
@@ -28,6 +31,9 @@ export class ProductFormComponent implements OnInit{
   listBrand: any[] = [];
   listOrigin: any[] = [];
   listMaterial: any[] = [];
+  listWaterproof: any[] = [];
+  listFacediameter: any[] = [];
+  listBatterypower: any[] = [];
   listImageProductDetail: any[] = [];
 
   formGroup: FormGroup = this.fb.group({
@@ -42,6 +48,15 @@ export class ProductFormComponent implements OnInit{
       id: ['', [Validators.required]]
     }),
     origin: this.fb.group({
+      id: ['', [Validators.required]],
+    }),
+    waterproof: this.fb.group({
+      id: ['', [Validators.required]]
+    }),
+    facediameter: this.fb.group({
+      id: ['', [Validators.required]]
+    }),
+    batterypower: this.fb.group({
       id: ['', [Validators.required]],
     }),
     name: ['', [checkSpace, Validators.pattern(Regex.nameAndNumber), Validators.minLength(4)]],
@@ -74,7 +89,10 @@ export class ProductFormComponent implements OnInit{
               private productDetailService: ProductDetailsService,
               private uploadImageService: UploadImageService,
               private toastrService: ToastrService,
-              private imageService: ImageService) {
+              private imageService: ImageService,
+              private waterproofService: WaterProofService,
+              private facediameterService: FaceDiameterService,
+              private batterypowerService: BatteryPowerService) {
   }
 
   ngOnInit(): void {
@@ -96,6 +114,9 @@ export class ProductFormComponent implements OnInit{
     this.getBrandForCombobox();
     this.getMaterialForCombobox();
     this.getOriginForCombobox();
+    this.getWaterproofForCombobox();
+    this.getFacediameterForCombobox();
+    this.getBatterypowerForCombobox();
   }
 
   changeShowImage(){
@@ -336,26 +357,37 @@ export class ProductFormComponent implements OnInit{
 
   getProductForCombobox() {
     this.productService.getAll().subscribe((data: any) => {
-      if (data) {
-        this.listProduct = data;
-      }
+      this.listProduct = data;
     });
   }
 
   getOriginForCombobox() {
     this.originService.getAll().subscribe((data: any) => {
-      if (data) {
-        this.listOrigin = data;
-      }
+      this.listOrigin = data;
     });
   }
 
   getMaterialForCombobox() {
     this.materialService.getAll().subscribe((data: any) => {
-      if (data) {
-        this.listMaterial = data;
-      }
+      this.listMaterial = data;
     });
   }
 
+  getWaterproofForCombobox(){
+    this.waterproofService.getAll().subscribe((data: any) => {
+      this.listWaterproof = data;
+    });
+  }
+
+  getFacediameterForCombobox(){
+    this.facediameterService.getAll().subscribe((data: any) => {
+      this.listFacediameter = data;
+    });
+  }
+
+  getBatterypowerForCombobox(){
+    this.batterypowerService.getAll().subscribe((data: any) => {
+      this.listBatterypower = data;
+    });
+  }
 }

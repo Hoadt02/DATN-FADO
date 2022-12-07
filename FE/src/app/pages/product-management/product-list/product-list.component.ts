@@ -15,6 +15,9 @@ import {BrandService} from '../../../shared/services/api-service-impl/brand.serv
 import {MaterialService} from '../../../shared/services/api-service-impl/material.service';
 import {ProductService} from "../../../shared/services/api-service-impl/product.service";
 import {OriginService} from "../../../shared/services/api-service-impl/origin.service";
+import {WaterProofService} from "../../../shared/services/api-service-impl/waterProof.service";
+import {FaceDiameterService} from "../../../shared/services/api-service-impl/faceDiameter.service";
+import {BatteryPowerService} from "../../../shared/services/api-service-impl/batteryPower.service";
 
 
 @Component({
@@ -33,12 +36,18 @@ export class ProductListComponent implements OnInit {
   listBrand: any[] = [];
   listOrigin: any[] = [];
   listMaterial: any[] = [];
+  listWaterproof: any[] = [];
+  listFacediameter: any[] = [];
+  listBatterypower: any[] = [];
 
   formGroup = this.fb.group({
     product_id: [null],
     brand_id: [null],
     material_id: [null],
     origin_id: [null],
+    waterproof_id: [null],
+    facediameter_id: [null],
+    batterypower_id: [null],
     status: [null],
     gender: [null]
   });
@@ -57,6 +66,9 @@ export class ProductListComponent implements OnInit {
     this.getBrandForCombobox();
     this.getMaterialForCombobox();
     this.getOriginForCombobox();
+    this.getWaterproofForCombobox();
+    this.getFacediameterForCombobox();
+    this.getBatterypowerForCombobox();
   }
 
   constructor(private fb: FormBuilder,
@@ -66,7 +78,10 @@ export class ProductListComponent implements OnInit {
               private brandService: BrandService,
               private productService: ProductService,
               private originService: OriginService,
-              private materialService: MaterialService,) {
+              private materialService: MaterialService,
+              private waterproofService: WaterProofService,
+              private facediameterService: FaceDiameterService,
+              private batterypowerService: BatteryPowerService) {
   }
 
   getAll() {
@@ -107,7 +122,8 @@ export class ProductListComponent implements OnInit {
   }
 
   onResetFilter() {
-    this.formGroup.patchValue({product_id:null, brand_id:null, material_id:null, origin_id:null, status:null, gender:null});
+    this.formGroup.patchValue({product_id:null, brand_id:null, material_id:null, origin_id:null,
+      waterproof_id:null, facediameter_id:null, batterypower_id:null, status:null, gender:null});
     this.keySearch = null;
     this.getAll();
   }
@@ -125,7 +141,7 @@ export class ProductListComponent implements OnInit {
     this.dialogService.open(ProductFormComponent,
       {
         disableClose: true,
-        width: '900px',
+        width: '1200px',
         data: {type, row}
       }).afterClosed().subscribe(result => {
       if (result == Constants.RESULT_CLOSE_DIALOG.SUCCESS) {
@@ -160,33 +176,43 @@ export class ProductListComponent implements OnInit {
 
   getBrandForCombobox() {
     this.brandService.getAll().subscribe((data: any) => {
-      if (data) {
-        this.listBrand = data;
-      }
+      this.listBrand = data;
     });
   }
 
   getProductForCombobox() {
     this.productService.getAll().subscribe((data: any) => {
-      if (data) {
-        this.listProduct = data;
-      }
+      this.listProduct = data;
     });
   }
 
   getOriginForCombobox() {
     this.originService.getAll().subscribe((data: any) => {
-      if (data) {
-        this.listOrigin = data;
-      }
+      this.listOrigin = data;
     });
   }
 
   getMaterialForCombobox() {
     this.materialService.getAll().subscribe((data: any) => {
-      if (data) {
-        this.listMaterial = data;
-      }
+      this.listMaterial = data;
+    });
+  }
+
+  getWaterproofForCombobox(){
+    this.waterproofService.getAll().subscribe((data: any) => {
+      this.listWaterproof = data;
+    });
+  }
+
+  getFacediameterForCombobox(){
+    this.facediameterService.getAll().subscribe((data: any) => {
+      this.listFacediameter = data;
+    });
+  }
+
+  getBatterypowerForCombobox(){
+    this.batterypowerService.getAll().subscribe((data: any) => {
+      this.listBatterypower = data;
     });
   }
 

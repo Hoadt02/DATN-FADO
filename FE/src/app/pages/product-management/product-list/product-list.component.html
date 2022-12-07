@@ -25,7 +25,7 @@
         <h3><b><i class="fa-solid fa-filter"></i> BỘ LỌC</b></h3>
         <div class="row">
           <form [formGroup]="formGroup">
-            <mat-form-field appearance="outline" class="col-2">
+            <mat-form-field appearance="outline" class="col-4">
               <mat-label>Dòng sản phẩm</mat-label>
               <mat-select formControlName="product_id">
                 <mat-option *ngFor="let p of listProduct" (click)="getAllFilter()" [value]="p.id">
@@ -34,7 +34,7 @@
               </mat-select>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="col-2">
+            <mat-form-field appearance="outline" class="col-3">
               <mat-label>Thương hiệu</mat-label>
               <mat-select formControlName="brand_id">
                 <mat-option *ngFor="let b of listBrand" (click)="getAllFilter()" [value]="b.id">
@@ -43,7 +43,7 @@
               </mat-select>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="col-2">
+            <mat-form-field appearance="outline" class="col-3">
               <mat-label>Chất liệu</mat-label>
               <mat-select formControlName="material_id">
                 <mat-option *ngFor="let m of listMaterial" (click)="getAllFilter()" [value]="m.id">
@@ -57,6 +57,34 @@
               <mat-select formControlName="origin_id">
                 <mat-option *ngFor="let o of listOrigin" (click)="getAllFilter()" [value]="o.id">
                   {{o.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-2">
+              <mat-label>Chống nước</mat-label>
+              <mat-select formControlName="waterproof_id">
+                <mat-option *ngFor="let w of listWaterproof" (click)="getAllFilter()" [value]="w.id">
+                  {{w.name}} ATM
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline" class="col-2">
+              <mat-label>Đường kính mặt</mat-label>
+              <mat-select formControlName="facediameter_id">
+                <mat-option *ngFor="let f of listFacediameter" (click)="getAllFilter()" [value]="f.id">
+                  {{f.name}} mm
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-2">
+              <mat-label>Năng lượng pin</mat-label>
+              <mat-select formControlName="batterypower_id">
+                <mat-option *ngFor="let b of listBatterypower" (click)="getAllFilter()" [value]="b.id">
+                  {{b.name}} Quartz/Pin
                 </mat-option>
               </mat-select>
             </mat-form-field>
