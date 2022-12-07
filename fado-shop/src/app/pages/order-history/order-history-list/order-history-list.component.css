@@ -91,3 +91,18 @@
   max-height: 413px;
   overflow: auto;
 }
+.edit-address {
+  height: 30px;
+  padding: 5px 10px 5px 10px;
+  background-color: #FFD333;
+  border: none;
+  border-radius: 5px;
+}
+
+.edit-address:hover {
+  background-color: #ffcb0d;
+}
+
+.border-radius-5{
+  border-radius: 5px;
+}

@@ -32,6 +32,8 @@ export class Constants {
     START_DELIVERY: 'startDelivery',
     //Đã nhận hàng
     DONE: 'done',
+    //Từ chối nhận
+    REVERT: 'revert',
   };
 
   public static STATUS_PAYMENT = {

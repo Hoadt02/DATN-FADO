@@ -25,6 +25,11 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("update orders o set o.status =:status where o.id =:id")
     void updateStatus(@Param("status") Integer status, @Param("id") Integer id);
 
+    @Modifying
+    @Query("update orders o set o.status = 6 , o.description = :description where o.id =:id")
+    void revertOrder(@Param("description") String description, @Param("id") Integer id);
+
+
     //    lấy số tiền trong từng tháng
     @Query("SELECT new CharBarDTO(MONTH(o.createDate) ,SUM(o.totalPayment)) FROM orders o WHERE YEAR(o.createDate) = :year and o.status = 3 GROUP BY MONTH(o.createDate) ORDER BY MONTH(o.createDate) ASC")
     List<CharBarDTO> chartBar(@Param("year") Integer year);
@@ -35,7 +40,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     //    tổng đơn hàng
     @Query("select new TotalOrderDTO(count(o.id)) from orders o where o.status = 3")
-    List<TotalOrderDTO>  totalOrder();
+    List<TotalOrderDTO> totalOrder();
 
     //tổng đơn hủy
     @Query("select new OrderCancelDTO(count(o.id)) from orders o where o.status = 4")

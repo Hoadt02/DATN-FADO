@@ -6,18 +6,28 @@ import { OrderManagementComponent } from './order-management/order-management.co
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatButtonModule} from "@angular/material/button";
+import {MatInputModule} from "@angular/material/input";
+import {FormsModule} from "@angular/forms";
+import { RevertOrderComponent } from './revert-order/revert-order.component';
 
 
 @NgModule({
   declarations: [
-    OrderManagementComponent
+    OrderManagementComponent,
+    RevertOrderComponent
   ],
   imports: [
     CommonModule,
     OrderManagementRoutingModule,
     MatTabsModule,
     MatExpansionModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule,
+    FormsModule
   ]
 })
 export class OrderManagementModule { }
