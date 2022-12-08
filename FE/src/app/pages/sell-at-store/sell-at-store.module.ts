@@ -32,6 +32,7 @@ import {BarcodeScannerLivestreamModule} from "ngx-barcode-scanner";
 import {SellHistoryDetailComponent} from './sell-history-detail/sell-history-detail.component';
 import {NgxCurrencyModule} from "ngx-currency";
 import {MatDividerModule} from "@angular/material/divider";
+import { OrderSellComponent } from './order-sell/order-sell.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import {MatDividerModule} from "@angular/material/divider";
     SellAtStoreHistoryComponent,
     ScannerFormComponent,
     SellHistoryDetailComponent,
+    OrderSellComponent,
   ],
   imports: [
     CommonModule,

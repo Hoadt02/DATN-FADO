@@ -3,6 +3,9 @@
 <!--    Tìm Kiếm   -->
     <div class="col-lg-4 col-4 text-left">
       <div class="d-flex">
+        <a class="mr-lg-4" (click)="backToHome()" mat-mini-fab color="white">
+          <mat-icon>home</mat-icon>
+        </a>
         <div class="ng-autocomplete">
           <ng-autocomplete
             [data]="dataSearch"
@@ -162,6 +165,7 @@
             </div>
 
             <div class="d-flex justify-content-between">
+              <h4>Tiền thừa trả khách</h4>
               <h4 *ngIf="tienKhachDua > 0">{{tienKhachDua - tienKhachCanTra | currency:'VND'}}</h4>
             </div>
 
