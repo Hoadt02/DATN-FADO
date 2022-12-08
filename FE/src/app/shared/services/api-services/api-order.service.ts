@@ -58,7 +58,7 @@ export class ApiOrderService {
     return this.http.get(`${ApiConstant.order}/getOrderById?id=${id}`)
   }
 
-  getOrderByIdOne(id: number) {
+  findById(id: number) {
     return this.http.get(`${ApiConstant.order}/${id}`)
   }
 

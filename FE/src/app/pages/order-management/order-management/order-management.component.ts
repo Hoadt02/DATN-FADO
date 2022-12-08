@@ -9,6 +9,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 import {ToastrService} from "ngx-toastr";
 import {RevertOrderComponent} from "../revert-order/revert-order.component";
+import {RevertDetailComponent} from "../revert-detail/revert-detail.component";
 
 @Component({
   selector: 'app-order-management',
@@ -165,7 +166,7 @@ export class OrderManagementComponent implements OnInit {
           this.updateStatus(status, id);
         } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.CONFIRM) {
           status = 1; //  nếu ấn vào xác nhận đơn hàng sẽ chuyển sang đang chuẩn bị hàng (xác nhận đơn hàng)
-          this.apiOrder.getOrderByIdOne(id).subscribe((data: any) => {
+          this.apiOrder.findById(id).subscribe((data: any) => {
             if (data.status === 4) {
               this.toastrService.warning("Đơn hàng đã bị huỷ, vui lòng tải lại trang !");
               return
@@ -184,7 +185,7 @@ export class OrderManagementComponent implements OnInit {
             width: '500px',
             data: {}
           }).afterClosed().subscribe(data => {
-            if (data !== null) {
+            if (data !== 'close') {
               console.log(data);
               // Khách từ trối nhận hàng
               this.apiOrder.revertOrder(data, id).subscribe(() => {
@@ -201,11 +202,6 @@ export class OrderManagementComponent implements OnInit {
   updateStatus(status: number, id: number) {
     this.apiOrder.updateStatus(status, id).subscribe({
       next: (_: any) => {
-        if (status == 4) {
-          this.toastrService.success('Huỷ đơn hàng thành công!');
-        } else {
-          this.toastrService.success('Xác nhận đơn hàng thành công!');
-        }
         this.findAllOrder();
       }, error: (err: any) => {
         this.toastrService.error('Đã xảy ra lỗi!');
@@ -215,21 +211,24 @@ export class OrderManagementComponent implements OnInit {
   }
 
   description(description: string) {
-    this.matDiaLog.open(ConfirmDialogComponent, {
-      width: '400px',
+    this.matDiaLog.open(RevertDetailComponent, {
+      width: '500px',
       data: {
         title: 'Lý do trả hàng !',
-        message: description
+        message: description.trim().replace(/^\s+|\s+$|\s+(?=\s)/g, "")
       }
     })
   }
 
   searchOrder() {
+    if (this.searchOrderData === null){
+      return;
+    }
     this.isLoading = true;
     this.orders = [];
     this.resetNumber();
     this.createTabContent();
-    this.apiOrder.getOrderByIdOne(this.searchOrderData).subscribe({
+    this.apiOrder.findById(this.searchOrderData).subscribe({
       next: (data: any) => {
         if (data !== null) {
           this.orders.push(data);
