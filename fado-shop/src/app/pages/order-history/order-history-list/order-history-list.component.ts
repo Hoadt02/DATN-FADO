@@ -12,6 +12,7 @@ import {Router} from "@angular/router";
 import {yearsPerPage} from "@angular/material/datepicker";
 import {EditAddressComponent} from "../../check-out/edit-address/edit-address.component";
 import {AddressService} from "../../../shared/service/api-service-impl/address.service";
+import {RevertDetailComponent} from "../revert-detail/revert-detail.component";
 
 @Component({
   selector: 'app-order-history-list',
@@ -250,8 +251,8 @@ export class OrderHistoryListComponent implements OnInit {
   }
 
   description(description: string) {
-    this.matDiaLog.open(ConfirmDialogComponent, {
-      width: '400px',
+    this.matDiaLog.open(RevertDetailComponent, {
+      width: '500px',
       data: {
         title: 'Lý do trả hàng !',
         message: description
@@ -264,6 +265,9 @@ export class OrderHistoryListComponent implements OnInit {
     this.orders = [];
     this.resetNumber();
     this.getSoLuong();
+    if (this.searchOrderData === null){
+      return;
+    }
     this.apiOrder.findById(this.searchOrderData).subscribe({
       next: (data: any) => {
         if (data !== null) {

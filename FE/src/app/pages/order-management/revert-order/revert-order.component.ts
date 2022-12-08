@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Constants} from "../../../shared/Constants";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-revert-order',
@@ -13,6 +14,7 @@ export class RevertOrderComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<RevertOrderComponent>,
+    private toastrService: ToastrService,
     @Inject(MAT_DIALOG_DATA) public dataDialog?: any,
   ) {
   }
@@ -25,6 +27,10 @@ export class RevertOrderComponent implements OnInit {
   }
 
   onConfirm(): void {
+    if (this.descriptionOrder === null){
+      this.toastrService.warning('Vui lòng nhập lý do !');
+      return;
+    }
     this.dialogRef.close(this.descriptionOrder);
   }
 

@@ -11,12 +11,14 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import { RevertOrderComponent } from './revert-order/revert-order.component';
+import { RevertDetailComponent } from './revert-detail/revert-detail.component';
 
 
 @NgModule({
   declarations: [
     OrderManagementComponent,
-    RevertOrderComponent
+    RevertOrderComponent,
+    RevertDetailComponent
   ],
   imports: [
     CommonModule,

@@ -9,6 +9,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 import {ToastrService} from "ngx-toastr";
 import {RevertOrderComponent} from "../revert-order/revert-order.component";
+import {RevertDetailComponent} from "../revert-detail/revert-detail.component";
 
 @Component({
   selector: 'app-order-management',
@@ -184,7 +185,7 @@ export class OrderManagementComponent implements OnInit {
             width: '500px',
             data: {}
           }).afterClosed().subscribe(data => {
-            if (data !== null) {
+            if (data !== 'close') {
               console.log(data);
               // Khách từ trối nhận hàng
               this.apiOrder.revertOrder(data, id).subscribe(() => {
@@ -215,11 +216,11 @@ export class OrderManagementComponent implements OnInit {
   }
 
   description(description: string) {
-    this.matDiaLog.open(ConfirmDialogComponent, {
-      width: '400px',
+    this.matDiaLog.open(RevertDetailComponent, {
+      width: '500px',
       data: {
         title: 'Lý do trả hàng !',
-        message: description
+        message: description.trim().replace(/^\s+|\s+$|\s+(?=\s)/g, "")
       }
     })
   }
@@ -229,6 +230,9 @@ export class OrderManagementComponent implements OnInit {
     this.orders = [];
     this.resetNumber();
     this.createTabContent();
+    if (this.searchOrderData === null){
+      return;
+    }
     this.apiOrder.getOrderByIdOne(this.searchOrderData).subscribe({
       next: (data: any) => {
         if (data !== null) {
