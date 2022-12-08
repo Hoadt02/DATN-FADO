@@ -144,6 +144,7 @@ public class ProductDetailServiceImpl implements IProductDetailService {
 
     @Override
     public List<ProductDetail> findProductWithFilter(FilterModel filterModel) {
+        System.out.println(filterModel.toString());
         return repository.findProductWithFilter(filterModel.getProduct_id(), filterModel.getBrand_id(),
                 filterModel.getMaterial_id(), filterModel.getOrigin_id(), filterModel.getWaterproof_id(),
                 filterModel.getFacediameter_id(), filterModel.getBatterypower_id(), filterModel.getStatus(), filterModel.getGender());
@@ -167,6 +168,21 @@ public class ProductDetailServiceImpl implements IProductDetailService {
     @Override
     public Integer getCountProductByOrigin(Integer id) {
         return repository.getCountProductByOrigin(id);
+    }
+
+    @Override
+    public Integer getCountProductByWaterproof(Integer id) {
+        return repository.getCountProductByWaterproof(id);
+    }
+
+    @Override
+    public Integer getCountProductByFacediameter(Integer id) {
+        return repository.getCountProductByFacediameter(id);
+    }
+
+    @Override
+    public Integer getCountProductByBatterypower(Integer id) {
+        return repository.getCountProductByBatterypower(id);
     }
 
     @Override

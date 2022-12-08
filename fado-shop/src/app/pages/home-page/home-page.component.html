@@ -105,11 +105,11 @@
                     <div class="text-center py-4">
                         <a class="h6 text-decoration-none text-truncate name-product" [routerLink]="['/product-detail',p.id]">{{p.name}}</a>
                         <div class="d-flex align-items-center justify-content-center mt-2">
-                            <h5 *ngIf="loadDiscountProduct(p.id) == 0">{{ p.price | number }}₫</h5>
-                            <h5 *ngIf="loadDiscountProduct(p.id) != 0">{{loadDiscountProduct(p.id) | number}}₫</h5>
-                            <h5 *ngIf="loadDiscountProduct(p.id) != 0" class="text-muted ml-2">
-                                <del>{{ p.price | number }}₫</del>
-                            </h5>
+                          <h4 class="text-danger font-weight-bold" *ngIf="loadDiscountProduct(p.id) == 0">{{ p.price | number }}₫</h4>
+                          <h4 class="text-danger font-weight-bold" *ngIf="loadDiscountProduct(p.id) != 0">{{loadDiscountProduct(p.id) | number}}₫</h4>
+                          <h4 *ngIf="loadDiscountProduct(p.id) != 0" class="text-muted ml-2 font-weight-bold">
+                            <del>{{ p.price | number }}₫</del>
+                          </h4>
                         </div>
                     </div>
                 </div>
@@ -136,13 +136,13 @@
                         </div>
                         <div class="text-center py-4">
                             <a class="h6 text-decoration-none text-truncate name-product" [routerLink]="['/product-detail',p.id]">{{p.name}}</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5 *ngIf="loadDiscountProduct(p.id) == 0">{{ p.price | number }}₫</h5>
-                                <h5 *ngIf="loadDiscountProduct(p.id) != 0">{{loadDiscountProduct(p.id) | number}}₫</h5>
-                                <h5 *ngIf="loadDiscountProduct(p.id) != 0" class="text-muted ml-2">
-                                    <del>{{ p.price | number }}₫</del>
-                                </h5>
-                            </div>
+                          <div class="d-flex align-items-center justify-content-center mt-2">
+                            <h4 class="text-danger font-weight-bold" *ngIf="loadDiscountProduct(p.id) == 0">{{ p.price | number }}₫</h4>
+                            <h4 class="text-danger font-weight-bold" *ngIf="loadDiscountProduct(p.id) != 0">{{loadDiscountProduct(p.id) | number}}₫</h4>
+                            <h4 *ngIf="loadDiscountProduct(p.id) != 0" class="text-muted ml-2 font-weight-bold">
+                              <del>{{ p.price | number }}₫</del>
+                            </h4>
+                          </div>
                         </div>
                     </div>
                 </div>
@@ -168,11 +168,11 @@
         <div class="text-center py-4">
           <a class="h6 text-decoration-none text-truncate name-product" [routerLink]="['/product-detail',p.id]">{{p.name}}</a>
           <div class="d-flex align-items-center justify-content-center mt-2">
-            <h5 *ngIf="loadDiscountProduct(p.id) == 0">{{ p.price | number }}₫</h5>
-            <h5 *ngIf="loadDiscountProduct(p.id) != 0">{{loadDiscountProduct(p.id) | number}}₫</h5>
-            <h5 *ngIf="loadDiscountProduct(p.id) != 0" class="text-muted ml-2">
+            <h4 class="text-danger font-weight-bold" *ngIf="loadDiscountProduct(p.id) == 0">{{ p.price | number }}₫</h4>
+            <h4 class="text-danger font-weight-bold" *ngIf="loadDiscountProduct(p.id) != 0">{{loadDiscountProduct(p.id) | number}}₫</h4>
+            <h4 *ngIf="loadDiscountProduct(p.id) != 0" class="text-muted ml-2 font-weight-bold">
               <del>{{ p.price | number }}₫</del>
-            </h5>
+            </h4>
           </div>
         </div>
       </div>

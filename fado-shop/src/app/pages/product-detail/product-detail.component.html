@@ -47,11 +47,11 @@
       <div class="h-100 bg-light p-30 shadow-sm" style="border-radius: 5px;">
         <h1><b>{{productDetail?.name}}</b></h1>
         <div class="d-flex">
-          <h2 class="font-weight-semi-bold mb-4" *ngIf="loadDiscountProduct(productDetail?.id) != 0">{{loadDiscountProduct(productDetail?.id) | number}}đ</h2>
+          <h2 class="font-weight-semi-bold mb-4 text-danger" *ngIf="loadDiscountProduct(productDetail?.id) != 0">{{loadDiscountProduct(productDetail?.id) | number}}đ</h2>
           <h3 class="font-weight-semi-bold mb-4 ml-3" *ngIf="loadDiscountProduct(productDetail?.id) != 0" style="color: #9b9b9b">
             <del>{{ productDetail?.price | number }}₫</del>
           </h3>
-          <h2 class="font-weight-semi-bold mb-4" *ngIf="loadDiscountProduct(productDetail?.id) == 0">{{productDetail?.price | number}}đ</h2>
+          <h2 class="font-weight-semi-bold mb-4 text-danger" *ngIf="loadDiscountProduct(productDetail?.id) == 0">{{productDetail?.price | number}}đ</h2>
         </div>
         <i class="fa-solid fa-minus"></i>
         <i class="fa-solid fa-minus"></i>
@@ -80,9 +80,21 @@
           <strong class="text-dark mr-3">Chất liệu:</strong>
           <span>{{productDetail?.material.name}}</span>
         </div>
-        <div class="d-flex mb-4">
+        <div class="d-flex mb-3">
           <strong class="text-dark mr-3">Xuất xứ:</strong>
           <span>{{productDetail?.origin.name}}</span>
+        </div>
+        <div class="d-flex mb-3">
+          <strong class="text-dark mr-3">Chống nước:</strong>
+          <span>{{productDetail?.waterproof.name}}</span>
+        </div>
+        <div class="d-flex mb-3">
+          <strong class="text-dark mr-3">Đường kính mặt:</strong>
+          <span>{{productDetail?.facediameter.name}}</span>
+        </div>
+        <div class="d-flex mb-4">
+          <strong class="text-dark mr-3">Năng lượng pin:</strong>
+          <span>{{productDetail?.batterypower.name}}</span>
         </div>
         <div class="d-flex align-items-center mb-2 pt-2" *ngIf="productDetail?.quantity > 0">
           <div class="input-group quantity mr-3" style="width: 130px;">

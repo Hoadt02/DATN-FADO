@@ -39,6 +39,18 @@ export class ApiProductDetailService{
     return this.httpClient.get(`${ApiConstant.productDetail}/getCountProductByOrigin/${id}`);
   }
 
+  getCountProductByWaterproof(id:number):Observable<any>{
+    return this.httpClient.get(`${ApiConstant.productDetail}/getCountProductByWaterproof/${id}`);
+  }
+
+  getCountProductByFacediameter(id:number):Observable<any>{
+    return this.httpClient.get(`${ApiConstant.productDetail}/getCountProductByFacediameter/${id}`);
+  }
+
+  getCountProductByBatterypower(id:number):Observable<any>{
+    return this.httpClient.get(`${ApiConstant.productDetail}/getCountProductByBatterypower/${id}`);
+  }
+
   getCountProductByMale():Observable<any>{
     return this.httpClient.get(`${ApiConstant.productDetail}/getCountProductByMale`);
   }
