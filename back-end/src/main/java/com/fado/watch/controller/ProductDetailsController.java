@@ -80,6 +80,21 @@ public class ProductDetailsController {
         return new ResponseEntity<>(this.service.getCountProductByOrigin(id), HttpStatus.OK);
     }
 
+    @GetMapping("/getCountProductByWaterproof/{id}")
+    public ResponseEntity<Integer> getCountProductByWaterproof(@PathVariable Integer id) {
+        return new ResponseEntity<>(this.service.getCountProductByWaterproof(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/getCountProductByFacediameter/{id}")
+    public ResponseEntity<Integer> getCountProductByFacediameter(@PathVariable Integer id) {
+        return new ResponseEntity<>(this.service.getCountProductByFacediameter(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/getCountProductByBatterypower/{id}")
+    public ResponseEntity<Integer> getCountProductByBatterypower(@PathVariable Integer id) {
+        return new ResponseEntity<>(this.service.getCountProductByBatterypower(id), HttpStatus.OK);
+    }
+
     @GetMapping("/getCountProductByMale")
     public ResponseEntity<Integer> getCountProductByMale() {
         return new ResponseEntity<>(this.service.getCountProductByMale(), HttpStatus.OK);

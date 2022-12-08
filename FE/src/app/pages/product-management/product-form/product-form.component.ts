@@ -390,4 +390,8 @@ export class ProductFormComponent implements OnInit{
       this.listBatterypower = data;
     });
   }
+
+  touchedAllFieldInForm() {
+    this.formGroup.markAllAsTouched();
+  }
 }

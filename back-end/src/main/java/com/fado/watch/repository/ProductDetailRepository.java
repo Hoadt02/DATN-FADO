@@ -15,13 +15,13 @@ import java.util.Optional;
 @Repository
 public interface ProductDetailRepository extends JpaRepository<ProductDetail, Integer> {
 
-    @Query("SELECT p FROM product_details p WHERE ((:product_id IS NULL OR p.product.id = :product_id)" +
-                                                   " OR (:brand_id IS NULL OR p.brand.id = :brand_id)" +
-                                                   " OR (:material_id IS NULL OR p.material.id = :material_id)" +
-                                                   " OR (:origin_id IS NULL OR p.origin.id = :origin_id)" +
-                                                   " OR (:waterproof_id IS NULL OR p.waterproof.id = :waterproof_id)" +
-                                                   " OR (:facediameter_id IS NULL OR p.facediameter.id = :facediameter_id)" +
-                                                   " OR (:batterypower_id IS NULL OR p.batterypower.id = :batterypower_id))" +
+    @Query("SELECT p FROM product_details p WHERE ((p.product.id = :product_id)" +
+                                                   " OR (p.brand.id = :brand_id)" +
+                                                   " OR (p.material.id = :material_id)" +
+                                                   " OR (p.origin.id = :origin_id)" +
+                                                   " OR (p.waterproof.id = :waterproof_id)" +
+                                                   " OR (p.facediameter.id = :facediameter_id)" +
+                                                   " OR (p.batterypower.id = :batterypower_id))" +
                                                    " AND (:status IS NULL OR p.status = :status)" +
                                                    " AND (:gender IS NULL OR p.gender = :gender)")
     List<ProductDetail> findProductWithFilter(@Param("product_id") Integer product_id, @Param("brand_id") Integer brand_id,
@@ -94,7 +94,7 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail, In
     @Query(value = "SELECT * FROM product_details WHERE status = 1 AND quantity > 0 ORDER BY id DESC LIMIT 8", nativeQuery = true)
     List<ProductDetail> getLatestProductDetail();
 
-    @Query(value = "SELECT pd.id, pd.product_id, pd.brand_id, pd.material_id, pd.origin_id, pd.name, pd.price, pd.quantity, pd.gender, pd.imei, pd.avatar, pd.create_date, pd.description, pd.status" +
+    @Query(value = "SELECT pd.id, pd.product_id, pd.brand_id, pd.material_id, pd.origin_id, pd.water_proof_id, pd.face_diameter_id, pd.battery_power_id, pd.name, pd.price, pd.quantity, pd.gender, pd.imei, pd.avatar, pd.create_date, pd.description, pd.status" +
             " FROM product_promotionals AS pp JOIN product_details pd ON pp.product_detail_id = pd.id" +
             " JOIN promotionals p ON pp.promotional_id = p.id" +
             " WHERE p.status = 1 AND pd.quantity > 0 AND pd.status = 1" +

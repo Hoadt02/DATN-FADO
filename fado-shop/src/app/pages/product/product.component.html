@@ -94,6 +94,57 @@
       </div>
       <!-- Origin End -->
 
+      <!-- Waterproof Start -->
+      <div class="mt-3">
+        <mat-accordion>
+          <mat-expansion-panel class="shadow-sm">
+            <mat-expansion-panel-header>
+              <span> Chống nước</span>
+            </mat-expansion-panel-header>
+            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let w of waterproof; index as i">
+              <input type="checkbox" class="custom-control-input" id="waterproof-{{ w.id }}" (click)="setValueFilter(TYPE_FILTER.WATERPROOF, w.id)"/>
+              <label class="custom-control-label" for="waterproof-{{ w.id }}">{{w.name}}</label>
+              <span class="badge border font-weight-normal">{{w.count}}</span>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      <!-- Waterproof End -->
+
+      <!-- Facediameter Start -->
+      <div class="mt-3">
+        <mat-accordion>
+          <mat-expansion-panel class="shadow-sm">
+            <mat-expansion-panel-header>
+              <span> Đường kính mặt</span>
+            </mat-expansion-panel-header>
+            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let f of facediameter; index as i">
+              <input type="checkbox" class="custom-control-input" id="facediameter-{{ f.id }}" (click)="setValueFilter(TYPE_FILTER.FACEDIAMETER, f.id)"/>
+              <label class="custom-control-label" for="facediameter-{{ f.id }}">{{f.name}}</label>
+              <span class="badge border font-weight-normal">{{f.count}}</span>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      <!-- Facediameter End -->
+
+      <!-- Batterypower Start -->
+      <div class="mt-3">
+        <mat-accordion>
+          <mat-expansion-panel class="shadow-sm">
+            <mat-expansion-panel-header>
+              <span> Năng lượng pin</span>
+            </mat-expansion-panel-header>
+            <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let b of batterypower; index as i">
+              <input type="checkbox" class="custom-control-input" id="batterypower-{{ b.id }}" (click)="setValueFilter(TYPE_FILTER.BATTERYPOWER, b.id)"/>
+              <label class="custom-control-label" for="batterypower-{{ b.id }}">{{b.name}}</label>
+              <span class="badge border font-weight-normal">{{b.count}}</span>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      <!-- Batterypower End -->
+
       <!-- Gender Start -->
       <div class="bg-light p-4 mt-3 shadow-sm" style="border-radius: 5px">
         <p style="color: black; font-size: 15px" class="mb-4"> Đối tượng sử dụng</p>
@@ -191,11 +242,11 @@
             <div class="text-center py-4">
               <a class="h6 text-decoration-none text-truncate name-product" [routerLink]="['/product-detail',p.id]">{{p.name}}</a>
               <div class="d-flex align-items-center justify-content-center mt-2">
-                <h5 *ngIf="loadDiscountProduct(p.id) == 0">{{ p.price | number }}₫</h5>
-                <h5 *ngIf="loadDiscountProduct(p.id) != 0">{{loadDiscountProduct(p.id) | number}}₫</h5>
-                <h5 *ngIf="loadDiscountProduct(p.id) != 0" class="text-muted ml-2">
+                <h4 class="text-danger font-weight-bold" *ngIf="loadDiscountProduct(p.id) == 0">{{ p.price | number }}₫</h4>
+                <h4 class="text-danger font-weight-bold" *ngIf="loadDiscountProduct(p.id) != 0">{{loadDiscountProduct(p.id) | number}}₫</h4>
+                <h4 *ngIf="loadDiscountProduct(p.id) != 0" class="text-muted ml-2 font-weight-bold">
                   <del>{{ p.price | number }}₫</del>
-                </h5>
+                </h4>
               </div>
             </div>
           </div>
