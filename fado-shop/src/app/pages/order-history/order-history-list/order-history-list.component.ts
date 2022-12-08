@@ -13,6 +13,8 @@ import {yearsPerPage} from "@angular/material/datepicker";
 import {EditAddressComponent} from "../../check-out/edit-address/edit-address.component";
 import {AddressService} from "../../../shared/service/api-service-impl/address.service";
 import {RevertDetailComponent} from "../revert-detail/revert-detail.component";
+import {EditAddressFormComponent} from "../../check-out/edit-address-form/edit-address-form.component";
+import {EditAddressOrderComponent} from "../edit-address-order/edit-address-order.component";
 
 @Component({
   selector: 'app-order-history-list',
@@ -38,6 +40,7 @@ export class OrderHistoryListComponent implements OnInit {
   dataAddCart: any = [];
   isLoading!: boolean;
   searchOrderData: any;
+  dataChangeAddressInOrder: any;
 
   constructor(
     private apiOrder: OrderService,
@@ -261,13 +264,13 @@ export class OrderHistoryListComponent implements OnInit {
   }
 
   searchOrder() {
+    if (this.searchOrderData === null) {
+      return;
+    }
     this.isLoading = true;
     this.orders = [];
     this.resetNumber();
     this.getSoLuong();
-    if (this.searchOrderData === null){
-      return;
-    }
     this.apiOrder.findById(this.searchOrderData).subscribe({
       next: (data: any) => {
         if (data !== null) {
@@ -283,61 +286,25 @@ export class OrderHistoryListComponent implements OnInit {
     })
   }
 
-  // openEditAddress() {
-  //   let idAddressSelect;
-  //   this.matDiaLog.open(EditAddressComponent, {
-  //     width: '1000px',
-  //     disableClose: true,
-  //     hasBackdrop: true,
-  //     data: {
-  //       idAddressSelect
-  //     }
-  //   }).afterClosed().subscribe(data => {
-  //     if (null != data && 0 != data) {
-  //       // this.idAddress = data;
-  //       this.addressFindById();
-  //     }
-  //   })
-  // }
+  openEditAddress(totalPayment: number, id: number) {
+    this.matDiaLog.open(EditAddressOrderComponent, {
+      width: '1000px',
+      disableClose: true,
+      hasBackdrop: true,
+      data: {
+        totalPayment
+      }
+    }).afterClosed().subscribe(data => {
+      if (data) {
+        this.dataChangeAddressInOrder = {
+          ...data, id
+        };
+        this.apiOrder.changeInfoOrder(this.dataChangeAddressInOrder).subscribe(_ => {
+          this.toastrService.success("Chỉnh sửa thông tin giao hàng thành công !");
+          this.findAllByCustomerId();
+        })
+      }
+    })
+  }
 
-  // addressFindById() {
-  // this.apiAddress.findById(this.idAddress).subscribe((data: any) => {
-  //   this.districtId = data.districtId;
-  //   this.addressDefault = data;
-  //   this.getFeeShipping();
-  // })
-  // }
-
-  // getFeeShipping() {
-  // this.isCheckOut = true;
-  // console.log('Địa chỉ: ', this.addressDefault);
-  // let service_id;
-  // const infoService = {
-  //   shop_id: 1034510,
-  //   from_district: 1734, // từ quận nào yên lạc vĩnh phúc
-  //   to_district: this.districtId // đến quận nào
-  // }
-  //
-  // this.apiAddress.getInfoService(infoService).subscribe((data: any) => {
-  //   service_id = data.data[0].service_id
-  // })
-  // const feeShipping = {
-  //   service_id: service_id, // data trả về t bên trên
-  //   service_type_id: 2, // đường bộ
-  //   insurance_value: this.subtotal, // tổng tiền đơn hàng
-  //   // coupon: null, // giảm giá của nhà vận chuyển
-  //   from_district_id: 1766, // gửi từ quận nào
-  //   to_district_id: this.districtId, // đến quận nào
-  //   // to_ward_code: wardId,// xã nào
-  //   weight: 200 // trọng lượng đơn hàng
-  // }
-  // this.apiAddress.feeShipping(feeShipping).subscribe((data: any) => {
-  //   this.totalFeeShipping = 0;
-  //   this.totalFeeShipping = data.data.total;
-  //   if (this.totalFeeShipping != 0){
-  //     this.isCheckOut = false;
-  //   }
-  //
-  // })
-  // }
 }

@@ -6,15 +6,18 @@ import { OrderHistoryListComponent } from './order-history-list/order-history-li
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {RevertDetailComponent} from "./revert-detail/revert-detail.component";
+import { EditAddressOrderComponent } from './edit-address-order/edit-address-order.component';
+import {MatSelectModule} from "@angular/material/select";
 
 
 @NgModule({
   declarations: [
     OrderHistoryListComponent,
-    RevertDetailComponent
+    RevertDetailComponent,
+    EditAddressOrderComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +26,9 @@ import {RevertDetailComponent} from "./revert-detail/revert-detail.component";
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    MatButtonModule
+    MatButtonModule,
+    ReactiveFormsModule,
+    MatSelectModule
   ]
 })
 export class OrderHistoryModule { }

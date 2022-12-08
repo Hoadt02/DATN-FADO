@@ -54,9 +54,9 @@
                 <p>
                   Thông tin giao hàng: {{ o.phoneNumber }} - {{ o.fullname }} -
                   {{ o.shipAddress }}
-                  <!--                  <button (click)="openEditAddress()" *ngIf="o.status === 0" class="edit-address border-radius-5">Chỉnh-->
-                  <!--                    sửa-->
-                  <!--                  </button>-->
+                  <button (click)="openEditAddress(o.totalPayment, o.id)" *ngIf="o.status === 0" class="edit-address border-radius-5">Chỉnh
+                    sửa
+                  </button>
                 </p>
                 <p style="margin-top: 10px">
                   Mã đơn hàng: {{ o.id }}
@@ -161,9 +161,9 @@
                   <p>
                     Thông tin giao hàng: {{ o.phoneNumber }} - {{ o.fullname }} -
                     {{ o.shipAddress }}
-                    <!--                    <button (click)="openEditAddress()" *ngIf="o.status === 0" class="edit-address border-radius-5">-->
-                    <!--                      Chỉnh sửa-->
-                    <!--                    </button>-->
+                    <button (click)="openEditAddress(o.totalPayment, o.id)" *ngIf="o.status === 0" class="edit-address border-radius-5">
+                      Chỉnh sửa
+                    </button>
                   </p>
                   <p style="margin-top: 10px">
                     Mã đơn hàng: {{ o.id }}

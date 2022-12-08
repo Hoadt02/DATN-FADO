@@ -1,5 +1,6 @@
 package com.fado.watch.service.impl;
 
+import com.fado.watch.dto.request.ChangeInfoOrder;
 import com.fado.watch.dto.request.FilterOrder;
 import com.fado.watch.dto.response.CharBarDTO;
 import com.fado.watch.dto.response.OrderCancelDTO;
@@ -47,7 +48,7 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public List<Order> getAll() {
-        return this.orderRepository.findAll();
+        return this.orderRepository.findAllFaDo();
     }
 
     @Override
@@ -57,7 +58,19 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public Order findById(Integer id) {
-        return this.orderRepository.findOrderById(id);
+        return this.orderRepository.findOrderByIdFado(id);
+    }
+
+    @Override
+    public void changeInfoOrder(ChangeInfoOrder dto) {
+        this.orderRepository.changeInfoOrder(
+                dto.getShipAddress()
+                , dto.getFullname()
+                , dto.getPhoneNumber()
+                , dto.getFeeShipping()
+                , dto.getTotalPayment()
+                , dto.getId()
+        );
     }
 
     @Override

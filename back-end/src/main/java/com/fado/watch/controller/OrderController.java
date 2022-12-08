@@ -1,6 +1,7 @@
 package com.fado.watch.controller;
 
 
+import com.fado.watch.dto.request.ChangeInfoOrder;
 import com.fado.watch.dto.request.FilterOrder;
 import com.fado.watch.dto.response.CharBarDTO;
 import com.fado.watch.dto.response.OrderCancelDTO;
@@ -37,6 +38,11 @@ public class OrderController {
     @PostMapping()
     public ResponseEntity<Order> save(@RequestBody Order order) {
         return ResponseEntity.ok(this.iOrderService.save(order));
+    }
+
+    @PutMapping("changeInfoOrder")
+    public void changeInfoOrder(@RequestBody ChangeInfoOrder dto) {
+        this.iOrderService.changeInfoOrder(dto);
     }
 
     @GetMapping("/updateStatus")
