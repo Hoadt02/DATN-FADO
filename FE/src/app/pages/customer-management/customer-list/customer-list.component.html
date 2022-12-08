@@ -39,15 +39,11 @@
           </ng-container>
 
           <!-- first-name Column -->
-          <ng-container matColumnDef="firstname">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Họ</th>
-            <td mat-cell *matCellDef="let row"> {{row.firstname}} </td>
+          <ng-container matColumnDef="fullName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="lastname"> Họ và tên</th>
+            <td mat-cell *matCellDef="let row"> {{row.firstname}} {{row.lastname}}</td>
           </ng-container>
-          <!-- last-name Column -->
-          <ng-container matColumnDef="lastname">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên</th>
-            <td mat-cell *matCellDef="let row"> {{row.lastname}} </td>
-          </ng-container>
+
           <!-- Date of birth Column -->
           <ng-container matColumnDef="dateOfBirth">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Ngày sinh</th>
