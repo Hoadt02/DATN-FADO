@@ -21,7 +21,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("select o from orders o where o.customer.id =:id and o.type = 0 order by o.id desc")
     List<Order> findAllByCustomerId(Integer id);
 
-    @Query("select o from orders o where o.type = 0")
+    @Query("select o from orders o where o.type = 0 order by o.id desc")
     List<Order> findAllFaDo();
 
     @Query("select o from orders o where o.id =:id and o.type = 0")
