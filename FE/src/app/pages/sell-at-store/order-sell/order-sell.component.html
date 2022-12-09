@@ -1,0 +1,70 @@
+<div class="text-left h-100 w-100" >
+  <div class="text-right">
+    <button mat-raised-button color="primary" (click)="export()">
+      <i class="fa-solid fa-file-export"></i> Xuất hóa đơn
+    </button>
+    <button class="ml-1" mat-raised-button color="warn" (click)="close()">
+      <i class="fa-solid fa-person-from-portal"></i> Đóng
+    </button>
+  </div>
+
+  <div class="text-center">
+    <h2><b>FADO SHOP</b></h2>
+    <p>ĐC: 100 Mỹ Đình, Nam Từ Liêm, Hà Nội</p>
+    <p>ĐT: 0975.086.003 - 0339.874.550</p>
+    <br>
+    <h1><b>HÓA ĐƠN BÁN HÀNG</b></h1>
+  </div>
+  <div *ngFor="let oc of orderMoney">
+    <div class="text-right">
+      <p>Hóa đơn số: {{oc.id}}</p>
+      <p>Ngày tạo: {{oc.createDate | date: 'dd-MM-yyyy'}}</p>
+    </div>
+    <div class="text-left">
+      <p>Thu ngân: {{oc.staff.firstname}} {{oc.staff.lastname}}</p>
+      <p>Khách hàng: {{oc.customer.firstname}} {{oc.customer.lastname}}</p>
+      <p>SĐT: {{oc.customer.phoneNumber}}</p>
+    </div>
+  </div>
+  <div>
+    <table class="table border">
+      <thead>
+      <tr>
+        <th>STT</th>
+        <th>Tên sản phẩm</th>
+        <th>Giá</th>
+        <th>Số lượng</th>
+        <th>Thành tiền</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let o of orders; let index = index">
+        <td>{{index + 1}}</td>
+        <td>{{o.productDetail.name}}</td>
+        <td>{{o.price | currency:'VND'}}</td>
+        <td>{{o.quantity}}</td>
+        <td>{{o.price * o.quantity | currency:'VND'}}</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-left" *ngFor="let o of orderMoney">
+    <p><b>Tổng tiền: {{o.total | currency:'VND'}}</b></p>
+    <p><b>Giảm giá: {{o.discount | currency:'VND'}}</b></p>
+    <p>---------------------------------------------------------------------------------------------</p>
+    <h2><b>Tổng tiền thanh toán: {{o.totalPayment | currency:'VND'}}</b></h2>
+  </div>
+  <div class="text-center mt-5">
+    <p>Cảm ơn quý khách đã đến với cửa hàng chúng tôi</p>
+    <p>-------------------------------</p>
+    <p>***Chúc quý khách một ngày tốt lành***</p>
+  </div>
+
+</div>
