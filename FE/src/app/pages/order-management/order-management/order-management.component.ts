@@ -63,9 +63,9 @@ export class OrderManagementComponent implements OnInit {
       if (x.status == 3) {
         this.daNhan++;
       }
-      if (x.status == 5) {
-        this.daGiaoChoKhach++;
-      }
+      // if (x.status == 5) {
+      //   this.daGiaoChoKhach++;
+      // }
       if (x.status == 6) {
         this.traHang++;
       }
@@ -83,9 +83,9 @@ export class OrderManagementComponent implements OnInit {
       {
         status: 2, lable: 'Đang giao', sl: this.dangGiao
       },
-      {
-        status: 5, lable: 'Đã giao cho khách', sl: this.daGiaoChoKhach
-      },
+      // {
+      //   status: 5, lable: 'Đã giao cho khách', sl: this.daGiaoChoKhach
+      // },
       {
         status: 3, lable: 'Đã giao thành công', sl: this.daNhan
       },
@@ -188,7 +188,7 @@ export class OrderManagementComponent implements OnInit {
           status = 2; // nếu ấn vào bắt đầu giao thì sẽ chuyển sang đang giao
           this.updateStatus(status, id);
         } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.DONE) {
-          status = 5; // Đã giao cho khách
+          status = 3; // Đã giao cho khách
           this.updateStatus(status, id);
         } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.REVERT) {
           this.matDiaLog.open(RevertOrderComponent, {
