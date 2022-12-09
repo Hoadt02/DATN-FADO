@@ -286,7 +286,7 @@ export class OrderHistoryListComponent implements OnInit {
     })
   }
 
-  openEditAddress(totalPayment: number, id: number) {
+  openEditAddress(total: number, id: number) {
     this.apiOrder.findById(id).subscribe((data: any) => {
       if (data.status === 1) {
         this.toastrService.warning('Đơn hàng đã được xác nhận, vui lòng liên hệ admin !');
@@ -297,7 +297,7 @@ export class OrderHistoryListComponent implements OnInit {
           disableClose: true,
           hasBackdrop: true,
           data: {
-            totalPayment
+            total
           }
         }).afterClosed().subscribe(data => {
           if (data) {

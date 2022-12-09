@@ -253,7 +253,7 @@ export class OrderManagementComponent implements OnInit {
     })
   }
 
-  openEditAddress(totalPayment: number, id: number) {
+  openEditAddress(total: number, id: number) {
     this.apiOrder.findById(id).subscribe((data: any) => {
       if (data.status === 2) {
         this.toastrService.warning('Đơn hàng đã được giao, không thể chỉnh sửa !');
@@ -264,7 +264,7 @@ export class OrderManagementComponent implements OnInit {
           disableClose: true,
           hasBackdrop: true,
           data: {
-            totalPayment
+            total
           }
         }).afterClosed().subscribe(data => {
           if (data) {
