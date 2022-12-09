@@ -240,6 +240,8 @@ export class OrderHistoryListComponent implements OnInit {
               this.toastrService.info("Đã chuyển hướng đến rỏ hàng");
               this.router.navigate(['/cart']);
             }, 2100);
+          }else {
+            this.dataAddCart = [];
           }
         })
       } else {
@@ -294,7 +296,7 @@ export class OrderHistoryListComponent implements OnInit {
         return;
       } else {
         this.matDiaLog.open(EditAddressOrderComponent, {
-          width: '1000px',
+          width: '500px',
           disableClose: true,
           hasBackdrop: true,
           data: {
