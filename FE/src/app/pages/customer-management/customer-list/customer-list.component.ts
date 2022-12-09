@@ -8,6 +8,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog
 import {CustomerFormComponent} from '../customer-form/customer-form.component';
 import {CustomerService} from '../../../shared/services/api-service-impl/customer.service';
 import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dialog.component';
+import {StorageService} from "../../../shared/services/jwt/storage.service";
 
 @Component({
   selector: 'app-customer-list',
@@ -17,6 +18,7 @@ import {ConfirmDialogComponent} from '../../../shared/confirm-dialog/confirm-dia
 export class CustomerListComponent implements OnInit {
 
   TYPE_DIALOG = Constants.TYPE_DIALOG;
+  TYPE_AUTH = Constants.TYPE_AUTH;
   RESULT_CLOSE_DIALOG = Constants.RESULT_CLOSE_DIALOG;
   isLoading = true;
   title: string
@@ -33,7 +35,8 @@ export class CustomerListComponent implements OnInit {
 
   constructor(
     private matDialog: MatDialog,
-    private customerService: CustomerService) {
+    private customerService: CustomerService,
+    public storageService: StorageService) {
   }
 
   getAll() {
@@ -45,6 +48,7 @@ export class CustomerListComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error) => {
+        this.isLoading = false;
         console.log(error);
       }
     });

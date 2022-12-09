@@ -24,5 +24,31 @@
              </a>
            </li>
          </div>
+      <div *ngIf="!role">
+        <li routerLinkActive="active">
+          <a [routerLink]="[menuItems[1].path]">
+            <i class="nc-icon {{menuItems[1].icon}}"></i>
+            <p>{{menuItems[1].title}}</p>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a [routerLink]="[menuItems[2].path]">
+            <i class="nc-icon {{menuItems[2].icon}}"></i>
+            <p>{{menuItems[2].title}}</p>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a [routerLink]="[menuItems[3].path]">
+            <i class="nc-icon {{menuItems[3].icon}}"></i>
+            <p>{{menuItems[3].title}}</p>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a [routerLink]="[menuItems[5].path]">
+            <i class="nc-icon {{menuItems[5].icon}}"></i>
+            <p>{{menuItems[5].title}}</p>
+          </a>
+        </li>
+      </div>
     </ul>
 </div>

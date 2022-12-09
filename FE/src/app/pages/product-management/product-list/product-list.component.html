@@ -7,7 +7,7 @@
 <div class="row">
   <div class="col-12">
     <div class="card">
-      <div class="card-body text-center">
+      <div class="card-body text-center" style="padding: 3px">
         <mat-accordion>
           <mat-expansion-panel style="box-shadow: unset" [expanded]="true">
             <mat-expansion-panel-header>
@@ -27,7 +27,7 @@
 <div class="row">
   <div class="col-12">
     <div class="card">
-      <div class="card-body text-center">
+      <div class="card-body text-center" style="padding: 3px">
         <mat-accordion>
           <mat-expansion-panel style="box-shadow: unset" [expanded]="true">
             <mat-expansion-panel-header>
@@ -124,7 +124,7 @@
 </div>
 
 <div class="mb-3 text-center">
-  <button mat-raised-button color="primary" (click)="openDiaLog(TYPE_DIALOG.NEW)"><i class="fa-solid fa-plus"></i>
+  <button *ngIf="role" mat-raised-button color="primary" (click)="openDiaLog(TYPE_DIALOG.NEW)"><i class="fa-solid fa-plus"></i>
     Thêm mới
   </button>
   <button mat-raised-button color="accent" (click)="onResetFilter()"><i class="fa-solid fa-arrows-rotate"></i>
@@ -137,7 +137,7 @@
   <div class="col-lg-12 col-md-12">
     <div class="card">
       <div class="card-body">
-        <div style="padding-top: 15px; padding-left: 25px">
+        <div style="padding-top: 8px; padding-left: 12px">
           <h3><b><i class="fa-solid fa-list"></i> DANH SÁCH SẢN PHẨM</b></h3>
         </div>
         <table mat-table [dataSource]="dataSource" matSort>
@@ -198,15 +198,17 @@
           <ng-container matColumnDef="thaoTac">
             <th mat-header-cell *matHeaderCellDef mat-sort-header width="15%"> Thao tác</th>
             <td mat-cell *matCellDef="let row">
-              <button mat-icon-button color="accent" (click)="openDiaLog(TYPE_DIALOG.UPDATE,row)">
+              <button *ngIf="role" mat-icon-button color="accent" (click)="openDiaLog(TYPE_DIALOG.UPDATE,row)">
                 <i class="fa-solid fa-pen"></i>
               </button>
-              <button *ngIf="row.status == 0" mat-icon-button color="warn" (click)="openDeleteOrNoDelete(row,row.id,1)" title="Click để kích hoạt sản phẩm">
-                <i class="fa-solid fa-lock-open"></i>
-              </button>
-              <button *ngIf="row.status == 1" mat-icon-button class="text-green" (click)="openDeleteOrNoDelete(row,row.id,0)" title="Click để vô hiệu hóa sản phẩm">
-                <i class="fa-solid fa-lock"></i>
-              </button>
+              <ng-container *ngIf="role">
+                <button *ngIf="row.status == 0" mat-icon-button color="warn" (click)="openDeleteOrNoDelete(row,row.id,1)" title="Click để kích hoạt sản phẩm">
+                  <i class="fa-solid fa-lock-open"></i>
+                </button>
+                <button *ngIf="row.status == 1" mat-icon-button class="text-green" (click)="openDeleteOrNoDelete(row,row.id,0)" title="Click để vô hiệu hóa sản phẩm">
+                  <i class="fa-solid fa-lock"></i>
+                </button>
+              </ng-container>
               <button mat-icon-button color="primary" (click)="openViewDialog(row)">
                 <i class="fa-solid fa-eye"></i>
               </button>

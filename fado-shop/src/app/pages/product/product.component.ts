@@ -328,9 +328,9 @@ export class ProductComponent implements OnInit {
     else if (type == this.TYPE_FILTER.MATERIAL) this.addValueFilter(this.material_id, value);
     else if (type == this.TYPE_FILTER.ORIGIN) this.addValueFilter(this.origin_id, value);
     else if (type == this.TYPE_FILTER.GENDER) this.addValueFilter(this.gender, value);
-    else if (type == this.TYPE_FILTER.WATERPROOF) this.addValueFilter(this.waterproof, value);
-    else if (type == this.TYPE_FILTER.FACEDIAMETER) this.addValueFilter(this.waterproof, value);
-    else if (type == this.TYPE_FILTER.BATTERYPOWER) this.addValueFilter(this.batterypower, value);
+    else if (type == this.TYPE_FILTER.WATERPROOF) this.addValueFilter(this.waterproof_id, value);
+    else if (type == this.TYPE_FILTER.FACEDIAMETER) this.addValueFilter(this.facediameter_id, value);
+    else if (type == this.TYPE_FILTER.BATTERYPOWER) this.addValueFilter(this.batterypower_id, value);
     this.setNamePage();
     this.loadByProductDetail();
   }

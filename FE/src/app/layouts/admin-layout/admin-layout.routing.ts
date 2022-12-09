@@ -19,14 +19,6 @@ export const AdminLayoutRoutes: Routes = [
       role: TYPE_AUTH.SUPER_ADMIN
     }
   },
-  // {
-  //   path: 'sell-at-store',
-  //   loadChildren: () => import('../../pages/sell-at-store/sell-at-store.module').then(m => m.SellAtStoreModule),
-  //   canActivate: [HasRoleGuard],
-  //   data: {
-  //     role: TYPE_AUTH.ADMIN
-  //   }
-  // },
   {
     path: 'user',
     component: UserComponent,
@@ -48,7 +40,7 @@ export const AdminLayoutRoutes: Routes = [
     loadChildren: () => import('../../pages/product-management/product-management.module').then(m => m.ProductManagementModule),
     canActivate: [HasRoleGuard],
     data: {
-      role: TYPE_AUTH.SUPER_ADMIN
+      role: TYPE_AUTH.ADMIN
     }
   },
   {
@@ -80,7 +72,7 @@ export const AdminLayoutRoutes: Routes = [
     loadChildren: () => import('../../pages/customer-management/customer-management.module').then(m => m.CustomerManagementModule),
     canActivate: [HasRoleGuard],
     data: {
-      role: TYPE_AUTH.SUPER_ADMIN
+      role: TYPE_AUTH.ADMIN
     }
   },
   {
