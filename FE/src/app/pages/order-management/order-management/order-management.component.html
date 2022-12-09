@@ -46,7 +46,7 @@
             <p>
               Thông tin giao hàng: {{ o.phoneNumber }} - {{ o.fullname }} -
               {{ o.shipAddress }}
-              <button (click)="openEditAddress(o.totalPayment, o.id)" *ngIf="o.status === 0 || o.status === 1" class="edit-address border-radius-5">Chỉnh
+              <button (click)="openEditAddress(o.total, o.id)" *ngIf="o.status === 0 || o.status === 1" class="edit-address border-radius-5">Chỉnh
                 sửa
               </button>
             </p>
@@ -85,6 +85,7 @@
             <!--              >{{ o.discount | number }} VND</span-->
             <!--              >-->
             <!--            </p>-->
+            <p>Tổng tiền hàng: {{ o.total | number }} VND</p>
             <p>Phí giao hàng: {{ o.feeShipping | number }} VND</p>
             <p>
               Tổng tiền thanh toán:

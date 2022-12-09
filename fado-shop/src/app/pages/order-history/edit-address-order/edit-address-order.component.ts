@@ -161,7 +161,7 @@ export class EditAddressOrderComponent implements OnInit {
     this.apiAddress.feeShipping(feeShipping).subscribe((data: any) => {
       console.log('Phí ship nè: ', data.data.total);
       this.feeship = data.data.total;
-      this.totalPayment = this.matDiaLogData.totalPayment + this.feeship;
+      this.totalPayment = this.matDiaLogData.total + this.feeship;
     })
   }
 
