@@ -21,6 +21,10 @@ export class OrderService {
     return this.api.findAllByCustomerId(id);
   }
 
+  changeInfoOrder(data: any) {
+    return this.api.changeInfoOrder(data);
+  }
+
   save(data: any) {
     return this.api.save(data);
   }
