@@ -86,7 +86,6 @@ export class PromotionalFormComponent implements OnInit {
       this.isLoading = true;
       this.promotionalService.create(this.data).subscribe({
         next: (data: any) => {
-          console.log(data);
           this.toastrService.success('Thêm khuyến mại thành công!');
           this.isLoading = false;
           this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);
@@ -104,7 +103,6 @@ export class PromotionalFormComponent implements OnInit {
       this.isLoading = true;
       this.promotionalService.update(this.dataDiaLog.row.id, this.data).subscribe({
         next: (data: any) => {
-          console.log(data);
           this.toastrService.success('Cập nhật khuyến mại thành công!');
           this.isLoading = false;
           this.matDialogRef.close(Constants.RESULT_CLOSE_DIALOG.SUCCESS);

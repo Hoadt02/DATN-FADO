@@ -79,7 +79,6 @@ export class StaffListComponent implements OnInit {
   }
 
   openSave(type: any, row?: any) {
-    console.log(type, row);
     const diaLogRef = this.matDialog.open(StaffFormComponent, {
       width: '800px',
       disableClose: true,

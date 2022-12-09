@@ -4,10 +4,32 @@
   </div>
 </div>
 
+
 <div class="container-fluid" style="min-height: 645px">
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-8 col-md-8 col-lg-8">
+
+        <div class="card">
+          <div class="card-body">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Tìm kiếm theo mã đơn hàng</mat-label>
+              <input matInput type="number" [(ngModel)]="searchOrderData" placeholder="Vd. 9 ">
+            </mat-form-field>
+            <div class="text-center">
+              <button mat-raised-button style="background-color: #FFD333; border-radius: 5px" (click)="searchOrder()"><i
+                class="fa-solid fa-search"></i>
+                Tìm kiếm
+              </button>
+              <button class="ml-5" mat-raised-button style="background-color: #9ea4a8; border-radius: 5px"
+                      (click)="findAllByCustomerId()">
+                <i class="fa-solid fa-arrows-rotate"></i>
+                Làm mới
+              </button>
+            </div>
+          </div>
+        </div>
+
         <mat-tab-group mat-align-tabs="center" style="background-color: #FFFFFF">
           <mat-tab label="Tất cả ({{ daMua }})">
             <div class="product card" *ngFor="let o of orders">
@@ -21,13 +43,20 @@
                   <p *ngSwitchCase="2">Đang giao</p>
                   <p *ngSwitchCase="3">Đã nhận</p>
                   <p *ngSwitchCase="4">Đã huỷ</p>
-                  <p *ngSwitchCase="5">Đã giao</p>
+<!--                  <p *ngSwitchCase="5">Đã giao</p>-->
+                  <p *ngSwitchCase="6">
+                    Đã trả <i style="cursor: pointer; font-size: 23px" (click)="description(o.description)"
+                              class="fa-solid fa-circle-info"></i>
+                  </p>
                 </div>
               </div>
               <div class="createDate d-flex justify-content-between" style="margin-bottom: 10px">
                 <p>
                   Thông tin giao hàng: {{ o.phoneNumber }} - {{ o.fullname }} -
                   {{ o.shipAddress }}
+                  <button (click)="openEditAddress(o.total, o.id)" *ngIf="o.status === 0" class="edit-address border-radius-5">Chỉnh
+                    sửa
+                  </button>
                 </p>
                 <p style="margin-top: 10px">
                   Mã đơn hàng: {{ o.id }}
@@ -40,13 +69,13 @@
                   <div class="row w-100 product-detail">
                     <div class="col-2 col-md-2 col-lg-2 image">
                       <a
-                        [routerLink]="odt.productDetail.status == 0 ? '/product' :'/product-detail/{{i.productDetail.id}}'">
+                        routerLink="/product-detail/{{odt.productDetail.id}}">
                         <img src="../../../assets/img/avtProduct/{{odt.productDetail.avatar}}" alt="Ảnh sản phẩm"/>
                       </a>
                     </div>
                     <div class="col-8 col-md-8 col-lg-8">
                       <a
-                        [routerLink]="odt.productDetail.status == 0 ? '/product' :'/product-detail/{{i.productDetail.id}}'"
+                        routerLink="/product-detail/{{odt.productDetail.id}}"
                         class="title">
                         {{ odt.productDetail.name }}</a>
                       <p style="margin-top: 10px">Chất liệu: {{ odt.productDetail.material.name }}</p>
@@ -68,12 +97,13 @@
                 </ng-template>
               </div>
               <div class="total-payment">
-<!--                <p>-->
-<!--                  Giảm giá:-->
-<!--                  <span style="padding-left: 5px; margin-right: 20px"-->
-<!--                  >{{ o.discount | number }} VND</span-->
-<!--                  >-->
-<!--                </p>-->
+                <!--                <p>-->
+                <!--                  Giảm giá:-->
+                <!--                  <span style="padding-left: 5px; margin-right: 20px"-->
+                <!--                  >{{ o.discount | number }} VND</span-->
+                <!--                  >-->
+                <!--                </p>-->
+                <p>Tổng tiền hàng: {{ o.total | number }} VND</p>
                 <p>Phí giao hàng: {{ o.feeShipping | number }} VND</p>
                 <p>
                   Tổng tiền thanh toán:
@@ -95,7 +125,7 @@
                     Đã nhận hàng
                   </button>
                 </ng-template>
-                <ng-template [ngIf]="o.status == 3 || o.status == 4">
+                <ng-template [ngIf]="o.status == 3 || o.status == 4 || o.status == 6">
                   <button
                     (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.Repurchase,o.id)">
                     Mua lại
@@ -121,13 +151,20 @@
                     <p *ngSwitchCase="2">Đang giao</p>
                     <p *ngSwitchCase="3">Đã nhận</p>
                     <p *ngSwitchCase="4">Đã huỷ</p>
-                    <p *ngSwitchCase="5">Đã giao</p>
+<!--                    <p *ngSwitchCase="5">Đã giao</p>-->
+                    <p *ngSwitchCase="6">
+                      Đã trả <i style="cursor: pointer; font-size: 23px" (click)="description(o.description)"
+                                class="fa-solid fa-circle-info"></i>
+                    </p>
                   </div>
                 </div>
                 <div class="createDate d-flex justify-content-between" style="margin-bottom: 10px">
                   <p>
                     Thông tin giao hàng: {{ o.phoneNumber }} - {{ o.fullname }} -
                     {{ o.shipAddress }}
+                    <button (click)="openEditAddress(o.total, o.id)" *ngIf="o.status === 0" class="edit-address border-radius-5">
+                      Chỉnh sửa
+                    </button>
                   </p>
                   <p style="margin-top: 10px">
                     Mã đơn hàng: {{ o.id }}
@@ -141,13 +178,13 @@
                     <div class="row w-100 product-detail">
                       <div class="col-2 col-md-2 col-lg-2 image">
                         <a
-                          [routerLink]="odt.productDetail.status == 0 ? '/product' :'/product-detail/{{i.productDetail.id}}'">
+                          routerLink="/product-detail/{{odt.productDetail.id}}">
                           <img src="../../../assets/img/avtProduct/{{odt.productDetail.avatar}}" alt="Ảnh sản phẩm"/>
                         </a>
                       </div>
                       <div class="col-8 col-md-8 col-lg-8">
                         <a
-                          [routerLink]="odt.productDetail.status == 0 ? '/product' :'/product-detail/{{i.productDetail.id}}'"
+                          routerLink="/product-detail/{{odt.productDetail.id}}"
                           class="title">
                           {{ odt.productDetail.name }}</a>
                         <p style="margin-top: 10px">Chất liệu: {{ odt.productDetail.material.name }}</p>
@@ -169,12 +206,13 @@
                   </ng-template>
                 </div>
                 <div class="total-payment">
-<!--                  <p>-->
-<!--                    Giảm giá:-->
-<!--                    <span style="padding-left: 5px; margin-right: 20px"-->
-<!--                    >{{ o.discount | number }} VND</span-->
-<!--                    >-->
-<!--                  </p>-->
+                  <!--                  <p>-->
+                  <!--                    Giảm giá:-->
+                  <!--                    <span style="padding-left: 5px; margin-right: 20px"-->
+                  <!--                    >{{ o.discount | number }} VND</span-->
+                  <!--                    >-->
+                  <!--                  </p>-->
+                  <p>Tổng tiền hàng: {{ o.total | number }} VND</p>
                   <p>Phí giao hàng: {{ o.feeShipping | number }} VND</p>
                   <p>
                     Tổng tiền thanh toán:
@@ -190,13 +228,13 @@
                       Huỷ đơn hàng
                     </button>
                   </ng-template>
-                  <ng-template [ngIf]="o.status == 5">
-                    <button
-                      (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.HasReceivedTheGoods,o.id)">
-                      Đã nhận hàng
-                    </button>
-                  </ng-template>
-                  <ng-template [ngIf]="o.status == 3 || o.status == 4">
+<!--                  <ng-template [ngIf]="o.status == 5">-->
+<!--                    <button-->
+<!--                      (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.HasReceivedTheGoods,o.id)">-->
+<!--                      Đã nhận hàng-->
+<!--                    </button>-->
+<!--                  </ng-template>-->
+                  <ng-template [ngIf]="o.status == 3 || o.status == 4 || o.status == 6">
                     <button
                       (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.Repurchase,o.id)">
                       Mua lại

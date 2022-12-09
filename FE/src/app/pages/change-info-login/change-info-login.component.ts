@@ -114,6 +114,7 @@ export class ChangeInfoLoginComponent implements OnInit {
       .toPromise().then(res => {
         console.log(res)
         this.avatar = res;
+        this.avatarFormDb = this.avatar;
         this.isLoading = false;
       }).catch(err => {
         console.log(err)

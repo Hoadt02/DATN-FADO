@@ -8,6 +8,9 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 import {ToastrService} from "ngx-toastr";
+import {RevertOrderComponent} from "../revert-order/revert-order.component";
+import {RevertDetailComponent} from "../revert-detail/revert-detail.component";
+import {EditAddressOrderComponent} from "../edit-address-order/edit-address-order.component";
 
 @Component({
   selector: 'app-order-management',
@@ -21,15 +24,17 @@ export class OrderManagementComponent implements OnInit {
 
   listMatTab: any;
   orders: any = [];
-  tongDonHangOnline = 0;
-  tongDonHangOffline = 0;
   choXacNhan = 0;
   choLayHang = 0;
   dangGiao = 0;
   daNhan = 0;
+  traHang = 0;
+  daHuy = 0;
   daGiaoChoKhach = 0;
   orderDetails: any;
   isLoading!: boolean;
+  searchOrderData: any;
+  dataChangeAddressInOrder: any;
 
   constructor(
     private apiOrder: OrderService,
@@ -41,18 +46,11 @@ export class OrderManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.createTabContent();
     this.findAllOrder();
   }
 
   createTabContent() {
     for (const x of this.orders) {
-      if (x.type == 0) {
-        this.tongDonHangOnline++;
-      }
-      if (x.type == 1) {
-        this.tongDonHangOffline++;
-      }
       if (x.status == 0) {
         this.choXacNhan++;
       }
@@ -65,8 +63,14 @@ export class OrderManagementComponent implements OnInit {
       if (x.status == 3) {
         this.daNhan++;
       }
-      if (x.status == 5) {
-        this.daGiaoChoKhach++;
+      // if (x.status == 5) {
+      //   this.daGiaoChoKhach++;
+      // }
+      if (x.status == 6) {
+        this.traHang++;
+      }
+      if (x.status == 4) {
+        this.daHuy++;
       }
     }
     this.listMatTab = [
@@ -79,29 +83,44 @@ export class OrderManagementComponent implements OnInit {
       {
         status: 2, lable: 'Đang giao', sl: this.dangGiao
       },
-      {
-        status: 5, lable: 'Đã giao cho khách', sl: this.daGiaoChoKhach
-      },
+      // {
+      //   status: 5, lable: 'Đã giao cho khách', sl: this.daGiaoChoKhach
+      // },
       {
         status: 3, lable: 'Đã giao thành công', sl: this.daNhan
+      },
+      {
+        status: 6, lable: 'Trả hàng', sl: this.traHang
+      },
+      {
+        status: 4, lable: 'Đã huỷ', sl: this.daHuy
       }
     ]
   }
 
-  findAllOrder() {
-    this.isLoading = true;
-    this.tongDonHangOffline = 0;
-    this.tongDonHangOnline = 0;
+  resetNumber() {
     this.daNhan = 0;
     this.daGiaoChoKhach = 0;
     this.dangGiao = 0;
+    this.traHang = 0;
+    this.daHuy = 0;
     this.choXacNhan = 0;
     this.choLayHang = 0;
+  }
+
+  findAllOrder() {
+    this.isLoading = true;
+    this.searchOrderData = null;
+    this.resetNumber();
     this.apiOrder.getALl().subscribe({
       next: (data: any) => {
         this.orders = data as any[];
         this.findAllDetail();
         this.createTabContent();
+        this.isLoading = false;
+      }, error: err => {
+        console.log(err);
+        this.toastrService.error('Lỗi tải dữ liệu !');
         this.isLoading = false;
       }
     })
@@ -111,8 +130,11 @@ export class OrderManagementComponent implements OnInit {
     this.isLoading = true;
     this.apiOrderDetail.getAll().subscribe({
       next: (data: any) => {
-        console.log('prd: ', data);
         this.orderDetails = data as any[];
+        this.isLoading = false;
+      }, error: err => {
+        console.log(err);
+        this.toastrService.error('Lỗi tải dữ liệu !');
         this.isLoading = false;
       }
     })
@@ -135,6 +157,9 @@ export class OrderManagementComponent implements OnInit {
     } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.DONE) {
       title = 'Đã giao cho khách';
       message = 'Bạn có chắc chắn đã giao đơn hàng cho khách?';
+    } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.REVERT) {
+      title = 'Khách từ chối nhận hàng';
+      message = 'Bạn có chắc chắn khách từ chối nhận hàng?';
     }
     this.matDiaLog.open(ConfirmDialogComponent, {
       width: '400px',
@@ -150,7 +175,7 @@ export class OrderManagementComponent implements OnInit {
           this.updateStatus(status, id);
         } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.CONFIRM) {
           status = 1; //  nếu ấn vào xác nhận đơn hàng sẽ chuyển sang đang chuẩn bị hàng (xác nhận đơn hàng)
-          this.apiOrder.getOrderByIdOne(id).subscribe((data: any) => {
+          this.apiOrder.findById(id).subscribe((data: any) => {
             if (data.status === 4) {
               this.toastrService.warning("Đơn hàng đã bị huỷ, vui lòng tải lại trang !");
               return
@@ -162,8 +187,21 @@ export class OrderManagementComponent implements OnInit {
           status = 2; // nếu ấn vào bắt đầu giao thì sẽ chuyển sang đang giao
           this.updateStatus(status, id);
         } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.DONE) {
-          status = 5; // Đã giao cho khách
+          status = 3; // Đã giao cho khách thành công
           this.updateStatus(status, id);
+        } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.REVERT) {
+          this.matDiaLog.open(RevertOrderComponent, {
+            width: '500px',
+            data: {}
+          }).afterClosed().subscribe(data => {
+            if (data !== 'close') {
+              // Khách từ trối nhận hàng
+              this.apiOrder.revertOrder(data, id).subscribe(() => {
+                this.toastrService.success("Cập nhật thành công !");
+                this.findAllOrder();
+              });
+            }
+          })
         }
       }
     })
@@ -172,16 +210,72 @@ export class OrderManagementComponent implements OnInit {
   updateStatus(status: number, id: number) {
     this.apiOrder.updateStatus(status, id).subscribe({
       next: (_: any) => {
-        if (status == 4) {
-          this.toastrService.success('Huỷ đơn hàng thành công!');
-        } else {
-          this.toastrService.success('Xác nhận đơn hàng thành công!');
-        }
         this.findAllOrder();
       }, error: (err: any) => {
         this.toastrService.error('Đã xảy ra lỗi!');
         console.log(err);
       }
     })
+  }
+
+  description(description: string) {
+    this.matDiaLog.open(RevertDetailComponent, {
+      width: '500px',
+      data: {
+        title: 'Lý do trả hàng !',
+        message: description
+      }
+    })
+  }
+
+  searchOrder() {
+    if (this.searchOrderData === null) {
+      return;
+    }
+    this.isLoading = true;
+    this.orders = [];
+    this.resetNumber();
+    this.createTabContent();
+    this.apiOrder.findById(this.searchOrderData).subscribe({
+      next: (data: any) => {
+        if (data !== null) {
+          this.orders.push(data);
+          this.findAllDetail();
+          this.createTabContent();
+        }
+        this.isLoading = false;
+      }, error: err => {
+        console.log('Lỗi rồi: ', err);
+        this.isLoading = false;
+      }
+    })
+  }
+
+  openEditAddress(total: number, id: number) {
+    this.apiOrder.findById(id).subscribe((data: any) => {
+      if (data.status !== 0 && data.status !== 1) {
+        this.toastrService.warning('Đơn hàng đã được thay đổi, vui lòng tải lại trang để cập nhật dữ liệu mới nhất !');
+        return;
+      } else {
+        this.matDiaLog.open(EditAddressOrderComponent, {
+          width: '1000px',
+          disableClose: true,
+          hasBackdrop: true,
+          data: {
+            total
+          }
+        }).afterClosed().subscribe(data => {
+          if (data) {
+            this.dataChangeAddressInOrder = {
+              ...data, id
+            };
+            this.apiOrder.changeInfoOrder(this.dataChangeAddressInOrder).subscribe(_ => {
+              this.toastrService.success("Chỉnh sửa thông tin giao hàng thành công !");
+              this.findAllOrder();
+            })
+          }
+        })
+      }
+    });
   }
 }
