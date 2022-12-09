@@ -74,14 +74,16 @@
               <button mat-icon-button color="accent" (click)="openSave(TYPE_DIALOG.UPDATE,row)" title="Sua">
                 <i class="fa-solid fa-pen"></i>
               </button>
-              <button *ngIf="row.status == 1" mat-icon-button class="text-green"
-                      (click)="active(RESULT_CLOSE_DIALOG.NOT_ACTIVE,row)" title="Click để vô hiệu hóa khách hàng">
-                <i class="fa-solid fa-lock-open"></i>
-              </button>
+             <ng-container *ngIf="storageService.getAuthority === TYPE_AUTH.SUPER_ADMIN">
+               <button *ngIf="row.status == 1" mat-icon-button class="text-green"
+                       (click)="active(RESULT_CLOSE_DIALOG.NOT_ACTIVE,row)" title="Click để vô hiệu hóa khách hàng">
+                 <i class="fa-solid fa-lock-open"></i>
+               </button>
 
-              <button *ngIf="row.status == 0" mat-icon-button color="warn" (click)="active(RESULT_CLOSE_DIALOG.ACTIVE,row)" title="Click để kích hoạt khách hàng">
-                <i class="fa-solid fa-lock"></i>
-              </button>
+               <button *ngIf="row.status == 0" mat-icon-button color="warn" (click)="active(RESULT_CLOSE_DIALOG.ACTIVE,row)" title="Click để kích hoạt khách hàng">
+                 <i class="fa-solid fa-lock"></i>
+               </button>
+             </ng-container>
             </td>
           </ng-container>
 

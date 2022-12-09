@@ -18,6 +18,7 @@ import {OriginService} from "../../../shared/services/api-service-impl/origin.se
 import {WaterProofService} from "../../../shared/services/api-service-impl/waterProof.service";
 import {FaceDiameterService} from "../../../shared/services/api-service-impl/faceDiameter.service";
 import {BatteryPowerService} from "../../../shared/services/api-service-impl/batteryPower.service";
+import {StorageService} from "../../../shared/services/jwt/storage.service";
 
 
 @Component({
@@ -31,6 +32,7 @@ export class ProductListComponent implements OnInit {
 
   isLoading:boolean;
   panelOpenState = false;
+  role: boolean;
 
   listProduct: any[] = [];
   listBrand: any[] = [];
@@ -61,6 +63,11 @@ export class ProductListComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
+    if (this.storageService.getAuthority() === Constants.TYPE_AUTH.SUPER_ADMIN){
+      this.role = true
+    }else {
+      this.role = false;
+    }
     this.getAll();
     this.getProductForCombobox();
     this.getBrandForCombobox();
@@ -81,7 +88,8 @@ export class ProductListComponent implements OnInit {
               private materialService: MaterialService,
               private waterproofService: WaterProofService,
               private facediameterService: FaceDiameterService,
-              private batterypowerService: BatteryPowerService) {
+              private batterypowerService: BatteryPowerService,
+              private storageService: StorageService) {
   }
 
   getAll() {

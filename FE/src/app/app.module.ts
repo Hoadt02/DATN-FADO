@@ -20,6 +20,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
+import {MatPaginatorIntl} from "@angular/material/paginator";
+import {CustomPaginator} from "./shared/utils/CustomPaginator";
 
 
 @NgModule({
@@ -50,7 +52,7 @@ import {MatNativeDateModule} from "@angular/material/core";
     MatDatepickerModule,
     MatNativeDateModule
   ],
-  providers: [httpInterceptorProviders],
+  providers: [httpInterceptorProviders, { provide: MatPaginatorIntl, useValue: CustomPaginator() }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
