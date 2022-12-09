@@ -22,8 +22,7 @@ export class StaffService {
 
   findById(id: number) {
     return this.apiStaff.findById(id).subscribe({
-      next: (data: any) => {
-        console.log(data);
+      next: (_: any) => {
       }, error: err => {
         if (err.error.code == 'NOT_FOUND') {
           this.toastrService.warning(err.error.message);
