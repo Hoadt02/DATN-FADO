@@ -19,7 +19,6 @@ export class ImageService{
   createImage(data:any){
      this.apiImageService.createImage(data).subscribe({
       next:(data)=>{
-        console.log(data);
       },
       error:(error)=>{
         this.toastrService.error('Thêm hình ảnh chi tiết sản phẩm thất bại');

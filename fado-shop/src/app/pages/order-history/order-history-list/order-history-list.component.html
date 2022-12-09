@@ -43,7 +43,7 @@
                   <p *ngSwitchCase="2">Đang giao</p>
                   <p *ngSwitchCase="3">Đã nhận</p>
                   <p *ngSwitchCase="4">Đã huỷ</p>
-                  <p *ngSwitchCase="5">Đã giao</p>
+<!--                  <p *ngSwitchCase="5">Đã giao</p>-->
                   <p *ngSwitchCase="6">
                     Đã trả <i style="cursor: pointer; font-size: 23px" (click)="description(o.description)"
                               class="fa-solid fa-circle-info"></i>
@@ -151,7 +151,7 @@
                     <p *ngSwitchCase="2">Đang giao</p>
                     <p *ngSwitchCase="3">Đã nhận</p>
                     <p *ngSwitchCase="4">Đã huỷ</p>
-                    <p *ngSwitchCase="5">Đã giao</p>
+<!--                    <p *ngSwitchCase="5">Đã giao</p>-->
                     <p *ngSwitchCase="6">
                       Đã trả <i style="cursor: pointer; font-size: 23px" (click)="description(o.description)"
                                 class="fa-solid fa-circle-info"></i>
@@ -228,12 +228,12 @@
                       Huỷ đơn hàng
                     </button>
                   </ng-template>
-                  <ng-template [ngIf]="o.status == 5">
-                    <button
-                      (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.HasReceivedTheGoods,o.id)">
-                      Đã nhận hàng
-                    </button>
-                  </ng-template>
+<!--                  <ng-template [ngIf]="o.status == 5">-->
+<!--                    <button-->
+<!--                      (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.HasReceivedTheGoods,o.id)">-->
+<!--                      Đã nhận hàng-->
+<!--                    </button>-->
+<!--                  </ng-template>-->
                   <ng-template [ngIf]="o.status == 3 || o.status == 4 || o.status == 6">
                     <button
                       (click)="updateStatusOrder(RESULT_CLOSE_DIALOG_ORDER.Repurchase,o.id)">

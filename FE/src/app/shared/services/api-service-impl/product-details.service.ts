@@ -24,7 +24,6 @@ export class ProductDetailsService {
   findProductDetail(id: number) {
     return this.apiService.findProductDetail(id).subscribe({
       next: (data) => {
-        console.log(data);
         return data;
       },
       error: (error) => {
@@ -40,7 +39,6 @@ export class ProductDetailsService {
   createProductDetail(data: any) {
     this.apiService.createProductDetail(data).subscribe({
       next: (data) => {
-        console.log(data);
         this.toatService.success('Thêm mới sản phẩm thành công!');
         this.isCloseDialog.next(true);
         this.idProductDetail.next(data.id);
@@ -57,7 +55,6 @@ export class ProductDetailsService {
   updateProductDetail(data: any, id: number) {
     this.apiService.updateProductDetail(data, id).subscribe({
       next: (data) => {
-        console.log(data);
         this.toatService.success('Cập nhật sản phẩm thành công!');
         this.isCloseDialog.next(true);
       },
@@ -75,7 +72,6 @@ export class ProductDetailsService {
     data.status = type;
     this.apiService.updateProductDetail(data, id).subscribe({
       next: (res) => {
-        console.log(res);
         if (type == 1) {
           this.toatService.success('Kích hoạt sản phẩm thành công!');
         } else {

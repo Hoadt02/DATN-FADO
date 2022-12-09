@@ -20,7 +20,6 @@ export class StaffDetailComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.dataDiaLog.row) {
-      console.log('có data: ', this.dataDiaLog.row);
       this.staff = this.dataDiaLog.row;
     }
   }

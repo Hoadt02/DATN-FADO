@@ -76,9 +76,9 @@ export class OrderHistoryListComponent implements OnInit {
       if (x.status == 4) {
         this.daHuy++;
       }
-      if (x.status == 5) {
-        this.daGiao++;
-      }
+      // if (x.status == 5) {
+      //   this.daGiao++;
+      // }
       if (x.status == 6) {
         this.traHang++;
       }
@@ -93,9 +93,9 @@ export class OrderHistoryListComponent implements OnInit {
       {
         status: 2, lable: 'Đang giao', sl: this.dangGiao
       },
-      {
-        status: 5, lable: 'Đã giao', sl: this.daGiao
-      },
+      // {
+      //   status: 5, lable: 'Đã giao', sl: this.daGiao
+      // },
       {
         status: 3, lable: 'Đã nhận', sl: this.daNhan
       },
@@ -154,10 +154,11 @@ export class OrderHistoryListComponent implements OnInit {
     } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.Repurchase) {
       title = 'Đặt lại đơn hàng';
       message = 'Bạn có chắc chắn muốn đặt lại đơn hàng?';
-    } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.HasReceivedTheGoods) {
-      title = 'Đã nhận hàng';
-      message = 'Bạn có chắc chắn là đã nhận đơn hàng?';
     }
+    // else if (type == this.RESULT_CLOSE_DIALOG_ORDER.HasReceivedTheGoods) {
+    //   title = 'Đã nhận hàng';
+    //   message = 'Bạn có chắc chắn là đã nhận đơn hàng?';
+    // }
     this.matDiaLog.open(ConfirmDialogComponent, {
       width: '400px',
       disableClose: true,
@@ -171,7 +172,7 @@ export class OrderHistoryListComponent implements OnInit {
           status = 4; //  nếu ấn vào huỷ đơn hàng thì trạng thái sẽ = trạng thái đã huỷ
           this.apiOrder.findById(id).subscribe((data: any) => {
             if (data.status === 1) {
-              this.toastrService.warning("Đơn hàng này đã được xác nhận, vui lòng tải lại trang!");
+              this.toastrService.warning("Đơn hàng đã được xác nhận, vui lòng tải lại trang hoặc liên hệ admin để xử lý !");
               return;
             } else {
               this.updateCancelAndReceived(status, id);
@@ -288,8 +289,8 @@ export class OrderHistoryListComponent implements OnInit {
 
   openEditAddress(total: number, id: number) {
     this.apiOrder.findById(id).subscribe((data: any) => {
-      if (data.status === 1) {
-        this.toastrService.warning('Đơn hàng đã được xác nhận, vui lòng liên hệ admin !');
+      if (data.status !== 0) {
+        this.toastrService.warning('Đơn hàng đã được xác nhận, vui lòng tải lại trang hoặc liên hệ admin để xử lý !');
         return;
       } else {
         this.matDiaLog.open(EditAddressOrderComponent, {
