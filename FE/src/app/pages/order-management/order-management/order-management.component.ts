@@ -115,7 +115,6 @@ export class OrderManagementComponent implements OnInit {
     this.apiOrder.getALl().subscribe({
       next: (data: any) => {
         this.orders = data as any[];
-        console.log(this.orders);
         this.findAllDetail();
         this.createTabContent();
         this.isLoading = false;
