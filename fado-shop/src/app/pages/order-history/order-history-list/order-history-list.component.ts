@@ -172,7 +172,7 @@ export class OrderHistoryListComponent implements OnInit {
           status = 4; //  nếu ấn vào huỷ đơn hàng thì trạng thái sẽ = trạng thái đã huỷ
           this.apiOrder.findById(id).subscribe((data: any) => {
             if (data.status === 1) {
-              this.toastrService.warning("Đơn hàng này đã được xác nhận, vui lòng tải lại trang!");
+              this.toastrService.warning("Đơn hàng đã được xác nhận, vui lòng tải lại trang hoặc liên hệ admin để xử lý !");
               return;
             } else {
               this.updateCancelAndReceived(status, id);
@@ -289,8 +289,8 @@ export class OrderHistoryListComponent implements OnInit {
 
   openEditAddress(total: number, id: number) {
     this.apiOrder.findById(id).subscribe((data: any) => {
-      if (data.status === 1) {
-        this.toastrService.warning('Đơn hàng đã được xác nhận, vui lòng liên hệ admin !');
+      if (data.status !== 0) {
+        this.toastrService.warning('Đơn hàng đã được xác nhận, vui lòng tải lại trang hoặc liên hệ admin để xử lý !');
         return;
       } else {
         this.matDiaLog.open(EditAddressOrderComponent, {

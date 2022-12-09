@@ -188,7 +188,7 @@ export class OrderManagementComponent implements OnInit {
           status = 2; // nếu ấn vào bắt đầu giao thì sẽ chuyển sang đang giao
           this.updateStatus(status, id);
         } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.DONE) {
-          status = 3; // Đã giao cho khách
+          status = 3; // Đã giao cho khách thành công
           this.updateStatus(status, id);
         } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.REVERT) {
           this.matDiaLog.open(RevertOrderComponent, {
@@ -196,7 +196,6 @@ export class OrderManagementComponent implements OnInit {
             data: {}
           }).afterClosed().subscribe(data => {
             if (data !== 'close') {
-              console.log(data);
               // Khách từ trối nhận hàng
               this.apiOrder.revertOrder(data, id).subscribe(() => {
                 this.toastrService.success("Cập nhật thành công !");
@@ -225,7 +224,7 @@ export class OrderManagementComponent implements OnInit {
       width: '500px',
       data: {
         title: 'Lý do trả hàng !',
-        message: description.trim().replace(/^\s+|\s+$|\s+(?=\s)/g, "")
+        message: description
       }
     })
   }
@@ -255,8 +254,8 @@ export class OrderManagementComponent implements OnInit {
 
   openEditAddress(total: number, id: number) {
     this.apiOrder.findById(id).subscribe((data: any) => {
-      if (data.status === 2) {
-        this.toastrService.warning('Đơn hàng đã được giao, không thể chỉnh sửa !');
+      if (data.status !== 0 && data.status !== 1) {
+        this.toastrService.warning('Đơn hàng đã được thay đổi, vui lòng tải lại trang để cập nhật dữ liệu mới nhất !');
         return;
       } else {
         this.matDiaLog.open(EditAddressOrderComponent, {

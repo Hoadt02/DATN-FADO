@@ -27,11 +27,11 @@ export class RevertOrderComponent implements OnInit {
   }
 
   onConfirm(): void {
-    if (this.descriptionOrder === null){
+    if (this.descriptionOrder === null || this.descriptionOrder.trim() === '') {
       this.toastrService.warning('Vui lòng nhập lý do !');
       return;
     }
-    this.dialogRef.close(this.descriptionOrder);
+    this.dialogRef.close(this.descriptionOrder.trim().replace(/^\s+|\s+$|\s+(?=\s)/g, ""));
   }
 
 }
