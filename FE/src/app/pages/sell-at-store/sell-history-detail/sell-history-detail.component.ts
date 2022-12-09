@@ -15,16 +15,16 @@ export class SellHistoryDetailComponent implements OnInit {
 
 
   constructor(private matDataRef: MatDialogRef<SellHistoryDetailComponent>,
-              @Inject(MAT_DIALOG_DATA) private id: any,
+              @Inject(MAT_DIALOG_DATA) private dataDiaLog: any,
               private orderDetailService: OrderDetailService,
               private orderService: OrderService) { }
 
   ngOnInit(): void {
-    this.orderDetailService.findOrderDetailByOrder(this.id).subscribe((data: any) => {
+    this.orderDetailService.findOrderDetailByOrder(this.dataDiaLog.row.id).subscribe((data: any) => {
       this.orders = data;
     });
 
-    this.orderService.getOrderById(this.id).subscribe((rs: any) => {
+    this.orderService.getOrderById(this.dataDiaLog.row.id).subscribe((rs: any) => {
       this.orderMoney = rs;
     })
   }

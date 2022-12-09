@@ -23,6 +23,7 @@ public interface IOrderService {
 //    void delete(Integer id);
 
     void updateStatus(Integer status, Integer id);
+    void revertOrder(String description, Integer id);
 
     List<CharBarDTO> getChartBar();
 

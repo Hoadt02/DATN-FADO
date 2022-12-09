@@ -9,15 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Version;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -29,6 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "orders")
+@Table(name = "orders")
 public class Order implements Serializable {
 
     @Id
@@ -68,6 +61,9 @@ public class Order implements Serializable {
 
     @Column(nullable = true, length = 10)
     private String phoneNumber;
+
+    @Column(length = 255)
+    private String description;
 
     @OneToMany(mappedBy = "order")
     @JsonIgnore

@@ -33,6 +33,15 @@ public class ProductDetailServiceImpl implements IProductDetailService {
     @Autowired
     OriginRepository originRepository;
 
+    @Autowired
+    WaterProofRepository waterProofRepository;
+
+    @Autowired
+    FaceDiameterRepository faceDiameterRepository;
+
+    @Autowired
+    BatteryPowerRepository batteryPowerRepository;
+
     // hiên///
     private final ProductDetailRepository productDetailRepository;
 
@@ -89,11 +98,15 @@ public class ProductDetailServiceImpl implements IProductDetailService {
 
     public Page<ProductDetail> findProductsWithPaginationAndSortingAndFilter(FilterAndPagingAndSortingModel model) {
         if (model.getSearch() == null && model.getCategory_id().length < 1 && model.getBrand_id().length < 1
-                && model.getMaterial_id().length < 1 && model.getOrigin_id().length < 1) {
+                && model.getMaterial_id().length < 1 && model.getOrigin_id().length < 1 && model.getWaterproof_id().length < 1
+                && model.getFacediameter_id().length < 1 && model.getBatterypower_id().length < 1) {
             model.setCategory_id(categoryRepository.getAllIdCategory());
             model.setBrand_id(brandRepository.getAllIdBrand());
             model.setMaterial_id(materialRepository.getAllIdMaterial());
             model.setOrigin_id(originRepository.getAllIdOrigin());
+            model.setWaterproof_id(waterProofRepository.getAllIdWaterProof());
+            model.setFacediameter_id(faceDiameterRepository.getAllIdFaceDiameters());
+            model.setBatterypower_id(batteryPowerRepository.getAllIdBatteryPowers());
         }
         if (model.getGender().length < 1) model.setGender(new Boolean[]{true, false});
         if (model.getStartPrice() == null && model.getEndPrice() == null) {
@@ -112,14 +125,17 @@ public class ProductDetailServiceImpl implements IProductDetailService {
         if (model.getSort() == 1) {
             productDetails = repository.findAll(PageRequest.of(model.getPage(), model.getSize(), Sort.by("id").descending()),
                     model.getSearch(), model.getCategory_id(), model.getBrand_id(), model.getMaterial_id(), model.getOrigin_id(),
+                    model.getWaterproof_id(), model.getFacediameter_id(), model.getBatterypower_id(),
                     model.getGender(), model.getStartPrice(), model.getEndPrice());
         } else if (model.getSort() == 2) {
             productDetails = repository.findAll(PageRequest.of(model.getPage(), model.getSize(), Sort.by("id").ascending()),
                     model.getSearch(), model.getCategory_id(), model.getBrand_id(), model.getMaterial_id(), model.getOrigin_id(),
+                    model.getWaterproof_id(), model.getFacediameter_id(), model.getBatterypower_id(),
                     model.getGender(), model.getStartPrice(), model.getEndPrice());
         } else {
             productDetails = repository.findAll(PageRequest.of(model.getPage(), model.getSize()),
                     model.getSearch(), model.getCategory_id(), model.getBrand_id(), model.getMaterial_id(), model.getOrigin_id(),
+                    model.getWaterproof_id(), model.getFacediameter_id(), model.getBatterypower_id(),
                     model.getGender(), model.getStartPrice(), model.getEndPrice());
         }
 
@@ -128,8 +144,10 @@ public class ProductDetailServiceImpl implements IProductDetailService {
 
     @Override
     public List<ProductDetail> findProductWithFilter(FilterModel filterModel) {
+        System.out.println(filterModel.toString());
         return repository.findProductWithFilter(filterModel.getProduct_id(), filterModel.getBrand_id(),
-                filterModel.getMaterial_id(), filterModel.getOrigin_id(), filterModel.getStatus(), filterModel.getGender());
+                filterModel.getMaterial_id(), filterModel.getOrigin_id(), filterModel.getWaterproof_id(),
+                filterModel.getFacediameter_id(), filterModel.getBatterypower_id(), filterModel.getStatus(), filterModel.getGender());
     }
 
     @Override
@@ -150,6 +168,21 @@ public class ProductDetailServiceImpl implements IProductDetailService {
     @Override
     public Integer getCountProductByOrigin(Integer id) {
         return repository.getCountProductByOrigin(id);
+    }
+
+    @Override
+    public Integer getCountProductByWaterproof(Integer id) {
+        return repository.getCountProductByWaterproof(id);
+    }
+
+    @Override
+    public Integer getCountProductByFacediameter(Integer id) {
+        return repository.getCountProductByFacediameter(id);
+    }
+
+    @Override
+    public Integer getCountProductByBatterypower(Integer id) {
+        return repository.getCountProductByBatterypower(id);
     }
 
     @Override

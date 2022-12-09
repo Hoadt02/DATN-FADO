@@ -8,11 +8,17 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body text-center">
-        <h3><b><i class="fa-solid fa-magnifying-glass"></i> TÌM KIẾM NHANH</b></h3>
-        <mat-form-field appearance="outline" class="p-0">
-          <mat-label>Từ khóa tìm kiếm</mat-label>
-          <input matInput (keyup)="applyFilter($event)" [(ngModel)]="keySearch" placeholder="Mời bạn nhập từ khóa tìm kiếm">
-        </mat-form-field>
+        <mat-accordion>
+          <mat-expansion-panel style="box-shadow: unset" [expanded]="true">
+            <mat-expansion-panel-header>
+              <b><i class="fa-solid fa-magnifying-glass"></i> TÌM KIẾM NHANH</b>
+            </mat-expansion-panel-header>
+            <mat-form-field appearance="outline">
+              <mat-label>Từ khóa tìm kiếm</mat-label>
+              <input matInput (keyup)="applyFilter($event)" [(ngModel)]="keySearch" placeholder="Mời bạn nhập từ khóa tìm kiếm">
+            </mat-form-field>
+          </mat-expansion-panel>
+        </mat-accordion>
       </div>
     </div>
   </div>
@@ -22,62 +28,96 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body text-center">
-        <h3><b><i class="fa-solid fa-filter"></i> BỘ LỌC</b></h3>
-        <div class="row">
-          <form [formGroup]="formGroup">
-            <mat-form-field appearance="outline" class="col-2">
-              <mat-label>Dòng sản phẩm</mat-label>
-              <mat-select formControlName="product_id">
-                <mat-option *ngFor="let p of listProduct" (click)="getAllFilter()" [value]="p.id">
-                  {{p.name}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+        <mat-accordion>
+          <mat-expansion-panel style="box-shadow: unset" [expanded]="true">
+            <mat-expansion-panel-header>
+              <b><i class="fa-solid fa-filter"></i> BỘ LỌC</b>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <form [formGroup]="formGroup">
+                <mat-form-field appearance="outline" class="col-4">
+                  <mat-label>Dòng sản phẩm</mat-label>
+                  <mat-select formControlName="product_id">
+                    <mat-option *ngFor="let p of listProduct" (click)="getAllFilter()" [value]="p.id">
+                      {{p.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
 
-            <mat-form-field appearance="outline" class="col-2">
-              <mat-label>Thương hiệu</mat-label>
-              <mat-select formControlName="brand_id">
-                <mat-option *ngFor="let b of listBrand" (click)="getAllFilter()" [value]="b.id">
-                  {{b.name}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+                <mat-form-field appearance="outline" class="col-3">
+                  <mat-label>Thương hiệu</mat-label>
+                  <mat-select formControlName="brand_id">
+                    <mat-option *ngFor="let b of listBrand" (click)="getAllFilter()" [value]="b.id">
+                      {{b.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
 
-            <mat-form-field appearance="outline" class="col-2">
-              <mat-label>Chất liệu</mat-label>
-              <mat-select formControlName="material_id">
-                <mat-option *ngFor="let m of listMaterial" (click)="getAllFilter()" [value]="m.id">
-                  {{m.name}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+                <mat-form-field appearance="outline" class="col-3">
+                  <mat-label>Chất liệu</mat-label>
+                  <mat-select formControlName="material_id">
+                    <mat-option *ngFor="let m of listMaterial" (click)="getAllFilter()" [value]="m.id">
+                      {{m.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
 
-            <mat-form-field appearance="outline" class="col-2">
-              <mat-label>Xuất xứ</mat-label>
-              <mat-select formControlName="origin_id">
-                <mat-option *ngFor="let o of listOrigin" (click)="getAllFilter()" [value]="o.id">
-                  {{o.name}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+                <mat-form-field appearance="outline" class="col-2">
+                  <mat-label>Xuất xứ</mat-label>
+                  <mat-select formControlName="origin_id">
+                    <mat-option *ngFor="let o of listOrigin" (click)="getAllFilter()" [value]="o.id">
+                      {{o.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
 
-            <mat-form-field appearance="outline" class="col-2">
-              <mat-label>Trạng thái</mat-label>
-              <mat-select formControlName="status">
-                <mat-option (click)="getAllFilter()" [value]="1">Hoạt động</mat-option>
-                <mat-option (click)="getAllFilter()" [value]="0">Ngưng hoạt động</mat-option>
-              </mat-select>
-            </mat-form-field>
+                <mat-form-field appearance="outline" class="col-2">
+                  <mat-label>Chống nước</mat-label>
+                  <mat-select formControlName="waterproof_id">
+                    <mat-option *ngFor="let w of listWaterproof" (click)="getAllFilter()" [value]="w.id">
+                      {{w.name}} ATM
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
 
-            <mat-form-field appearance="outline" class="col-2">
-              <mat-label>Đối tượng sử dụng</mat-label>
-              <mat-select formControlName="gender">
-                <mat-option (click)="getAllFilter()" [value]="true">Nam</mat-option>
-                <mat-option (click)="getAllFilter()" [value]="false">Nữ</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </form>
-        </div>
+
+                <mat-form-field appearance="outline" class="col-2">
+                  <mat-label>Đường kính mặt</mat-label>
+                  <mat-select formControlName="facediameter_id">
+                    <mat-option *ngFor="let f of listFacediameter" (click)="getAllFilter()" [value]="f.id">
+                      {{f.name}} mm
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="col-3">
+                  <mat-label>Năng lượng pin</mat-label>
+                  <mat-select formControlName="batterypower_id">
+                    <mat-option *ngFor="let b of listBatterypower" (click)="getAllFilter()" [value]="b.id">
+                      {{b.name}} Quartz/Pin
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="col-3">
+                  <mat-label>Trạng thái</mat-label>
+                  <mat-select formControlName="status">
+                    <mat-option (click)="getAllFilter()" [value]="1">Hoạt động</mat-option>
+                    <mat-option (click)="getAllFilter()" [value]="0">Ngưng hoạt động</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="col-2">
+                  <mat-label>Đối tượng sử dụng</mat-label>
+                  <mat-select formControlName="gender">
+                    <mat-option (click)="getAllFilter()" [value]="true">Nam</mat-option>
+                    <mat-option (click)="getAllFilter()" [value]="false">Nữ</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </form>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
       </div>
     </div>
   </div>
@@ -97,7 +137,7 @@
   <div class="col-lg-12 col-md-12">
     <div class="card">
       <div class="card-body">
-        <div>
+        <div style="padding-top: 15px; padding-left: 25px">
           <h3><b><i class="fa-solid fa-list"></i> DANH SÁCH SẢN PHẨM</b></h3>
         </div>
         <table mat-table [dataSource]="dataSource" matSort>

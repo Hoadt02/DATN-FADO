@@ -35,6 +35,12 @@ public interface IProductDetailService {
 
     Integer getCountProductByOrigin(Integer id);
 
+    Integer getCountProductByWaterproof(Integer id);
+
+    Integer getCountProductByFacediameter(Integer id);
+
+    Integer getCountProductByBatterypower(Integer id);
+
     Integer getCountProductByMale();
 
     Integer getCountProductByFemale();

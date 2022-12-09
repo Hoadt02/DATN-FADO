@@ -43,6 +43,18 @@ export class ProductDetailsService {
     return this.apiService.getCountProductByOrigin(id);
   }
 
+  getCountProductByWaterproof(id:number){
+    return this.apiService.getCountProductByWaterproof(id);
+  }
+
+  getCountProductByFacediameter(id:number){
+    return this.apiService.getCountProductByFacediameter(id);
+  }
+
+  getCountProductByBatterypower(id:number){
+    return this.apiService.getCountProductByBatterypower(id);
+  }
+
   getCountProductByMale(){
     return this.apiService.getCountProductByMale();
   }

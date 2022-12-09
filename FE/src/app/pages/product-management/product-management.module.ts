@@ -20,6 +20,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatMenuModule} from "@angular/material/menu";
 import {NgxDropzoneModule} from "ngx-dropzone";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {NgxDropzoneModule} from "ngx-dropzone";
         MatTabsModule,
         MatMenuModule,
         NgxDropzoneModule,
-        FormsModule
+        FormsModule,
+        MatExpansionModule
     ],
   entryComponents: [ProductFormComponent]
 })

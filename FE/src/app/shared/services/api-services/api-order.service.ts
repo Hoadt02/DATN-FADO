@@ -66,6 +66,10 @@ export class ApiOrderService {
     return this.http.get(`${ApiConstant.order}/updateStatus?status=${status}&id=${id}`)
   }
 
+  revertOrder(description: string, id: number) {
+    return this.http.get(`${ApiConstant.order}/revertOrder?description=${description}&id=${id}`)
+  }
+
   getOrderHistory(id: number, status: number) {
     return this.http.get(`${ApiConstant.order}/getOrderHistory?id=${id}&status=${status}`)
   }

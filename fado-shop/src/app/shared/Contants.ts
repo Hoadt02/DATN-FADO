@@ -4,6 +4,9 @@ export class Contants {
     BRAND: 'brand',
     MATERIAL: 'material',
     ORIGIN: 'origin',
+    WATERPROOF: 'waterproof',
+    FACEDIAMETER: 'facediameter',
+    BATTERYPOWER: 'batterypower',
     GENDER: 'gender',
   };
 

@@ -12,6 +12,9 @@ import {ToastrService} from "ngx-toastr";
 import {StorageService} from "../../shared/service/jwt/storage.service";
 import {Router} from "@angular/router";
 import {ProductPromotionalService} from "../../shared/service/api-service-impl/product-promotional.service";
+import {WaterProofService} from "../../shared/service/api-service-impl/waterProof.service";
+import {FaceDiameterService} from "../../shared/service/api-service-impl/faceDiameter.service";
+import {BatteryPowerService} from "../../shared/service/api-service-impl/batteryPower.service";
 
 @Component({
   selector: 'app-product',
@@ -39,6 +42,9 @@ export class ProductComponent implements OnInit {
   brands: any[] = [];
   materials: any[] = [];
   origins: any[] = [];
+  waterproof: any[] = [];
+  facediameter: any[] = [];
+  batterypower: any[] = [];
   products: any[] = [];
   productPromotionalCurrent: any[] = [];
 
@@ -47,6 +53,9 @@ export class ProductComponent implements OnInit {
   category_id: any[] = [];
   brand_id: any[] = [];
   material_id: any[] = [];
+  waterproof_id: any[] = [];
+  facediameter_id: any[] = [];
+  batterypower_id: any[] = [];
   origin_id: any[] = [];
   gender: any[] = [];
 
@@ -90,6 +99,9 @@ export class ProductComponent implements OnInit {
     private fb: FormBuilder,
     private storageService: StorageService,
     private router: Router,
+    private waterproofService: WaterProofService,
+    private facediameterService: FaceDiameterService,
+    private batterypowerService: BatteryPowerService
   ) {
   }
 
@@ -103,6 +115,9 @@ export class ProductComponent implements OnInit {
     this.loadByBrand();
     this.loadByMaterial();
     this.loadByOrigin();
+    this.loadByWaterproof();
+    this.loadByFacediameter();
+    this.loadByBatterypower();
     this.loadCountProductMale();
     this.loaCountProductFemale();
   }
@@ -142,6 +157,9 @@ export class ProductComponent implements OnInit {
     else if (this.brand_id.length > 0) this.name = 'Bộ lọc';
     else if (this.material_id.length > 0) this.name = 'Bộ lọc';
     else if (this.origin_id.length > 0) this.name = 'Bộ lọc';
+    else if (this.waterproof_id.length > 0) this.name = 'Bộ lọc';
+    else if (this.facediameter_id.length > 0) this.name = 'Bộ lọc';
+    else if (this.batterypower_id.length > 0) this.name = 'Bộ lọc';
     else if (this.gender.length > 0) this.name = 'Bộ lọc';
     else if (this.formGroup.getRawValue().startPrice != null && this.formGroup.getRawValue().endPrice) this.name = 'Bộ lọc';
     else this.name = 'Tất cả sản phẩm';
@@ -256,6 +274,39 @@ export class ProductComponent implements OnInit {
       this.origins = data;
     });
   }
+
+  loadByWaterproof(){
+    this.waterproofService.getAll().subscribe((data: any) => {
+      for (let i = 0; i < data.length; i++) {
+        this.productDetailService.getCountProductByWaterproof(data[i].id).subscribe(res => {
+          data[i].count = res;
+        })
+      }
+      this.waterproof = data;
+    });
+  }
+
+  loadByFacediameter(){
+    this.facediameterService.getAll().subscribe((data: any) => {
+      for (let i = 0; i < data.length; i++) {
+        this.productDetailService.getCountProductByFacediameter(data[i].id).subscribe(res => {
+          data[i].count = res;
+        })
+      }
+      this.facediameter = data;
+    });
+  }
+
+  loadByBatterypower(){
+    this.batterypowerService.getAll().subscribe((data: any) => {
+      for (let i = 0; i < data.length; i++) {
+        this.productDetailService.getCountProductByBatterypower(data[i].id).subscribe(res => {
+          data[i].count = res;
+        })
+      }
+      this.batterypower = data;
+    });
+  }
   // End
 
   // Start set filter with click checkbox
@@ -277,6 +328,9 @@ export class ProductComponent implements OnInit {
     else if (type == this.TYPE_FILTER.MATERIAL) this.addValueFilter(this.material_id, value);
     else if (type == this.TYPE_FILTER.ORIGIN) this.addValueFilter(this.origin_id, value);
     else if (type == this.TYPE_FILTER.GENDER) this.addValueFilter(this.gender, value);
+    else if (type == this.TYPE_FILTER.WATERPROOF) this.addValueFilter(this.waterproof, value);
+    else if (type == this.TYPE_FILTER.FACEDIAMETER) this.addValueFilter(this.waterproof, value);
+    else if (type == this.TYPE_FILTER.BATTERYPOWER) this.addValueFilter(this.batterypower, value);
     this.setNamePage();
     this.loadByProductDetail();
   }
@@ -293,6 +347,9 @@ export class ProductComponent implements OnInit {
       brand_id: this.brand_id,
       material_id: this.material_id,
       origin_id: this.origin_id,
+      waterproof_id: this.waterproof_id,
+      facediameter_id: this.facediameter_id,
+      batterypower_id: this.batterypower_id,
       gender: this.gender,
       startPrice: this.formGroup.getRawValue().startPrice,
       endPrice: this.formGroup.getRawValue().endPrice

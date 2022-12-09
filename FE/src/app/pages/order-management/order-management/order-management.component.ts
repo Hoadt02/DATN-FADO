@@ -8,6 +8,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 import {ToastrService} from "ngx-toastr";
+import {RevertOrderComponent} from "../revert-order/revert-order.component";
 
 @Component({
   selector: 'app-order-management',
@@ -21,15 +22,16 @@ export class OrderManagementComponent implements OnInit {
 
   listMatTab: any;
   orders: any = [];
-  tongDonHangOnline = 0;
-  tongDonHangOffline = 0;
   choXacNhan = 0;
   choLayHang = 0;
   dangGiao = 0;
   daNhan = 0;
+  traHang = 0;
+  daHuy = 0;
   daGiaoChoKhach = 0;
   orderDetails: any;
   isLoading!: boolean;
+  searchOrderData: any;
 
   constructor(
     private apiOrder: OrderService,
@@ -41,18 +43,11 @@ export class OrderManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.createTabContent();
     this.findAllOrder();
   }
 
   createTabContent() {
     for (const x of this.orders) {
-      if (x.type == 0) {
-        this.tongDonHangOnline++;
-      }
-      if (x.type == 1) {
-        this.tongDonHangOffline++;
-      }
       if (x.status == 0) {
         this.choXacNhan++;
       }
@@ -67,6 +62,12 @@ export class OrderManagementComponent implements OnInit {
       }
       if (x.status == 5) {
         this.daGiaoChoKhach++;
+      }
+      if (x.status == 6) {
+        this.traHang++;
+      }
+      if (x.status == 4) {
+        this.daHuy++;
       }
     }
     this.listMatTab = [
@@ -84,22 +85,34 @@ export class OrderManagementComponent implements OnInit {
       },
       {
         status: 3, lable: 'Đã giao thành công', sl: this.daNhan
+      },
+      {
+        status: 6, lable: 'Trả hàng', sl: this.traHang
+      },
+      {
+        status: 4, lable: 'Đã huỷ', sl: this.daHuy
       }
     ]
   }
 
-  findAllOrder() {
-    this.isLoading = true;
-    this.tongDonHangOffline = 0;
-    this.tongDonHangOnline = 0;
+  resetNumber() {
     this.daNhan = 0;
     this.daGiaoChoKhach = 0;
     this.dangGiao = 0;
+    this.traHang = 0;
+    this.daHuy = 0;
     this.choXacNhan = 0;
     this.choLayHang = 0;
+  }
+
+  findAllOrder() {
+    this.isLoading = true;
+    this.searchOrderData = null;
+    this.resetNumber();
     this.apiOrder.getALl().subscribe({
       next: (data: any) => {
         this.orders = data as any[];
+        console.log(this.orders);
         this.findAllDetail();
         this.createTabContent();
         this.isLoading = false;
@@ -111,7 +124,6 @@ export class OrderManagementComponent implements OnInit {
     this.isLoading = true;
     this.apiOrderDetail.getAll().subscribe({
       next: (data: any) => {
-        console.log('prd: ', data);
         this.orderDetails = data as any[];
         this.isLoading = false;
       }
@@ -135,6 +147,9 @@ export class OrderManagementComponent implements OnInit {
     } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.DONE) {
       title = 'Đã giao cho khách';
       message = 'Bạn có chắc chắn đã giao đơn hàng cho khách?';
+    } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.REVERT) {
+      title = 'Khách từ chối nhận hàng';
+      message = 'Bạn có chắc chắn khách từ chối nhận hàng?';
     }
     this.matDiaLog.open(ConfirmDialogComponent, {
       width: '400px',
@@ -164,6 +179,20 @@ export class OrderManagementComponent implements OnInit {
         } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.DONE) {
           status = 5; // Đã giao cho khách
           this.updateStatus(status, id);
+        } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.REVERT) {
+          this.matDiaLog.open(RevertOrderComponent, {
+            width: '500px',
+            data: {}
+          }).afterClosed().subscribe(data => {
+            if (data !== null) {
+              console.log(data);
+              // Khách từ trối nhận hàng
+              this.apiOrder.revertOrder(data, id).subscribe(() => {
+                this.toastrService.success("Cập nhật thành công !");
+                this.findAllOrder();
+              });
+            }
+          })
         }
       }
     })
@@ -181,6 +210,36 @@ export class OrderManagementComponent implements OnInit {
       }, error: (err: any) => {
         this.toastrService.error('Đã xảy ra lỗi!');
         console.log(err);
+      }
+    })
+  }
+
+  description(description: string) {
+    this.matDiaLog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Lý do trả hàng !',
+        message: description
+      }
+    })
+  }
+
+  searchOrder() {
+    this.isLoading = true;
+    this.orders = [];
+    this.resetNumber();
+    this.createTabContent();
+    this.apiOrder.getOrderByIdOne(this.searchOrderData).subscribe({
+      next: (data: any) => {
+        if (data !== null) {
+          this.orders.push(data);
+          this.findAllDetail();
+          this.createTabContent();
+        }
+        this.isLoading = false;
+      }, error: err => {
+        console.log('Lỗi rồi: ', err);
+        this.isLoading = false;
       }
     })
   }

@@ -69,7 +69,8 @@ export class SellAtStoreComponent implements OnInit {
   formGroupCustomer: FormGroup = this.fb.group({
     customer: this.fb.group({
       id: 167
-    })
+    }),
+    description: ''
   })
 
   formMoney: FormGroup = this.fb.group({
@@ -194,7 +195,8 @@ export class SellAtStoreComponent implements OnInit {
         discount: this.giamGia,
         totalPayment: this.tienKhachCanTra,
         feeShipping: 0,
-        type: 1
+        type: 1,
+        description: ''
       }
 
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
@@ -253,7 +255,8 @@ export class SellAtStoreComponent implements OnInit {
       discount: this.giamGia,
       totalPayment: this.tienKhachCanTra,
       feeShipping: 0,
-      type: 1
+      type: 1,
+      description: ''
     }
 
     const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
@@ -393,7 +396,8 @@ export class SellAtStoreComponent implements OnInit {
       discount: 0,
       totalPayment: 0,
       feeShipping: 0,
-      type: 1
+      type: 1,
+      description: ''
     }
   }
 
@@ -478,7 +482,8 @@ export class SellAtStoreComponent implements OnInit {
       discount: this.giamGia,
       totalPayment: this.tienKhachCanTra,
       feeShipping: 0,
-      type: 1
+      type: 1,
+      description: this.formGroupCustomer.getRawValue().description
     }
 
     const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
@@ -509,29 +514,12 @@ export class SellAtStoreComponent implements OnInit {
             this.idHoaDon.splice(index, 1)
             this.orderDetails = [];
             // this.tienThuaTraKhach = this.formMoney.getRawValue().tienKhachDua - createOrder.totalPayment
-            this.export(this.idOrder);
+            this.openExportOrder(this.idOrder);
           }, error => {
             this.toastService.error('Thanh toán thất bại !');
             console.log(error);
           })
         }
-      }
-    })
-  }
-
-  export(idOrder: number) {
-    const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
-      width: '400px',
-      disableClose: true,
-      hasBackdrop: true,
-      data: {
-        title: 'In hóa đơn',
-        message: 'Bạn có muốn in hóa đơn không ?',
-      }
-    });
-    diaLogRef.afterClosed().subscribe((rs: any) => {
-      if (rs === this.RESULT_CLOSE_DIALOG.CONFIRM) {
-        this.openExportOrder(idOrder)
       }
     })
   }
@@ -545,7 +533,7 @@ export class SellAtStoreComponent implements OnInit {
       data: {id}
     });
     dialogRef.afterClosed().subscribe(rs => {
-      console.log(rs);
+      console.log('id de in hoa don: ', id);
     })
   }
 
