@@ -53,4 +53,6 @@ public interface IOrderService {
     void exportOrder(Integer id);
 
     List<Order> filterOrder(FilterOrder filterOrder);
+
+    List<Order> getListOrder(Integer idStaff);
 }

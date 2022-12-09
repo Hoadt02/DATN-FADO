@@ -87,4 +87,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     List<Order> filterOrder(@Param("startDate") LocalDate startDate,
                             @Param("endDate") LocalDate endDate,
                             @Param("customerId") Integer customerId);
+
+    @Query("select o from orders o where o.staff.id = :idNV and o.status = 0 and o.type = 1")
+    List<Order> getListOrder(@Param("idNV") Integer idNV);
 }

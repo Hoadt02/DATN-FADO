@@ -120,4 +120,9 @@ public class OrderController {
     public ResponseEntity<List<Order>> filterOrder(@RequestBody FilterOrder filterOrder) {
         return ResponseEntity.ok(this.iOrderService.filterOrder(filterOrder));
     }
+
+    @GetMapping("/listOrder/{idNV}")
+    public ResponseEntity<List<Order>> getListOrder(@PathVariable("idNV") Integer idStaff) {
+        return ResponseEntity.ok(this.iOrderService.getListOrder(idStaff));
+    }
 }

@@ -41,6 +41,7 @@ export class SellAtStoreComponent implements OnInit {
   keySearch = new FormControl('');
   changeSearch: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
+  ordersOfStaff: any[] = [];
   name = '';
   products: any[] = [];
   promotions: any[] = [];
@@ -100,6 +101,15 @@ export class SellAtStoreComponent implements OnInit {
     this.getAllNameProduct();
     this.getCustomerForCombobox();
     this.getOrderByStaff(this.storageService.getIdFromToken());
+    this.getListOrderOfStaff();
+  }
+
+  getListOrderOfStaff() {
+    this.orderService.getListOrder(this.storageService.getIdFromToken()).subscribe((data: any) => {
+      this.ordersOfStaff = data;
+      console.log('adsgdjagjdasjdahsfdhafsd: ',this.ordersOfStaff);
+      this.tabs.length = this.ordersOfStaff.length;
+    })
   }
 
   onSubmitSearch() {
@@ -151,9 +161,10 @@ export class SellAtStoreComponent implements OnInit {
   }
 
   getDiscount(idPd: number) {
+    console.log("id cua product cua discount: ", idPd);
     this.promotionDetailService.getDiscount(idPd).subscribe((data2: any) => {
       this.promotions = data2;
-      console.log('data: ', data2.discount)
+      console.log('discount of product: ', data2)
     })
   }
 
@@ -320,6 +331,7 @@ export class SellAtStoreComponent implements OnInit {
             this.orderDetailService.saveOrderDetail(this.createProductAtOrderDetail(idProduct, this.idOrder, 1, data.price)).subscribe((data2: any) => {
               this.getOrderDetail();
               this.toastService.success('Thêm sản phẩm thành công !');
+              this.getDiscount(idProduct);
               this.orderDetailService.quantityPrd$.subscribe(rs => {
                 this.countQuantity = rs;
               })
@@ -607,11 +619,12 @@ export class SellAtStoreComponent implements OnInit {
   }
 
   backToHome() {
-    if (this.tabs.length > 0) {
-      this.toastService.warning('Vui lòng thưc hiện hết thao tác trước khi trở về trang chủ !');
-      return;
-    } else {
-      this.router.navigate(['/']);
-    }
+    this.router.navigate(['/order-management']);
+    // if (this.tabs.length > 0) {
+    //   this.toastService.warning('Vui lòng thưc hiện hết thao tác trước khi trở về trang chủ !');
+    //   return;
+    // } else {
+    //   this.router.navigate(['/']);
+    // }
   }
 }

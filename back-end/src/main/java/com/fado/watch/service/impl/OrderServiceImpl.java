@@ -339,4 +339,9 @@ public class OrderServiceImpl implements IOrderService {
                 filterOrder.getCustomerId());
     }
 
+    @Override
+    public List<Order> getListOrder(Integer idStaff) {
+        return this.orderRepository.getListOrder(idStaff);
+    }
+
 }

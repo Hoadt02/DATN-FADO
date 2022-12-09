@@ -85,4 +85,8 @@ export class ApiOrderService {
   filterOrder(data: any) {
     return this.http.post(`${ApiConstant.order}/filterOrder`, data);
   }
+
+  getListOrder(idNV: any) {
+    return this.http.get(`${ApiConstant.order}/listOrder/${idNV}`);
+  }
 }
