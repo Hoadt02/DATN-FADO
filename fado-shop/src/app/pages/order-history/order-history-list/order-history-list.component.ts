@@ -287,24 +287,31 @@ export class OrderHistoryListComponent implements OnInit {
   }
 
   openEditAddress(totalPayment: number, id: number) {
-    this.matDiaLog.open(EditAddressOrderComponent, {
-      width: '1000px',
-      disableClose: true,
-      hasBackdrop: true,
-      data: {
-        totalPayment
-      }
-    }).afterClosed().subscribe(data => {
-      if (data) {
-        this.dataChangeAddressInOrder = {
-          ...data, id
-        };
-        this.apiOrder.changeInfoOrder(this.dataChangeAddressInOrder).subscribe(_ => {
-          this.toastrService.success("Chỉnh sửa thông tin giao hàng thành công !");
-          this.findAllByCustomerId();
+    this.apiOrder.findById(id).subscribe((data: any) => {
+      if (data.status === 1) {
+        this.toastrService.warning('Đơn hàng đã được xác nhận, vui lòng liên hệ admin !');
+        return;
+      } else {
+        this.matDiaLog.open(EditAddressOrderComponent, {
+          width: '1000px',
+          disableClose: true,
+          hasBackdrop: true,
+          data: {
+            totalPayment
+          }
+        }).afterClosed().subscribe(data => {
+          if (data) {
+            this.dataChangeAddressInOrder = {
+              ...data, id
+            };
+            this.apiOrder.changeInfoOrder(this.dataChangeAddressInOrder).subscribe(_ => {
+              this.toastrService.success("Chỉnh sửa thông tin giao hàng thành công !");
+              this.findAllByCustomerId();
+            })
+          }
         })
       }
-    })
+    });
   }
 
 }

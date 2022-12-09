@@ -10,6 +10,7 @@ import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dia
 import {ToastrService} from "ngx-toastr";
 import {RevertOrderComponent} from "../revert-order/revert-order.component";
 import {RevertDetailComponent} from "../revert-detail/revert-detail.component";
+import {EditAddressOrderComponent} from "../edit-address-order/edit-address-order.component";
 
 @Component({
   selector: 'app-order-management',
@@ -33,6 +34,7 @@ export class OrderManagementComponent implements OnInit {
   orderDetails: any;
   isLoading!: boolean;
   searchOrderData: any;
+  dataChangeAddressInOrder: any;
 
   constructor(
     private apiOrder: OrderService,
@@ -117,6 +119,10 @@ export class OrderManagementComponent implements OnInit {
         this.findAllDetail();
         this.createTabContent();
         this.isLoading = false;
+      }, error: err => {
+        console.log(err);
+        this.toastrService.error('Lỗi tải dữ liệu !');
+        this.isLoading = false;
       }
     })
   }
@@ -126,6 +132,10 @@ export class OrderManagementComponent implements OnInit {
     this.apiOrderDetail.getAll().subscribe({
       next: (data: any) => {
         this.orderDetails = data as any[];
+        this.isLoading = false;
+      }, error: err => {
+        console.log(err);
+        this.toastrService.error('Lỗi tải dữ liệu !');
         this.isLoading = false;
       }
     })
@@ -221,7 +231,7 @@ export class OrderManagementComponent implements OnInit {
   }
 
   searchOrder() {
-    if (this.searchOrderData === null){
+    if (this.searchOrderData === null) {
       return;
     }
     this.isLoading = true;
@@ -241,5 +251,33 @@ export class OrderManagementComponent implements OnInit {
         this.isLoading = false;
       }
     })
+  }
+
+  openEditAddress(totalPayment: number, id: number) {
+    this.apiOrder.findById(id).subscribe((data: any) => {
+      if (data.status === 2) {
+        this.toastrService.warning('Đơn hàng đã được giao, không thể chỉnh sửa !');
+        return;
+      } else {
+        this.matDiaLog.open(EditAddressOrderComponent, {
+          width: '1000px',
+          disableClose: true,
+          hasBackdrop: true,
+          data: {
+            totalPayment
+          }
+        }).afterClosed().subscribe(data => {
+          if (data) {
+            this.dataChangeAddressInOrder = {
+              ...data, id
+            };
+            this.apiOrder.changeInfoOrder(this.dataChangeAddressInOrder).subscribe(_ => {
+              this.toastrService.success("Chỉnh sửa thông tin giao hàng thành công !");
+              this.findAllOrder();
+            })
+          }
+        })
+      }
+    });
   }
 }
