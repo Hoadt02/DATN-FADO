@@ -1,6 +1,7 @@
 package com.fado.watch.controller;
 
 
+import com.fado.watch.dto.request.ChangeInfoOrder;
 import com.fado.watch.dto.request.FilterOrder;
 import com.fado.watch.dto.response.CharBarDTO;
 import com.fado.watch.dto.response.OrderCancelDTO;
@@ -39,9 +40,19 @@ public class OrderController {
         return ResponseEntity.ok(this.iOrderService.save(order));
     }
 
+    @PutMapping("changeInfoOrder")
+    public void changeInfoOrder(@RequestBody ChangeInfoOrder dto) {
+        this.iOrderService.changeInfoOrder(dto);
+    }
+
     @GetMapping("/updateStatus")
     public void updateStatus(@RequestParam("status") Integer status, @RequestParam("id") Integer id) {
         this.iOrderService.updateStatus(status, id);
+    }
+
+    @GetMapping("/revertOrder")
+    public void revertOrder(@RequestParam("description") String description, @RequestParam("id") Integer id) {
+        this.iOrderService.revertOrder(description, id);
     }
 
     @GetMapping("/{id}")
@@ -50,26 +61,30 @@ public class OrderController {
     }
 
     @GetMapping("/chartBar")
-    public ResponseEntity<List<CharBarDTO>> chartBar(){
+    public ResponseEntity<List<CharBarDTO>> chartBar() {
         return ResponseEntity.ok(this.iOrderService.getChartBar());
     }
+
     @GetMapping("/totalRevenue")
-    public ResponseEntity<Integer> totalRevenue(){
+    public ResponseEntity<Integer> totalRevenue() {
         return ResponseEntity.ok(this.iOrderService.getTotalRevenue());
     }
 
     @GetMapping("/totalOrder")
-    public ResponseEntity<List<TotalOrderDTO>> totalOrder(){
+    public ResponseEntity<List<TotalOrderDTO>> totalOrder() {
         return ResponseEntity.ok(this.iOrderService.getTotalOrder());
     }
 
     @GetMapping("/orderCancel")
-    public ResponseEntity<List<OrderCancelDTO>> orderCancel(){
+    public ResponseEntity<List<OrderCancelDTO>> orderCancel() {
         return ResponseEntity.ok(this.iOrderService.getOrderCancel());
     }
 
     @GetMapping("/totalOneDay")
-    public ResponseEntity<Integer> totalOneDay() { return ResponseEntity.ok(this.iOrderService.getTotalOneDay()); }
+    public ResponseEntity<Integer> totalOneDay() {
+        return ResponseEntity.ok(this.iOrderService.getTotalOneDay());
+    }
+
     // Day la` pha`n toi nha' ba.n hien da.u da.u
     @GetMapping("getOrderByStaff/{id}")
     public ResponseEntity<List<Order>> getOrderByStaff(@PathVariable("id") Integer id) {

@@ -91,7 +91,6 @@ export class CartComponent implements OnInit {
     let slPrd = 0;
     this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
-        console.log(data);
         this.listPrdInCart = data.id;
         this.subtotal = 0;
         this.items = data;

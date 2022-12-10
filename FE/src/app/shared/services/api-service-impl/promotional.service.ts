@@ -28,7 +28,6 @@ export class PromotionalService {
   findById(id: number) {
     return this.apiPromotional.getById(id).subscribe({
       next: (data: any) => {
-        console.log(data);
       }, error: err => {
         if (err.error.code == 'NOT_FOUND') {
           this.toastrService.warning(err.error.message);

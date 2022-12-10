@@ -17,6 +17,8 @@ import {ScannerFormComponent} from "../scanner-form/scanner-form.component";
 import {BehaviorSubject, debounceTime} from "rxjs";
 import {AuthService} from "../../../shared/services/jwt/auth.service";
 import {ChangeInfoLoginComponent} from "../../change-info-login/change-info-login.component";
+import {SellHistoryDetailComponent} from "../sell-history-detail/sell-history-detail.component";
+import {OrderSellComponent} from "../order-sell/order-sell.component";
 
 @Component({
   selector: 'app-sell-at-store',
@@ -67,7 +69,8 @@ export class SellAtStoreComponent implements OnInit {
   formGroupCustomer: FormGroup = this.fb.group({
     customer: this.fb.group({
       id: 167
-    })
+    }),
+    description: ''
   })
 
   formMoney: FormGroup = this.fb.group({
@@ -192,7 +195,8 @@ export class SellAtStoreComponent implements OnInit {
         discount: this.giamGia,
         totalPayment: this.tienKhachCanTra,
         feeShipping: 0,
-        type: 1
+        type: 1,
+        description: ''
       }
 
       if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
@@ -251,7 +255,8 @@ export class SellAtStoreComponent implements OnInit {
       discount: this.giamGia,
       totalPayment: this.tienKhachCanTra,
       feeShipping: 0,
-      type: 1
+      type: 1,
+      description: ''
     }
 
     const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
@@ -391,7 +396,8 @@ export class SellAtStoreComponent implements OnInit {
       discount: 0,
       totalPayment: 0,
       feeShipping: 0,
-      type: 1
+      type: 1,
+      description: ''
     }
   }
 
@@ -476,7 +482,8 @@ export class SellAtStoreComponent implements OnInit {
       discount: this.giamGia,
       totalPayment: this.tienKhachCanTra,
       feeShipping: 0,
-      type: 1
+      type: 1,
+      description: this.formGroupCustomer.getRawValue().description
     }
 
     const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
@@ -507,7 +514,7 @@ export class SellAtStoreComponent implements OnInit {
             this.idHoaDon.splice(index, 1)
             this.orderDetails = [];
             // this.tienThuaTraKhach = this.formMoney.getRawValue().tienKhachDua - createOrder.totalPayment
-            this.export(this.idOrder);
+            this.openExportOrder(this.idOrder);
           }, error => {
             this.toastService.error('Thanh toán thất bại !');
             console.log(error);
@@ -517,28 +524,41 @@ export class SellAtStoreComponent implements OnInit {
     })
   }
 
-  export(idOrder: number) {
-    const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
-      width: '400px',
+  openExportOrder(id: any) {
+    const dialogRef = this.matDiaLog.open(OrderSellComponent, {
+      width: '1500px',
+      height: '100%',
       disableClose: true,
       hasBackdrop: true,
-      data: {
-        title: 'In hóa đơn',
-        message: 'Bạn có muốn in hóa đơn không ?',
-      }
+      data: {id}
     });
-    diaLogRef.afterClosed().subscribe((rs: any) => {
-      if (rs === this.RESULT_CLOSE_DIALOG.CONFIRM) {
-        this.orderService.exportOrder(idOrder).subscribe((data: any) => {
-          this.toastService.success("Đã in hóa đơn!");
-          console.log(data);
-        }, error => {
-          this.toastService.error("In hóa đơn thất bại!");
-          console.log(error);
-        })
-      }
+    dialogRef.afterClosed().subscribe(rs => {
+      console.log('id de in hoa don: ', id);
     })
   }
+
+  // export(idOrder: number) {
+  //   const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
+  //     width: '400px',
+  //     disableClose: true,
+  //     hasBackdrop: true,
+  //     data: {
+  //       title: 'In hóa đơn',
+  //       message: 'Bạn có muốn in hóa đơn không ?',
+  //     }
+  //   });
+  //   diaLogRef.afterClosed().subscribe((rs: any) => {
+  //     if (rs === this.RESULT_CLOSE_DIALOG.CONFIRM) {
+  //       this.orderService.exportOrder(idOrder).subscribe((data: any) => {
+  //         this.toastService.success("Đã in hóa đơn!");
+  //         console.log(data);
+  //       }, error => {
+  //         this.toastService.error("In hóa đơn thất bại!");
+  //         console.log(error);
+  //       })
+  //     }
+  //   })
+  // }
 
   openHistory() {
     const dialogRef = this.matDiaLog.open(SellAtStoreHistoryComponent, {
@@ -584,5 +604,14 @@ export class SellAtStoreComponent implements OnInit {
       width: '800px',
       disableClose: true,
     })
+  }
+
+  backToHome() {
+    if (this.tabs.length > 0) {
+      this.toastService.warning('Vui lòng thưc hiện hết thao tác trước khi trở về trang chủ !');
+      return;
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 }

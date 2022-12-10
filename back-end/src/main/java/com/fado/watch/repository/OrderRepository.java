@@ -21,9 +21,30 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("select o from orders o where o.customer.id =:id and o.type = 0 order by o.id desc")
     List<Order> findAllByCustomerId(Integer id);
 
+    @Query("select o from orders o where o.type = 0 order by o.id desc")
+    List<Order> findAllFaDo();
+
+    @Query("select o from orders o where o.id =:id and o.type = 0")
+    Order findOrderByIdFado(Integer id);
+
+    @Modifying()
+    @Query("update orders o set o.shipAddress = :shipAddress, o.fullname = :fullname, o.phoneNumber = :phoneNumber, o.feeShipping = :feeShipping, o.totalPayment = :totalPayment where o.id = :id")
+    void changeInfoOrder(
+            @Param("shipAddress") String shipAddress
+            , @Param("fullname") String fullname
+            , @Param("phoneNumber") String phoneNumber
+            , @Param("feeShipping") Integer feeShipping
+            , @Param("totalPayment") Integer totalPayment
+            , @Param("id") Integer id);
+
     @Modifying
     @Query("update orders o set o.status =:status where o.id =:id")
     void updateStatus(@Param("status") Integer status, @Param("id") Integer id);
+
+    @Modifying
+    @Query("update orders o set o.status = 6 , o.description = :description where o.id =:id")
+    void revertOrder(@Param("description") String description, @Param("id") Integer id);
+
 
     //    lấy số tiền trong từng tháng
     @Query("SELECT new CharBarDTO(MONTH(o.createDate) ,SUM(o.totalPayment)) FROM orders o WHERE YEAR(o.createDate) = :year and o.status = 3 GROUP BY MONTH(o.createDate) ORDER BY MONTH(o.createDate) ASC")
@@ -35,7 +56,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     //    tổng đơn hàng
     @Query("select new TotalOrderDTO(count(o.id)) from orders o where o.status = 3")
-    List<TotalOrderDTO>  totalOrder();
+    List<TotalOrderDTO> totalOrder();
 
     //tổng đơn hủy
     @Query("select new OrderCancelDTO(count(o.id)) from orders o where o.status = 4")
@@ -52,7 +73,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Query("select o from orders o where o.id =:id and o.type = 1")
     List<Order> getOrderById(Integer id);
 
-    @Query("select o from orders o where o.id =:id")
+    @Query("select o from orders o where o.id =:id and o.type = 1")
     Order findOrderById(Integer id);
 
     @Query("select o from orders o where o.staff.id = :id and o.status = :status and o.type = 1")

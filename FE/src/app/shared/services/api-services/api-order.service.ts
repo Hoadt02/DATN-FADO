@@ -20,6 +20,10 @@ export class ApiOrderService {
     return this.http.get(`${ApiConstant.order}/findAllByCustomerId/${id}`);
   }
 
+  changeInfoOrder(data: any) {
+    return this.http.put(`${ApiConstant.order}/changeInfoOrder`, data);
+  }
+
   save(data: any) {
     return this.http.post(ApiConstant.order, data);
   }
@@ -58,12 +62,16 @@ export class ApiOrderService {
     return this.http.get(`${ApiConstant.order}/getOrderById?id=${id}`)
   }
 
-  getOrderByIdOne(id: number) {
+  findById(id: number) {
     return this.http.get(`${ApiConstant.order}/${id}`)
   }
 
   updateStatus(status: number, id: number) {
     return this.http.get(`${ApiConstant.order}/updateStatus?status=${status}&id=${id}`)
+  }
+
+  revertOrder(description: string, id: number) {
+    return this.http.get(`${ApiConstant.order}/revertOrder?description=${description}&id=${id}`)
   }
 
   getOrderHistory(id: number, status: number) {

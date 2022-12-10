@@ -1,0 +1,23 @@
+<div>
+  <h4 class="font-weight-bold">Khách từ chối nhận hàng</h4>
+  <span class="fe fe-x icon-close" (click)="onDismiss()"></span>
+</div>
+
+<div class="my-4 d-flex justify-content-sm-center">
+  <form class="example-form w-100">
+    <mat-form-field class="example-full-width w-100">
+      <mat-label>Lý do từ chối</mat-label>
+      <textarea [(ngModel)]="descriptionOrder" rows="4" matInput placeholder="Vd. Giao nhầm hàng,...."></textarea>
+    </mat-form-field>
+  </form>
+</div>
+
+<div class="text-center">
+  <button mat-raised-button (click)="onConfirm()" class="mr-2" color="accent">
+    <span><i class="fa-solid fa-check"></i> Xác nhận</span>
+  </button>
+  <button mat-raised-button (click)="onDismiss()" color="warn">
+    <span><i class="fa-solid fa-xmark"></i> Đóng</span>
+  </button>
+</div>
+

@@ -16,12 +16,13 @@ import {HttpClientModule} from "@angular/common/http";
 import {httpInterceptorProviders} from "./shared/helpers/http.interceptor";
 import {MatTableModule} from "@angular/material/table";
 import {MatDialogModule} from "@angular/material/dialog";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatPaginatorIntl} from "@angular/material/paginator";
 import {CustomPaginator} from "./shared/utils/CustomPaginator";
+import {MatSelectModule} from "@angular/material/select";
 
 
 @NgModule({
@@ -50,7 +51,10 @@ import {CustomPaginator} from "./shared/utils/CustomPaginator";
     ReactiveFormsModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSelectModule
   ],
   providers: [httpInterceptorProviders, { provide: MatPaginatorIntl, useValue: CustomPaginator() }],
   bootstrap: [AppComponent]

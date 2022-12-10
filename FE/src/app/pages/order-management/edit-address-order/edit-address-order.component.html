@@ -1,0 +1,104 @@
+<h4 class="section-title position-relative text-uppercase mb-3"><span
+  class="pr-3">Chỉnh sửa thông tin giao hàng</span></h4>
+
+<form [formGroup]="formGroup" class="fs-12">
+
+  <div class="row">
+    <div class="col-6 col-md-6 col-lg-6">
+      <div class="address-select">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Tỉnh thành</mat-label>
+          <mat-select required formControlName="provinceId">
+            <mat-option (onSelectionChange)="getDistricts(p.ProvinceID,p.ProvinceName)"
+                        (click)="getDistricts(p.ProvinceID,p.ProvinceName);resetDistrictAndWard()"
+                        *ngFor="let p of provinces"
+                        [value]="p.ProvinceID">
+              {{p.ProvinceName}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="formGroup.get('provinceId')?.hasError('required') &&
+          formGroup.get('provinceId')?.touched">Vui lòng chọn Tỉnh - Thành phố.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class=" col-6 col-md-6 col-lg-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Quận - Huyện</mat-label>
+        <mat-select required formControlName="districtId">
+          <mat-option (onSelectionChange)="getWards(d.DistrictID,d.DistrictName)"
+                      (click)="getWards(d.DistrictID,d.DistrictName)" *ngFor="let d of districts"
+                      [value]="d.DistrictID">
+            {{d.DistrictName}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('districtId')?.hasError('required') &&
+          formGroup.get('districtId')?.touched">Vui lòng chọn Quận - Huyện.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-6 col-md-6 col-lg-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Xã - Phường</mat-label>
+        <mat-select required formControlName="wardId">
+          <mat-option *ngFor="let w of wards" [value]="w.WardCode" (onSelectionChange)="getWardsName(w.WardName)"
+                      (click)="getWardsName(w.WardName)">
+            {{w.WardName}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formGroup.get('wardId')?.hasError('required') &&
+          formGroup.get('wardId')?.touched">Vui lòng chọn Phường - Xã.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-6 col-md-6 col-lg-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Chi tiết</mat-label>
+        <input required formControlName="other" matInput placeholder="Vd. Thôn cao thọ">
+        <mat-error *ngIf="formGroup.get('other')?.hasError('isSpace') &&
+          formGroup.get('other')?.touched">Vui lòng nhập địa chỉ chi tiết.
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('other')?.hasError('maxlength') &&
+          formGroup.get('other')?.touched">Địa chỉ chi tiết tối đa 100 ký tự.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-6 col-md-6 col-lg-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Họ và Tên</mat-label>
+        <input required formControlName="fullname" matInput placeholder="Vd. Nguyễn Viết Hiên">
+        <mat-error *ngIf="formGroup.get('fullname')?.hasError('isSpace') &&
+          formGroup.get('fullname')?.touched">Vui lòng nhập Họ và Tên.
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('fullname')?.hasError('maxlength') &&
+          formGroup.get('fullname')?.touched">Họ và Tên tối đa 60 ký tự.
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('fullname')?.hasError('pattern') &&
+          formGroup.get('fullname')?.touched">Tên không được chứa số và ký tự đặc biệt.
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-6 col-md-6 col-lg-6">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Số điện thoại</mat-label>
+        <input required formControlName="phoneNumber" matInput placeholder="Vd. 0987654321">
+        <mat-error *ngIf="formGroup.get('phoneNumber')?.hasError('isSpace') &&
+          formGroup.get('phoneNumber')?.touched">Vui lòng nhập số điện thoại.
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('phoneNumber')?.hasError('pattern') &&
+          formGroup.get('phoneNumber')?.touched">Số điện thoại không đúng định dạng!
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="text-center">
+    <button (click)="saveAddress()" class="editBtnSubmit">
+      Lưu
+    </button>
+    <button (click)="onClose()" class="editBtnClose">
+      Đóng
+    </button>
+  </div>
+</form>

@@ -70,7 +70,6 @@ export class StaffFormComponent implements OnInit {
     if (this.dataDiaLog.type == Constants.TYPE_DIALOG.NEW) {
       this.title = "Thêm mới nhân viên";
     } else {
-      // console.log('ta đã ở đây')
       this.title = "Chỉnh sửa nhân viên";
       this.hidePassword = false;
       if (this.dataDiaLog.row) {
@@ -80,7 +79,6 @@ export class StaffFormComponent implements OnInit {
   }
 
   save() {
-    console.log(this.formGroup.getRawValue());
     this.formGroup.markAllAsTouched();
     if (this.formGroup.invalid) {
       return;

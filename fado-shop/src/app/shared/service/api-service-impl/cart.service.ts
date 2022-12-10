@@ -37,9 +37,7 @@ export class CartService {
 
   updateQuantity(data: any) {
     return this.apiCartService.updateQuantity(data).subscribe({
-      next: (rs: any) => {
-        console.log(rs);
-        // this.toastrService.success('Cập nhật thành công!');
+      next: (_: any) => {
         this.isReLoading.next(true);
       }, error: (err) => {
         console.log(err);

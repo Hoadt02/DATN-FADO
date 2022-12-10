@@ -1,5 +1,6 @@
 package com.fado.watch.service;
 
+import com.fado.watch.dto.request.ChangeInfoOrder;
 import com.fado.watch.dto.request.FilterOrder;
 import com.fado.watch.dto.response.CharBarDTO;
 import com.fado.watch.dto.response.OrderCancelDTO;
@@ -18,19 +19,26 @@ public interface IOrderService {
 
     Order findById(Integer id);
 
+    void changeInfoOrder(ChangeInfoOrder dto);
+
     Order save(Order order);
 
 //    void delete(Integer id);
 
     void updateStatus(Integer status, Integer id);
 
+    void revertOrder(String description, Integer id);
+
     List<CharBarDTO> getChartBar();
 
     Integer getTotalRevenue();
 
     List<TotalOrderDTO> getTotalOrder();
+
     List<OrderCancelDTO> getOrderCancel();
+
     Integer getTotalOneDay();
+
     // Day la` pha`n toi nha' ba.n hien da.u da.u
     List<Order> getOrderByStaff(Integer id);
 

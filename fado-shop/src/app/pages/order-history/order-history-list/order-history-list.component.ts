@@ -10,6 +10,11 @@ import {ToastrService} from "ngx-toastr";
 import {CartService} from "../../../shared/service/api-service-impl/cart.service";
 import {Router} from "@angular/router";
 import {yearsPerPage} from "@angular/material/datepicker";
+import {EditAddressComponent} from "../../check-out/edit-address/edit-address.component";
+import {AddressService} from "../../../shared/service/api-service-impl/address.service";
+import {RevertDetailComponent} from "../revert-detail/revert-detail.component";
+import {EditAddressFormComponent} from "../../check-out/edit-address-form/edit-address-form.component";
+import {EditAddressOrderComponent} from "../edit-address-order/edit-address-order.component";
 
 @Component({
   selector: 'app-order-history-list',
@@ -30,15 +35,19 @@ export class OrderHistoryListComponent implements OnInit {
   daNhan = 0;
   daHuy = 0;
   daGiao = 0;
+  traHang = 0;
   listMatTab: any;
   dataAddCart: any = [];
   isLoading!: boolean;
+  searchOrderData: any;
+  dataChangeAddressInOrder: any;
 
   constructor(
     private apiOrder: OrderService,
     private storageService: StorageService,
     private apiOrderDetail: OrderDetailService,
     private matDiaLog: MatDialog,
+    private apiAddress: AddressService,
     private toastrService: ToastrService,
     private apiCart: CartService,
     private router: Router,
@@ -67,8 +76,11 @@ export class OrderHistoryListComponent implements OnInit {
       if (x.status == 4) {
         this.daHuy++;
       }
-      if (x.status == 5) {
-        this.daGiao++;
+      // if (x.status == 5) {
+      //   this.daGiao++;
+      // }
+      if (x.status == 6) {
+        this.traHang++;
       }
     }
     this.listMatTab = [
@@ -81,27 +93,36 @@ export class OrderHistoryListComponent implements OnInit {
       {
         status: 2, lable: 'Đang giao', sl: this.dangGiao
       },
-      {
-        status: 5, lable: 'Đã giao', sl: this.daGiao
-      },
+      // {
+      //   status: 5, lable: 'Đã giao', sl: this.daGiao
+      // },
       {
         status: 3, lable: 'Đã nhận', sl: this.daNhan
       },
       {
         status: 4, lable: 'Đã huỷ', sl: this.daHuy
+      },
+      {
+        status: 6, lable: 'Trả hàng', sl: this.traHang
       }
     ]
   }
 
-  findAllByCustomerId() {
-    this.isLoading = true;
+  resetNumber() {
     this.daMua = 0;
     this.daNhan = 0;
     this.daHuy = 0;
     this.dangGiao = 0;
     this.daGiao = 0;
+    this.traHang = 0;
     this.choXacNhan = 0;
     this.choLayHang = 0;
+  }
+
+  findAllByCustomerId() {
+    this.isLoading = true;
+    this.searchOrderData = null;
+    this.resetNumber();
     this.apiOrder.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
       next: (data: any) => {
         this.orders = data as any[];
@@ -133,10 +154,11 @@ export class OrderHistoryListComponent implements OnInit {
     } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.Repurchase) {
       title = 'Đặt lại đơn hàng';
       message = 'Bạn có chắc chắn muốn đặt lại đơn hàng?';
-    } else if (type == this.RESULT_CLOSE_DIALOG_ORDER.HasReceivedTheGoods) {
-      title = 'Đã nhận hàng';
-      message = 'Bạn có chắc chắn là đã nhận đơn hàng?';
     }
+    // else if (type == this.RESULT_CLOSE_DIALOG_ORDER.HasReceivedTheGoods) {
+    //   title = 'Đã nhận hàng';
+    //   message = 'Bạn có chắc chắn là đã nhận đơn hàng?';
+    // }
     this.matDiaLog.open(ConfirmDialogComponent, {
       width: '400px',
       disableClose: true,
@@ -150,7 +172,7 @@ export class OrderHistoryListComponent implements OnInit {
           status = 4; //  nếu ấn vào huỷ đơn hàng thì trạng thái sẽ = trạng thái đã huỷ
           this.apiOrder.findById(id).subscribe((data: any) => {
             if (data.status === 1) {
-              this.toastrService.warning("Đơn hàng này đã được xác nhận, vui lòng tải lại trang!");
+              this.toastrService.warning("Đơn hàng đã được xác nhận, vui lòng tải lại trang hoặc liên hệ admin để xử lý !");
               return;
             } else {
               this.updateCancelAndReceived(status, id);
@@ -218,6 +240,8 @@ export class OrderHistoryListComponent implements OnInit {
               this.toastrService.info("Đã chuyển hướng đến rỏ hàng");
               this.router.navigate(['/cart']);
             }, 2100);
+          }else {
+            this.dataAddCart = [];
           }
         })
       } else {
@@ -231,4 +255,66 @@ export class OrderHistoryListComponent implements OnInit {
       }
     })
   }
+
+  description(description: string) {
+    this.matDiaLog.open(RevertDetailComponent, {
+      width: '500px',
+      data: {
+        title: 'Lý do trả hàng !',
+        message: description
+      }
+    })
+  }
+
+  searchOrder() {
+    if (this.searchOrderData === null) {
+      return;
+    }
+    this.isLoading = true;
+    this.orders = [];
+    this.resetNumber();
+    this.getSoLuong();
+    this.apiOrder.findById(this.searchOrderData).subscribe({
+      next: (data: any) => {
+        if (data !== null) {
+          this.orders.push(data);
+          this.findAllDetailByCustomerId();
+          this.getSoLuong();
+        }
+        this.isLoading = false;
+      }, error: err => {
+        console.log('Lỗi rồi: ', err);
+        this.isLoading = false;
+      }
+    })
+  }
+
+  openEditAddress(total: number, id: number) {
+    this.apiOrder.findById(id).subscribe((data: any) => {
+      if (data.status !== 0) {
+        this.toastrService.warning('Đơn hàng đã được xác nhận, vui lòng tải lại trang hoặc liên hệ admin để xử lý !');
+        return;
+      } else {
+        this.matDiaLog.open(EditAddressOrderComponent, {
+          width: '500px',
+          disableClose: true,
+          hasBackdrop: true,
+          data: {
+            total
+          }
+        }).afterClosed().subscribe(data => {
+          if (data) {
+            this.dataChangeAddressInOrder = {
+              ...data, id
+            };
+            this.apiOrder.changeInfoOrder(this.dataChangeAddressInOrder).subscribe(_ => {
+              this.toastrService.success("Chỉnh sửa thông tin giao hàng thành công !");
+              this.findAllByCustomerId();
+            })
+          }
+        })
+      }
+    });
+  }
+
 }
