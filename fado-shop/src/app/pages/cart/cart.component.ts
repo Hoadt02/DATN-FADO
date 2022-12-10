@@ -116,6 +116,7 @@ export class CartComponent implements OnInit {
   }
 
   // sửa số lượng sản phẩm
+  checkDelete = false;
   updateQuantity(type: any, raw: any, event?: any) {
     let slSP = event?.target.value;
 
@@ -125,6 +126,7 @@ export class CartComponent implements OnInit {
       return;
     }
     if (slSP <= 0 || slSP === "") {
+      this.checkDelete = true;
       this.deletePrd(raw.id);
       return;
     }
@@ -158,6 +160,11 @@ export class CartComponent implements OnInit {
             this.apiCart.isReLoading.next(false);
           }
         })
+      } else {
+        if (this.checkDelete) {
+          this.getAllPrdInCart();
+          this.checkDelete = false;
+        }
       }
     })
   }
