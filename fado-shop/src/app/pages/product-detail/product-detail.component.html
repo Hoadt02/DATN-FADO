@@ -143,7 +143,7 @@
               <span *ngIf="loadDiscountProduct(p.id) != 0" class="item-child badge badge-danger">Giảm {{loadPercentProduct(p.id)}}%</span>
               <img class="img-fluid w-100" src="../../../assets/img/avtProduct/{{ p.avatar }}" alt=""/>
               <div class="product-action">
-                <a class="btn btn-outline-dark btn-square" (click)="addToCart(p)"><i class="fa fa-shopping-cart"></i></a>
+                <a class="btn btn-outline-dark btn-square" (click)="addToCart(p.id)"><i class="fa fa-shopping-cart"></i></a>
                 <a class="btn btn-outline-dark btn-square" (click)="showDetail(p.id)" href="javascript:void(0)"><i
                   class="fa-regular fa-eye"></i></a>
               </div>

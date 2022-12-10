@@ -79,7 +79,7 @@
             <td class="align-middle">
               <div class="input-group quantity mx-auto" style="width: 80px;">
                 <input
-                  [disabled]="i.productDetail.status == 0"
+                  [disabled]="i.productDetail.status == 0 || i.productDetail.quantity == 0"
                   onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"
                   (change)="updateQuantity(TYPE_UPDATE_NUMBER_PRD.INPUT,i,$event)" type="number"
                   min="1" required
