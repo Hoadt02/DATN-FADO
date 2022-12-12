@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
   public chartEmail;
   public chartBar;
 
-  displayedColumns: string[] = ['index', 'name', 'price', 'quantityO'];
+  displayedColumns: string[] = ['index', 'name', 'quantityO', 'tongTien', 'soLuongBan'];
   dataSource!: MatTableDataSource<any>;
   isLoading = true;
 
@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getProduct() {
-    this.productDetailService.getFeaturedProductDetail().subscribe({
+    this.orderService.getListTop().subscribe({
       next: (data: any) => {
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;
