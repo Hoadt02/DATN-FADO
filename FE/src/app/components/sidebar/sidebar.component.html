@@ -9,7 +9,7 @@
   </div>
     <ul class="nav">
          <div *ngIf="role">
-           <li *ngFor="let menuItem of menuItems | slice: 0 : 7" routerLinkActive="active" class="{{menuItem.class}}">
+           <li *ngFor="let menuItem of menuItems | slice: 0 : 8" routerLinkActive="active" class="{{menuItem.class}}">
              <a [routerLink]="[menuItem.path]">
                <i class="nc-icon {{menuItem.icon}}"></i>
                <p>{{menuItem.title}}</p>
@@ -17,7 +17,7 @@
            </li>
            <li><a style="border-bottom: 2px solid #909090"></a></li>
 
-           <li *ngFor="let menuItem of menuItems | slice: 8 : menuItems.length" routerLinkActive="active" class="{{menuItem.class}}">
+           <li *ngFor="let menuItem of menuItems | slice: 9 : menuItems.length" routerLinkActive="active" class="{{menuItem.class}}">
              <a [routerLink]="[menuItem.path]">
                <i class="nc-icon {{menuItem.icon}}"></i>
                <p>{{menuItem.title}}</p>
@@ -44,15 +44,21 @@
           </a>
         </li>
         <li routerLinkActive="active">
-          <a [routerLink]="[menuItems[5].path]">
-            <i class="nc-icon {{menuItems[5].icon}}"></i>
-            <p>{{menuItems[5].title}}</p>
+          <a [routerLink]="[menuItems[4].path]">
+            <i class="nc-icon {{menuItems[4].icon}}"></i>
+            <p>{{menuItems[4].title}}</p>
           </a>
         </li>
         <li routerLinkActive="active">
           <a [routerLink]="[menuItems[6].path]">
             <i class="nc-icon {{menuItems[6].icon}}"></i>
             <p>{{menuItems[6].title}}</p>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a [routerLink]="[menuItems[7].path]">
+            <i class="nc-icon {{menuItems[7].icon}}"></i>
+            <p>{{menuItems[7].title}}</p>
           </a>
         </li>
       </div>
