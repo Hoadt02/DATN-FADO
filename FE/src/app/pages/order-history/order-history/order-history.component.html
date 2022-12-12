@@ -32,10 +32,11 @@
             </div>
 
             <div class="col-5 col-md-5">
-              <mat-form-field appearance="outline" class="w-100" >
+              <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Khách hàng</mat-label>
                 <mat-select formControlName="customerId">
-                  <mat-option (click)="filterOrder()" *ngFor="let c of listCustomer" [value]="c.id">{{c.firstname}} {{c.lastname}}</mat-option>
+                  <mat-option (click)="filterOrder()" *ngFor="let c of listCustomer"
+                              [value]="c.id">{{c.firstname}} {{c.lastname}}</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
@@ -118,7 +119,4 @@
       </div>
     </div>
   </div>
-</div>
-<div class="text-center">
-  <button class="btn btn-outline-success" (click)="close()">Đóng</button>
 </div>

@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import { BarcodeScannerLivestreamComponent } from "ngx-barcode-scanner";
+import {BarcodeScannerLivestreamComponent} from "ngx-barcode-scanner";
 import {ProductDetailsService} from "../../../shared/services/api-service-impl/product-details.service";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {Constants} from "../../../shared/Constants";
+import {MatDialogRef} from "@angular/material/dialog";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-scanner-form',
@@ -16,7 +16,9 @@ export class ScannerFormComponent implements OnInit, AfterViewInit {
   barcodeValue: string;
 
   constructor(private productDetailsService: ProductDetailsService,
-              private matDialogRef: MatDialogRef<ScannerFormComponent>,) { }
+              private matDialogRef: MatDialogRef<ScannerFormComponent>,
+              private toastrService: ToastrService) {
+  }
 
   ngOnInit(): void {
   }
@@ -27,9 +29,16 @@ export class ScannerFormComponent implements OnInit, AfterViewInit {
 
   onValueChange(result) {
     this.barcodeValue = result.codeResult.code;
-    this.productDetailsService.getProductDetailByImei(this.barcodeValue).subscribe((data: any) => {
-      console.log('Sau khi scan: ', data);
-      this.matDialogRef.close(data);
+    this.productDetailsService.getAllProductDetail().subscribe((dataProduct: any) => {
+      this.productDetailsService.getProductDetailByImei(this.barcodeValue).subscribe((data: any) => {
+        for (const imei of dataProduct) {
+            if (this.barcodeValue != imei.imei) {
+              this.toastrService.warning('Không tồn tại sản phẩm này!');
+            } else {
+              this.matDialogRef.close(data);
+            }
+        }
+      })
     })
   }
 
