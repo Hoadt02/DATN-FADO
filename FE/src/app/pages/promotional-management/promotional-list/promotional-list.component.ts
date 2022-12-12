@@ -14,6 +14,7 @@ import {error} from "protractor";
 import {
   ProductPromotionalListComponent
 } from "../../product-promotional-management/product-promotional-list/product-promotional-list.component";
+import {StorageService} from "../../../shared/services/jwt/storage.service";
 
 @Component({
   selector: 'app-promotional-list',
@@ -39,6 +40,7 @@ export class PromotionalListComponent implements OnInit {
   filterStartDate: any;
   filterEndDate: any;
   listData: any[] = [];
+  role: boolean;
 
   displayedColumns: string[] =
     [
@@ -55,11 +57,17 @@ export class PromotionalListComponent implements OnInit {
     private fb: FormBuilder,
     private apiPromotional: PromotionalService,
     private toastrService: ToastrService,
+    private storageService: StorageService,
     private matDialog: MatDialog
   ) {
   }
 
   ngOnInit(): void {
+    if (this.storageService.getAuthority() === Constants.TYPE_AUTH.SUPER_ADMIN){
+      this.role = true
+    }else {
+      this.role = false;
+    }
     this.getAll();
   }
 
