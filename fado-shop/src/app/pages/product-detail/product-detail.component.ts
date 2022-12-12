@@ -112,7 +112,10 @@ export class ProductDetailComponent implements OnInit {
     // tôi check đăng nhập ở đây nhé
     if (this.checkIsLogin()) return;
     // end check
-
+    if (this.slSP <= 0){
+      this.toastrService.warning('Vui lòng nhập số lượng lớn hơn 0.');
+      return;
+    }
     if (this.slSP > this.productDetail.quantity) {
       this.checkSl = true;
     } else {
