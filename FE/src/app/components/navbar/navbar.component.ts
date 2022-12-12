@@ -9,6 +9,7 @@ import {ChangeInfoLoginComponent} from "../../pages/change-info-login/change-inf
 import {ChangePasswordComponent} from "../../pages/change-password/change-password.component";
 import {ConfirmDialogComponent} from "../../shared/confirm-dialog/confirm-dialog.component";
 import {Constants} from "../../shared/Constants";
+// import {SellAtStoreHistoryComponent} from "../../pages/sell-at-store/sell-at-store-history/sell-at-store-history.component";
 
 @Component({
   moduleId: module.id,

@@ -4,17 +4,17 @@ import {OrderDetailService} from "../../../shared/services/api-service-impl/orde
 import {OrderService} from "../../../shared/services/api-service-impl/order.service";
 
 @Component({
-  selector: 'app-sell-history-detail',
-  templateUrl: './sell-history-detail.component.html',
-  styleUrls: ['./sell-history-detail.component.scss']
+  selector: 'app-order-history-detail',
+  templateUrl: './order-history-detail.component.html',
+  styleUrls: ['./order-history-detail.component.scss']
 })
-export class SellHistoryDetailComponent implements OnInit {
+export class OrderHistoryDetailComponent implements OnInit {
 
   orders: any[] = [];
   orderMoney: any[] = [];
 
 
-  constructor(private matDataRef: MatDialogRef<SellHistoryDetailComponent>,
+  constructor(private matDataRef: MatDialogRef<OrderHistoryDetailComponent>,
               @Inject(MAT_DIALOG_DATA) private dataDiaLog: any,
               private orderDetailService: OrderDetailService,
               private orderService: OrderService) { }
@@ -36,5 +36,4 @@ export class SellHistoryDetailComponent implements OnInit {
   export() {
     window.print();
   }
-
 }

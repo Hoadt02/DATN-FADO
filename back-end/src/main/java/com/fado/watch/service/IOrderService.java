@@ -55,5 +55,8 @@ public interface IOrderService {
 
     List<Order> filterOrder(FilterOrder filterOrder);
 
+    List<Order> getListOrder(Integer idStaff);
+
     List<TopProductDTO> getListTop();
+
 }

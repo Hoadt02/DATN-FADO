@@ -96,4 +96,8 @@ export class OrderService {
   filterOrder(data: any) {
     return this.api.filterOrder(data);
   }
+
+  getListOrder(idStaff: any) {
+    return this.api.getListOrder(idStaff);
+  }
 }
