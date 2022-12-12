@@ -4,6 +4,7 @@ import com.fado.watch.dto.request.ChangeInfoOrder;
 import com.fado.watch.dto.request.FilterOrder;
 import com.fado.watch.dto.response.CharBarDTO;
 import com.fado.watch.dto.response.OrderCancelDTO;
+import com.fado.watch.dto.response.TopProductDTO;
 import com.fado.watch.dto.response.TotalOrderDTO;
 import com.fado.watch.entity.Order;
 import com.fado.watch.entity.OrderDetail;
@@ -17,11 +18,14 @@ import com.fado.watch.service.IProductDetailService;
 import org.apache.poi.xwpf.usermodel.*;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -38,12 +42,15 @@ public class OrderServiceImpl implements IOrderService {
 
     private final ProductDetailRepository productDetailRepository;
 
-    public OrderServiceImpl(IOrderDetailService orderDetailService, OrderRepository orderRepository, OrderDetailRepository orderDetailRepository, IProductDetailService productDetailService, ProductDetailRepository productDetailRepository) {
+    private final EntityManager entityManager;
+
+    public OrderServiceImpl(IOrderDetailService orderDetailService, OrderRepository orderRepository, OrderDetailRepository orderDetailRepository, IProductDetailService productDetailService, ProductDetailRepository productDetailRepository, EntityManager entityManager) {
         this.orderDetailService = orderDetailService;
         this.orderRepository = orderRepository;
         this.orderDetailRepository = orderDetailRepository;
         this.productDetailService = productDetailService;
         this.productDetailRepository = productDetailRepository;
+        this.entityManager = entityManager;
     }
 
     @Override
@@ -339,4 +346,27 @@ public class OrderServiceImpl implements IOrderService {
                 filterOrder.getCustomerId());
     }
 
+    @Override
+    public List<TopProductDTO> getListTop() {
+        Query query = this.entityManager.createNativeQuery("select p.id, p.name, p.quantity,sum(od.quantity) as soluongban, sum(o.total_payment) as tongtien\n" +
+                "from orders o join order_details od on od.order_id = o.id join product_details p on od.product_detail_id = p.id \n" +
+                "where o.status = 3\n" +
+                "group by p.name, p.id\n" +
+                "order by sum(od.quantity) desc limit 8");
+        List<Object[]> results = query.getResultList();
+        if (results.size() > 0){
+            List<TopProductDTO> dtos = new ArrayList<>();
+            for (Object[] o : results) {
+                TopProductDTO dto = new TopProductDTO();
+                dto.setId(Integer.valueOf(o[0].toString()));
+                dto.setName(String.valueOf(o[1]));
+                dto.setQuantity(Integer.valueOf(o[2].toString()));
+                dto.setSoLuongBan(Integer.valueOf(o[3].toString()));
+                dto.setTongTien(Double.valueOf(o[4].toString()));
+                dtos.add(dto);
+            }
+            return dtos;
+        }
+        return null;
+    }
 }

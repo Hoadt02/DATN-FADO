@@ -5,6 +5,7 @@ import com.fado.watch.dto.request.ChangeInfoOrder;
 import com.fado.watch.dto.request.FilterOrder;
 import com.fado.watch.dto.response.CharBarDTO;
 import com.fado.watch.dto.response.OrderCancelDTO;
+import com.fado.watch.dto.response.TopProductDTO;
 import com.fado.watch.dto.response.TotalOrderDTO;
 import com.fado.watch.entity.Order;
 import com.fado.watch.service.IOrderService;
@@ -119,5 +120,10 @@ public class OrderController {
     @PostMapping("/filterOrder")
     public ResponseEntity<List<Order>> filterOrder(@RequestBody FilterOrder filterOrder) {
         return ResponseEntity.ok(this.iOrderService.filterOrder(filterOrder));
+    }
+
+    @GetMapping("/getListTop")
+    public ResponseEntity<List<TopProductDTO>> getListTop(){
+        return ResponseEntity.ok(this.iOrderService.getListTop());
     }
 }
