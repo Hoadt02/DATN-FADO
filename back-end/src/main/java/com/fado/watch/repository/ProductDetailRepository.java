@@ -37,7 +37,7 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail, In
     List<ProductDetail> getProductByName(@Param("name") String name);
 
     @Query("select pd from product_details pd where pd.imei = :imei")
-    ProductDetail getProductDetailByImei(String imei);
+    ProductDetail getProductDetailByImei(@Param("imei") String imei);
     // Kết thúc phần của Vinh
 
     //--- hiên lấy ra tất cả sản phẩm trong order----

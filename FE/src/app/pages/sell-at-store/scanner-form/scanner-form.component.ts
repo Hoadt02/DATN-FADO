@@ -29,16 +29,8 @@ export class ScannerFormComponent implements OnInit, AfterViewInit {
 
   onValueChange(result) {
     this.barcodeValue = result.codeResult.code;
-    this.productDetailsService.getAllProductDetail().subscribe((dataProduct: any) => {
-      this.productDetailsService.getProductDetailByImei(this.barcodeValue).subscribe((data: any) => {
-        for (const imei of dataProduct) {
-            if (this.barcodeValue != imei.imei) {
-              this.toastrService.warning('Không tồn tại sản phẩm này!');
-            } else {
-              this.matDialogRef.close(data);
-            }
-        }
-      })
+    this.productDetailsService.getProductDetailByImei(this.barcodeValue).subscribe((data: any) => {
+      this.matDialogRef.close(data);
     })
   }
 
