@@ -126,9 +126,9 @@ public class OrderController {
     public ResponseEntity<List<Order>> getListOrder(@PathVariable("idNV") Integer idStaff) {
         return ResponseEntity.ok(this.iOrderService.getListOrder(idStaff));
     }
-    
+
     @GetMapping("/getListTop")
-    public ResponseEntity<List<TopProductDTO>> getListTop(){
+    public ResponseEntity<List<TopProductDTO>> getListTop() {
         return ResponseEntity.ok(this.iOrderService.getListTop());
     }
 }

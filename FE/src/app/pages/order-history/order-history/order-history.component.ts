@@ -1,24 +1,23 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {OrderDetailService} from "../../../shared/services/api-service-impl/orderDetail.service";
+import {Constants} from "../../../shared/Constants";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import {OrderService} from "../../../shared/services/api-service-impl/order.service";
-import {StorageService} from "../../../shared/services/jwt/storage.service";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {SellHistoryDetailComponent} from "../sell-history-detail/sell-history-detail.component";
-import {Constants} from "../../../shared/Constants";
 import {FormBuilder} from "@angular/forms";
 import {CustomerService} from "../../../shared/services/api-service-impl/customer.service";
+import {OrderDetailService} from "../../../shared/services/api-service-impl/orderDetail.service";
+import {OrderService} from "../../../shared/services/api-service-impl/order.service";
+import {StorageService} from "../../../shared/services/jwt/storage.service";
+import {MatDialog} from "@angular/material/dialog";
 import {ToastrService} from "ngx-toastr";
-import {take} from "rxjs";
+import {OrderHistoryDetailComponent} from "../order-history-detail/order-history-detail.component";
 
 @Component({
-  selector: 'app-sell-at-store-history',
-  templateUrl: './sell-at-store-history.component.html',
-  styleUrls: ['./sell-at-store-history.component.scss']
+  selector: 'app-order-history',
+  templateUrl: './order-history.component.html',
+  styleUrls: ['./order-history.component.scss']
 })
-export class SellAtStoreHistoryComponent implements OnInit {
+export class OrderHistoryComponent implements OnInit {
 
   readonly STATUS_SUCCESS = Constants.STATUS_PAYMENT.SUCCESS;
   keySearch: any = null;
@@ -41,7 +40,6 @@ export class SellAtStoreHistoryComponent implements OnInit {
               private orderDetailService: OrderDetailService,
               private orderService: OrderService,
               private storageService: StorageService,
-              private matDataRef: MatDialogRef<SellAtStoreHistoryComponent>,
               private matDiaLog: MatDialog,
               private toastrService: ToastrService,) {
   }
@@ -101,21 +99,13 @@ export class SellAtStoreHistoryComponent implements OnInit {
   }
 
   openOrderDetail(row: any) {
-    const dialogRef = this.matDiaLog.open(SellHistoryDetailComponent, {
+    this.matDiaLog.open(OrderHistoryDetailComponent, {
       width: '1500px',
       height: '100%',
       disableClose: true,
       hasBackdrop: true,
       data: {row}
     });
-    dialogRef.afterClosed().subscribe(rs => {
-      console.log(rs);
-    })
   }
-
-  close() {
-    this.matDataRef.close();
-  }
-
 
 }

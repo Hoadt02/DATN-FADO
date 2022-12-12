@@ -54,6 +54,9 @@ export class ApiOrderService {
   totalOneDay() {
     return this.http.get(`${ApiConstant.order}/totalOneDay`);
   }
+  getListTop() {
+    return this.http.get(`${ApiConstant.order}/getListTop`);
+  }
   getOrderByStaff(id: number) {
     return this.http.get(`${ApiConstant.order}/getOrderByStaff/${id}`)
   }

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {ApiOrderService} from "../api-services/api-order.service";
-import {ApiConstant} from "../../constants/api-constant";
-import {Observable} from "rxjs";
+import {ApiOrderService} from '../api-services/api-order.service';
+import {ApiConstant} from '../../constants/api-constant';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +59,10 @@ export class OrderService {
 
   getTotalOneDay() {
     return this.api.totalOneDay();
+  }
+
+  getListTop() {
+    return this.api.getListTop();
   }
 
   getOrderByStaff(id: number) {

@@ -158,4 +158,12 @@ export const AdminLayoutRoutes: Routes = [
       role: TYPE_AUTH.SUPER_ADMIN
     }
   },
+  {
+    path: 'order-history',
+    loadChildren: () => import('../../pages/order-history/order-history.module').then(m => m.OrderHistoryModule),
+    canActivate: [HasRoleGuard],
+    data: {
+      role: TYPE_AUTH.ADMIN
+    }
+  },
 ];

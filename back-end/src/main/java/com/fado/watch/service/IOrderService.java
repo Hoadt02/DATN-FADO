@@ -55,7 +55,9 @@ public interface IOrderService {
 
     List<Order> filterOrder(FilterOrder filterOrder);
 
+<<<<<<<<< Temporary merge branch 1
     List<Order> getListOrder(Integer idStaff);
-    
+=========
     List<TopProductDTO> getListTop();
+>>>>>>>>> Temporary merge branch 2
 }
