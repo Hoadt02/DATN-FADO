@@ -99,7 +99,7 @@ export class SellAtStoreComponent implements OnInit {
     this.getAllNameProduct();
     this.getCustomerForCombobox();
     this.getOrderByStaff(this.storageService.getIdFromToken());
-    this.getListOrderOfStaff();
+    // this.getListOrderOfStaff();
   }
 
   getListOrderOfStaff() {
@@ -560,6 +560,7 @@ export class SellAtStoreComponent implements OnInit {
     dialogRef.afterClosed().subscribe((rs: any) => {
       console.log('Sau khi quet: ', rs);
       console.log('id cua san pham: ', rs.id)
+      
       this.addOrder(rs.id);
     })
   }
