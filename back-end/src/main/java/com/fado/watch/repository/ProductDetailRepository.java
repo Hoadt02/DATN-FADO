@@ -94,7 +94,7 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail, In
     @Query(value = "SELECT * FROM product_details WHERE status = 1 AND quantity > 0 ORDER BY id DESC LIMIT 8", nativeQuery = true)
     List<ProductDetail> getLatestProductDetail();
 
-    @Query(value = "SELECT pd.id, pd.product_id, pd.brand_id, pd.material_id, pd.origin_id, pd.water_proof_id, pd.face_diameter_id, pd.battery_power_id, pd.name, pd.price, pd.quantity, pd.gender, pd.imei, pd.avatar, pd.create_date, pd.description, pd.status" +
+    @Query(value = "SELECT pd.*" +
             " FROM product_promotionals AS pp JOIN product_details pd ON pp.product_detail_id = pd.id" +
             " JOIN promotionals p ON pp.promotional_id = p.id" +
             " WHERE p.status = 1 AND pd.quantity > 0 AND pd.status = 1" +
@@ -104,11 +104,11 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail, In
     @Query("SELECT p FROM product_details p WHERE p.id = :id AND p.status = 1")
     Optional<ProductDetail> findById(@Param("id") Integer id);
 
-    @Query(value = "SELECT * FROM product_details " +
-                   "WHERE id IN (SELECT d.product_detail_id " +
-                         "FROM order_details d JOIN orders o ON d.order_id = o.id " +
-                         "WHERE o.status = 3 " +
-                         "GROUP BY d.product_detail_id " +
-                         "ORDER BY count(d.product_detail_id) DESC) LIMIT 8", nativeQuery = true)
+    @Query(value = "SELECT pd.* FROM product_details pd JOIN (SELECT d.product_detail_id as id, sum(d.quantity) as sum\n" +
+            "                         FROM order_details d JOIN orders o ON d.order_id = o.id\n" +
+            "                         WHERE o.status = 3 \n" +
+            "                         GROUP BY d.product_detail_id ) a ON pd.id = a.id\n" +
+            "                         order by a.sum DESC\n" +
+            "                   LIMIT 8", nativeQuery = true)
     List<ProductDetail> getFeaturedProductDetail();
 }

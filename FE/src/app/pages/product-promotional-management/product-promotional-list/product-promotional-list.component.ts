@@ -10,6 +10,7 @@ import {ToastrService} from "ngx-toastr";
 import {SelectionModel} from "@angular/cdk/collections";
 import {ConfirmDialogComponent} from "../../../shared/confirm-dialog/confirm-dialog.component";
 import {PromotionalService} from "../../../shared/services/api-service-impl/promotional.service";
+import {StorageService} from "../../../shared/services/jwt/storage.service";
 
 @Component({
   selector: 'app-product-promotional-form-list',
@@ -25,7 +26,7 @@ export class ProductPromotionalListComponent implements OnInit {
   filterPromotional: any;
   promotionalList: any[];
   dataTable: any[] = [];
-
+  role: boolean;
 
   displayedColumns: string[] = ['select', 'productName', 'price', 'promotionalPrice', 'priceBefore', 'promotional', 'status'];
   dataSource: MatTableDataSource<any>;
@@ -40,11 +41,17 @@ export class ProductPromotionalListComponent implements OnInit {
     private readonly promotionalService: PromotionalService,
     private matDiaLog: MatDialog,
     private readonly toastrService: ToastrService,
-    private matDiaLogRef :MatDialogRef<ProductPromotionalListComponent>
+    private readonly storageService: StorageService,
+    private matDiaLogRef: MatDialogRef<ProductPromotionalListComponent>
   ) {
   }
 
   ngOnInit(): void {
+    if (this.storageService.getAuthority() === Constants.TYPE_AUTH.SUPER_ADMIN) {
+      this.role = true
+    } else {
+      this.role = false;
+    }
     this.getAll();
     this.getAllPromotional();
   }

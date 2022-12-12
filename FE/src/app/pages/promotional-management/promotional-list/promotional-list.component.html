@@ -50,16 +50,16 @@
             </mat-form-field>
           </div>
 
-<!--          <div class="col-6 col-md-3">-->
-<!--            <mat-form-field appearance="outline" class="w-100">-->
-<!--              <mat-label>Loại khuyến mại</mat-label>-->
-<!--              <mat-select formControlName="type">-->
-<!--                <mat-option>&#45;&#45;</mat-option>-->
-<!--                <mat-option (click)="filterAll()" [value]="0">VND</mat-option>-->
-<!--                <mat-option (click)="filterAll()" [value]="1">%</mat-option>-->
-<!--              </mat-select>-->
-<!--            </mat-form-field>-->
-<!--          </div>-->
+          <!--          <div class="col-6 col-md-3">-->
+          <!--            <mat-form-field appearance="outline" class="w-100">-->
+          <!--              <mat-label>Loại khuyến mại</mat-label>-->
+          <!--              <mat-select formControlName="type">-->
+          <!--                <mat-option>&#45;&#45;</mat-option>-->
+          <!--                <mat-option (click)="filterAll()" [value]="0">VND</mat-option>-->
+          <!--                <mat-option (click)="filterAll()" [value]="1">%</mat-option>-->
+          <!--              </mat-select>-->
+          <!--            </mat-form-field>-->
+          <!--          </div>-->
 
           <div class="col-1 col-md-1 pl-0">
             <button class="btn btn-sm btn-outline-danger mt-3 px-2" type="button"
@@ -79,9 +79,12 @@
   <a class="mr-5" mat-raised-button color="primary" (click)="openProductInPromotional()">
     <i class="fa-solid fa-plus"></i> Quản lý sản phẩm khuyến mại
   </a>
-  <button mat-raised-button color="primary" (click)="openSave(TYPE_DIALOG.NEW)">
-    <i class="fa-solid fa-plus"></i> Thêm
-  </button>
+
+  <ng-container *ngIf="role">
+    <button mat-raised-button color="primary" (click)="openSave(TYPE_DIALOG.NEW)">
+      <i class="fa-solid fa-plus"></i> Thêm
+    </button>
+  </ng-container>
 </div>
 
 <!-- Row -->
@@ -148,23 +151,24 @@
               Hành động
             </th>
             <td mat-cell *matCellDef="let row" class="text-center">
-              <button mat-icon-button color="accent" *ngIf="row.status == 1 || row.status == 2" type="button"
-                      (click)="openSave(TYPE_DIALOG.UPDATE, row)" title="Sửa">
-                <i class="fa-solid fa-pen"></i>
-              </button>
+              <ng-container *ngIf="role">
+                <button mat-icon-button color="accent" *ngIf="row.status == 1 || row.status == 2" type="button"
+                        (click)="openSave(TYPE_DIALOG.UPDATE, row)" title="Sửa">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
 
-<!--              <button mat-icon-button *ngIf="row.status == 0" class="btn btn-sm btn-outline-danger px-2"-->
-<!--                      type="button"-->
-<!--                      (click)="active(RESULT_CLOSE_DIALOG.ACTIVE,row)" title="Kích hoạt">-->
-<!--                <i class="fa-solid fa-lock"></i>-->
-<!--              </button>-->
+                <!--              <button mat-icon-button *ngIf="row.status == 0" class="btn btn-sm btn-outline-danger px-2"-->
+                <!--                      type="button"-->
+                <!--                      (click)="active(RESULT_CLOSE_DIALOG.ACTIVE,row)" title="Kích hoạt">-->
+                <!--                <i class="fa-solid fa-lock"></i>-->
+                <!--              </button>-->
 
-              <button *ngIf="row.status == 1 || row.status == 2" mat-icon-button class="text-green"
-                      type="button"
-                      (click)="active(RESULT_CLOSE_DIALOG.NOT_ACTIVE,row)" title="Vô hiệu hoá">
-                <i class="fa-solid fa-lock-open"></i>
-              </button>
-
+                <button *ngIf="row.status == 1 || row.status == 2" mat-icon-button class="text-green"
+                        type="button"
+                        (click)="active(RESULT_CLOSE_DIALOG.NOT_ACTIVE,row)" title="Vô hiệu hoá">
+                  <i class="fa-solid fa-lock-open"></i>
+                </button>
+              </ng-container>
             </td>
           </ng-container>
 

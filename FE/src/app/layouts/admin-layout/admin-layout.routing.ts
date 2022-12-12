@@ -56,7 +56,7 @@ export const AdminLayoutRoutes: Routes = [
     loadChildren: () => import('../../pages/promotional-management/promotional-management.module').then(m => m.PromotionalManagementModule),
     canActivate: [HasRoleGuard],
     data: {
-      role: TYPE_AUTH.SUPER_ADMIN
+      role: TYPE_AUTH.ADMIN
     }
   },
   {
@@ -64,7 +64,7 @@ export const AdminLayoutRoutes: Routes = [
     loadChildren: () => import('../../pages/product-promotional-management/product-promotional-management.module').then(m => m.ProductPromotionalManagementModule),
     canActivate: [HasRoleGuard],
     data: {
-      role: TYPE_AUTH.SUPER_ADMIN
+      role: TYPE_AUTH.ADMIN
     }
   },
   {

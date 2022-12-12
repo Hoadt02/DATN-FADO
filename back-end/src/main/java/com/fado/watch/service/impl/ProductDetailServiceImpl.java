@@ -10,9 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -41,6 +45,9 @@ public class ProductDetailServiceImpl implements IProductDetailService {
 
     @Autowired
     BatteryPowerRepository batteryPowerRepository;
+    
+    @Autowired
+    EntityManager entityManager;
 
     // hiên///
     private final ProductDetailRepository productDetailRepository;
