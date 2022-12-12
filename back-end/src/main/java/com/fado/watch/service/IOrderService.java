@@ -4,6 +4,7 @@ import com.fado.watch.dto.request.ChangeInfoOrder;
 import com.fado.watch.dto.request.FilterOrder;
 import com.fado.watch.dto.response.CharBarDTO;
 import com.fado.watch.dto.response.OrderCancelDTO;
+import com.fado.watch.dto.response.TopProductDTO;
 import com.fado.watch.dto.response.TotalOrderDTO;
 import com.fado.watch.entity.Order;
 import org.aspectj.weaver.ast.Or;
@@ -53,4 +54,6 @@ public interface IOrderService {
     void exportOrder(Integer id);
 
     List<Order> filterOrder(FilterOrder filterOrder);
+
+    List<TopProductDTO> getListTop();
 }
