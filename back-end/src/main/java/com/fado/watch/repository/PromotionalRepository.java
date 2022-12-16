@@ -27,7 +27,7 @@ public interface PromotionalRepository extends JpaRepository<Promotional, Intege
     List<Promotional> findAllByStatusTrueScheduling();
 
     @Query("select new StatusCheckPromotionalDto (c.status) from promotionals c where c.id in (:id)")
-    List<StatusCheckPromotionalDto> checkStatusById(List<Integer> id);
+    List<StatusCheckPromotionalDto> checkStatusById(@Param("id") List<Integer> id);
 
     @Query("select p from promotionals p where 1 = 1" +
             "and (:startDate is null or p.startDate >= :startDate)" +
