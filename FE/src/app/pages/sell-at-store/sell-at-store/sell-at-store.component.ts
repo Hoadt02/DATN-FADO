@@ -57,6 +57,7 @@ export class SellAtStoreComponent implements OnInit {
   idHoaDon: any[] = [];
   price: number;
   countQuantity: number = 0;
+  listImei: any[] = [];
 
   tongTienHang: number = 0
   giamGia: number = 0;
@@ -100,6 +101,7 @@ export class SellAtStoreComponent implements OnInit {
     this.getCustomerForCombobox();
     this.getOrderByStaff(this.storageService.getIdFromToken());
     // this.getListOrderOfStaff();
+    this.getListImei();
   }
 
   getListOrderOfStaff() {
@@ -110,6 +112,12 @@ export class SellAtStoreComponent implements OnInit {
       this.tabs.length = this.ordersOfStaff.length;
 
       this.getOrderDetailByOrder(index + 1);
+    })
+  }
+
+  getListImei() {
+    this.productDetailService.getAllProductDetail().subscribe((data: any) => {
+      this.listImei = data;
     })
   }
 
@@ -329,7 +337,6 @@ export class SellAtStoreComponent implements OnInit {
           this.toastService.warning('Vui lòng tạo hóa đơn trước !');
         } else {
           this.productDetailService.findPriceProductDetail(idProduct).subscribe((data: any) => {
-            console.log('id hóa đơn: ', this.idOrder);
             this.orderDetailService.saveOrderDetail(this.createProductAtOrderDetail(idProduct, this.idOrder, 1, data.price)).subscribe((data2: any) => {
               this.getOrderDetail();
               this.toastService.success('Thêm sản phẩm thành công !');
@@ -558,11 +565,9 @@ export class SellAtStoreComponent implements OnInit {
       hasBackdrop: true,
     });
     dialogRef.afterClosed().subscribe((rs: any) => {
-      console.log('Sau khi quet: ', rs);
-      console.log('id cua san pham: ', rs.id)
-      
       this.addOrder(rs.id);
     })
+
   }
 
   logout() {
@@ -590,7 +595,6 @@ export class SellAtStoreComponent implements OnInit {
     this.router.navigate(['/order-management']);
   }
 }
-
 
 
 // export(idOrder: number) {
