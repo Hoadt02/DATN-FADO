@@ -23,6 +23,9 @@ public interface PromotionalRepository extends JpaRepository<Promotional, Intege
     @Query("select p from promotionals p where p.status = 1")
     List<Promotional> findAllByStatusTrue();
 
+    @Query("select p from promotionals p where p.status = 1 or p.status = 2")
+    List<Promotional> findAllByStatusTrueScheduling();
+
     @Query("select new StatusCheckPromotionalDto (c.status) from promotionals c where c.id in (:id)")
     List<StatusCheckPromotionalDto> checkStatusById(@Param("id") List<Integer> id);
 

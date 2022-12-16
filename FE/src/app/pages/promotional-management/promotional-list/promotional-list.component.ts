@@ -81,7 +81,7 @@ export class PromotionalListComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.isLoading = false;
-        this.checkStatus();
+        // this.checkStatus();
       }, error: (err => {
         this.toastrService.error('Lỗi tải dữ liệu');
         console.log(err);
@@ -101,7 +101,7 @@ export class PromotionalListComponent implements OnInit {
           this.dataSource.paginator.firstPage();
         }
         this.isLoading = false;
-        this.checkStatus();
+        // this.checkStatus();
       }, error: err => {
         console.log(err);
         this.isLoading = false;
@@ -184,22 +184,22 @@ export class PromotionalListComponent implements OnInit {
     })
   }
 
-  checkStatus() {
-    for (const x of this.listData) {
-      if (x.endDate < formatDate(new Date()) && x.status == 1 || x.startDate <= formatDate(new Date()) && x.status == 2) {
-        this.isLoading = true;
-        this.apiPromotional.updateCheckIn(x.id, x).subscribe(_ => {
-          this.toastrService.success("Cập nhật lại trạng thái thành công");
-        });
-        this.isLoading = false;
-      }
-    }
-    this.apiPromotional.isCloseDialog.subscribe(data => {
-      if (data) {
-        this.isLoading = false;
-      }
-    })
-  }
+  // checkStatus() {
+  //   for (const x of this.listData) {
+  //     if (x.endDate < formatDate(new Date()) && x.status == 1 || x.startDate <= formatDate(new Date()) && x.status == 2) {
+  //       this.isLoading = true;
+  //       this.apiPromotional.updateCheckIn(x.id, x).subscribe(_ => {
+  //         this.toastrService.success("Cập nhật lại trạng thái thành công");
+  //       });
+  //       this.isLoading = false;
+  //     }
+  //   }
+  //   this.apiPromotional.isCloseDialog.subscribe(data => {
+  //     if (data) {
+  //       this.isLoading = false;
+  //     }
+  //   })
+  // }
 
   openProductInPromotional() {
     this.matDialog.open(ProductPromotionalListComponent, {
