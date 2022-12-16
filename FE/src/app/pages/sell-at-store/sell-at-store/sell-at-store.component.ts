@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {ProductDetailsService} from '../../../shared/services/api-service-impl/product-details.service';
 import {StorageService} from '../../../shared/services/jwt/storage.service';
 import {OrderService} from '../../../shared/services/api-service-impl/order.service';
@@ -12,12 +12,10 @@ import {CustomerService} from '../../../shared/services/api-service-impl/custome
 import {ToastrService} from 'ngx-toastr';
 import {ProductPromotionalService} from "../../../shared/services/api-service-impl/product-promotional.service";
 import {Router} from "@angular/router";
-import {SellAtStoreHistoryComponent} from "../sell-at-store-history/sell-at-store-history.component";
 import {ScannerFormComponent} from "../scanner-form/scanner-form.component";
 import {BehaviorSubject, debounceTime} from "rxjs";
 import {AuthService} from "../../../shared/services/jwt/auth.service";
 import {ChangeInfoLoginComponent} from "../../change-info-login/change-info-login.component";
-import {SellHistoryDetailComponent} from "../sell-history-detail/sell-history-detail.component";
 import {OrderSellComponent} from "../order-sell/order-sell.component";
 
 @Component({
@@ -41,6 +39,7 @@ export class SellAtStoreComponent implements OnInit {
   keySearch = new FormControl('');
   changeSearch: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
+  ordersOfStaff: any[] = [];
   name = '';
   products: any[] = [];
   promotions: any[] = [];
@@ -100,6 +99,18 @@ export class SellAtStoreComponent implements OnInit {
     this.getAllNameProduct();
     this.getCustomerForCombobox();
     this.getOrderByStaff(this.storageService.getIdFromToken());
+    // this.getListOrderOfStaff();
+  }
+
+  getListOrderOfStaff() {
+    let index = 0;
+    this.orderService.getListOrder(this.storageService.getIdFromToken()).subscribe((data: any) => {
+      console.log('List hóa đơn chưa thanh toán hoặc hủy: ', this.ordersOfStaff);
+      this.ordersOfStaff = data;
+      this.tabs.length = this.ordersOfStaff.length;
+
+      this.getOrderDetailByOrder(index + 1);
+    })
   }
 
   onSubmitSearch() {
@@ -151,9 +162,10 @@ export class SellAtStoreComponent implements OnInit {
   }
 
   getDiscount(idPd: number) {
+    console.log("id cua product cua discount: ", idPd);
     this.promotionDetailService.getDiscount(idPd).subscribe((data2: any) => {
       this.promotions = data2;
-      console.log('data: ', data2.discount)
+      console.log('discount of product: ', data2)
     })
   }
 
@@ -317,9 +329,11 @@ export class SellAtStoreComponent implements OnInit {
           this.toastService.warning('Vui lòng tạo hóa đơn trước !');
         } else {
           this.productDetailService.findPriceProductDetail(idProduct).subscribe((data: any) => {
+            console.log('id hóa đơn: ', this.idOrder);
             this.orderDetailService.saveOrderDetail(this.createProductAtOrderDetail(idProduct, this.idOrder, 1, data.price)).subscribe((data2: any) => {
               this.getOrderDetail();
               this.toastService.success('Thêm sản phẩm thành công !');
+              this.getDiscount(idProduct);
               this.orderDetailService.quantityPrd$.subscribe(rs => {
                 this.countQuantity = rs;
               })
@@ -445,7 +459,7 @@ export class SellAtStoreComponent implements OnInit {
           this.tongTienHang += d.price * d.quantity;
           soLuong += d.quantity;
           for (const pp of data2) {
-            if (d.productDetail.id == pp.productDetail.id){
+            if (d.productDetail.id == pp.productDetail.id) {
               this.giamGia += d.price * (pp.promotional.discount / 100) * d.quantity;
             }
           }
@@ -537,41 +551,6 @@ export class SellAtStoreComponent implements OnInit {
     })
   }
 
-  // export(idOrder: number) {
-  //   const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
-  //     width: '400px',
-  //     disableClose: true,
-  //     hasBackdrop: true,
-  //     data: {
-  //       title: 'In hóa đơn',
-  //       message: 'Bạn có muốn in hóa đơn không ?',
-  //     }
-  //   });
-  //   diaLogRef.afterClosed().subscribe((rs: any) => {
-  //     if (rs === this.RESULT_CLOSE_DIALOG.CONFIRM) {
-  //       this.orderService.exportOrder(idOrder).subscribe((data: any) => {
-  //         this.toastService.success("Đã in hóa đơn!");
-  //         console.log(data);
-  //       }, error => {
-  //         this.toastService.error("In hóa đơn thất bại!");
-  //         console.log(error);
-  //       })
-  //     }
-  //   })
-  // }
-
-  openHistory() {
-    const dialogRef = this.matDiaLog.open(SellAtStoreHistoryComponent, {
-      width: '1500px',
-      height: '750px',
-      disableClose: true,
-      hasBackdrop: true,
-    });
-    dialogRef.afterClosed().subscribe(rs => {
-      console.log(rs);
-    })
-  }
-
   openScannerBarcode() {
     const dialogRef = this.matDiaLog.open(ScannerFormComponent, {
       width: '500px',
@@ -581,6 +560,7 @@ export class SellAtStoreComponent implements OnInit {
     dialogRef.afterClosed().subscribe((rs: any) => {
       console.log('Sau khi quet: ', rs);
       console.log('id cua san pham: ', rs.id)
+      
       this.addOrder(rs.id);
     })
   }
@@ -607,11 +587,39 @@ export class SellAtStoreComponent implements OnInit {
   }
 
   backToHome() {
-    if (this.tabs.length > 0) {
-      this.toastService.warning('Vui lòng thưc hiện hết thao tác trước khi trở về trang chủ !');
-      return;
-    } else {
-      this.router.navigate(['/']);
-    }
+    this.router.navigate(['/order-management']);
   }
 }
+
+
+
+// export(idOrder: number) {
+//   const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
+//     width: '400px',
+//     disableClose: true,
+//     hasBackdrop: true,
+//     data: {
+//       title: 'In hóa đơn',
+//       message: 'Bạn có muốn in hóa đơn không ?',
+//     }
+//   });
+//   diaLogRef.afterClosed().subscribe((rs: any) => {
+//     if (rs === this.RESULT_CLOSE_DIALOG.CONFIRM) {
+//       this.orderService.exportOrder(idOrder).subscribe((data: any) => {
+//         this.toastService.success("Đã in hóa đơn!");
+//         console.log(data);
+//       }, error => {
+//         this.toastService.error("In hóa đơn thất bại!");
+//         console.log(error);
+//       })
+//     }
+//   })
+// }
+
+
+// if (this.tabs.length > 0) {
+//   this.toastService.warning('Vui lòng thưc hiện hết thao tác trước khi trở về trang chủ !');
+//   return;
+// } else {
+//   this.router.navigate(['/']);
+// }

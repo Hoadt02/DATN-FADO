@@ -68,10 +68,10 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     // Day la` pha`n toi nha' ba.n hien da.u da.u
     @Query("select o from orders o where o.staff.id =:id and o.type = 1")
-    List<Order> getOrderByStaff(Integer id);
+    List<Order> getOrderByStaff(@Param("id") Integer id);
 
     @Query("select o from orders o where o.id =:id and o.type = 1")
-    List<Order> getOrderById(Integer id);
+    List<Order> getOrderById(@Param("id") Integer id);
 
     @Query("select o from orders o where o.id =:id and o.type = 1")
     Order findOrderById(Integer id);
@@ -87,4 +87,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     List<Order> filterOrder(@Param("startDate") LocalDate startDate,
                             @Param("endDate") LocalDate endDate,
                             @Param("customerId") Integer customerId);
+
+    @Query("select o from orders o where o.staff.id = :idNV and o.status = 0 and o.type = 1")
+    List<Order> getListOrder(@Param("idNV") Integer idNV);
 }

@@ -347,6 +347,11 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
+    public List<Order> getListOrder(Integer idStaff) {
+        return this.orderRepository.getListOrder(idStaff);
+    }
+
+    @Override
     public List<TopProductDTO> getListTop() {
         Query query = this.entityManager.createNativeQuery("select p.id, p.name, p.quantity,sum(od.quantity) as soluongban, sum(o.total_payment) as tongtien\n" +
                 "from orders o join order_details od on od.order_id = o.id join product_details p on od.product_detail_id = p.id \n" +

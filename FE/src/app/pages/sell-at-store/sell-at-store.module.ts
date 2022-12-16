@@ -24,12 +24,8 @@ import {MatMenuModule} from '@angular/material/menu';
 import {NgxDropzoneModule} from 'ngx-dropzone';
 import {MatIconModule} from '@angular/material/icon';
 import {MatGridListModule} from '@angular/material/grid-list';
-import {CustomerFormComponent} from '../customer-management/customer-form/customer-form.component';
-import {CategoryFormComponent} from '../category-management/category-form/category-form.component';
-import {SellAtStoreHistoryComponent} from './sell-at-store-history/sell-at-store-history.component';
 import {ScannerFormComponent} from './scanner-form/scanner-form.component';
 import {BarcodeScannerLivestreamModule} from "ngx-barcode-scanner";
-import {SellHistoryDetailComponent} from './sell-history-detail/sell-history-detail.component';
 import {NgxCurrencyModule} from "ngx-currency";
 import {MatDividerModule} from "@angular/material/divider";
 import { OrderSellComponent } from './order-sell/order-sell.component';
@@ -37,9 +33,7 @@ import { OrderSellComponent } from './order-sell/order-sell.component';
 @NgModule({
   declarations: [
     SellAtStoreComponent,
-    SellAtStoreHistoryComponent,
     ScannerFormComponent,
-    SellHistoryDetailComponent,
     OrderSellComponent,
   ],
   imports: [

@@ -8,9 +8,10 @@
           <span class="navbar-toggler-bar bar3"></span>
         </button>
       </div>
-     <b> <a class="navbar-brand" href="javascript:void(0)">{{getTitle()}}</a></b>
+      <b> <a class="navbar-brand" href="javascript:void(0)">{{getTitle()}}</a></b>
     </div>
-    <button class="navbar-toggler" type="button" (click)="collapse()" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+    <button class="navbar-toggler" type="button" (click)="collapse()" [attr.aria-expanded]="!isCollapsed"
+            aria-controls="collapseExample">
       <span class="navbar-toggler-bar navbar-kebab"></span>
       <span class="navbar-toggler-bar navbar-kebab"></span>
       <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -23,13 +24,15 @@
             <b><span> {{full_name}} </span></b>
           </a>
           <div ngbDropdownMenu aria-labelledby="navbarDropdownMenuAccount" class="dropdown-menu dropdown-menu-right">
-            <a ngbDropdownItem href="javascript:void(0)" (click)="openChageInfoLogin()"><i class="fa-regular fa-user"></i> Thông tin cá nhân</a>
-            <a ngbDropdownItem href="javascript:void(0)" (click)="openChangePass()"><i class="fa-solid fa-key"></i> Đổi mật khẩu</a>
+            <a ngbDropdownItem href="javascript:void(0)" (click)="openChageInfoLogin()"><i
+              class="fa-regular fa-user"></i> Thông tin cá nhân</a>
+            <a ngbDropdownItem href="javascript:void(0)" (click)="openChangePass()"><i class="fa-solid fa-key"></i> Đổi
+              mật khẩu</a>
             <div class="dropdown-divider"></div>
-            <a ngbDropdownItem href="javascript:void(0)" (click)="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất</a>
+            <a ngbDropdownItem href="javascript:void(0)" (click)="logout()"><i
+              class="fa-solid fa-arrow-right-from-bracket"></i> Đăng xuất</a>
           </div>
         </li>
-
       </ul>
     </div>
   </div>

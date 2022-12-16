@@ -107,7 +107,9 @@
             <mat-label>Giới tính:</mat-label>
             <mat-radio-group formControlName="gender">
               <mat-radio-button class="mx-3" [value]="1" [checked]="formGroup.value.gender == 1">Nam</mat-radio-button>
+
               <mat-radio-button [value]="0" [checked]="formGroup.value.gender != 1">Nữ</mat-radio-button>
+
             </mat-radio-group>
           </div>
 

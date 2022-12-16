@@ -30,6 +30,12 @@ export const ROUTES: RouteInfo[] = [
     class: ''
   },
   {
+    path: '/order-history',
+    title: 'Lịch sử hóa đơn',
+    icon: 'nc-cart-simple',
+    class: ''
+  },
+  {
     path: '/product-management',
     title: 'Quản lý sản phẩm',
     icon: 'nc-watch-time',

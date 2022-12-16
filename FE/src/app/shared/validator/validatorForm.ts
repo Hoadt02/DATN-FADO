@@ -11,7 +11,7 @@ export function checkTypeDiscount(type: any, discount: any): ValidatorFn {
     const valueOfType = formGroup.get(type)?.value
     const valueOfDiscount = formGroup.get(discount)?.value
 
-    if (valueOfType == true && valueOfDiscount > 100) {
+    if (valueOfType == true && valueOfDiscount > 99) {
       return {isType: true}
     } else {
       return null;
