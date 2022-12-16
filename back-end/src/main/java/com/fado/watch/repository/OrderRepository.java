@@ -55,11 +55,11 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     Integer totalRevenue(@Param("year") Integer year);
 
     //    tổng đơn hàng
-    @Query("select new TotalOrderDTO(count(o.id)) from orders o where o.status = 3")
+    @Query("select new TotalOrderDTO(count(o.id)) from orders o where o.createDate = current_date() and o.status = 3")
     List<TotalOrderDTO> totalOrder();
 
     //tổng đơn hủy
-    @Query("select new OrderCancelDTO(count(o.id)) from orders o where o.status = 4")
+    @Query("select new OrderCancelDTO(count(o.id)) from orders o where o.createDate = current_date() and o.status = 4")
     List<OrderCancelDTO> orderCancel();
 
     //    tông tien trong 1 ngay
