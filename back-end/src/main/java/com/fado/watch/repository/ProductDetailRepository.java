@@ -15,6 +15,9 @@ import java.util.Optional;
 @Repository
 public interface ProductDetailRepository extends JpaRepository<ProductDetail, Integer> {
 
+    @Query("SELECT p FROM product_details p ORDER BY p.id DESC")
+    List<ProductDetail> findAll();
+
     @Query("SELECT p FROM product_details p WHERE ((p.product.id = :product_id)" +
                                                    " OR (p.brand.id = :brand_id)" +
                                                    " OR (p.material.id = :material_id)" +
