@@ -111,6 +111,7 @@ export class ProductListComponent implements OnInit {
 
     getAllFilter() {
     this.isLoading = true;
+    this.keySearch = null;
     this.service.findProductWithFilter(this.formGroup.getRawValue()).subscribe({
       next: (data: any) => {
         this.dataSource = new MatTableDataSource(data);
@@ -137,6 +138,9 @@ export class ProductListComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
+    this.formGroup.patchValue({product_id:null, brand_id:null, material_id:null, origin_id:null,
+      waterproof_id:null, facediameter_id:null, batterypower_id:null, status:null, gender:null});
+
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
