@@ -109,6 +109,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart(idPrd: number) {
+    this.checkSl = false;
     // tôi check đăng nhập ở đây nhé
     if (this.checkIsLogin()) return;
     // end check

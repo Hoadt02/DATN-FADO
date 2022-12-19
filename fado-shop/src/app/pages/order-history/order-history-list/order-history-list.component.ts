@@ -237,7 +237,7 @@ export class OrderHistoryListComponent implements OnInit {
               this.apiCart.addToCart(y);
             }
             setTimeout(() => {
-              this.toastrService.info("Đã chuyển hướng đến rỏ hàng");
+              this.toastrService.info("Đã chuyển hướng đến giỏ hàng");
               this.router.navigate(['/cart']);
             }, 2100);
           }else {
@@ -249,7 +249,7 @@ export class OrderHistoryListComponent implements OnInit {
           this.apiCart.addToCart(y);
         }
         setTimeout(() => {
-          this.toastrService.info("Đã chuyển hướng đến rỏ hàng");
+          this.toastrService.info("Đã chuyển hướng đến giỏ hàng");
           this.router.navigate(['/cart']);
         }, 2100);
       }

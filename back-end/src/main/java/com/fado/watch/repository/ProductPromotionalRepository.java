@@ -21,7 +21,7 @@ public interface ProductPromotionalRepository extends JpaRepository<ProductPromo
 // @Param("idPromotional") Integer idPromotional
     @Query("select p from product_details p where p.id not in( \n" +
             "     select pp.productDetail.id from product_promotionals pp join promotionals p on pp.promotional.id = p.id\n" +
-            "     where p.status = 1)  and p.status = 1")
+            "     where p.status = 1 or p.status = 2)  and p.status = 1")
     List<ProductDetail> getProductNotInPromotional();
 
 

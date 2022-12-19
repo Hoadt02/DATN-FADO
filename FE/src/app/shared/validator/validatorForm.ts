@@ -1,4 +1,5 @@
 import {AbstractControl, FormGroup, ValidationErrors, ValidatorFn} from '@angular/forms';
+import {formatDate} from "../format/formatData";
 
 export function checkSpace(c: AbstractControl) {
   return (c.value.trim() == '') ? {isSpace: true} : null;
@@ -32,4 +33,8 @@ export function checkDate(startDate: any, endDate: any): ValidatorFn {
     }
   }
 
+}
+
+export function checkMinDate(c: AbstractControl) {
+  return (formatDate(c.value) < formatDate(new Date())) ? {checkMinDate: true} : null;
 }
