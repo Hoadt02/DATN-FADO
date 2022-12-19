@@ -144,13 +144,13 @@
 
           <!-- index Column -->
           <ng-container matColumnDef="index">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> STT</th>
+            <th mat-header-cell *matHeaderCellDef> STT</th>
             <td mat-cell *matCellDef="let row; index as i"> {{i + 1}} </td>
           </ng-container>
 
           <!-- avatar Column -->
           <ng-container matColumnDef="avatar-product">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Hình ảnh</th>
+            <th mat-header-cell *matHeaderCellDef> Hình ảnh</th>
             <td mat-cell *matCellDef="let row"><img src="assets/img/avtProduct/{{row.avatar}}" class="avatar-product">
             </td>
           </ng-container>
@@ -196,7 +196,7 @@
 
           <!-- thao tác Column -->
           <ng-container matColumnDef="thaoTac">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header width="15%"> Thao tác</th>
+            <th mat-header-cell *matHeaderCellDef width="15%"> Thao tác</th>
             <td mat-cell *matCellDef="let row">
               <button *ngIf="role" mat-icon-button color="accent" (click)="openDiaLog(TYPE_DIALOG.UPDATE,row)">
                 <i class="fa-solid fa-pen"></i>
