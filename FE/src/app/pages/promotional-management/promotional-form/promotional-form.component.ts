@@ -3,7 +3,12 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Constants} from "../../../shared/Constants";
 import {PromotionalService} from "../../../shared/services/api-service-impl/promotional.service";
-import {checkDate, checkSpace, checkTypeDiscount} from "../../../shared/validator/validatorForm";
+import {
+  checkDate,
+  checkMinDate,
+  checkSpace,
+  checkTypeDiscount
+} from "../../../shared/validator/validatorForm";
 import {ToastrService} from "ngx-toastr";
 import {StorageService} from "../../../shared/services/jwt/storage.service";
 
@@ -15,7 +20,7 @@ import {StorageService} from "../../../shared/services/jwt/storage.service";
 export class PromotionalFormComponent implements OnInit {
 
   isLoading = false;
-  title: String;
+  title: String = '';
   hide = true;
   hidePassword = true;
   data: any = {};
@@ -36,7 +41,7 @@ export class PromotionalFormComponent implements OnInit {
     validators: checkTypeDiscount('type', 'discount'),
   });
   range = this.fb.group({
-    startDate: [new Date(), Validators.required],
+    startDate: [new Date(), [Validators.required, this.title === 'Thêm mới khuyến mại' ? checkMinDate : Validators.required]],
     endDate: [new Date(), Validators.required],
   }, {
     validators: checkDate('startDate', 'endDate')
@@ -45,7 +50,7 @@ export class PromotionalFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private promotionalService: PromotionalService,
-    private storageService : StorageService,
+    private storageService: StorageService,
     private toastrService: ToastrService,
     private matDialogRef: MatDialogRef<PromotionalFormComponent>,
     @Inject(MAT_DIALOG_DATA) private dataDiaLog?: any,
