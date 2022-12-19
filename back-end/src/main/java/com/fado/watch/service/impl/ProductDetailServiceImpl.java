@@ -71,13 +71,14 @@ public class ProductDetailServiceImpl implements IProductDetailService {
     @Override
     public ProductDetail create(ProductDetail productDetail) {
         Random random = new Random();
-        Long number = Math.abs(random.nextLong());
-        for (int i = 0; i < getAll().size(); i++) {
-            if (getAll().get(i).getImei().equals(number.toString().substring(0, 15))) {
-                number = Math.abs(random.nextLong());
+        String number = String.valueOf(Math.abs(random.nextLong())).substring(0, 15);
+        List<ProductDetail> productDetails = getAll();
+        for (int i = 0; i < productDetails.size(); i++) {
+            if (productDetails.get(i).getImei().equals(number)) {
+                number = String.valueOf(Math.abs(random.nextLong())).substring(0, 15);
             }
         }
-        productDetail.setImei(number.toString());
+        productDetail.setImei(number);
         productDetail.setCreateDate(LocalDate.now());
         return repository.save(productDetail);
     }
