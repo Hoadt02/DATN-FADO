@@ -567,7 +567,6 @@ export class SellAtStoreComponent implements OnInit {
     dialogRef.afterClosed().subscribe((rs: any) => {
       this.addOrder(rs.id);
     })
-
   }
 
   logout() {
@@ -596,6 +595,7 @@ export class SellAtStoreComponent implements OnInit {
   }
 }
 
+// Code thừa
 
 // export(idOrder: number) {
 //   const diaLogRef = this.matDiaLog.open(ConfirmDialogComponent, {
