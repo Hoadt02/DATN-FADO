@@ -567,6 +567,7 @@ export class SellAtStoreComponent implements OnInit {
     dialogRef.afterClosed().subscribe((rs: any) => {
       this.addOrder(rs.id);
     })
+
   }
 
   logout() {

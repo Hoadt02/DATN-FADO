@@ -103,7 +103,7 @@
             </mat-expansion-panel-header>
             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let w of waterproof; index as i">
               <input type="checkbox" class="custom-control-input" id="waterproof-{{ w.id }}" (click)="setValueFilter(TYPE_FILTER.WATERPROOF, w.id)"/>
-              <label class="custom-control-label" for="waterproof-{{ w.id }}">{{w.name}}</label>
+              <label class="custom-control-label" for="waterproof-{{ w.id }}">{{w.name}} ATM</label>
               <span class="badge border font-weight-normal">{{w.count}}</span>
             </div>
           </mat-expansion-panel>
@@ -120,7 +120,7 @@
             </mat-expansion-panel-header>
             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let f of facediameter; index as i">
               <input type="checkbox" class="custom-control-input" id="facediameter-{{ f.id }}" (click)="setValueFilter(TYPE_FILTER.FACEDIAMETER, f.id)"/>
-              <label class="custom-control-label" for="facediameter-{{ f.id }}">{{f.name}}</label>
+              <label class="custom-control-label" for="facediameter-{{ f.id }}">{{f.name}} mm</label>
               <span class="badge border font-weight-normal">{{f.count}}</span>
             </div>
           </mat-expansion-panel>
@@ -137,7 +137,7 @@
             </mat-expansion-panel-header>
             <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3" *ngFor="let b of batterypower; index as i">
               <input type="checkbox" class="custom-control-input" id="batterypower-{{ b.id }}" (click)="setValueFilter(TYPE_FILTER.BATTERYPOWER, b.id)"/>
-              <label class="custom-control-label" for="batterypower-{{ b.id }}">{{b.name}}</label>
+              <label class="custom-control-label" for="batterypower-{{ b.id }}">{{b.name}} Quartz/Pin</label>
               <span class="badge border font-weight-normal">{{b.count}}</span>
             </div>
           </mat-expansion-panel>
@@ -208,9 +208,9 @@
                   {{show_name}}
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
-                  <a class="dropdown-item" (click)="setShowProduct(TYPE_SHOW.SHOW_8)">Hiển thị: 8 </a>
-                  <a class="dropdown-item" (click)="setShowProduct(TYPE_SHOW.SHOW_12)">Hiển thị: 12 </a>
-                  <a class="dropdown-item" (click)="setShowProduct(TYPE_SHOW.SHOW_20)">Hiển thị: 20 </a>
+                  <a class="dropdown-item" href="javascript:void(0)" (click)="setShowProduct(TYPE_SHOW.SHOW_8)">Hiển thị: 8 </a>
+                  <a class="dropdown-item" href="javascript:void(0)" (click)="setShowProduct(TYPE_SHOW.SHOW_12)">Hiển thị: 12 </a>
+                  <a class="dropdown-item" href="javascript:void(0)" (click)="setShowProduct(TYPE_SHOW.SHOW_20)">Hiển thị: 20 </a>
                 </div>
               </div>
               <div class="btn-group ml-2">
@@ -218,8 +218,8 @@
                   {{ sort_name }}
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
-                  <a class="dropdown-item" (click)="setSortProduct(TYPE_SORT.NEW)">Sản phẩm mới nhất</a>
-                  <a class="dropdown-item" (click)="setSortProduct(TYPE_SORT.OLD)">Sản phẩm cũ nhất</a>
+                  <a class="dropdown-item" href="javascript:void(0)" (click)="setSortProduct(TYPE_SORT.NEW)">Sản phẩm mới nhất</a>
+                  <a class="dropdown-item" href="javascript:void(0)" (click)="setSortProduct(TYPE_SORT.OLD)">Sản phẩm cũ nhất</a>
                 </div>
               </div>
             </div>
