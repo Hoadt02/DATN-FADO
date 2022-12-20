@@ -34,6 +34,7 @@ export class ProductListComponent implements OnInit {
   panelOpenState = false;
   role: boolean;
 
+  listProductDetails: any[] = [];
   listProduct: any[] = [];
   listBrand: any[] = [];
   listOrigin: any[] = [];
@@ -96,6 +97,7 @@ export class ProductListComponent implements OnInit {
     this.isLoading = true;
     this.service.getAllProductDetail().subscribe({
       next: (data: any) => {
+        this.listProductDetails = data;
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -114,6 +116,7 @@ export class ProductListComponent implements OnInit {
     this.keySearch = null;
     this.service.findProductWithFilter(this.formGroup.getRawValue()).subscribe({
       next: (data: any) => {
+        this.listProductDetails = data;
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -141,9 +144,16 @@ export class ProductListComponent implements OnInit {
     this.formGroup.patchValue({product_id:null, brand_id:null, material_id:null, origin_id:null,
       waterproof_id:null, facediameter_id:null, batterypower_id:null, status:null, gender:null});
 
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    let data;
+    if (isNaN(filterValue as any)){
+      data = this.listProductDetails.filter(n => n.name.toLowerCase().includes(filterValue));
+    } else {
+      data = this.listProductDetails.filter(n => n.imei.toLowerCase().includes(filterValue));
+    }
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
