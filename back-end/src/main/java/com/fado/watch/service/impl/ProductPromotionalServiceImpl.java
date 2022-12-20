@@ -72,7 +72,7 @@ public class ProductPromotionalServiceImpl implements IProductPromotionalService
     }
 
     @Override
-    public List<ProductPromotional> getDiscountProduct(Integer idPd) {
+    public Integer getDiscountProduct(Integer idPd) {
         return productPromotionalRepository.getDiscountProduct(idPd);
     }
 }

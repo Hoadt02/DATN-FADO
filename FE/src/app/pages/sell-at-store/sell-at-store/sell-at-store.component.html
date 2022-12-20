@@ -57,21 +57,21 @@
       <a (click)="addTab(true)" class="mx-lg-2" mat-mini-fab color="white">
         <mat-icon>add</mat-icon>
       </a>
-      <a [matMenuTriggerFor]="menu" class="mx-lg-2" mat-mini-fab color="white">
-        <mat-icon>menu</mat-icon>
-      </a>
-      <mat-menu #menu="matMenu" class="w-auto">
+<!--      <a [matMenuTriggerFor]="menu" class="mx-lg-2" mat-mini-fab color="white">-->
+<!--        <mat-icon>menu</mat-icon>-->
+<!--      </a>-->
+<!--      <mat-menu #menu="matMenu" class="w-auto">-->
 <!--        <a class="nav-link" style="color: black" mat-menu-item (click)="openHistory()">-->
 <!--          <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử hóa đơn-->
 <!--        </a>-->
-        <mat-divider></mat-divider>
-        <a class="nav-link" style="color: black" mat-menu-item (click)="openInfoUser()">
-          <i class="fa-regular fa-user"></i> Thông tin cá nhân
-        </a>
-        <a class="nav-link" style="color: black" mat-menu-item (click)="logout()">
-          <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
-        </a>
-      </mat-menu>
+<!--        <mat-divider></mat-divider>-->
+<!--        <a class="nav-link" style="color: black" mat-menu-item (click)="openInfoUser()">-->
+<!--          <i class="fa-regular fa-user"></i> Thông tin cá nhân-->
+<!--        </a>-->
+<!--        <a class="nav-link" style="color: black" mat-menu-item (click)="logout()">-->
+<!--          <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất-->
+<!--        </a>-->
+<!--      </mat-menu>-->
     </div>
   </div>
 
@@ -82,7 +82,10 @@
            *ngFor="let order of orderDetails;let index = index">
         <mat-grid-list cols="6" rowHeight="3:1">
           <mat-grid-tile>{{index + 1}}</mat-grid-tile>
-          <mat-grid-tile>{{order.productDetail.name}}</mat-grid-tile>
+          <mat-grid-tile>
+            {{order.productDetail.name}}
+<!--            <span *ngIf="promotions">({{promotions}}%)</span>-->
+          </mat-grid-tile>
           <mat-grid-tile>{{order.price | currency:'VND'}}</mat-grid-tile>
           <mat-grid-tile><input (change)="updateOrderDetail(order,TYPE_UPDATE_NUMBER_PRD, $event)"
                                 type="number" min="1" required
