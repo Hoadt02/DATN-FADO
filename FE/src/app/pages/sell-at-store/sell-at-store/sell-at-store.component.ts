@@ -42,7 +42,7 @@ export class SellAtStoreComponent implements OnInit {
   ordersOfStaff: any[] = [];
   name = '';
   products: any[] = [];
-  promotions: any[] = [];
+  promotions: any;
   findByIdOrder: any[] = []
   orders: any[] = [];
   orderDetails: any[] = [];
@@ -170,10 +170,8 @@ export class SellAtStoreComponent implements OnInit {
   }
 
   getDiscount(idPd: number) {
-    console.log("id cua product cua discount: ", idPd);
-    this.promotionDetailService.getDiscount(idPd).subscribe((data2: any) => {
-      this.promotions = data2;
-      console.log('discount of product: ', data2)
+    this.promotionDetailService.getDiscount(idPd).subscribe((rs: any) => {
+      this.promotions = rs;
     })
   }
 
@@ -360,8 +358,8 @@ export class SellAtStoreComponent implements OnInit {
       disableClose: true,
       hasBackdrop: true,
       data: {
-        title: 'Xóa hóa đơn',
-        message: 'Bạn có muốn xóa hóa đơn không ?',
+        title: 'Xóa sản phẩm',
+        message: 'Bạn có muốn xóa sản phẩm khỏi hóa đơn không ?',
       }
     });
     diaLogRef.afterClosed().subscribe((data: any) => {

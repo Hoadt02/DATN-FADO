@@ -36,6 +36,6 @@ public interface ProductPromotionalRepository extends JpaRepository<ProductPromo
             "(select od.productDetail.id from order_details od where od.order.id = :idO)")
     List<ProductPromotional> getPromotional(@Param("idO") Integer idOder);
 
-    @Query("select pp from product_promotionals pp where pp.promotional.status = 1 and pp.productDetail.id = :idPd")
-    List<ProductPromotional> getDiscountProduct(@Param("idPd") Integer idPd);
+    @Query("select pp.promotional.discount from product_promotionals pp where pp.promotional.status = 1 and pp.productDetail.id = :idPd")
+    Integer getDiscountProduct(@Param("idPd") Integer idPd);
 }

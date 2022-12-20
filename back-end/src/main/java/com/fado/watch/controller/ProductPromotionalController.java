@@ -68,7 +68,7 @@ public class ProductPromotionalController {
     }
 
     @GetMapping("/getDiscount/{idPd}")
-    public ResponseEntity<List<ProductPromotional>> getDiscount(@PathVariable("idPd") Integer idPb) {
+    public ResponseEntity<Integer> getDiscount(@PathVariable("idPd") Integer idPb) {
         return new ResponseEntity<>(this.iProductPromotionalService.getDiscountProduct(idPb), HttpStatus.OK);
     }
 }

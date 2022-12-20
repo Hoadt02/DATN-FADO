@@ -2,7 +2,6 @@ package com.fado.watch.service;
 
 import com.fado.watch.entity.ProductDetail;
 import com.fado.watch.entity.ProductPromotional;
-import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
@@ -26,5 +25,5 @@ public interface IProductPromotionalService {
 
     List<ProductPromotional> getPromotional(Integer idOrder);
 
-    List<ProductPromotional> getDiscountProduct(Integer idPd);
+    Integer getDiscountProduct(Integer idPd);
 }
