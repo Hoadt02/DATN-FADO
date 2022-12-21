@@ -11,6 +11,7 @@ import {VoucherService} from "../../shared/service/api-service-impl/voucher.serv
 import {CheckOutComponent} from "../check-out/check-out.component";
 import {StorageService} from "../../shared/service/jwt/storage.service";
 import {ProductPromotionalService} from "../../shared/service/api-service-impl/product-promotional.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-cart',
@@ -173,14 +174,16 @@ export class CartComponent implements OnInit {
   openCheckout() {
     this.apiCart.checkPromotionalInCartByIdCtm().subscribe(data => {
       if (data) {
-        this.toastrService.warning("Dữ liệu không trùng khớp, mời bạn tải lại trang!");
+        this.toastrService.warning("Khuyến mại không trùng khớp với sản phẩm trong giỏ hàng, vui lòng thử lại!");
+        this.getAllPrdInCart();
         return;
       } else {
         this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
           next: (data: any) => {
             for (const x of data) {
               if (0 == x.productDetail.status) {
-                this.toastrService.warning(`Một vài sản phẩm đã không còn tồn tại, vui lòng tải lại trang và xoá sản phẩm khỏi giỏ hàng!`);
+                this.toastrService.warning(`Một vài sản phẩm không còn tồn tại, vui lòng xoá sản phẩm khỏi giỏ hàng và thử lại!`);
+                this.getAllPrdInCart();
                 return;
               }
             }
@@ -188,6 +191,7 @@ export class CartComponent implements OnInit {
               for (const x of data) {
                 if (x.quantity > x.productDetail.quantity) {
                   this.toastrService.warning(`sản phẩm ${x.productDetail.name.toUpperCase()} chỉ còn ${x.productDetail.quantity} sản phẩm.`);
+                  this.getAllPrdInCart();
                   return;
                 }
               }
