@@ -26,7 +26,7 @@ public class ScheduledUpdatePromotionalStatus {
         SpringApplication.run(ScheduledUpdatePromotionalStatus.class, args);
     }
 
-    @Scheduled(cron = "*/5 * * * * ?")
+    @Scheduled(cron = "0 0 0 * * ?") // sẽ cập nhật lại trạng thái vào 00:00 hàng ngày
     public void scheduledUpdateOrderStatus() {
         this.updateStatus();
     }

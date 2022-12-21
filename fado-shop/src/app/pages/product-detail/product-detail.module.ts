@@ -4,6 +4,7 @@ import { ProductDetailRoutingModule } from './product-detail-routing.module';
 import { ProductDetailComponent } from './product-detail.component';
 import {FormsModule} from "@angular/forms";
 import {SlickCarouselModule} from "ngx-slick-carousel";
+import {CartModule} from "../cart/cart.module";
 
 
 
@@ -11,11 +12,12 @@ import {SlickCarouselModule} from "ngx-slick-carousel";
   declarations: [
     ProductDetailComponent
   ],
-    imports: [
-        CommonModule,
-        ProductDetailRoutingModule,
-        FormsModule,
-        SlickCarouselModule,
-    ]
+  imports: [
+    CommonModule,
+    ProductDetailRoutingModule,
+    FormsModule,
+    SlickCarouselModule,
+    CartModule,
+  ]
 })
 export class ProductDetailModule { }
