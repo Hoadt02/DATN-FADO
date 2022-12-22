@@ -118,6 +118,7 @@ export class CartComponent implements OnInit {
 
   // sửa số lượng sản phẩm
   checkDelete = false;
+
   updateQuantity(type: any, raw: any, event?: any) {
     let slSP = event?.target.value;
 
@@ -181,36 +182,39 @@ export class CartComponent implements OnInit {
         this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe({
           next: (data: any) => {
             for (const x of data) {
+              for (const y of this.items) {
+                if (x.productDetail.id == y.productDetail.id && x.productDetail.price != y.productDetail.price) {
+                  this.toastrService.warning("Một vài sản phẩm không khớp, vui lòng thử lại!");
+                  this.getAllPrdInCart();
+                  return;
+                }
+              }
               if (0 == x.productDetail.status) {
                 this.toastrService.warning(`Một vài sản phẩm không còn tồn tại, vui lòng xoá sản phẩm khỏi giỏ hàng và thử lại!`);
                 this.getAllPrdInCart();
                 return;
               }
-            }
-            this.apiCart.findAllByCustomerId(this.storageService.getIdFromToken()).subscribe((data: any) => {
-              for (const x of data) {
-                if (x.quantity > x.productDetail.quantity) {
-                  this.toastrService.warning(`sản phẩm ${x.productDetail.name.toUpperCase()} chỉ còn ${x.productDetail.quantity} sản phẩm.`);
-                  this.getAllPrdInCart();
-                  return;
-                }
+              if (x.quantity > x.productDetail.quantity) {
+                this.toastrService.warning(`sản phẩm ${x.productDetail.name.toUpperCase()} chỉ còn ${x.productDetail.quantity} sản phẩm.`);
+                this.getAllPrdInCart();
+                return;
               }
-              const discount = this.discount;
-              const items = this.items;
-              this.matDiaLog.open(CheckOutComponent, {
-                width: '1000px',
-                height: '77vh',
-                minHeight: '77vh',
-                hasBackdrop: true,
-                disableClose: true,
-                data: {
-                  discount, items
-                }
-              }).afterClosed().subscribe(data => {
-                if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
-                  this.getAllPrdInCart();
-                }
-              })
+            }
+            const discount = this.discount;
+            const items = this.items;
+            this.matDiaLog.open(CheckOutComponent, {
+              width: '1000px',
+              height: '77vh',
+              minHeight: '77vh',
+              hasBackdrop: true,
+              disableClose: true,
+              data: {
+                discount, items
+              }
+            }).afterClosed().subscribe(data => {
+              if (data == this.RESULT_CLOSE_DIALOG.CONFIRM) {
+                this.getAllPrdInCart();
+              }
             })
           }
         });
