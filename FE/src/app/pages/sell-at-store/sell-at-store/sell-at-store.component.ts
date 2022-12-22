@@ -100,19 +100,23 @@ export class SellAtStoreComponent implements OnInit {
     this.getAllNameProduct();
     this.getCustomerForCombobox();
     this.getOrderByStaff(this.storageService.getIdFromToken());
-    // this.getListOrderOfStaff();
+    this.getListOrderOfStaff();
     this.getListImei();
   }
 
   getListOrderOfStaff() {
-    let index = 0;
     this.orderService.getListOrder(this.storageService.getIdFromToken()).subscribe((data: any) => {
-      console.log('List hóa đơn chưa thanh toán hoặc hủy: ', this.ordersOfStaff);
       this.ordersOfStaff = data;
-      this.tabs.length = this.ordersOfStaff.length;
-
-      this.getOrderDetailByOrder(index + 1);
+      for (let i = 0; i < data.length; i++) {
+        console.log('id order của staff: ', data[i].id)
+        this.tabs.length = this.ordersOfStaff.length;
+        this.idHoaDon.push({
+          name: (this.tabs.length - 1) + 1,
+          value: data[i].id
+        })
+      }
     })
+    console.log('value: ', this.idHoaDon)
   }
 
   getListImei() {

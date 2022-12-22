@@ -41,6 +41,13 @@
   font-size: 17px;
 }
 
+a :hover {
+  color: #FFD333;
+}
+.iii :hover {
+  color: #FFD333;
+}
+
 :host ::ng-deep .mat-tab-label {
   height: 3rem !important;
   min-width: 8rem !important;
