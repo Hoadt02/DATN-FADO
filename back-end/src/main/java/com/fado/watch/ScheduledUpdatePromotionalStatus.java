@@ -33,7 +33,7 @@ public class ScheduledUpdatePromotionalStatus {
 
     private void updateStatus() {
         LocalDate now = LocalDate.now();
-        List<Promotional> promotionals = this.promotionalRepository.findAllByStatusTrueScheduling();
+        List<Promotional> promotionals = this.promotionalRepository.findAllByStatusTrue();
         if (promotionals.size() > 0) {
             for (Promotional x : promotionals
             ) {
