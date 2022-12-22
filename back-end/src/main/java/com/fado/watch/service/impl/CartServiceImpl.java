@@ -93,7 +93,6 @@ public class CartServiceImpl implements ICartService {
             }
         }
         listStatusCu = this.promotionalRepository.checkStatusById(listId);
-        listId.stream().distinct().forEach(System.out::println);
         return cartList;
     }
 
@@ -110,8 +109,6 @@ public class CartServiceImpl implements ICartService {
             return true;
         }
         for (int i = 0; i < listPrmCu.size(); i++) {
-            System.out.println(listPrmCu.get(i).getProductDetail().getId() + " - " + listPrmMoi.get(i).getProductDetail().getId());
-            System.out.println(listPrmCu.get(i).getPromotional().getId() + " - " + listPrmMoi.get(i).getPromotional().getId());
             if (!(Objects.equals(listPrmCu.get(i).getProductDetail().getId(), listPrmMoi.get(i).getProductDetail().getId())
                     && Objects.equals(listPrmCu.get(i).getPromotional().getId(), listPrmMoi.get(i).getPromotional().getId()))) {
                 return true;
@@ -120,6 +117,13 @@ public class CartServiceImpl implements ICartService {
         for (int i = 0; i < listStatusCu.size(); i++) {
             if (!Objects.equals(listStatusCu.get(i).getStatus(), listStatusMoi.get(i).getStatus())) {
                 return true;
+            }
+        }
+        for (ProductPromotional x: listPrmCu) {
+            for (ProductPromotional y: listPrmMoi) {
+                if (Objects.equals(x.getPromotional().getId(), y.getPromotional().getId()) && !Objects.equals(x.getPromotional().getDiscount(), y.getPromotional().getDiscount())){
+                    return true;
+                }
             }
         }
         return false;
