@@ -32,6 +32,7 @@ public class AdminSercurityConfig extends WebSecurityConfigurerAdapter {
     PasswordEncoder passwordEncoder;
     @Autowired
     JwtTokenFilter jwtTokenFilter;
+    // de 1
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
