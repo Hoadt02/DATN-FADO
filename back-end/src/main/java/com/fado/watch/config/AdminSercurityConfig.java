@@ -25,7 +25,7 @@ public class AdminSercurityConfig extends WebSecurityConfigurerAdapter {
 
 
     // Commit trum 1
-    // Commit trum 2
+    // Commit trum 2xyzgh
 
 
 
