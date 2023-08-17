@@ -21,6 +21,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @Order(2)
 public class AdminSercurityConfig extends WebSecurityConfigurerAdapter {
+
+
+
+    // Commit trum 1
+
+
+
+
     private static final String SU = "SUPER_ADMIN";
     private static final String AD = "ADMIN";
     private static final String CU = "CUSTOMER";
